@@ -3,7 +3,6 @@ import { Layout, Menu } from "antd";
 import { withRouter } from 'react-router-dom';
 import mapMenu from "@/routes/menu";
 import { formatRole, resolveMenuList } from '@/utils/formatTool';
-import './style.less';
 
 
 class SideMenu extends Component {
@@ -109,14 +108,20 @@ class SideMenu extends Component {
             <Layout.Sider 
                 width={200} 
                 theme={theme.type} 
-                className="site-layout-background"
-                style={{overflowX: "hidden", overflowY: "auto"}}
                 collapsible  
                 collapsed={collapse.show} 
+                style={{
+                    overflow: 'auto',
+                    height: '100vh',
+                    position:'fixed',
+                    left: 0,
+                    top: 0,
+                    bottom: 0
+                }}
                 onCollapse={this.onCollapse}>
+                    <div className="logo"></div>
                     <Menu
                         mode="inline"
-                        style={{height: '100%'}}
                         theme={theme.type}
                         onClick={this.handleRouter}>
                             {

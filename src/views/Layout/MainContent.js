@@ -12,13 +12,22 @@ class MainContent extends Component {
             <TransitionGroup>
                 <CSSTransition classNames="fade" timeout={500}>
                     <Layout.Content
+                     style={{
+                        margin: '24px 16px 0',
+                        overflow: 'initial',
+                      }}
                             className="site-layout-background"
-                            style={{
-                                paddingTop: 0,
-                                margin: 0,
-                                minHeight: 280,
-                            }}>
-                        {renderRoutes(this.props.renderRoutes)}
+                          >
+                            <div
+                                className="site-layout-background"
+                                style={{
+                                padding: 24,
+                                textAlign: 'center',
+                                }}
+                            >
+                                {renderRoutes(this.props.renderRoutes)}
+                            </div>
+                        
                     </Layout.Content>
                 </CSSTransition>
             </TransitionGroup>

@@ -53,35 +53,45 @@ class TopHeader extends Component {
             </Menu>
         );
         return (  
-            <Layout.Header className="header" theme={theme.type}>
-                {/* logo */}
-                <div className="logo">
-                    <Image
-                        alt="logo"
-                        width={48}
-                        height={48}
-                        src={Logo}
-                        className="logo_image"
-                    />
-                    <span>react-antd-admin</span>
-                </div>
-                {/* 用户信息 */}
-                <div className="header_right">
-                    <div className="full_screen">
-                        <FullScreen></FullScreen>
+               
+            <Layout.Header 
+            className="bg-slate-800 site-layout-background" 
+            theme={theme.type} 
+            style={{
+                width: '100wh',
+                position:'fixed',
+                left: 200,
+                top: 0,
+                right: 0,
+                zIndex: 999
+            }}>
+                <div className="flex justify-between items-center px-6 fixed ">
+                    <div className="flex justify-between items-center">
+                        <Image
+                            alt="logo"
+                            width={48}
+                            height={48}
+                            src={Logo}
+                        />
+                        <p className="ml-4 text-3xl text-white">react-antd-admin</p>
                     </div>
-                    <div className="setting">
-                        <SettingOutlined onClick={this.handleOpenSetting}></SettingOutlined>
-                    </div>
-                    <div className="user_info">
-                        <Avatar className="avatar" src={userInfo.avatar === '' ? '' : SERVER_ADDRESS + '/' + userInfo.avatar}></Avatar>
-                        <Dropdown 
-                            overlay={userDropdownMenu}
-                            trigger="['click']">
-                            <Button className="userinfo_btn" type="link">
-                                {userInfo.username}<DownOutlined />
-                            </Button>
-                        </Dropdown>
+                    <div className="flex justify-between items-center">
+                        <div className="text-white mr-4">
+                            <FullScreen></FullScreen>
+                        </div>
+                        <div className="text-white mr-4">
+                            <SettingOutlined onClick={this.handleOpenSetting}></SettingOutlined>
+                        </div>
+                        <div>
+                            <Avatar src={userInfo.avatar === '' ? '' : SERVER_ADDRESS + '/' + userInfo.avatar}></Avatar>
+                            <Dropdown 
+                                overlay={userDropdownMenu}
+                                trigger="['click']">
+                                <Button className="text-white" type="link">
+                                    {userInfo.username}<DownOutlined />
+                                </Button>
+                            </Dropdown>
+                        </div>
                     </div>
                 </div>
                 {/* 设置 */}

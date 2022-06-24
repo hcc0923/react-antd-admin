@@ -33,7 +33,6 @@ const routes = [
     },
     {
         render(props) {
-            console.log(props);
             const token = store.getState().token;
             if (!token) {
                 return <Redirect to="/login" />;
