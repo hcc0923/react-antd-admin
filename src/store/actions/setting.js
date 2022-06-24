@@ -1,4 +1,4 @@
-import { SET_COLLAPSE, SET_THEME, SET_BREADCRUMB, SET_TAG } from '../constants/index';
+import { SET_COLLAPSE, SET_THEME } from '../constants/index';
 // import $http from '@/utils/request';
 
 
