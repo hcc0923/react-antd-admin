@@ -23,26 +23,6 @@ export const setTheme = (data) => {
     };
 };
 /* 
-    设置面包屑
-    setBreadcrumb
-*/
-export const setBreadcrumb = (data) => {
-    return {
-        type: SET_BREADCRUMB,
-        data
-    };
-};
-/* 
-    设置标签
-    setTag
-*/
-export const setTag = (data) => {
-    return {
-        type: SET_TAG,
-        data
-    };
-};
-/* 
     设置消息
     setMessage
 */

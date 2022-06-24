@@ -1,33 +1,24 @@
 import React, { Component } from 'react';
-import { HashRouter } from "react-router-dom";
 import { Layout } from 'antd';
 import { connect } from 'react-redux';
-import { setCollapse, setTheme, setBreadcrumb, setTag } from '@/store/actions/setting';
-import { addBreadCrumb } from '@/store/actions/breadCrumb';
-import { addTag, removeTag } from '@/store/actions/tagList';
+import { setCollapse, setTheme } from '@/store/actions/setting';
 import TopHeader from "./TopHeader";
 import SideMenu from "./SideMenu";
 import MainContent from "./MainContent";
 import BottomFooter from "./BottomFooter";
-import TagList from './TagList';
-import BreadCrumb from "./BreadCrumb";
 
 
 class LayoutContainer extends Component {
     state = { visible: false };
     render() { 
         // 父组件向子组件分发数据和方法
-        const { collapse, theme, userInfo, breadcrumb, breadCrumb, tag, tagList } = this.props;
-        const { setCollapse, setTheme, setBreadcrumb, setTag, addBreadCrumb, addTag, removeTag } = this.props;
+        const { collapse, theme, userInfo } = this.props;
+        const { setCollapse, setTheme } = this.props;
         return (
             <Layout hasSider>
                 <TopHeader
                     theme={theme}
                     setTheme={setTheme}
-                    breadcrumb={breadcrumb}
-                    setBreadcrumb={setBreadcrumb}
-                    tag={tag}
-                    setTag={setTag}
                     userInfo={userInfo}
                 />
                 <SideMenu
@@ -35,32 +26,10 @@ class LayoutContainer extends Component {
                     collapse={collapse}
                     userInfo={userInfo}
                     setCollapse={setCollapse}
-                    addBreadCrumb={addBreadCrumb}
-                    addTag={addTag}
                 />
-
-                <Layout className="site-layout ml-52">
-                    {/* { 
-                        breadcrumb.show ? 
-                        <BreadCrumb
-                            breadCrumb={breadCrumb}>
-                        </BreadCrumb>
-                        : 
-                        <div style={{padding: '0'}}></div>
-                    }
-
-                    { 
-                        tag.show ?
-                        <TagList 
-                            tagList={tagList}
-                            removeTag={removeTag}>
-                        </TagList>
-                        :
-                        <div style={{padding: '0'}}></div>
-                    } */}
-
+                {/* ml-28 */}
+                <Layout className="site-layout ml-56 mt-24">
                     <MainContent renderRoutes={this.props.route.routes} />
-                    
                     <BottomFooter />
                 </Layout>
             </Layout>
@@ -76,21 +45,6 @@ const mapDispatchToProps = dispatch => ({
 	},
 	setTheme: data => {
 		dispatch(setTheme(data));
-	},
-	setBreadcrumb: data => {
-		dispatch(setBreadcrumb(data));
-    },
-    addBreadCrumb: data => {
-        dispatch(addBreadCrumb(data));
-    },
-	setTag: data => {
-		dispatch(setTag(data));
-    },
-    addTag: data => {
-		dispatch(addTag(data));
-    },
-    removeTag: data => {
-        dispatch(removeTag(data));
-    }
+	}
 });
 export default connect(mapStateToProps, mapDispatchToProps)(LayoutContainer);

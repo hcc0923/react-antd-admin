@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Image, Avatar, Dropdown, Menu, Button } from "antd";
+import { Layout, Avatar, Dropdown, Menu, Button } from "antd";
 import { 
     SettingOutlined,
     DownOutlined
@@ -8,7 +8,6 @@ import { withRouter } from 'react-router-dom';
 import FullScreen from '@/components/FullScreen';
 import BasicDrawer from '@/components/BasicDrawer';
 import { SERVER_ADDRESS } from '@/utils/config';
-import Logo from '@/assets/images/react.svg';
 
 
 class TopHeader extends Component {

@@ -11,7 +11,7 @@ const styles = {
 
 
 const BasicDrawer = props => {
-	const { title, closable, visible, theme, breadcrumb, tag, onClose, onChangeTheme, onChangeBreadCrumb, onChangeTag } = props;
+	const { title, closable, visible, theme, onClose, onChangeTheme } = props;
 	return (
 		<Drawer 
 			title={title} 
@@ -33,8 +33,7 @@ const BasicDrawer = props => {
 					<Switch 
 						checkedChildren="开" 
 						unCheckedChildren="关" 
-						defaultChecked={breadcrumb.show} 
-						onChange={onChangeBreadCrumb}>
+						>
 					</Switch>
 				</p>
 				<p style={styles}>
@@ -42,8 +41,7 @@ const BasicDrawer = props => {
 					<Switch 
 						checkedChildren="开" 
 						unCheckedChildren="关" 
-						defaultChecked={tag.show} 
-						onChange={onChangeTag}>
+						>
 					</Switch>
 				</p>
 		</Drawer>
