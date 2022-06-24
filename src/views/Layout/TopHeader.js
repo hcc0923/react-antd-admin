@@ -53,28 +53,10 @@ class TopHeader extends Component {
             </Menu>
         );
         return (  
-               
             <Layout.Header 
-            className="bg-slate-800 site-layout-background" 
-            theme={theme.type} 
-            style={{
-                width: '100wh',
-                position:'fixed',
-                left: 200,
-                top: 0,
-                right: 0,
-                zIndex: 999
-            }}>
-                <div className="flex justify-between items-center px-6 fixed ">
-                    <div className="flex justify-between items-center">
-                        <Image
-                            alt="logo"
-                            width={48}
-                            height={48}
-                            src={Logo}
-                        />
-                        <p className="ml-4 text-3xl text-white">react-antd-admin</p>
-                    </div>
+                className="site-layout-background w-screen fixed z-50" 
+                theme={theme.type}>
+                <div className="flex justify-end">
                     <div className="flex justify-between items-center">
                         <div className="text-white mr-4">
                             <FullScreen></FullScreen>

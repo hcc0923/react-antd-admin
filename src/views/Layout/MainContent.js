@@ -11,23 +11,8 @@ class MainContent extends Component {
         return (  
             <TransitionGroup>
                 <CSSTransition classNames="fade" timeout={500}>
-                    <Layout.Content
-                     style={{
-                        margin: '24px 16px 0',
-                        overflow: 'initial',
-                      }}
-                            className="site-layout-background"
-                          >
-                            <div
-                                className="site-layout-background"
-                                style={{
-                                padding: 24,
-                                textAlign: 'center',
-                                }}
-                            >
-                                {renderRoutes(this.props.renderRoutes)}
-                            </div>
-                        
+                    <Layout.Content>
+                        {renderRoutes(this.props.renderRoutes)}
                     </Layout.Content>
                 </CSSTransition>
             </TransitionGroup>

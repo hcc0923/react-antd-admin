@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Image } from "antd";
 import { withRouter } from 'react-router-dom';
 import mapMenu from "@/routes/menu";
 import { formatRole, resolveMenuList } from '@/utils/formatTool';
-
+import Logo from '@/assets/images/react.svg';
 
 class SideMenu extends Component {
     state = {
@@ -106,20 +106,19 @@ class SideMenu extends Component {
         const { collapse, theme } = this.props;
         return (  
             <Layout.Sider 
-                width={200} 
                 theme={theme.type} 
                 collapsible  
                 collapsed={collapse.show} 
-                style={{
-                    overflow: 'auto',
-                    height: '100vh',
-                    position:'fixed',
-                    left: 0,
-                    top: 0,
-                    bottom: 0
-                }}
+                className="overflow-auto h-screen fixed left-0 top-0 bottom-0 z-50"
                 onCollapse={this.onCollapse}>
-                    <div className="logo"></div>
+                    <div className="flex justify-center items-center pt-2">
+                        <Image
+                            alt="logo"
+                            width={48}
+                            height={48}
+                            src={Logo}
+                        />
+                    </div>
                     <Menu
                         mode="inline"
                         theme={theme.type}
