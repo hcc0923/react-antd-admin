@@ -1,0 +1,121 @@
+.login_register {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: #F6F5F7;
+    .container {
+        display: flex;
+        height: 480px;
+        width: 768px;
+        background-color: #fff;
+        position: relative;
+        box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
+        0 10px 10px rgba(0,0,0,0.22);
+        max-width: 100%;
+        overflow: hidden;
+        border-radius: 10px;
+        .login_box {
+            width: 50%;
+            .form {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                padding: 0 25px;
+                height: 70%;
+                text-align: center;
+                .form_item {
+                    padding: 10px;
+                    width: 100%;
+                }
+            }
+        }
+        .register_box {
+            width: 50%;
+            .form {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                padding: 0 25px;
+                height: 70%;
+                text-align: center;
+                .form_item {
+                    padding: 10px;
+                    width: 100%;
+                }
+            }
+        }
+        .overlay {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            background-color: #1DA57A;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: translateX(100%);
+            transition: ease all 0.5s;
+            .overlay_box_left {
+                text-align: center;
+                h1 {
+                    text-align: center;
+                    color: #FFFFFF;
+                    font-size: 2em;
+                    font-weight: bold;
+                }
+                p {
+                    color: #FFFFFF;
+                    font-size: 14px;
+                    font-weight: 100;
+                    line-height: 20px;
+                    letter-spacing: 0.5px;
+                    margin: 20px 0 30px;
+                }
+                .login_btns {
+                    border: 1px solid #FFFFFF;
+                    background-color: #1DA57A;
+                    border-color: #FFFFFF;
+                    border-radius: 20px;
+                    font-size: 12px;
+                    font-weight: bold;
+                    padding: 12px 45px;
+                    color: #FFFFFF;
+                    outline: none;
+                    cursor: pointer;
+                }
+            }
+            .overlay_box_right {
+                text-align: center;
+                h1 {
+                    text-align: center;
+                    color: #FFFFFF;
+                    font-size: 2em;
+                    font-weight: bold;
+                }
+                p {
+                    color: #FFFFFF;
+                    font-size: 14px;
+                    font-weight: 100;
+                    line-height: 20px;
+                    letter-spacing: 0.5px;
+                    margin: 20px 0 30px;
+                }
+                .login_btns {
+                    border: 1px solid #FFFFFF;
+                    background-color:#1DA57A;
+                    border-color: #FFFFFF;
+                    border-radius: 20px;
+                    font-size: 12px;
+                    font-weight: bold;
+                    padding: 12px 45px;
+                    color: #FFFFFF;
+                    outline: none;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}

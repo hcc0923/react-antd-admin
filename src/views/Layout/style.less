@@ -1,0 +1,80 @@
+.layout {
+    .header {
+        padding: 0;
+        display: flex;
+        justify-content: space-between;
+        .logo {
+            color: #fff;
+            font-size: 30px;
+            margin-left: 20px;
+            .logo_image {
+                margin-right: 7px;
+            }
+        }
+        
+        .header_right {
+            display: flex;
+            padding-right: 50px;
+            .full_screen, .setting {
+                color: #fff;
+                font-size: 20px;
+                cursor: pointer;
+                padding-right: 20px;
+            }
+            .user_info {
+                .avatar {
+                    line-height: 64px;
+                }
+                .userinfo_btn {
+                    padding: 0 6px;
+                }
+            }
+        }
+    }
+    .ant-layout-sider-has-trigger {
+        margin-bottom: 48px;
+    }
+    *::-webkit-scrollbar {
+        /*滚动条整体样式*/
+        width: 6px;/*定义纵向滚动条宽度*/
+        height: 6px;/*定义横向滚动条高度*/
+    }
+
+    *::-webkit-scrollbar-thumb {
+        /*滚动条内部滑块*/
+        border-radius: 8px;
+        background-color: hsla(220, 4%, 58%, 0.3);
+        transition: background-color 0.3s;
+    }
+
+    *::-webkit-scrollbar-thumb:hover {
+        /*鼠标悬停滚动条内部滑块*/
+        background: #bbb;
+    }
+
+    *::-webkit-scrollbar-track {
+        /*滚动条内部轨道*/
+        background: #ededed;
+    }
+    
+    .ant-menu {
+        font-size: 16px;
+        font-weight: border;
+    }
+    .tag_list {
+        width: 100%;
+        display: flex;
+        margin: 10px 0;
+        .ant-tag {
+            font-size: 14px;
+            height: 30px;
+            line-height: 30px;
+            .antion::after {
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background-color: aqua;
+            }
+        }
+    }
+}

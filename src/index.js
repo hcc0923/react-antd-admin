@@ -1,17 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { HashRouter } from 'react-router-dom';
+import { renderRoutes } from 'react-router-config';
+import { Provider } from 'react-redux';
+import { ConfigProvider } from 'antd';
+import zhCN from 'antd/es/locale/zh_CN';
+import http from '@/utils/request';
+import routes from '@/routes/index'
+import store from '@/store/store';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+React.$http = http;
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+function RAA() {
+  return (
+    <Provider store={store}>
+      <ConfigProvider locale={zhCN}>
+        <HashRouter>
+          {renderRoutes(routes)}
+        </HashRouter>
+      </ConfigProvider>
+    </Provider>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById('root')).render(<RAA />);
