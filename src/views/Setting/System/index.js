@@ -14,7 +14,7 @@ class System extends Component {
         this.props.setTheme({ type: checked ? 'dark' : 'light' });
     };
     render() { 
-        const { collapse, theme, breadcrumb, tag } = this.props;
+        const { collapse, theme } = this.props;
         return (  
             <Card title="系统设置" className="system">
                 <div className="item">
