@@ -1,50 +1,72 @@
-import React, { Component } from 'react';
-import { Layout } from 'antd';
-import { connect } from 'react-redux';
-import { setCollapse, setTheme } from '@/store/actions/setting';
-import TopHeader from "./TopHeader";
-import SideMenu from "./SideMenu";
-import MainContent from "./MainContent";
-import BottomFooter from "./BottomFooter";
+import { LikeOutlined, UserOutlined } from '@ant-design/icons';
+import { PageContainer, ProLayout, SettingDrawer } from '@ant-design/pro-components';
+import { Avatar, Button, Descriptions, Space, Statistic } from 'antd';
+import { useState } from 'react';
+import defaultProps from './_defaultProps';
+import { renderRoutes } from "react-router-config";
 
+const content = (<Descriptions size="small" column={2}>
+    <Descriptions.Item label="创建人">张三</Descriptions.Item>
+    <Descriptions.Item label="联系方式">
+    </Descriptions.Item>
+    <Descriptions.Item label="创建时间">2017-01-10</Descriptions.Item>
+    <Descriptions.Item label="更新时间">2017-10-10</Descriptions.Item>
+    <Descriptions.Item label="备注">中国浙江省杭州市西湖区古翠路</Descriptions.Item>
+  </Descriptions>);
 
-class LayoutContainer extends Component {
-    state = { visible: false };
-    render() { 
-        // 父组件向子组件分发数据和方法
-        const { collapse, theme, userInfo } = this.props;
-        const { setCollapse, setTheme } = this.props;
-        return (
-            <Layout hasSider>
-                <TopHeader
-                    theme={theme}
-                    setTheme={setTheme}
-                    userInfo={userInfo}
-                />
-                <SideMenu
-                    theme={theme}
-                    collapse={collapse}
-                    userInfo={userInfo}
-                    setCollapse={setCollapse}
-                />
-                {/* ml-28 */}
-                <Layout className="site-layout ml-56 mt-24">
-                    <MainContent renderRoutes={this.props.route.routes} />
-                    <BottomFooter />
-                </Layout>
-            </Layout>
-        );
-    };
+// eslint-disable-next-line import/no-anonymous-default-export
+export default (props) => {
+    const [settings, setSetting] = useState({ fixSiderbar: false });
+    const [pathname, setPathname] = useState('/welcome');
+
+    console.log(props);
+    return (
+        <div style={{ height: '100vh' }}>
+            <ProLayout 
+            {...defaultProps} 
+            location={{ pathname }} 
+            waterMarkProps={{ content: '水印功能' }}  
+            onMenuHeaderClick={(e) => console.log(e)} 
+            // eslint-disable-next-line jsx-a11y/anchor-is-valid
+            menuItemRender={(item, dom) => (<a onClick={() => { setPathname(item.path || '/welcome') }}>{dom}</a>)} 
+            rightContentRender={() => ( <div><Avatar shape="square" size="small" icon={<UserOutlined />}/></div>)} 
+            {...settings}
+            >
+            <PageContainer 
+                content={content} 
+                tabList={[
+                {
+                    tab: '基本信息',
+                    key: 'base',
+                },
+                {
+                    tab: '详细信息',
+                    key: 'info',
+                }]} 
+                extraContent={<Space size={24}>
+                    <Statistic title="Feedback" value={1128} prefix={<LikeOutlined />}/>
+                    <Statistic title="Unmerged" value={93} suffix="/ 100"/>
+                </Space>} 
+                extra={[
+                    <Button key="3">操作</Button>,
+                    <Button key="2">操作</Button>,
+                    <Button key="1" type="primary">主操作</Button>
+                ]} 
+                footer={[
+                    <Button key="2" type="primary">
+                        提交
+                    </Button>,
+                ]}>
+                {renderRoutes(props.route.routes)}
+            </PageContainer>
+        </ProLayout>
+
+        <SettingDrawer 
+        enableDarkTheme 
+        settings={settings}
+        onSettingChange={(changeSetting) => setSetting(changeSetting)} 
+        disableUrlParams={true}/>
+                </div>
+
+    );
 };
-
-
-const mapStateToProps = (state) => state;
-const mapDispatchToProps = dispatch => ({
-	setCollapse: data => {
-		dispatch(setCollapse(data));
-	},
-	setTheme: data => {
-		dispatch(setTheme(data));
-	}
-});
-export default connect(mapStateToProps, mapDispatchToProps)(LayoutContainer);
