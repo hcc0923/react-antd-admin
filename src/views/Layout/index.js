@@ -22,7 +22,7 @@ export default (props) => {
     console.log(props);
     return (
         <div style={{ height: '100vh' }}>
-                    <ProLayout 
+            <ProLayout 
             {...defaultProps} 
             location={{ pathname }} 
             waterMarkProps={{ content: '水印功能' }}  
@@ -59,16 +59,14 @@ export default (props) => {
                 ]}>
                 {renderRoutes(props.route.routes)}
             </PageContainer>
-
-           
         </ProLayout>
 
-<SettingDrawer 
-enableDarkTheme 
-settings={settings}
-onSettingChange={(changeSetting) => setSetting(changeSetting)} 
-disableUrlParams={true}/>
-        </div>
+        <SettingDrawer 
+        enableDarkTheme 
+        settings={settings}
+        onSettingChange={(changeSetting) => setSetting(changeSetting)} 
+        disableUrlParams={true}/>
+                </div>
 
     );
 };

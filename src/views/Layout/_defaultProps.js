@@ -88,7 +88,7 @@ function Welcome() {
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
     route: {
-        path: '/',
+        path: '/ss',
         routes: [
             {
                 path: '/welcome',
@@ -176,7 +176,7 @@ export default {
         ],
     },
     location: {
-        pathname: '/',
+        pathname: '/ss',
     },
 };
 
