@@ -1,82 +1,82 @@
-// import {
-//     DashboardOutlined,
-//     TeamOutlined,
-//     UserOutlined, 
-//     BookOutlined,
-//     KeyOutlined,
-//     CopyOutlined,
-//     SettingOutlined,
-//     UserSwitchOutlined,
-//     ControlOutlined,
-//     StopOutlined,
-//     AreaChartOutlined,
-//     LineChartOutlined,
-//     BarChartOutlined,
-//     PieChartOutlined,
-//     DotChartOutlined,
-//     HeatMapOutlined,
-//     FileExclamationOutlined,
-//     FileOutlined,
-//     FileExcelOutlined,
-//     AppstoreOutlined,
-//     FileZipOutlined,
-//     FilePdfOutlined,
-//     FileDoneOutlined,
-//     FileTextOutlined,
-//     FileMarkdownOutlined,
-//     StockOutlined,
-//     CopyrightOutlined,
-//     EyeInvisibleOutlined,
-//     WarningOutlined,
-//     IssuesCloseOutlined
-// } from '@ant-design/icons';
-// import RouteComponent from "./component";
+import {
+    DashboardOutlined,
+    TeamOutlined,
+    UserOutlined, 
+    BookOutlined,
+    KeyOutlined,
+    CopyOutlined,
+    SettingOutlined,
+    UserSwitchOutlined,
+    ControlOutlined,
+    StopOutlined,
+    AreaChartOutlined,
+    LineChartOutlined,
+    BarChartOutlined,
+    PieChartOutlined,
+    DotChartOutlined,
+    HeatMapOutlined,
+    FileExclamationOutlined,
+    FileOutlined,
+    FileExcelOutlined,
+    AppstoreOutlined,
+    FileZipOutlined,
+    FilePdfOutlined,
+    FileDoneOutlined,
+    FileTextOutlined,
+    FileMarkdownOutlined,
+    StockOutlined,
+    CopyrightOutlined,
+    EyeInvisibleOutlined,
+    WarningOutlined,
+    IssuesCloseOutlined
+} from '@ant-design/icons';
+import RouteComponent from "./component";
 
-// // eslint-disable-next-line import/no-anonymous-default-export
-// export default {
-//     route: {
-//         path: '/',
-//         name: '首页', 
-//         icon: <DashboardOutlined />,
-//         access: ["user", "admin", "root"],
-//         component: RouteComponent.Dashboard,
-//         routes: [
-//             {
-//                 path: '/dashboard', 
-//                 name: '首页', 
-//                 icon: <DashboardOutlined />,
-//                 roles: ["user", "admin", "root"],
-//                 component: <RouteComponent.Login />
-//             },
-//             {
-//                 path: 'user-menu',
-//                 name: '用户管理', 
-//                 icon: <UserOutlined />,
-//                 access: ["admin", "root"],
-//                 routes: [
-//                     { 
-//                         path: 'user-list',
-//                         name: '用户列表', 
-//                         icon: <TeamOutlined />,
-//                         access: ["admin", "root"]
-//                     },
-//                     { 
-//                         path: 'role-list',
-//                         name: '角色列表',
-//                         icon: <UserOutlined />,
-//                         access: ["root"]
-//                     }
-//                 ]
-//             },
-//             {
+// eslint-disable-next-line import/no-anonymous-default-export
+export default {
+    route: {
+        path: '/',
+        name: '首页', 
+        icon: <DashboardOutlined />,
+        access: ["user", "admin", "root"],
+        component: RouteComponent.Dashboard,
+        routes: [
+            {
+                path: '/dashboard', 
+                name: '首页', 
+                icon: <DashboardOutlined />,
+                roles: ["user", "admin", "root"],
+                component: <RouteComponent.Login />
+            },
+            {
+                path: 'user-menu',
+                name: '用户管理', 
+                icon: <UserOutlined />,
+                access: ["admin", "root"],
+                routes: [
+                    { 
+                        path: 'user-list',
+                        name: '用户列表', 
+                        icon: <TeamOutlined />,
+                        access: ["admin", "root"]
+                    },
+                    { 
+                        path: 'role-list',
+                        name: '角色列表',
+                        icon: <UserOutlined />,
+                        access: ["root"]
+                    }
+                ]
+            },
+            {
 
-//             }
-//         ]
-//     },
-//     location: {
-//         pathname: '/',
-//     }
-// }
+            }
+        ]
+    },
+    location: {
+        pathname: '/',
+    }
+}
 import React from 'react'
 import { AntDesignOutlined, CrownOutlined, SmileOutlined, TabletOutlined } from '@ant-design/icons';
 function Welcome() {
