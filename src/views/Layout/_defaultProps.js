@@ -31,83 +31,59 @@ import {
     IssuesCloseOutlined
 } from '@ant-design/icons';
 import RouteComponent from "./component";
-
-// eslint-disable-next-line import/no-anonymous-default-export
-export default {
-    route: {
-        path: '/',
-        name: '首页', 
-        icon: <DashboardOutlined />,
-        access: ["user", "admin", "root"],
-        component: RouteComponent.Dashboard,
-        routes: [
-            {
-                path: '/dashboard', 
-                name: '首页', 
-                icon: <DashboardOutlined />,
-                roles: ["user", "admin", "root"],
-                component: <RouteComponent.Login />
-            },
-            {
-                path: 'user-menu',
-                name: '用户管理', 
-                icon: <UserOutlined />,
-                access: ["admin", "root"],
-                routes: [
-                    { 
-                        path: 'user-list',
-                        name: '用户列表', 
-                        icon: <TeamOutlined />,
-                        access: ["admin", "root"]
-                    },
-                    { 
-                        path: 'role-list',
-                        name: '角色列表',
-                        icon: <UserOutlined />,
-                        access: ["root"]
-                    }
-                ]
-            },
-            {
-
-            }
-        ]
-    },
-    location: {
-        pathname: '/',
-    }
-}
-import React from 'react'
 import { AntDesignOutlined, CrownOutlined, SmileOutlined, TabletOutlined } from '@ant-design/icons';
-function Welcome() {
-    return (
-        <h1>Welcome</h1>
-    )
-}
+
 
 // eslint-disable-next-line import/no-anonymous-default-export
+
+
+// 对应render routes的路由path才能映射对应 的组件
 export default {
     route: {
         path: '/ss',
         routes: [
             {
-                path: '/welcome',
+                path: "/login",
+                meta: { title: "登录", roles: ["user", "admin", "root"]},
+                component: RouteComponent.Login 
+            },
+            {
+                path: "/forget",
+                meta: { title: "忘记密码", roles: ["user", "admin", "root"]},
+                component: RouteComponent.Forget
+            },
+            {
+                path: '/401',
+                meta: { title: "权限不足", roles: ["user", "admin", "root"]},
+                component: RouteComponent.NoAuth
+            },
+            {
+                path: '/404',
+                meta: { title: "页面丢失", roles: ["user", "admin", "root"]},
+                component: RouteComponent.NotFound
+            },
+            {
+                path: '/500',
+                meta: { title: "服务器错误", roles: ["user", "admin", "root"]},
+                component: RouteComponent.ServerError
+            },
+            {
+                path: '/',
                 name: '欢迎',
                 icon: <SmileOutlined />,
-                component: <Welcome />,
+                component: RouteComponent.Dashboard,
             },
             {
                 path: '/admin',
                 name: '管理页',
                 icon: <CrownOutlined />,
                 access: 'canAdmin',
-                component: './Admin',
                 routes: [
                     {
-                        path: '/admin/sub-page1',
+                        path: '/user-list',
                         name: '一级页面',
                         icon: <CrownOutlined />,
-                        component: './Welcome',
+                        component: RouteComponent.UserList,
                     },
                     {
                         path: '/admin/sub-page2',
@@ -169,9 +145,10 @@ export default {
                 ],
             },
             {
-                path: 'https://ant.design',
+                path: '/line',
                 name: 'Ant Design 官网外链',
                 icon: <AntDesignOutlined />,
+                component: RouteComponent.UserList,
             },
         ],
     },

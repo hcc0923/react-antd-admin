@@ -42,7 +42,6 @@ const routes = [
             
             return <RouteComponent.Layout {...props} />;
         },
-        // begin
         routes: [
             {
                 path: '/',
