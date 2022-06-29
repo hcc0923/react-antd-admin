@@ -13,7 +13,7 @@ class Chart extends Component {
     };
     static defaultProps = {
 		chartId: 'chartId',
-		chartHeight: '75vh',
+		chartHeight: '100%',
 		chartOptions: {}
 	};
     handleInitChart = () => {

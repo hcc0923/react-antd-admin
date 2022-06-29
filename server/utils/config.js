@@ -37,7 +37,11 @@ const whiteList = [
     '/login/sendEmail', 
     '/login/resetPassword', 
     '/file/uploadAvatar', 
-    '/file/uploadFiles'
+    '/file/uploadFiles',
+    '/dashboard/getCardData',
+    '/dashboard/getChartData',
+    '/dashboard/getChartProgress',
+    '/dashboard/getTaskTableData',
 ];
 
 
