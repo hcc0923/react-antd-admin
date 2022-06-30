@@ -141,7 +141,9 @@ const About = Loadable({
     loader: () => import('@/views/About/index'),
     loading: Loading
 });
-export default {
+
+
+const components = {
     Layout,
     Login,
     Forget,
@@ -171,3 +173,5 @@ export default {
     ServerError,
     About
 };
+
+export default components;

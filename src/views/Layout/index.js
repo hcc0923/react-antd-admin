@@ -4,6 +4,7 @@ import { Avatar, Button, Descriptions, Space, Statistic } from 'antd';
 import { useState } from 'react';
 import sideMenu from '@/routes/sideMenu';
 import { renderRoutes } from "react-router-config";
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 const content = (<Descriptions size="small" column={2}>
     <Descriptions.Item label="创建人">张三</Descriptions.Item>
@@ -55,11 +56,15 @@ export default (props) => {
                     <Button key="1" type="primary">主操作</Button>
                 ]} 
                 footer={[
-                    <Button key="2" type="primary">
-                        提交
+                    <Button key="2" type="primary" style={{ textAlign: 'center' }}>
+                        系统由 React+Node+Ant Desgin驱动
                     </Button>,
                 ]}>
-                {renderRoutes(props.route.routes)}
+                    <TransitionGroup>
+                        <CSSTransition classNames="fade" timeout={500}>
+                            {renderRoutes(props.route.routes)}
+                        </CSSTransition>
+                    </TransitionGroup>
             </PageContainer>
         </ProLayout>
 
