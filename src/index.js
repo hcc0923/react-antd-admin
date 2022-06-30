@@ -11,16 +11,9 @@ import store from '@/store/store';
 import './index.less';
 import '@ant-design/pro-components/dist/components.less';
 // import 'antd/dist/antd.variable.min.css';
-import '../custom.css';
+import './custom.css';
 
 React.$http = http;
-
-ConfigProvider.config({
-  prefixCls: 'custom',
-  theme: {
-    primaryColor: '#25b864',
-  },
-});
 
 function RAA() {
   return (
