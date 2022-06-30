@@ -2,7 +2,7 @@ import { LikeOutlined, UserOutlined } from '@ant-design/icons';
 import { PageContainer, ProLayout, SettingDrawer } from '@ant-design/pro-components';
 import { Avatar, Button, Descriptions, Space, Statistic } from 'antd';
 import { useState } from 'react';
-import defaultProps from './_defaultProps';
+import sideMenu from '@/routes/sideMenu';
 import { renderRoutes } from "react-router-config";
 
 const content = (<Descriptions size="small" column={2}>
@@ -17,18 +17,20 @@ const content = (<Descriptions size="small" column={2}>
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (props) => {
     const [settings, setSetting] = useState({ fixSiderbar: false });
-    const [pathname, setPathname] = useState('/welcome');
-
     console.log(props);
+    function setPathname(path) {
+        console.log(path);
+        props.history.push(`${path}`)
+    }
     return (
         <div style={{ height: '100vh' }}>
             <ProLayout 
-            {...defaultProps} 
-            location={{ pathname }} 
+            {...sideMenu} 
+            location={ '/' } 
             waterMarkProps={{ content: '水印功能' }}  
             onMenuHeaderClick={(e) => console.log(e)} 
             // eslint-disable-next-line jsx-a11y/anchor-is-valid
-            menuItemRender={(item, dom) => (<a onClick={() => { setPathname(item.path || '/welcome') }}>{dom}</a>)} 
+            menuItemRender={(item, dom) => (<a onClick={() => { setPathname(item.path) }}>{dom}</a>)} 
             rightContentRender={() => ( <div><Avatar shape="square" size="small" icon={<UserOutlined />}/></div>)} 
             {...settings}
             >
