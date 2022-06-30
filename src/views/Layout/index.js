@@ -1,6 +1,6 @@
 import { LikeOutlined, UserOutlined } from '@ant-design/icons';
 import { PageContainer, ProLayout, SettingDrawer } from '@ant-design/pro-components';
-import { Avatar, Button, Descriptions, Space, Statistic } from 'antd';
+import { Avatar, Button, Descriptions, Space, Statistic, Layout } from 'antd';
 import { useState } from 'react';
 import sideMenu from '@/routes/sideMenu';
 import { renderRoutes } from "react-router-config";
@@ -18,13 +18,17 @@ const content = (<Descriptions size="small" column={2}>
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (props) => {
     const [settings, setSetting] = useState({ fixSiderbar: false });
-    console.log(props);
+    // console.log(props);
     function setPathname(path) {
         console.log(path);
         props.history.push(`${path}`)
     }
+    function showProps(settings) {
+        setSetting(settings)
+        console.log(settings);
+    }
     return (
-        <div style={{ height: '100vh' }}>
+        <div style={{ height: '100vh', }}>
             <ProLayout 
             {...sideMenu} 
             location={ '/' } 
@@ -55,11 +59,7 @@ export default (props) => {
                     <Button key="2">操作</Button>,
                     <Button key="1" type="primary">主操作</Button>
                 ]} 
-                footer={[
-                    <Button key="2" type="primary" style={{ textAlign: 'center' }}>
-                        系统由 React+Node+Ant Desgin驱动
-                    </Button>,
-                ]}>
+                footer={[<p key="1" style={{ display: 'flex', justifyContent: 'center', textAlign: 'center', width: '100%' }} ><span>AAA</span></p>]}>
                     <TransitionGroup>
                         <CSSTransition classNames="fade" timeout={500}>
                             {renderRoutes(props.route.routes)}
@@ -71,9 +71,9 @@ export default (props) => {
         <SettingDrawer 
         enableDarkTheme 
         settings={settings}
-        onSettingChange={(changeSetting) => setSetting(changeSetting)} 
+        onSettingChange={(changeSetting) => showProps(changeSetting)} 
         disableUrlParams={true}/>
-                </div>
+        </div>
 
     );
 };

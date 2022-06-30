@@ -9,7 +9,7 @@ import http from '@/utils/request';
 import routes from '@/routes/index'
 import store from '@/store/store';
 import './index.css';
-import '@ant-design/pro-components/dist/components.css';
+import '@ant-design/pro-components/dist/components.less';
 
 
 React.$http = http;
