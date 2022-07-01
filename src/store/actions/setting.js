@@ -1,4 +1,4 @@
-import { SET_COLLAPSE, SET_THEME } from '../constants/index';
+import { SET_COLLAPSE, SET_THEME, SET_PRIMARY_COLOR } from '../constants/index';
 // import $http from '@/utils/request';
 
 
@@ -22,6 +22,15 @@ export const setTheme = (data) => {
         data
     };
 };
+
+export const setPrimaryColor = (data) => {
+    return {
+        type: SET_PRIMARY_COLOR,
+        data
+    };
+};
+
+
 /* 
     设置消息
     setMessage

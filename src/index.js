@@ -9,16 +9,13 @@ import http from '@/utils/request';
 import routes from '@/routes/index'
 import store from '@/store/store';
 import './index.less';
-import '@ant-design/pro-components/dist/components.less';
-// import 'antd/dist/antd.variable.min.css';
-import './custom.css';
 
 React.$http = http;
 
-function RAA() {
+function App() {
   return (
     <Provider store={store}>
-      <ConfigProvider locale={zhCN} prefixCls="custom">
+      <ConfigProvider locale={zhCN} >
         <HashRouter>
           {renderRoutes(routes)}
         </HashRouter>
@@ -27,4 +24,4 @@ function RAA() {
   );
 };
 
-ReactDOM.createRoot(document.getElementById('root')).render(<RAA />);
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);

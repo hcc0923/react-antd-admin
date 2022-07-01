@@ -2,9 +2,15 @@ import { LikeOutlined, UserOutlined } from '@ant-design/icons';
 import { PageContainer, ProLayout, SettingDrawer } from '@ant-design/pro-components';
 import { Avatar, Button, Descriptions, Space, Statistic, Layout } from 'antd';
 import { useState } from 'react';
+import { connect } from 'react-redux';
 import sideMenu from '@/routes/sideMenu';
 import { renderRoutes } from "react-router-config";
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
+
+
+
+import { setPrimaryColor } from '@/store/actions/setting';
+
 
 const content = (<Descriptions size="small" column={2}>
     <Descriptions.Item label="创建人">张三</Descriptions.Item>
@@ -16,7 +22,7 @@ const content = (<Descriptions size="small" column={2}>
   </Descriptions>);
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default (props) => {
+function App(props) {
     const [settings, setSetting] = useState({ fixSiderbar: false });
     // console.log(props);
     function setPathname(path) {
@@ -25,10 +31,12 @@ export default (props) => {
     }
     function showProps(settings) {
         setSetting(settings)
-        console.log(settings);
+        const { primaryColor } = settings;
+        props.setPrimaryColor(primaryColor)
+        console.log(props);
     }
     return (
-        <div style={{ height: '100vh', }}>
+        <div style={{ height: '100vh', color: 'var(--ant-primary-color)'}}>
             <ProLayout 
             {...sideMenu} 
             location={ '/' } 
@@ -77,3 +85,11 @@ export default (props) => {
 
     );
 };
+
+const mapStateToProps = state => state;
+const mapDispatchToProps = dispatch => ({
+	setPrimaryColor: data => {
+		dispatch(setPrimaryColor(data));
+	},
+});
+export default connect(mapStateToProps, mapDispatchToProps)(App);
