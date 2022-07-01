@@ -147,7 +147,7 @@ class Dashboard extends React.Component {
     render() { 
         const { cardData, chartData, chartProgress, taskTableData, lastLoginTime } = this.state;
         return (  
-            <div className="dashboard " style={{ backgroundColor: 'var(--ant-primary-color)'}}>
+            <div className="dashboard ">
                 {/* card */}
                 <div className="dashboard_header">
                     <Row gutter={16}>

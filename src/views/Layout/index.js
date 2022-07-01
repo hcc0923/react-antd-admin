@@ -36,7 +36,7 @@ function App(props) {
         console.log(props);
     }
     return (
-        <div style={{ height: '100vh', color: 'var(--ant-primary-color)'}}>
+        <div style={{ height: '100vh' }}>
             <ProLayout 
             {...sideMenu} 
             location={ '/' } 

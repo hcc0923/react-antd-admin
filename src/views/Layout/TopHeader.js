@@ -10,7 +10,6 @@ import BasicDrawer from '@/components/BasicDrawer';
 import { SERVER_ADDRESS } from '@/utils/config';
 
 
-
 class TopHeader extends Component {
     state = {
         visible: false
