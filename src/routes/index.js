@@ -75,6 +75,10 @@ const routes = [
                 component: RouteComponent.Dashboard
             },
             {
+                render(props) {
+                   
+                    // return <RouteComponent.UserList />
+                },
                 name: '用户管理',
                 icon: <UserOutlined />,
                 routes: [
