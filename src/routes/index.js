@@ -3,31 +3,49 @@ import { Redirect } from 'react-router-dom';
 import store from '@/store/store';
 import RouteComponent from "./component";
 import { resolveTitle } from '@/utils/formatTool';
+import {
+    DashboardOutlined,
+    UserOutlined, 
+    CopyOutlined,
+    SettingOutlined,
+    StopOutlined,
+    AreaChartOutlined,
+    AppstoreOutlined,
+    StockOutlined,
+    CopyrightOutlined,
+    EyeInvisibleOutlined
+} from '@ant-design/icons';
+
 
 
 const routes = [
     {
         path: "/login",
+        hideInMenu: true,
         meta: { title: "登录", roles: ["user", "admin", "root"]},
         component: RouteComponent.Login 
     },
     {
         path: "/forget",
+        hideInMenu: true,
         meta: { title: "忘记密码", roles: ["user", "admin", "root"]},
         component: RouteComponent.Forget
     },
     {
         path: '/401',
+        hideInMenu: true,
         meta: { title: "权限不足", roles: ["user", "admin", "root"]},
         component: RouteComponent.NoAuth
     },
     {
         path: '/404',
+        hideInMenu: true,
         meta: { title: "页面丢失", roles: ["user", "admin", "root"]},
         component: RouteComponent.NotFound
     },
     {
         path: '/500',
+        hideInMenu: true,
         meta: { title: "服务器错误", roles: ["user", "admin", "root"]},
         component: RouteComponent.ServerError
     },
@@ -45,25 +63,46 @@ const routes = [
         routes: [
             {
                 path: '/',
+                name: "首页",
                 exact: true,
                 meta: { title: "首页", roles: ["user", "admin", "root"]},
                 render: () => <Redirect to="/dashboard" />
             },
             {
                 path: '/dashboard',
+                name: "首页",
                 meta: { title: "首页", roles: ["user", "admin", "root"]},
                 component: RouteComponent.Dashboard
             },
             {
-                path: '/user-list',
-                meta: { title: "用户列表", roles: ["admin", "root"]},
-                render: () =>  store.getState().userInfo.role > 1 ? <RouteComponent.UserList /> : <Redirect to="/401" />
+                name: '用户管理',
+                icon: <UserOutlined />,
+                routes: [
+                    {
+                        path: '/user-list',
+                        name: '用户列表',
+                        meta: { title: "用户列表", roles: ["admin", "root"]},
+                        render: () =>  <RouteComponent.UserList /> 
+                    },
+                    {
+                        path: '/role-list',
+                        name: '角色列表',
+                        meta: { title: "角色列表", roles: ["root"]},
+                        render: () =>  store.getState().userInfo.role > 2 ? <RouteComponent.RoleList /> : <Redirect to="/401" />
+                    },
+                ],
             },
-            {
-                path: '/role-list',
-                meta: { title: "角色列表", roles: ["root"]},
-                render: () =>  store.getState().userInfo.role > 2 ? <RouteComponent.RoleList /> : <Redirect to="/401" />
-            },
+            // {
+            //     path: '/user-list',
+            //     name: "用户列表",
+            //     meta: { title: "用户列表", roles: ["admin", "root"]},
+            //     render: () =>  store.getState().userInfo.role > 1 ? <RouteComponent.UserList /> : <Redirect to="/401" />
+            // },
+            // {
+            //     path: '/role-list',
+            //     meta: { title: "角色列表", roles: ["root"]},
+            //     render: () =>  store.getState().userInfo.role > 2 ? <RouteComponent.RoleList /> : <Redirect to="/401" />
+            // },
             {
                 path: '/basic-info',
                 meta: { title: "基本资料", roles: ["user", "admin", "root"]},

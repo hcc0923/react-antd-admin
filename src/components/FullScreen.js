@@ -62,8 +62,7 @@ class FullScreen extends React.Component {
     };
 	render() {
 		return (
-			<FullscreenOutlined 
-				style={{ fontSize: '20px', cursor: 'pointer' }} 
+			<FullscreenOutlined
 				onClick={this.handleFullScrren} 
 			/>
 		);

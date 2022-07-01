@@ -57,22 +57,8 @@ class TopHeader extends Component {
                 theme={theme.type}>
                 <div className="flex justify-end">
                     <div className="flex justify-between items-center">
-                        <div className="text-white mr-4">
-                            <FullScreen></FullScreen>
-                        </div>
-                        <div className="text-white mr-4">
-                            <SettingOutlined onClick={this.handleOpenSetting}></SettingOutlined>
-                        </div>
-                        <div>
-                            <Avatar src={userInfo.avatar === '' ? '' : SERVER_ADDRESS + '/' + userInfo.avatar}></Avatar>
-                            <Dropdown 
-                                overlay={userDropdownMenu}
-                                trigger="['click']">
-                                <Button className="text-white" type="link">
-                                    {userInfo.username}<DownOutlined />
-                                </Button>
-                            </Dropdown>
-                        </div>
+                        
+                      
                     </div>
                 </div>
                 {/* 设置 */}
