@@ -7,6 +7,11 @@ const Layout = Loadable({
     loading: Loading
 });
 
+const Container = Loadable({
+    loader: () => import('@/views/Container'),
+    loading: Loading
+});
+
 const Login = Loadable({
     loader: () => import('@/views/Login/login'),
     loading: Loading
@@ -145,6 +150,7 @@ const About = Loadable({
 
 const components = {
     Layout,
+    Container,
     Login,
     Forget,
     Dashboard,

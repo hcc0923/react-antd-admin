@@ -11,7 +11,7 @@ import {
 } from 'antd';
 import { useState } from 'react';
 import { connect } from 'react-redux';
-import sideMenu from '@/routes/sideMenu';
+
 import { renderRoutes } from "react-router-config";
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import FullScreen from '@/components/FullScreen';
@@ -114,7 +114,7 @@ function App(props) {
     return (
         <div style={{ height: '100vh' }}>
             <ProLayout 
-            route={{ routes: sideMenu }}
+            route={{ routes: props.route.routes }}
             waterMarkProps={{ content: '水印功能' }}  
             onMenuHeaderClick={(e) => console.log(e)} 
             // eslint-disable-next-line jsx-a11y/anchor-is-valid
