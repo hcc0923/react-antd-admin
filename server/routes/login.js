@@ -109,7 +109,9 @@ router.get('/findEmail', (request, response) => {
 */
 router.get('/sendEmail', (request, response) => {
     const emailString = request.query.email;
+   
     const userAuthCode = emailAuthCode(emailString);
+    console.log(emailString, userAuthCode);
     response.send({
         code: 200,
         message: '发送成功',
