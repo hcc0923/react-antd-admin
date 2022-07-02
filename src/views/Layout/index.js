@@ -20,6 +20,8 @@ import {
     DownOutlined
 } from "@ant-design/icons";
 
+import sideMenu from '@/routes/sideMenu';
+
 import { setPrimaryColor } from '@/store/actions/setting';
 
 import TopHeader from './TopHeader'
@@ -102,19 +104,17 @@ function App(props) {
     const [settings, setSetting] = useState({ fixSiderbar: false });
     // console.log(props);
     function setPathname(path) {
-        console.log(path);
         props.history.push(`${path}`)
     }
     function showProps(settings) {
         setSetting(settings)
         const { primaryColor } = settings;
         props.setPrimaryColor(primaryColor)
-        console.log(props);
     }
     return (
         <div style={{ height: '100vh' }}>
             <ProLayout 
-            route={{ routes: props.route.routes }}
+            route={{ routes: sideMenu }}
             waterMarkProps={{ content: '水印功能' }}  
             onMenuHeaderClick={(e) => console.log(e)} 
             // eslint-disable-next-line jsx-a11y/anchor-is-valid
