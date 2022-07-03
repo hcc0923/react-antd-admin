@@ -1,10 +1,28 @@
-import React, { Component, useEffect, useState } from 'react';
-import { Card, Form, Input, Row, Col, Space, Button, Table, Select, Modal, Radio, Upload, message } from "antd";
-import { PlusOutlined, EditOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import React, { useState, useEffect } from 'react';
+import { 
+    Card, 
+    Form, 
+    Input, 
+    Row, 
+    Col, 
+    Space, 
+    Button, 
+    Table, 
+    Select, 
+    Modal,
+    Radio, 
+    Upload, 
+    message 
+} from "antd";
+import { 
+    PlusOutlined, 
+    EditOutlined, 
+    DeleteOutlined, 
+    ExclamationCircleOutlined 
+} from '@ant-design/icons';
 import { SERVER_ADDRESS } from '@/utils/config';
 import Uploading from '@/components/Uploading';
 import "./userlist.less";
-import { set } from 'nprogress';
 
 
 const { $http } = React;
