@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { Card, Table, Row, Col, Form, Modal, Space, Button, Select, Radio, Input, message } from 'antd';
 import { 
     EditOutlined, 
@@ -15,7 +15,8 @@ const Options = [
     { label: '超级管理员', value: 3 }
 ];
 const layout = {
-    labelCol: {
+    labelCol: { 
+
         span: 8,
     },
     wrapperCol: {
@@ -28,6 +29,176 @@ const tailLayout = {
         span: 16,
     },
 };
+columns: [
+    {
+        title: 'ID',
+        dataIndex: 'id',
+        key: 'id',
+        align: 'center',
+        defaultSortOrder: 'ascend',
+        sorter: (a, b) => a.id - b.id
+    },
+    {
+        title: '姓名',
+        dataIndex: 'username',
+        key: 'username',
+        align: 'center'
+    },
+    {
+        title: '角色',
+        dataIndex: 'role',
+        key: 'role',
+        align: 'center',
+        render: (text) => {
+            switch (text) {
+                case 1:
+                    return <span style={{color: '#000000'}}>用户</span>;
+                case 2:
+                    return <span style={{color: '#FFB800'}}>管理员</span>;
+                case 3:
+                    return <span style={{color: '#3DB327'}}>超级管理员</span>;
+                default:
+                    break;
+            }
+        },
+        defaultSortOrder: 'ascend',
+        sorter: (a, b) => a.role - b.role
+    },
+    {
+        title: '操作',
+        key: 'action',
+        align: 'center',
+        render: (text, record) => {
+            return (
+                <React.Fragment>
+                    <Button type="link" onClick={() => this.onEdit(record)}><EditOutlined />编辑</Button>
+                    <Button type="link" onClick={() => this.onDelete(record)}><DeleteOutlined />删除</Button>
+                </React.Fragment>
+            )
+        }
+    }
+],
+function RoleList() {
+    const [loading, setLoading] = useState(false);
+    const [userTableData, setUserTableData] = useState([]);
+    const [query, setQuery] = useState({ id: 0, username: '', role: 0 });
+    const [pagination, setPagination] = useState({ pageNum: 1, pageSize: 10 });
+    const [total, setTotal] = useState({ total: 0 });
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalForm, setModalForm] = useState({ id: 0, username: '', role: 1 });
+
+    const searchRef = React.createRef();
+    const modalRef = React.createRef();
+
+    const getRoleList = () => {
+        const params = {};
+        for (const key in query) {
+            params[key] = query[key];
+        };
+        for (const key in pagination) {
+            if (key !== 'total') {
+                params[key] = pagination[key];
+            };
+        };
+        setLoading(true);
+        $http.get('/user/getRole', {params})
+            .then(response => {
+                const { result, total } = response;
+                setLoading(false);
+                setUserTableData(result);
+                setTotal({ total });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+    
+    return (  
+        <Card title="角色列表">
+            <Form
+                name="search"
+                ref={this.searchRef}
+                className="ant-advanced-search-form"
+                onFinish={this.handleSearch}>
+                    <Row
+                        gutter={24}>
+                        <Col span={5}>
+                            <Form.Item name="id" label="ID">
+                                <Input placeholder="请输入ID"></Input>
+                            </Form.Item>
+                        </Col>
+                        <Col span={5}>
+                            <Form.Item name="username" label="姓名">
+                                <Input placeholder="请输入姓名"></Input>
+                            </Form.Item>
+                        </Col>
+                        <Col span={5}>
+                            <Form.Item name="role" label="角色">
+                                <Select initialvalue="不限">
+                                    {
+                                        Options.map(option => (
+                                            <Select.Option
+                                                key={option.value}
+                                                value={option.value}
+                                            >{option.label}</Select.Option>
+                                        ))
+                                    }
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        <Col span={4}>
+                            <Space>
+                                <Button type="primary" htmlType="submit">查询</Button>
+                                <Button onClick={() => this.searchRef.current.resetFields()}>重置</Button>
+                            </Space>
+                        </Col>
+                    </Row>
+            </Form>
+            <Table
+                bordered
+                loading={Loading}
+                columns={columns}
+                dataSource={userTableData}
+                pagination={pagination}
+                onChange={this.handlePageChange}
+                rowKey={(record) => `${record.id}`} />
+                    <Modal
+                        title="修改角色"
+                        visible={modalVisible}
+                        footer={null}
+                        onOK={this.onSaveEditForm}
+                        onCancel={this.onCancelEditForm}>
+                            <Form
+                                {...layout}
+                                name="edit"
+                                ref={this.modalRef}
+                                initialValues={modalForm}
+                                onFinish={this.onSaveEditForm}>
+                                <Form.Item label="ID" name="id">
+                                    <Input readOnly />
+                                </Form.Item>
+                                <Form.Item label="用户名" name="username">
+                                    <Input readOnly />
+                                </Form.Item>
+                                <Form.Item label="角色" name="role">
+                                    <Radio.Group>
+                                        <Radio value={1}>用户</Radio>
+                                        <Radio value={2}>管理员</Radio>
+                                        <Radio value={3}>超级管理员</Radio>
+                                    </Radio.Group>
+                                </Form.Item>
+                                <Form.Item {...tailLayout}>
+                                    <Space>
+                                        <Button type="primary" htmlType="submit">确定</Button>
+                                        <Button type="button" onClick={this.onCancelEditForm}>取消</Button>
+                                    </Space>
+                                </Form.Item>
+                            </Form>
+                    </Modal>
+        </Card>
+    )
+    
+}
 class RoleList extends Component {
     state = {  
         Loading: false,
@@ -42,55 +213,7 @@ class RoleList extends Component {
             pageSize: 10,
             total: 0
         },
-        columns: [
-            {
-                title: 'ID',
-                dataIndex: 'id',
-                key: 'id',
-                align: 'center',
-                defaultSortOrder: 'ascend',
-                sorter: (a, b) => a.id - b.id
-            },
-            {
-                title: '姓名',
-                dataIndex: 'username',
-                key: 'username',
-                align: 'center'
-            },
-            {
-                title: '角色',
-                dataIndex: 'role',
-                key: 'role',
-                align: 'center',
-                render: (text) => {
-                    switch (text) {
-                        case 1:
-                            return <span style={{color: '#000000'}}>用户</span>;
-                        case 2:
-                            return <span style={{color: '#FFB800'}}>管理员</span>;
-                        case 3:
-                            return <span style={{color: '#3DB327'}}>超级管理员</span>;
-                        default:
-                            break;
-                    }
-                },
-                defaultSortOrder: 'ascend',
-                sorter: (a, b) => a.role - b.role
-            },
-            {
-                title: '操作',
-                key: 'action',
-                align: 'center',
-                render: (text, record) => {
-                    return (
-                        <React.Fragment>
-                            <Button type="link" onClick={() => this.onEdit(record)}><EditOutlined />编辑</Button>
-                            <Button type="link" onClick={() => this.onDelete(record)}><DeleteOutlined />删除</Button>
-                        </React.Fragment>
-                    )
-                }
-            }
-        ],
+        
         modalVisible: false,
         modalForm: {
             id: 0, 
