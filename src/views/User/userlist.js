@@ -22,7 +22,6 @@ import {
 } from '@ant-design/icons';
 import { SERVER_ADDRESS } from '@/utils/config';
 import Uploading from '@/components/Uploading';
-import "./userlist.less";
 
 
 const { $http } = React;
@@ -357,70 +356,69 @@ function UserList() {
                             </Col>
                         </Row>
                 </Form>
-                <Space className="add_delete">
+                <Space className="mb-4">
                     <Button type="primary" onClick={() => openAddEditModal('add')}><PlusOutlined />添加</Button>
                     <Button type="primary" onClick={() => onMultipleDelete()}><DeleteOutlined />批量删除</Button>
                 </Space>
-                <div className="user_list">
-                    <Table 
-                        bordered={true}
-                        loading={loading}
-                        rowSelection={rowSelection} 
-                        columns={columns}
-                        dataSource={userTableData} 
-                        pagination={{...pagination, ...total}}
-                        onChange={(values) => handlePageChange(values)}
-                        rowKey={(record) => `${record.id}`}/>
-                            <Modal
-                                title={modalType === 'add' ? '创建用户' : '编辑用户'}
-                                visible={modalVisible}
-                                footer={null}
-                                onOk={(values) => onSaveAddEditForm(values)}
-                                onCancel={() => handleAddModalCancel()}>
-                                    <Form
-                                        {...layout}
-                                        name="add-edit"
-                                        ref={modalRef}
-                                        initialValues={modalForm}
-                                        onFinish={(values) => onSaveAddEditForm(values)}>
-                                            <Form.Item label="用户名" name="username" rules={[{required: true, message: '请输入用户名'}]}>
-                                                <Input placeholder="请输入用户名" />
-                                            </Form.Item>
-                                            <Form.Item label="性别" name="gender">
-                                                <Radio.Group>
-                                                    <Radio value={0}>男</Radio>
-                                                    <Radio value={1}>女</Radio>
-                                                </Radio.Group>
-                                            </Form.Item>
-                                            <Form.Item 
-                                                label="头像"
-                                                name="avatar"
-                                                valuePropName="avatar">
-                                                    <Upload
-                                                        name="avatar"
-                                                        listType="picture-card"
-                                                        showUploadList={false}
-                                                        action={SERVER_ADDRESS + '/file/uploadAvatar'}
-                                                        beforeUpload={(file) => handleBeforeUpload(file)}
-                                                        onChange={(info) => handleAvatarChange(info)}>
-                                                            {avatarUrl ? <img src={SERVER_ADDRESS + '/' + avatarUrl} alt="获取头像失败" style={{ width: '100%' }} /> : <Uploading uploading={uploading}/>}
-                                                    </Upload>
-                                            </Form.Item>
-                                            <Form.Item label="手机号码" name="phone" rules={[{pattern: PhoneRegexp, message: '手机号码格式不正确'}]}>
-                                                <Input placeholder="请输入手机号码" />
-                                            </Form.Item>
-                                            <Form.Item label="邮箱" name="email" rules={[{pattern: EmailRegexp, message: '邮箱格式不正确'}]}>
-                                                <Input placeholder="请输入邮箱" />
-                                            </Form.Item>
-                                            <Form.Item {...tailLayout}>
-                                                <Space>
-                                                    <Button type='primary' htmlType="submit">确定</Button>
-                                                    <Button type="button" onClick={() => handleAddModalCancel()}>取消</Button>
-                                                </Space>
-                                            </Form.Item>
-                                    </Form>
-                            </Modal>
-                </div>
+                <Table 
+                    bordered={true}
+                    loading={loading}
+                    rowSelection={rowSelection} 
+                    columns={columns}
+                    dataSource={userTableData} 
+                    pagination={{...pagination, ...total}}
+                    onChange={(values) => handlePageChange(values)}
+                    rowKey={(record) => `${record.id}`}>
+                        <Modal
+                            title={modalType === 'add' ? '创建用户' : '编辑用户'}
+                            visible={modalVisible}
+                            footer={null}
+                            onOk={(values) => onSaveAddEditForm(values)}
+                            onCancel={() => handleAddModalCancel()}>
+                                <Form
+                                    {...layout}
+                                    name="add-edit"
+                                    ref={modalRef}
+                                    initialValues={modalForm}
+                                    onFinish={(values) => onSaveAddEditForm(values)}>
+                                        <Form.Item label="用户名" name="username" rules={[{required: true, message: '请输入用户名'}]}>
+                                            <Input placeholder="请输入用户名" />
+                                        </Form.Item>
+                                        <Form.Item label="性别" name="gender">
+                                            <Radio.Group>
+                                                <Radio value={0}>男</Radio>
+                                                <Radio value={1}>女</Radio>
+                                            </Radio.Group>
+                                        </Form.Item>
+                                        <Form.Item 
+                                            label="头像"
+                                            name="avatar"
+                                            valuePropName="avatar">
+                                                <Upload
+                                                    name="avatar"
+                                                    listType="picture-card"
+                                                    showUploadList={false}
+                                                    action={SERVER_ADDRESS + '/file/uploadAvatar'}
+                                                    beforeUpload={(file) => handleBeforeUpload(file)}
+                                                    onChange={(info) => handleAvatarChange(info)}>
+                                                        {avatarUrl ? <img src={SERVER_ADDRESS + '/' + avatarUrl} alt="获取头像失败" style={{ width: '100%' }} /> : <Uploading uploading={uploading}/>}
+                                                </Upload>
+                                        </Form.Item>
+                                        <Form.Item label="手机号码" name="phone" rules={[{pattern: PhoneRegexp, message: '手机号码格式不正确'}]}>
+                                            <Input placeholder="请输入手机号码" />
+                                        </Form.Item>
+                                        <Form.Item label="邮箱" name="email" rules={[{pattern: EmailRegexp, message: '邮箱格式不正确'}]}>
+                                            <Input placeholder="请输入邮箱" />
+                                        </Form.Item>
+                                        <Form.Item {...tailLayout}>
+                                            <Space>
+                                                <Button type='primary' htmlType="submit">确定</Button>
+                                                <Button type="button" onClick={() => handleAddModalCancel()}>取消</Button>
+                                            </Space>
+                                        </Form.Item>
+                                </Form>
+                        </Modal>
+                </Table>
             </Card>
     );
 }
