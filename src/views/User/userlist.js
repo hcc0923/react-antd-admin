@@ -59,7 +59,6 @@ function UserList() {
     const [modalVisible, setModalVisible] = useState(false);
     const [modalForm, setModalForm] = useState({ username: '', gender: 0, phone: '', email: '', avatar: '' });
     const [modalType, setModalType] = useState('add');
-    const searchRef = React.createRef();
     const modalRef = React.createRef();
     const getUserList = () => {
         const params = {};
@@ -116,7 +115,7 @@ function UserList() {
         }
     }
     const handleAddModalCancel = () => {
-        modalRef.current.resetFields();
+        setModalForm({ username: '', gender: 0, phone: '', email: '', avatar: '' });
         setModalVisible(false);
         setModalType('add');
     }
@@ -146,20 +145,21 @@ function UserList() {
         };
     }
     const onEdit = (record) => {
+        console.log(record);
         setModalVisible(true);
-        setModalForm(record);
+        // setModalForm(record);
         setModalType('edit');
         // ref 引用问题
         setTimeout(() => {
-            modalRef.current.setFieldsValue({
+            setModalForm({
                 id: record.id,
                 username: record.username,
                 gender: record.gender,
                 phone: record.phone,
                 email: record.email,
                 avatar: record.avatar
-            });
-        });
+            })
+        }, 100);
     }
     const onDelete = (record) => {
         Modal.confirm({
@@ -308,13 +308,12 @@ function UserList() {
     ];
     useEffect(() => {
         getUserList();
-    }, [query, pagination, modalForm]);
+    }, [query, pagination]);
     const rowSelection = { selectedRowKeys, onChange: onSelectChange };
     return (  
             <Card title="用户列表">
                 <Form
                     name="search"
-                    ref={searchRef}
                     className="ant-advanced-search-form"
                     onFinish={(values) => handleSearch(values)}>
                         <Row
@@ -378,7 +377,6 @@ function UserList() {
                                 <Form
                                     {...layout}
                                     name="add-edit"
-                                    ref={modalRef}
                                     initialValues={modalForm}
                                     onFinish={(values) => onSaveAddEditForm(values)}>
                                         <Form.Item label="用户名" name="username" rules={[{required: true, message: '请输入用户名'}]}>
