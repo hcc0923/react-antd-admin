@@ -47,10 +47,6 @@ const ModifyPassword = Loadable({
     loading: Loading
 });
 
-const System = Loadable({
-    loader: () => import('@/views/Setting/System/index'),
-    loading: Loading
-});
 
 const IconList = Loadable({
     loader: () => import('@/views/Icon/index'),
@@ -158,7 +154,6 @@ const components = {
     RoleList,
     BasicInfo,
     ModifyPassword,
-    System,
     IconList,
     Line,
     Bar,

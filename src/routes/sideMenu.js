@@ -50,10 +50,6 @@ const sideMenu = [
                         name: '修改密码'
                     }
                 ]
-            },
-            {
-                path: '/setting-menu/system-setting',
-                name: '系统设置',
             }
         ]
     },

@@ -64,11 +64,6 @@ const routes = [
                 component: RouteComponent.ModifyPassword
             },
             {
-                path: '/setting-menu/system-setting',
-                meta: { title: "界面设置", roles: ["user", "admin", "root"]},
-                component: RouteComponent.System
-            },
-            {
                 path: '/icon-list',
                 meta: { title: "图标", roles: ["user", "admin", "root"]},
                 component: RouteComponent.IconList
