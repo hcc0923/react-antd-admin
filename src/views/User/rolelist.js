@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Table, Row, Col, Form, Modal, Space, Button, Select, Radio, Input, message } from 'antd';
 import { 
     EditOutlined, 
@@ -33,68 +33,50 @@ const tailLayout = {
 function RoleList() {
     const [loading, setLoading] = useState(false);
     const [userTableData, setUserTableData] = useState([]);
-    const [query, setQuery] = useState({ id: 0, username: '', role: 0 });
+    const [searchForm, setSearchForm] = useState({ id: 0, username: '', role: 0 });
     const [pagination, setPagination] = useState({ pageNum: 1, pageSize: 10 });
     const [total, setTotal] = useState({ total: 0 });
     const [modalVisible, setModalVisible] = useState(false);
     const [modalForm, setModalForm] = useState({ id: 0, username: '', role: 1 });
+    const searchRef = React.useRef();
 
-    const searchRef = React.createRef();
-    const modalRef = React.createRef();
     const getRoleList = () => {
         const params = {};
-        for (const key in query) {
-            params[key] = query[key];
-        };
+        for (const key in searchForm) {
+            params[key] = searchForm[key];
+        }
         for (const key in pagination) {
             if (key !== 'total') {
                 params[key] = pagination[key];
-            };
-        };
+            }
+        }
         setLoading(true);
         $http.get('/user/getRole', {params})
             .then(response => {
                 const { result, total } = response;
+
                 setLoading(false);
                 setUserTableData(result);
                 setTotal({ total });
             })
             .catch(error => {
                 console.log(error);
-            });
-    }
-    const handleSearch = (values) => {
-        setQuery(values);
-    }
-    const resetSearch = () => {
-        setQuery({ id: 0, username: '', role: 0 })
+            })
     }
     const handlePageChange = (pagination) => {
         const { current, pageSize } = pagination;
         setPagination({ pageNum: current, pageSize })
     }
     const onEdit = (record) => {
-        setModalVisible(true);
         setModalForm(record);
-        setTimeout(() => {
-            modalRef.current.setFieldsValue({
-                id: record.id,
-                username: record.username,
-                role: record.role
-            });
-        });
-    }
-    const onCancelEditForm = () => {
-        setModalForm({ id: 0, username: '', role: 1 });
-        setModalVisible(false);
+        setModalVisible(true);
     }
     const onSaveEditForm = (values) => {
         setLoading(true);
         $http.put('/user/editRole', values)
             .then(() => {
                 setLoading(false);
-                onCancelEditForm();
-
+                setModalVisible(false);
                 getRoleList();
                 message.success('编辑成功');
             })
@@ -171,24 +153,24 @@ function RoleList() {
     ]
     useEffect(() => {
         getRoleList();
-    }, [query, pagination]);
+    }, [searchForm, pagination]);
     return (  
         <Card title="角色列表">
             <Form
                 name="search"
                 ref={searchRef}
                 className="ant-advanced-search-form"
-                onFinish={(values) => handleSearch(values)}>
+                onFinish={(values) => setSearchForm(values)}>
                     <Row
                         gutter={24}>
                         <Col span={5}>
                             <Form.Item name="id" label="ID">
-                                <Input placeholder="请输入ID"></Input>
+                                <Input placeholder="请输入ID" />
                             </Form.Item>
                         </Col>
                         <Col span={5}>
                             <Form.Item name="username" label="姓名">
-                                <Input placeholder="请输入姓名"></Input>
+                                <Input placeholder="请输入姓名" />
                             </Form.Item>
                         </Col>
                         <Col span={5}>
@@ -198,8 +180,9 @@ function RoleList() {
                                         Options.map(option => (
                                             <Select.Option
                                                 key={option.value}
-                                                value={option.value}
-                                            >{option.label}</Select.Option>
+                                                value={option.value}>
+                                                {option.label}
+                                            </Select.Option>
                                         ))
                                     }
                                 </Select>
@@ -208,7 +191,7 @@ function RoleList() {
                         <Col span={4}>
                             <Space>
                                 <Button type="primary" htmlType="submit">查询</Button>
-                                <Button onClick={() => resetSearch()}>重置</Button>
+                                <Button onClick={() => searchRef.current.resetFields()}>重置</Button>
                             </Space>
                         </Col>
                     </Row>
@@ -225,12 +208,11 @@ function RoleList() {
                         title="修改角色"
                         visible={modalVisible}
                         footer={null}
-                        onOK={(values) => onSaveEditForm(values)}
-                        onCancel={() => onCancelEditForm()}>
+                        destroyOnClose={true}
+                        onCancel={() => setModalVisible(false)}>
                             <Form
                                 {...layout}
                                 name="edit"
-                                ref={modalRef}
                                 initialValues={modalForm}
                                 onFinish={(values) => onSaveEditForm(values)}>
                                 <Form.Item label="ID" name="id">
@@ -249,7 +231,7 @@ function RoleList() {
                                 <Form.Item {...tailLayout}>
                                     <Space>
                                         <Button type="primary" htmlType="submit">确定</Button>
-                                        <Button type="button" onClick={() => onCancelEditForm()}>取消</Button>
+                                        <Button type="button" onClick={() => setModalVisible(false)}>取消</Button>
                                     </Space>
                                 </Form.Item>
                             </Form>

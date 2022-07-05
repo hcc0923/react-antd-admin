@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
     Card, 
     Form, 
@@ -53,17 +53,18 @@ function UserList() {
     const [uploading, setUploading] = useState(false);
     const [avatarUrl, setAvatarUrl] = useState('');
     const [userTableData, setUserTableData] = useState([]);
-    const [query, setQuery] = useState({ username: '', gender: -1, phone: '', email: '' });
+    const [searchForm, setSearchForm] = useState({ username: '', gender: -1, phone: '', email: '' });
     const [pagination, setPagination] = useState({ pageNum: 1, pageSize: 10 });
     const [total, setTotal] = useState({ total: 0 });
     const [modalVisible, setModalVisible] = useState(false);
     const [modalForm, setModalForm] = useState({ username: '', gender: 0, phone: '', email: '', avatar: '' });
-    const [modalType, setModalType] = useState('add');
-    const modalRef = React.createRef();
+    const [modalType, setModalType] = useState();
+    const searchRef = useRef();
+    
     const getUserList = () => {
         const params = {};
-        for (const key in query) {
-            params[key] = query[key];
+        for (const key in searchForm) {
+            params[key] = searchForm[key];
         }
         for (const key in pagination) {
             if (key !=='total') {
@@ -83,41 +84,23 @@ function UserList() {
                 console.log(error);
             });
     }
-    const handleSearch = (values) => {
-        setQuery(values);
-    }
-    const resetSearch = () => {
-        setQuery({ username: '', gender: -1, phone: '', email: '' });
-    }
     const handlePageChange = (values) => {
         const { current, pageSize } = values;
         setPagination({ pageNum: current, pageSize })
     }
     const openAddEditModal = (modalType, record) => {
         if (record) {
-            setModalVisible(true);
             setModalForm(record);
-            setModalType(modalType);
+            setAvatarUrl(record.avatar);
         } else {
-            setModalVisible(true);
+            setAvatarUrl('');
             setModalForm({ username: '', gender: 0, phone: '', email: '', avatar: '' });
-            setModalType(modalType);
-            // ref 引用问题
-            setTimeout(() => {
-                modalRef.current.setFieldsValue({
-                    username: '',
-                    gender: 0,
-                    phone: '',
-                    email: '',
-                    avatar: ''
-                });
-            });
         }
+        setModalType(modalType);
+        setModalVisible(true);
     }
-    const handleAddModalCancel = () => {
-        setModalForm({ username: '', gender: 0, phone: '', email: '', avatar: '' });
+    const handleCancelModal = () => {
         setModalVisible(false);
-        setModalType('add');
     }
     const onSaveAddEditForm = (values) => {
         values.avatar = values.avatar.file.response.file.path;
@@ -126,7 +109,7 @@ function UserList() {
                 .then(() => {
                     message.success('创建成功');
                     getUserList();
-                    handleAddModalCancel();
+                    handleCancelModal();
                 })
                 .catch((error) => {
                     console.log(error);
@@ -137,29 +120,12 @@ function UserList() {
                 .then(() => {
                     message.success('编辑成功');
                     getUserList();
-                    handleAddModalCancel();
+                    handleCancelModal();
                 })
                 .catch((error) => {
                     console.log(error);
                 });
-        };
-    }
-    const onEdit = (record) => {
-        console.log(record);
-        setModalVisible(true);
-        // setModalForm(record);
-        setModalType('edit');
-        // ref 引用问题
-        setTimeout(() => {
-            setModalForm({
-                id: record.id,
-                username: record.username,
-                gender: record.gender,
-                phone: record.phone,
-                email: record.email,
-                avatar: record.avatar
-            })
-        }, 100);
+        }
     }
     const onDelete = (record) => {
         Modal.confirm({
@@ -299,7 +265,7 @@ function UserList() {
             render: (text, record, index) => {
                 return (
                     <React.Fragment>
-                        <Button type="link" onClick={() => onEdit(record)}><EditOutlined />编辑</Button>
+                        <Button type="link" onClick={() => openAddEditModal('edit', record)}><EditOutlined />编辑</Button>
                         <Button type="link" onClick={() => onDelete(record)}><DeleteOutlined />删除</Button>
                     </React.Fragment>
                 )
@@ -308,19 +274,20 @@ function UserList() {
     ];
     useEffect(() => {
         getUserList();
-    }, [query, pagination]);
+    }, [searchForm, pagination]);
     const rowSelection = { selectedRowKeys, onChange: onSelectChange };
     return (  
             <Card title="用户列表">
                 <Form
                     name="search"
+                    ref={searchRef}
                     className="ant-advanced-search-form"
-                    onFinish={(values) => handleSearch(values)}>
+                    onFinish={(values) => setSearchForm(values)}>
                         <Row
                             gutter={24}>
                             <Col span={5}>
                                 <Form.Item name="username" label="姓名">
-                                    <Input placeholder="请输入姓名"></Input>
+                                    <Input placeholder="请输入姓名" />
                                 </Form.Item>
                             </Col>
                             <Col span={5}>
@@ -330,8 +297,9 @@ function UserList() {
                                             Options.map(option => (
                                                 <Select.Option
                                                     key={option.value}
-                                                    value={option.value}
-                                                >{option.label}</Select.Option>
+                                                    value={option.value}>
+                                                    {option.label}
+                                                </Select.Option>
                                             ))
                                         }
                                     </Select>
@@ -339,18 +307,18 @@ function UserList() {
                             </Col>
                             <Col span={5}>
                                 <Form.Item name="phone" label="手机号码">
-                                    <Input placeholder="请输入手机号码"></Input>
+                                    <Input placeholder="请输入手机号码" />
                                 </Form.Item>
                             </Col>
                             <Col span={5}>
                                 <Form.Item name="email" label="邮箱">
-                                    <Input placeholder="请输入邮箱"></Input>
+                                    <Input placeholder="请输入邮箱" />
                                 </Form.Item>
                             </Col>
                             <Col span={4}>
                                 <Space>
                                     <Button type="primary" htmlType="submit">查询</Button>
-                                    <Button onClick={() => resetSearch()}>重置</Button>
+                                    <Button onClick={() => searchRef.current.resetFields()}>重置</Button>
                                 </Space>
                             </Col>
                         </Row>
@@ -367,56 +335,60 @@ function UserList() {
                     dataSource={userTableData} 
                     pagination={{...pagination, ...total}}
                     onChange={(values) => handlePageChange(values)}
-                    rowKey={(record) => `${record.id}`}>
-                        <Modal
-                            title={modalType === 'add' ? '创建用户' : '编辑用户'}
-                            visible={modalVisible}
-                            footer={null}
-                            onOk={(values) => onSaveAddEditForm(values)}
-                            onCancel={() => handleAddModalCancel()}>
-                                <Form
-                                    {...layout}
-                                    name="add-edit"
-                                    initialValues={modalForm}
-                                    onFinish={(values) => onSaveAddEditForm(values)}>
-                                        <Form.Item label="用户名" name="username" rules={[{required: true, message: '请输入用户名'}]}>
-                                            <Input placeholder="请输入用户名" />
-                                        </Form.Item>
-                                        <Form.Item label="性别" name="gender">
-                                            <Radio.Group>
-                                                <Radio value={0}>男</Radio>
-                                                <Radio value={1}>女</Radio>
-                                            </Radio.Group>
-                                        </Form.Item>
-                                        <Form.Item 
-                                            label="头像"
+                    rowKey={(record) => `${record.id}`} />
+                <Modal
+                    title={modalType === 'add' ? '创建用户' : '编辑用户'}
+                    visible={modalVisible}
+                    footer={null}
+                    destroyOnClose={true}
+                    onCancel={() => handleCancelModal()}>
+                        <Form
+                            {...layout}
+                            name="add-edit"
+                            initialValues={modalForm}
+                            onFinish={(values) => onSaveAddEditForm(values)}>
+                                <Form.Item label="用户名" name="username" rules={[{required: true, message: '请输入用户名'}]}>
+                                    <Input placeholder="请输入用户名" />
+                                </Form.Item>
+                                <Form.Item label="性别" name="gender">
+                                    <Radio.Group>
+                                        <Radio value={0}>男</Radio>
+                                        <Radio value={1}>女</Radio>
+                                    </Radio.Group>
+                                </Form.Item>
+                                <Form.Item 
+                                    label="头像"
+                                    name="avatar"
+                                    valuePropName="avatar">
+                                        <Upload
                                             name="avatar"
-                                            valuePropName="avatar">
-                                                <Upload
-                                                    name="avatar"
-                                                    listType="picture-card"
-                                                    showUploadList={false}
-                                                    action={SERVER_ADDRESS + '/file/uploadAvatar'}
-                                                    beforeUpload={(file) => handleBeforeUpload(file)}
-                                                    onChange={(info) => handleAvatarChange(info)}>
-                                                        {avatarUrl ? <img src={SERVER_ADDRESS + '/' + avatarUrl} alt="获取头像失败" style={{ width: '100%' }} /> : <Uploading uploading={uploading}/>}
-                                                </Upload>
-                                        </Form.Item>
-                                        <Form.Item label="手机号码" name="phone" rules={[{pattern: PhoneRegexp, message: '手机号码格式不正确'}]}>
-                                            <Input placeholder="请输入手机号码" />
-                                        </Form.Item>
-                                        <Form.Item label="邮箱" name="email" rules={[{pattern: EmailRegexp, message: '邮箱格式不正确'}]}>
-                                            <Input placeholder="请输入邮箱" />
-                                        </Form.Item>
-                                        <Form.Item {...tailLayout}>
-                                            <Space>
-                                                <Button type='primary' htmlType="submit">确定</Button>
-                                                <Button type="button" onClick={() => handleAddModalCancel()}>取消</Button>
-                                            </Space>
-                                        </Form.Item>
-                                </Form>
-                        </Modal>
-                </Table>
+                                            listType="picture-card"
+                                            showUploadList={false}
+                                            action={SERVER_ADDRESS + '/file/uploadAvatar'}
+                                            beforeUpload={(file) => handleBeforeUpload(file)}
+                                            onChange={(info) => handleAvatarChange(info)}>
+                                                {
+                                                    avatarUrl ? 
+                                                    <img src={SERVER_ADDRESS + '/' + avatarUrl} alt="获取头像失败" className="w-full" /> 
+                                                    : 
+                                                    <Uploading uploading={uploading}/>
+                                                }
+                                        </Upload>
+                                </Form.Item>
+                                <Form.Item label="手机号码" name="phone" rules={[{pattern: PhoneRegexp, message: '手机号码格式不正确'}]}>
+                                    <Input placeholder="请输入手机号码" />
+                                </Form.Item>
+                                <Form.Item label="邮箱" name="email" rules={[{pattern: EmailRegexp, message: '邮箱格式不正确'}]}>
+                                    <Input placeholder="请输入邮箱" />
+                                </Form.Item>
+                                <Form.Item {...tailLayout}>
+                                    <Space>
+                                        <Button type='primary' htmlType="submit">确定</Button>
+                                        <Button type="button" onClick={() => handleCancelModal()}>取消</Button>
+                                    </Space>
+                                </Form.Item>
+                        </Form>
+                </Modal>
             </Card>
     );
 }
