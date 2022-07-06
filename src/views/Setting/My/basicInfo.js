@@ -38,7 +38,6 @@ function BasicInfo() {
     const [loading, setLoading] = useState(false);
     const [spinning, setSpinning] = useState(true);
     const [avatarUrl, setAvatarUrl] = useState('');
-    const [form, setForm] = useState({ id: 0, username: '', gender: 0, avatar: '', phone: '', email: '', remark: '' });
     const formRef = useRef();
 
     const beforeUpload = (file) => {
@@ -122,7 +121,7 @@ function BasicInfo() {
                     {...layout}
                     name="basicinfo"
                     ref={formRef}
-                    initialValues={form}
+                    initialValues={{ id: 0, username: '', gender: 0, avatar: '', phone: '', email: '', remark: '' }}
                     onFinish={(values) => handleSubmit(values)}>
                         <span style={{marginLeft: '17%', color: '#999'}}>不可修改。用户的唯一标识。</span>
                         <Form.Item label="ID" name="id">

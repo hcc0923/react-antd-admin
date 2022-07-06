@@ -37,7 +37,7 @@ class Authority extends Component {
     render() { 
         const { role, roleName } = this.state;
         return (  
-            <Card title="权限切换">
+            <Card title="权限切换" style={{ height: '100vh' }}>
                 <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                     <section>
                         你当前的权限是：
