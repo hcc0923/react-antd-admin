@@ -1,5 +1,13 @@
-import React, { useState, useRef } from 'react';
-import { Card, Form, Input, Button, Space, Spin, message } from 'antd';
+import React, { useState } from 'react';
+import { 
+    Card, 
+    Form, 
+    Input, 
+    Button, 
+    Space, 
+    Spin, 
+    message 
+} from 'antd';
 import CryptoJS from 'crypto-js'; 
 
 
@@ -22,8 +30,6 @@ function ModifyPassword(props) {
     const [spinning, setSpinning] = useState(false);
     const [isFirst, setIsFirst] = useState(true);
     const [verifyPassword, setVerifyPassword] = useState(false);
-    const [form, setForm] = useState({ password: '', repeatPassword: '' });
-    const formRef = useRef();
 
     const handleVerifyPassword = (event) => {
         setIsFirst(false);
@@ -54,60 +60,79 @@ function ModifyPassword(props) {
             });
     }
     return (  
-        <div className="modify_password">
-            <Card title="修改密码">
-                <Spin spinning={spinning}>
-                    <Form
-                        {...layout}
-                        name="update"
-                        ref={formRef}
-                        initialValues={form}
-                        onFinish={(values) => handleSubmit(values)}>
-                            <Form.Item 
-                                label="当前密码"
-                                name="password"
-                                hasFeedback
-                                validateStatus={isFirst ? '' : verifyPassword ? 'success' : 'error'}
-                                rules={[
-                                    {
-                                        required: true, 
-                                        message: '请输入你的密码!'
-                                    }]}>
-                                <Input.Password onBlur={(event) => handleVerifyPassword(event)} />
-                            </Form.Item>
-                            <span style={{marginLeft: '17%', color: '#999'}}>密码长度在不少于六位</span>
-                            <Form.Item label="新密码" name="newPassword" hasFeedbackrules={[{ required: true, message: '请输入你的新密码!'}]}>
-                                    <Input.Password />
-                            </Form.Item>
-                            <Form.Item
-                                label="确认新密码"
-                                name="repeatNewPassword"
-                                dependencies={['newPassword']}
-                                hasFeedback
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: '请再次输入密码!'
-                                    },
-                                    ({ getFieldValue }) => ({
-                                        validator(rule, value) {
-                                            if (!value || getFieldValue('newPassword') === value) {
-                                                return Promise.resolve();
-                                            }
-                                            return Promise.reject('两次输入密码不一致!');
+        <Card title="修改密码">
+            <Spin spinning={spinning}>
+                <Form
+                    {...layout}
+                    name="update"
+                    initialValues={{ password: '', repeatPassword: '' }}
+                    onFinish={(values) => handleSubmit(values)}>
+                        <Form.Item 
+                            label="当前密码"
+                            name="password"
+                            hasFeedback
+                            validateStatus={isFirst ? '' : verifyPassword ? 'success' : 'error'}
+                            rules={[
+                                {
+                                    min: 6, 
+                                    max: 12
+                                },
+                                {
+                                    required: true, 
+                                    message: '请输入你的密码!'
+                                },
+                            ]}>
+                            <Input.Password onBlur={(event) => handleVerifyPassword(event)} />
+                        </Form.Item>
+                        <span style={{marginLeft: '17%', color: '#999'}}>密码长度在不少于六位</span>
+                        <Form.Item 
+                            label="新密码" 
+                            name="newPassword" 
+                            hasFeedback 
+                            rules={[
+                                {
+                                    min: 6, 
+                                    max: 12
+                                },
+                                { 
+                                    required: true, 
+                                    message: '请输入你的新密码!'
+                                },
+                            ]}>
+                                <Input.Password />
+                        </Form.Item>
+                        <Form.Item
+                            label="确认新密码"
+                            name="repeatNewPassword"
+                            dependencies={['newPassword']}
+                            hasFeedback
+                            rules={[
+                                {
+                                    min: 6, 
+                                    max: 12
+                                },
+                                {
+                                    required: true,
+                                    message: '请再次输入密码!'
+                                },
+                                ({ getFieldValue }) => ({
+                                    validator(rule, value) {
+                                        if (!value || getFieldValue('newPassword') === value) {
+                                            return Promise.resolve();
                                         }
-                                    })]}>
-                                    <Input.Password />
-                            </Form.Item>
-                            <Form.Item {...tailLayout}>
-                                <Space size={20}>
-                                    <Button type="primary" htmlType="submit">保存</Button>
-                                </Space>
-                            </Form.Item>
-                    </Form>
-                </Spin>
-            </Card>
-        </div>
+                                        return Promise.reject('两次输入密码不一致!');
+                                    }
+                                })]}>
+                                <Input.Password />
+                        </Form.Item>
+                        <Form.Item {...tailLayout}>
+                            <Space size={20}>
+                                <Button type="primary" htmlType="submit">保存</Button>
+                            </Space>
+                        </Form.Item>
+                </Form>
+            </Spin>
+        </Card>
     )
 }
 

@@ -8,10 +8,7 @@ const serverConfig = {
 const corsConfig = {
     origin: ['http://localhost:3000', 'http://116.62.139.167:3000'], // 前端设置credentials: true后端origin不能为*
     methods: ['GET', 'OPTIONS', 'POST', 'PUT', 'DELETE'],
-    credentials: true, 
-    maxAge: 600,
-    preflightContinue: false,
-    optionsSuccessStatus: 204
+    credentials: true,
 };
 
 
@@ -37,11 +34,7 @@ const whiteList = [
     '/login/sendEmail', 
     '/login/resetPassword', 
     '/file/uploadAvatar', 
-    '/file/uploadFiles',
-    '/dashboard/getCardData',
-    '/dashboard/getChartData',
-    '/dashboard/getChartProgress',
-    '/dashboard/getTaskTableData',
+    '/file/uploadFiles'
 ];
 
 

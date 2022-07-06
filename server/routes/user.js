@@ -255,7 +255,7 @@ router.put('/updateUser', (request, response) => {
     verifyPassword
 */
 router.get('/verifyPassword', (request, response) => {
-    const { id } = request.user;
+    const { id } = request.auth;
     const { password } = request.query;
     const sqlString = `SELECT password FROM user WHERE id=${id}`;
     executeMysql(sqlString)
@@ -282,8 +282,8 @@ router.get('/verifyPassword', (request, response) => {
     修改密码
 */
 router.put('/updatePassword', (request, response) => {
+    const { id } = request.auth;
     const { newPassword } = request.body;
-    const { id } = request.user;
     const sqlString = `UPDATE user SET password='${newPassword}' WHERE id=${id}`;
     executeMysql(sqlString)
         .then(result => {
