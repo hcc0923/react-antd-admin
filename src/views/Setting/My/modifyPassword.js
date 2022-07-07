@@ -26,6 +26,7 @@ const tailLayout = {
         span: 20,
     },
 };
+
 function ModifyPassword(props) {
     const [spinning, setSpinning] = useState(false);
     const [isFirst, setIsFirst] = useState(true);

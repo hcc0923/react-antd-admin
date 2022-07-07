@@ -1,248 +1,248 @@
-import React, { Component } from 'react';
-import { Card, Tabs, List, Upload, Space, Button, message } from 'antd';
+import React, { useState } from 'react';
+import { 
+    Card, 
+    Tabs, 
+    List, 
+    Upload, 
+    Space, 
+    Button, 
+    message 
+} from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import { formatGMTTime } from '@/utils/formatTool';
 import { SERVER_ADDRESS } from '@/utils/config';
 const { $http } = React;
 
+function FileAdmin() {
+    const [uploading, setUploading] = useState(false);
+    const [uploadFileList, setUploadFileList] = useState([]);
+    const [fileList, setFileList] = useState([]);
+    const [myUploadList, setMyUploadList] = useState([]);
 
-class File extends Component {
-    state = {
-        uploading: false,
-        uploadFileList: [],
-        fileList: [],
-        myUploadList: []
-    };
-    handleTabChange = key => {
+    const handleGetFileList = () => {
+        setUploading(true);
+        $http.get('/file/getFileList')
+            .then(response => {
+                const { result } = response;
+                setUploading(false);
+                setFileList(result);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+    const handleGetMyUploadList = () => {
+        setUploading(true);
+        $http.get('/file/getMyUploadList')
+            .then(response => {
+                const { result } = response;
+                setUploading(false);
+                setMyUploadList(result);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+    const handleTabChange = (key) => {
         switch (key) {
             case 'filelist':
-                this.handleGetFileList();
+                handleGetFileList();
                 break;
             case 'myupload':
-                this.handleGetMyUploadList();
+                handleGetMyUploadList();
                 break;
             default:
                 break;
         };
-    };
-    handleUploadFileList = () => {
-        const { uploadFileList } = this.state;
+    }
+    const handleUploadFileList = () => {
         const formData = new FormData();
         uploadFileList.forEach(file => {
             formData.append('files', file);
         });
 
-        this.setState({uploading: true});
+        setUploading(true);
         $http.post('/file/uploadFileList', formData)
             .then(() => {
-                this.setState({
-                    uploading: false,
-                    uploadFileList: []
-                });
+                setUploading(false);
+                setUploadFileList([]);
                 message.success('上传成功');
             })
             .catch(error => {
                 console.log(error);
                 message.success('上传失败');
             });
-    };
-    handleGetFileList = () => {
-        this.setState({loading: true});
-        $http.get('/file/getFileList')
-            .then(response => {
-                const { result } = response;
-                this.setState({
-                    loading: false, 
-                    fileList: result
-                });
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    };
-    handleGetMyUploadList = () => {
-        this.setState({loading: true});
-        $http.get('/file/getMyUploadList')
-            .then(response => {
-                const { result } = response;
-                this.setState({
-                    loading: false, 
-                    myUploadList: result
-                });
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    };
-    handleDownload = type => {
+    }
+    const handleDownload = (type) => {
         switch (type) {
             case 'filelist':
-                this.setState({loading: true});
-                this.state.fileList.forEach(file => {
+                setUploading(true);
+                fileList.forEach(file => {
                     const name = file.name;
                     window.open(`${SERVER_ADDRESS}/${name}`);
                 });
-                this.setState({loading: false});
+                setUploading(false);
                 break;
             case 'myupload':
-                this.setState({loading: true});
-                this.state.myUploadList.forEach(file => {
+                setUploading(true);
+                myUploadList.forEach(file => {
                     const name = file.name;
                     window.open(`${SERVER_ADDRESS}/${name}`);
                 });
-                this.setState({loading: false});
+                setUploading(false);
                 break;
             default:
-                this.setState({loading: true});
+                setUploading(true);
                 window.open(`${SERVER_ADDRESS}/${type.name}`);
-                this.setState({loading: false});
+                setUploading(false);
                 break;
-        };
-    };
-    handleDelete = type => {
+        }
+    }
+    const handleDelete = (type) => {
         if (type === 'uploadlist') {
-            const ids = this.state.myUploadList.map(file => file.id);
+            const ids = myUploadList.map(file => file.id);
             const params = { ids };
             
-            console.log(params);
-            $http.delete('/file/deleteAllFile', {params})
+            $http.delete('/file/deleteAllFile', { params })
                 .then(() => {
+                    handleGetMyUploadList();
                     message.success('删除成功');
-                    this.handleGetMyUploadList();
                 })
                 .catch(error => {
                     console.log(error);
+                    message.error('删除失败');
                 });
         } else {
-            const params = {name: type.name};
-            $http.delete('/file/deleteSingleFile', {params})
+            const params = { name: type.name };
+
+            $http.delete('/file/deleteSingleFile', { params })
                 .then(() => {
+                    handleGetMyUploadList();
                     message.success('删除成功');
-                    this.handleGetMyUploadList();
                 })
                 .catch(error => {
                     console.log(error);
+                    message.error('删除失败');
                 });
-        };
+        }
+    }
+    const uploadProps = {
+        onRemove: file => {
+            this.setState(state => {
+                const index = state.uploadFileList.indexOf(file);
+                const newUploadFileList = state.uploadFileList.slice();
+                newUploadFileList.splice(index, 1);
+                return {
+                    uploadFileList: newUploadFileList,
+                };
+            });
+        },
+        beforeUpload: file => {
+            this.setState(state => ({
+                uploadFileList: [...state.uploadFileList, file],
+            }));
+            return false;
+        },
+        multiple: true,
+        progress: {
+            strokeColor: {
+                '0%': '#87d068',
+                '100%': '#1DA57A',
+            },
+            strokeWidth: 3,
+            format: percent => `${parseFloat(percent.toFixed(2))}%`,
+        },
+        uploadFileList
     };
-    render() { 
-        const { uploading, uploadFileList, fileList, myUploadList } = this.state;
-        const uploadProps = {
-            onRemove: file => {
-                this.setState(state => {
-                    const index = state.uploadFileList.indexOf(file);
-                    const newUploadFileList = state.uploadFileList.slice();
-                    newUploadFileList.splice(index, 1);
-                    return {
-                        uploadFileList: newUploadFileList,
-                    };
-                });
-            },
-            beforeUpload: file => {
-                this.setState(state => ({
-                    uploadFileList: [...state.uploadFileList, file],
-                }));
-                return false;
-            },
-            multiple: true,
-            progress: {
-                strokeColor: {
-                    '0%': '#87d068',
-                    '100%': '#1DA57A',
-                },
-                strokeWidth: 3,
-                format: percent => `${parseFloat(percent.toFixed(2))}%`,
-            },
-            uploadFileList
-        };
-        return (  
-            <Card title="防疫文件资源共享中心">
-                <Tabs
-                    defaultActiveKey="upload"
-                    onChange={this.handleTabChange}>
-                        <Tabs.TabPane
-                            tab="上传文件"
-                            key="upload">
-                                <section>
-                                    <Upload.Dragger {...uploadProps} name="files" style={{width: '280px'}}>
-                                        <p className="ant-upload-drag-icon"><InboxOutlined /></p>
-                                        <p className="ant-upload-text">支持拖拽上传和点击上传</p>
-                                    </Upload.Dragger>
-                                </section>
-                                <section>
-                                    <Button
-                                        type="primary"
-                                        onClick={this.handleUploadFileList}
-                                        disabled={uploadFileList.length === 0}
-                                        loading={uploading}
-                                        style={{ marginTop: 16 }}>
-                                        {uploading ? '上传中...' : '上传'}
-                                    </Button>
-                                </section>
-                        </Tabs.TabPane>
-                        <Tabs.TabPane
-                            tab="文件列表"
-                            key="filelist">
-                                <List
-                                    size="large"
-                                    bordered
-                                    footer={
-                                        fileList.length === 0 ?
-                                        ""
-                                        :
-                                        <Button type="primary" onClick={() => this.handleDownload('filelist')}>下载全部</Button>
-                                    }
-                                    dataSource={fileList}
-                                    renderItem={item => 
-                                        <List.Item key={item.id} style={{display: 'flex', justifyContent: 'space-between'}}>
-                                            <span style={{flex: 1, overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', cursor: 'pointer', color: '#1DA57A'}} onClick={() => this.handleDownload(item)}>
-                                                {item.originalname}
-                                            </span>
-                                            <span style={{width: '20%', textAlign: 'center'}}>
-                                                {formatGMTTime(item.time)}
-                                            </span>
-                                            <Space>
-                                                <Button type="default" onClick={() => this.handleDownload(item)}>下载</Button>
-                                            </Space>
-                                        </List.Item>}>
-                                </List>
-                        </Tabs.TabPane>
-                        <Tabs.TabPane
-                            tab="我的上传"
-                            key="myupload">
-                                <List
-                                    size="large"
-                                    bordered
-                                    footer={
-                                        myUploadList.length === 0 ?
-                                        ""
-                                        :
-                                        <div>
-                                            <Button type="primary" onClick={() => this.handleDownload('myupload')} style={{marginRight: '8px'}}>下载全部</Button>
-                                            <Button type="danger" onClick={() => this.handleDelete('uploadlist')}>删除全部</Button>
-                                        </div>  
-                                    }
-                                    dataSource={myUploadList}
-                                    renderItem={item => 
-                                        <List.Item key={item.id} style={{display: 'flex', justifyContent: 'space-between'}}>
-                                            <span style={{flex: 1, overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', cursor: 'pointer', color: '#1DA57A'}} onClick={() => this.handleDownload(item)}>
-                                                {item.originalname}
-                                            </span>
-                                            <span style={{width: '20%', textAlign: 'center'}}>
-                                                {formatGMTTime(item.time)}
-                                            </span>
-                                            <Space>
-                                                <Button type="default" onClick={() => this.handleDownload(item)}>下载</Button>
-                                                <Button type="danger" onClick={() => this.handleDelete(item)}>删除</Button>
-                                            </Space>
-                                        </List.Item>}>
-                                </List>
-                        </Tabs.TabPane>
-                </Tabs>
-            </Card>
-        );
-    };
-};
+    return (  
+        <Card title="防疫文件资源共享中心">
+            <Tabs
+                defaultActiveKey="upload"
+                onChange={(key) => handleTabChange(key)}>
+                    <Tabs.TabPane tab="上传文件"key="upload">
+                        <div>
+                            <Upload.Dragger {...uploadProps} name="files" className="w-1/4">
+                                <p className="ant-upload-drag-icon"><InboxOutlined /></p>
+                                <p className="ant-upload-text">支持拖拽上传和点击上传</p>
+                            </Upload.Dragger>
+                        </div>
+                        <div>
+                            <Button
+                                type="primary"
+                                onClick={() => handleUploadFileList()}
+                                disabled={uploadFileList.length === 0}
+                                loading={uploading}
+                                className="mt-4"
+                            >
+                                {uploading ? '上传中...' : '上传'}
+                            </Button>
+                        </div>
+                    </Tabs.TabPane>
+                    <Tabs.TabPane tab="文件列表" key="filelist">
+                        <List
+                            size="large"
+                            bordered
+                            footer={
+                                fileList.length === 0 ?
+                                ""
+                                :
+                                <Button type="primary" onClick={() => handleDownload('filelist')}>下载全部</Button>
+                            }
+                            dataSource={fileList}
+                            renderItem={item => 
+                                <List.Item key={item.id} className="flex justify-between">
+                                    <span 
+                                        className="flex-1 overflow-hidden whitespace-nowrap text-ellipsis cursor-pointer text-green-700"
+                                        onClick={() => handleDownload(item)}
+                                    >
+                                        {item.originalname}
+                                    </span>
+                                    <span className="w-1/4 text-center">
+                                        {formatGMTTime(item.time)}
+                                    </span>
+                                    <Space>
+                                        <Button type="default" onClick={() => handleDownload(item)}>下载</Button>
+                                    </Space>
+                                </List.Item>}>
+                        </List>
+                    </Tabs.TabPane>
+                    <Tabs.TabPane
+                        tab="我的上传"
+                        key="myupload">
+                            <List
+                                size="large"
+                                bordered
+                                footer={
+                                    myUploadList.length === 0 ?
+                                    ""
+                                    :
+                                    <div>
+                                        <Button type="primary" onClick={() => handleDownload('myupload')} className="mr-2">下载全部</Button>
+                                        <Button type="danger" onClick={() => handleDelete('uploadlist')}>删除全部</Button>
+                                    </div>  
+                                }
+                                dataSource={myUploadList}
+                                renderItem={item => 
+                                    <List.Item key={item.id} className="flex justify-between">
+                                        <span 
+                                            className="flex-1 overflow-hidden whitespace-nowrap text-ellipsis cursor-pointer text-green-700"
+                                            onClick={() => handleDownload(item)}
+                                        >
+                                            {item.originalname}
+                                        </span>
+                                        <span className="w-1/4 text-center">
+                                            {formatGMTTime(item.time)}
+                                        </span>
+                                        <Space>
+                                            <Button type="default" onClick={() => handleDownload(item)}>下载</Button>
+                                            <Button type="danger" onClick={() => handleDelete(item)}>删除</Button>
+                                        </Space>
+                                    </List.Item>}>
+                            </List>
+                    </Tabs.TabPane>
+            </Tabs>
+        </Card>
+    );
+}
 
-
-export default File;
+export default FileAdmin;

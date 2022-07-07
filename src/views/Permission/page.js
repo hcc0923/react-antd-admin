@@ -10,7 +10,7 @@ import permissions from '@/assets/images/permissions.png';
 function Page() {
     const { role } = JSON.parse(localStorage.getItem('userInfo')) || {};
     return (  
-        <Card>
+        <Card title="权限切换">
             <div className="flex justify-center">
                 { 
                     role > 2 ?

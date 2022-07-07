@@ -3,8 +3,6 @@ import { Row, Col, Card } from 'antd';
 import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import draftToHtml from 'draftjs-to-html';
-import draftToMarkdown from 'draftjs-to-markdown';
 import './richtext.less';
 import { SERVER_ADDRESS } from '@/utils/config';
 
@@ -45,9 +43,9 @@ class RichText extends Component {
         });
     };
     render() { 
-        const { editorContent, editorState } = this.state;
+        const { editorState } = this.state;
         return (  
-            <div className="editor">
+            <div className="editor h-screen">
                 <Row>
                     <Col span={24}>
                         <Card title="富文本编辑器">
@@ -69,23 +67,6 @@ class RichText extends Component {
                                 spellCheck
                                 style={{minHeight: '350px'}}
                             />
-                        </Card>
-                    </Col>
-                </Row>
-                <Row gutter={8} style={{marginTop: "10px"}}>
-                    <Col span={8}>
-                        <Card title="同步转换HTML" hoverable="true" bordered={false}>
-                            <pre>{draftToHtml(editorContent)}</pre>
-                        </Card>
-                    </Col>
-                    <Col span={8}>
-                        <Card title="同步转换MarkDown" hoverable="true"  bordered={false}>
-                            <pre style={{ whiteSpace: 'pre-wrap' }}>{draftToMarkdown(editorContent)}</pre>
-                        </Card>
-                    </Col>
-                    <Col span={8}>
-                        <Card title="同步转换JSON" hoverable="true"  bordered={false}>
-                            <pre style={{ whiteSpace: 'normal' }}>{JSON.stringify(editorContent)}</pre>
                         </Card>
                     </Col>
                 </Row>

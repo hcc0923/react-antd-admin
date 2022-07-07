@@ -16,7 +16,7 @@ function Authority() {
         window.location.reload();
     }
     return (  
-        <Card title="权限切换" style={{ height: '100vh' }}>
+        <Card title="权限切换">
             <div className="flex flex-col items-center">
                 <div>
                     你当前的权限是：

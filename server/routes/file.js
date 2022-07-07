@@ -28,7 +28,7 @@ router.post('/uploadAvatar', upload.single('avatar'), (request, response) => {
     uploadFiles
 */
 router.post('/uploadFileList', upload.array('files', 10), (request, response) => {
-    const { id } = request.user
+    const { id } = request.auth
     const files = request.files;
     const fileList = [];
 
@@ -138,7 +138,7 @@ router.get('/getFileList', (request, response) => {
     getMyUploadList
 */
 router.get('/getMyUploadList', (request, response) => {
-    const { id } = request.user
+    const { id } = request.auth
     const sqlString = `SELECT id, originalname, name, time FROM file WHERE userId='${id}'`;
     executeMysql(sqlString)
         .then(result => {

@@ -390,7 +390,7 @@ function UserList() {
                     </Form>
             </Modal>
         </Card>
-    )
+    );
 }
 
 export default UserList;
