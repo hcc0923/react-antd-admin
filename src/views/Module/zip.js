@@ -1,66 +1,74 @@
-import React, { Component } from 'react';
-import { Card, Table, Input, Button } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { 
+    Card, 
+    Table, 
+    Input, 
+    Button 
+} from 'antd';
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
 
-
-class Zip extends Component {
-    state = {
-        loading: false,
-        filename: '压缩包',
-        columns:[
-            {title:"姓名",dataIndex:"name"},
-            {title:"性别",dataIndex:"gender"},
-            {title:"年龄",dataIndex:"age"},
-            {title:"工作",dataIndex:"work"}
-        ],
-        tableData:[]
-    };
-    handleInputChange = (e) => {
-        this.setState({filename: e.target.value});
-    };
-    handleExportZip = () => {
-        this.setState({loading: true});
+const data = [
+    { id: '1', name: '韩畅畅', gender: '男', age: 23, work: 'CV练习生'},
+    { id: '2', name: '曹青青', gender: '女', age: 21, work: '教师'},
+    { id: '3', name: '李亚娟', gender: '女', age: 21, work: '程序员'},
+    { id: '4', name: '田涵', gender: '男', age: 21, work: 'CV练习生'},
+    { id: '5', name: '杨赛娅', gender: '女', age: 21, work: '诗人'}
+];
+function Zip() {
+    const [loading, setLoading] = useState(false);
+    const [fileName, setFileName] = useState('压缩包');
+    const [tableData, setTableData] = useState([]);
+    const columns = [
+        { title: '姓名', dataIndex: 'name' },
+        { title: '性别', dataIndex: 'gender' },
+        { title: '年龄', dataIndex: 'age' },
+        { title: '工作', dataIndex: 'work' }
+    ];
+    const handleFileChange = (event) => {
+        setFileName(event.target.value);
+    }
+    const handleExportZip = () => {
+        setLoading(true);
         const zip = new JSZip();
+
         let contentString = '';
-        this.state.tableData.forEach(item => {
-            contentString += item["name"] + " " + item["gender"] + " " + item["age"] + " " + item["work"] + "\n";
+        tableData.forEach(item => {
+            contentString += item['name'] + ' ' + item['gender'] + ' ' + item['age'] + ' ' + item['work'] + '\n';
         });
-        zip.file(`${this.state.filename}.txt`, contentString);
-        
-        zip.generateAsync({type:"blob"})
-            .then(content => {
-                saveAs(content, `${this.state.filename}.zip`);
-                this.setState({loading: false});
+
+        zip.file(`${fileName}.txt`, contentString);
+        zip.generateAsync({ type: 'blob'})
+            .then(blob => {
+                saveAs(blob, `${fileName}.zip`);
+                setLoading(false);
             })
             .catch(error => {
                 console.log(error);
             });
-    };
-    componentDidMount() {
-        const data = [
-            { name: "韩畅畅", gender: "男", age: 23, work: "CV练习生"},
-            { name: "曹青青", gender: "女", age: 21, work: "教师"},
-            { name: "李亚娟", gender: "女", age: 21, work: "程序员"},
-            { name: "田涵", gender: "男", age: 21, work: "CV练习生"},
-            { name: "杨赛娅", gender: "女", age: 21, work: "诗人"}
-        ];
-        this.setState({tableData: data});
     }
-    render() { 
-        const { loading, filename, columns, tableData } = this.state;
-        return (  
-            <Card title="导出zip">
-                <Input style={{width: '170px', marginRight: '10px'}} placeholder="请输入文件名" value={filename} onChange={this.handleInputChange}/>
-                <Button type="primary" onClick={this.handleExportZip}>导出Zip</Button>
-                <Table
-                    bordered={true}
-                    loading={loading}
-                    columns={columns}
-                    dataSource={tableData}>
-                </Table>
-            </Card>
-        );
-    };
-};
+    useEffect(() => {
+        setTableData(data);
+    }, []);
+    return (  
+        <Card title="导出zip">
+            <Input 
+                className="w-1/4 mr-3"
+                placeholder="请输入文件名" 
+                value={fileName} 
+                onChange={(event) => handleFileChange(event)}
+            />
+            <Button type="primary" onClick={() => handleExportZip()}>导出Zip</Button>
+            <Table
+                className="mt-4"
+                bordered={true}
+                loading={loading}
+                columns={columns}
+                dataSource={tableData}
+                rowKey={(record) => `${record.id}`}
+            />
+        </Card>
+    );
+}
+
 export default Zip;

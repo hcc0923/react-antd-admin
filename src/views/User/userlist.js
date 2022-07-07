@@ -277,120 +277,120 @@ function UserList() {
     }, [searchForm, pagination]);
     const rowSelection = { selectedRowKeys, onChange: onSelectChange };
     return (  
-            <Card title="用户列表">
-                <Form
-                    name="search"
-                    ref={searchRef}
-                    className="ant-advanced-search-form"
-                    onFinish={(values) => setSearchForm(values)}>
-                        <Row
-                            gutter={24}>
-                            <Col span={5}>
-                                <Form.Item name="username" label="姓名">
-                                    <Input placeholder="请输入姓名" />
-                                </Form.Item>
-                            </Col>
-                            <Col span={5}>
-                                <Form.Item name="gender" label="性别">
-                                    <Select initialvalue="不限">
-                                        {
-                                            Options.map(option => (
-                                                <Select.Option
-                                                    key={option.value}
-                                                    value={option.value}>
-                                                    {option.label}
-                                                </Select.Option>
-                                            ))
-                                        }
-                                    </Select>
-                                </Form.Item>
-                            </Col>
-                            <Col span={5}>
-                                <Form.Item name="phone" label="手机号码">
-                                    <Input placeholder="请输入手机号码" />
-                                </Form.Item>
-                            </Col>
-                            <Col span={5}>
-                                <Form.Item name="email" label="邮箱">
-                                    <Input placeholder="请输入邮箱" />
-                                </Form.Item>
-                            </Col>
-                            <Col span={4}>
+        <Card title="用户列表">
+            <Form
+                name="search"
+                ref={searchRef}
+                className="ant-advanced-search-form"
+                onFinish={(values) => setSearchForm(values)}>
+                    <Row
+                        gutter={24}>
+                        <Col span={5}>
+                            <Form.Item name="username" label="姓名">
+                                <Input placeholder="请输入姓名" />
+                            </Form.Item>
+                        </Col>
+                        <Col span={5}>
+                            <Form.Item name="gender" label="性别">
+                                <Select initialvalue="不限">
+                                    {
+                                        Options.map(option => (
+                                            <Select.Option
+                                                key={option.value}
+                                                value={option.value}>
+                                                {option.label}
+                                            </Select.Option>
+                                        ))
+                                    }
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        <Col span={5}>
+                            <Form.Item name="phone" label="手机号码">
+                                <Input placeholder="请输入手机号码" />
+                            </Form.Item>
+                        </Col>
+                        <Col span={5}>
+                            <Form.Item name="email" label="邮箱">
+                                <Input placeholder="请输入邮箱" />
+                            </Form.Item>
+                        </Col>
+                        <Col span={4}>
+                            <Space>
+                                <Button type="primary" htmlType="submit">查询</Button>
+                                <Button onClick={() => searchRef.current.resetFields()}>重置</Button>
+                            </Space>
+                        </Col>
+                    </Row>
+            </Form>
+            <Space className="mb-4">
+                <Button type="primary" onClick={() => openAddEditModal('add')}><PlusOutlined />添加</Button>
+                <Button type="primary" onClick={() => onMultipleDelete()}><DeleteOutlined />批量删除</Button>
+            </Space>
+            <Table 
+                bordered={true}
+                loading={loading}
+                rowSelection={rowSelection} 
+                columns={columns}
+                dataSource={userTableData} 
+                pagination={{...pagination, ...total}}
+                onChange={(values) => handlePageChange(values)}
+                rowKey={(record) => `${record.id}`} />
+            <Modal
+                title={modalType === 'add' ? '创建用户' : '编辑用户'}
+                visible={modalVisible}
+                footer={null}
+                destroyOnClose={true}
+                onCancel={() => handleCancelModal()}>
+                    <Form
+                        {...layout}
+                        name="add-edit"
+                        initialValues={modalForm}
+                        onFinish={(values) => onSaveAddEditForm(values)}>
+                            <Form.Item label="用户名" name="username" rules={[{required: true, message: '请输入用户名'}]}>
+                                <Input placeholder="请输入用户名" />
+                            </Form.Item>
+                            <Form.Item label="性别" name="gender">
+                                <Radio.Group>
+                                    <Radio value={0}>男</Radio>
+                                    <Radio value={1}>女</Radio>
+                                </Radio.Group>
+                            </Form.Item>
+                            <Form.Item 
+                                label="头像"
+                                name="avatar"
+                                valuePropName="avatar">
+                                    <Upload
+                                        name="avatar"
+                                        listType="picture-card"
+                                        showUploadList={false}
+                                        action={SERVER_ADDRESS + '/file/uploadAvatar'}
+                                        beforeUpload={(file) => handleBeforeUpload(file)}
+                                        onChange={(info) => handleAvatarChange(info)}>
+                                            {
+                                                avatarUrl ? 
+                                                <img src={SERVER_ADDRESS + '/' + avatarUrl} alt="获取头像失败" className="w-full" /> 
+                                                : 
+                                                <Uploading uploading={uploading}/>
+                                            }
+                                    </Upload>
+                            </Form.Item>
+                            <Form.Item label="手机号码" name="phone" rules={[{pattern: PhoneRegexp, message: '手机号码格式不正确'}]}>
+                                <Input placeholder="请输入手机号码" />
+                            </Form.Item>
+                            <Form.Item label="邮箱" name="email" rules={[{pattern: EmailRegexp, message: '邮箱格式不正确'}]}>
+                                <Input placeholder="请输入邮箱" />
+                            </Form.Item>
+                            <Form.Item {...tailLayout}>
                                 <Space>
-                                    <Button type="primary" htmlType="submit">查询</Button>
-                                    <Button onClick={() => searchRef.current.resetFields()}>重置</Button>
+                                    <Button type='primary' htmlType="submit">确定</Button>
+                                    <Button type="button" onClick={() => handleCancelModal()}>取消</Button>
                                 </Space>
-                            </Col>
-                        </Row>
-                </Form>
-                <Space className="mb-4">
-                    <Button type="primary" onClick={() => openAddEditModal('add')}><PlusOutlined />添加</Button>
-                    <Button type="primary" onClick={() => onMultipleDelete()}><DeleteOutlined />批量删除</Button>
-                </Space>
-                <Table 
-                    bordered={true}
-                    loading={loading}
-                    rowSelection={rowSelection} 
-                    columns={columns}
-                    dataSource={userTableData} 
-                    pagination={{...pagination, ...total}}
-                    onChange={(values) => handlePageChange(values)}
-                    rowKey={(record) => `${record.id}`} />
-                <Modal
-                    title={modalType === 'add' ? '创建用户' : '编辑用户'}
-                    visible={modalVisible}
-                    footer={null}
-                    destroyOnClose={true}
-                    onCancel={() => handleCancelModal()}>
-                        <Form
-                            {...layout}
-                            name="add-edit"
-                            initialValues={modalForm}
-                            onFinish={(values) => onSaveAddEditForm(values)}>
-                                <Form.Item label="用户名" name="username" rules={[{required: true, message: '请输入用户名'}]}>
-                                    <Input placeholder="请输入用户名" />
-                                </Form.Item>
-                                <Form.Item label="性别" name="gender">
-                                    <Radio.Group>
-                                        <Radio value={0}>男</Radio>
-                                        <Radio value={1}>女</Radio>
-                                    </Radio.Group>
-                                </Form.Item>
-                                <Form.Item 
-                                    label="头像"
-                                    name="avatar"
-                                    valuePropName="avatar">
-                                        <Upload
-                                            name="avatar"
-                                            listType="picture-card"
-                                            showUploadList={false}
-                                            action={SERVER_ADDRESS + '/file/uploadAvatar'}
-                                            beforeUpload={(file) => handleBeforeUpload(file)}
-                                            onChange={(info) => handleAvatarChange(info)}>
-                                                {
-                                                    avatarUrl ? 
-                                                    <img src={SERVER_ADDRESS + '/' + avatarUrl} alt="获取头像失败" className="w-full" /> 
-                                                    : 
-                                                    <Uploading uploading={uploading}/>
-                                                }
-                                        </Upload>
-                                </Form.Item>
-                                <Form.Item label="手机号码" name="phone" rules={[{pattern: PhoneRegexp, message: '手机号码格式不正确'}]}>
-                                    <Input placeholder="请输入手机号码" />
-                                </Form.Item>
-                                <Form.Item label="邮箱" name="email" rules={[{pattern: EmailRegexp, message: '邮箱格式不正确'}]}>
-                                    <Input placeholder="请输入邮箱" />
-                                </Form.Item>
-                                <Form.Item {...tailLayout}>
-                                    <Space>
-                                        <Button type='primary' htmlType="submit">确定</Button>
-                                        <Button type="button" onClick={() => handleCancelModal()}>取消</Button>
-                                    </Space>
-                                </Form.Item>
-                        </Form>
-                </Modal>
-            </Card>
-    );
+                            </Form.Item>
+                    </Form>
+            </Modal>
+        </Card>
+    )
 }
 
 export default UserList;

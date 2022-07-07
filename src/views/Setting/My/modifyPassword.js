@@ -133,7 +133,7 @@ function ModifyPassword(props) {
                 </Form>
             </Spin>
         </Card>
-    )
+    );
 }
 
 export default ModifyPassword;

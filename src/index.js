@@ -22,6 +22,6 @@ function App() {
       </ConfigProvider>
     </Provider>
   );
-};
+}
 
 ReactDOM.createRoot(document.getElementById('root')).render(<App />);

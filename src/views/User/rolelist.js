@@ -74,11 +74,11 @@ function RoleList() {
             })
             .catch(error => {
                 console.log(error);
-            })
+            });
     }
     const handlePageChange = (pagination) => {
         const { current, pageSize } = pagination;
-        setPagination({ pageNum: current, pageSize })
+        setPagination({ pageNum: current, pageSize });
     }
     const onEdit = (record) => {
         setModalForm(record);
@@ -250,8 +250,7 @@ function RoleList() {
                             </Form>
                     </Modal>
         </Card>
-    )
-    
+    );
 }
 
 export default RoleList;
