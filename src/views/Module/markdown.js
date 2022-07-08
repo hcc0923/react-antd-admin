@@ -1,29 +1,14 @@
-import React, { Component } from 'react';
-import Editor from 'for-editor'
-import './markdown.less';
+import React, { useState } from 'react';
+import { Card } from 'antd';
 
+function MarkDown() {
+    const [content, setContent] = useState(null);
 
-class MarkDown extends Component {
-    state = { 
-        value: ''
-    };
-    handleChange = (value) => {
-        this.setState({
-            value
-        });
-    };
-    render() { 
-        const { value } = this.state;
-        return (  
-            <div className="markdown">
-                <Editor 
-                    value={value} 
-                    placeholder="开始编辑"
-                    height="500px"
-                    onChange={this.handleChange} 
-                />
-            </div>
-        );
-    };
-};
+    return (  
+        <Card title="MarkDown编辑器">
+           
+        </Card>
+    );
+}
+
 export default MarkDown;

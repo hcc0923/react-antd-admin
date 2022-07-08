@@ -93,8 +93,8 @@ const Pdf = Loadable({
     loading: Loading
 });
 
-const UDFile = Loadable({
-    loader: () => import('@/views/Module/udfile'),
+const FileAdmin = Loadable({
+    loader: () => import('@/views/Module/fileadmin'),
     loading: Loading
 });
 
@@ -164,7 +164,7 @@ const components = {
     Excel,
     Zip,
     Pdf,
-    UDFile,
+    FileAdmin,
     RichText,
     MarkDown,
     Authority,

@@ -109,9 +109,9 @@ const routes = [
                 component: RouteComponent.Pdf
             },
             { 
-                path: '/module/udfile',
-                meta: { title: "上传下载文件", roles: ["user", "admin", "root"]},
-                component: RouteComponent.UDFile
+                path: '/module/fileadmin',
+                meta: { title: "文件管理", roles: ["user", "admin", "root"]},
+                component: RouteComponent.FileAdmin
             },
             { 
                 path: '/module/rich-text',

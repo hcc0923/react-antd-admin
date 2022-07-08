@@ -103,8 +103,8 @@ const sideMenu = [
                 name: 'Pdf'
             },
             { 
-                path: '/module/udfile',
-                name: '上传下载文件'
+                path: '/module/fileadmin',
+                name: '文件管理'
             },
             { 
                 path: '/module/rich-text',
