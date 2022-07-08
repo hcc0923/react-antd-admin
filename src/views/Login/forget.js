@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Form, Input, Button, message } from "antd";
 import CryptoJS from "crypto-js";
 import { EMAIL_KEY } from '@/utils/config';
-import './forget.less';
 
 
 const { $http } = React;
@@ -111,20 +110,20 @@ function Forget() {
             });
     }
     return (  
-        <div className="forget_reset">
-            <div className="container">
-                <div className={`forget ${formType === 'reset' ? 'hidden' : ''}`}>
-                    <h1 style={{color: '#000', textAlign: 'center', marginTop: '25%', fontWeight: '700'}}>忘记密码</h1>
+        <div className="flex justify-center items-center w-screen h-screen bg-slate-100">
+            <div className="flex w-96 h-96 bg-slate-50 relative overflow-hidden rounded-lg">
+                <div className={`w-full ${formType === 'reset' ? 'hidden' : ''}`}>
+                    <h1 className="text-black text-2xl py-6 mt-4 text-center font-bold">忘记密码</h1>
                     <Form
                         {...layout}
                         name="basic"
-                        className="form"
+                        className="flex justify-center items-center flex-col p-0 h-3/4 text-center"
                         initialValues={validateForm}
                         onFinish={() => handleFindPassword()}>
                             <Form.Item
                                 label="邮箱"
                                 name="email"
-                                className="form_item"
+                                className="p-3 w-full"
                                 rules={[
                                     {
                                         required: true,
@@ -142,7 +141,7 @@ function Forget() {
                             <Form.Item
                                 label="验证码"
                                 name="code"
-                                className="form_item"
+                                className="p-3 w-full"
                                 rules={[
                                     {
                                         required: true,
@@ -150,12 +149,12 @@ function Forget() {
                                     }
                                 ]}
                                 onChange={(event) => handleInputChange(event, 'validate', 'code')}>
-                                <section style={{display: 'flex'}}>
-                                    <Input style={{marginRight: '0'}}/>
+                                <section className="flex">
+                                    <Input className="mr-0" />
                                     <Button 
                                         type="primary" 
                                         disabled={disabled}  
-                                        className={`message_code_btn ${disabled ? 'code_disabled' : ''}`} 
+                                        className={`w-25 text-xs px-1 py-0 ml-3 ${disabled ? 'disabled:opacity-50 disabled' : ''}`} 
                                         onClick={() => handleAuthEmailCode()}>
                                         {codeText}
                                     </Button>
@@ -164,21 +163,21 @@ function Forget() {
                             <Form.Item {...tailLayout}>
                                 <Button type="primary" htmlType="submit">找回密码</Button>
                             </Form.Item>
-                            <Link to="/login" style={{margin: '5px 0', color: '#333'}}>已有账号，去登录</Link>
+                            <Link to="/login" className="mx-0 my-1 text-gray-300">已有账号，去登录</Link>
                     </Form>
                 </div>
-                <div className={`reset ${formType === 'validate' ? 'hidden' : ''}`}>
-                    <h1 style={{color: '#000', textAlign: 'center', marginTop: '25%', fontWeight: '700'}}>重置密码</h1>
+                <div className={`w-full ${formType === 'validate' ? 'hidden' : ''}`}>
+                    <h1 className="text-black text-2xl py-4 mt-4 text-center font-bold">重置密码</h1>
                     <Form
                         {...layout}
                         name="basic"
-                        className="form"
+                        className="flex justify-center items-center flex-col p-0 h-3/4 text-center"
                         initialValues={resetForm}
                         onFinish={() => handleResetPassword()}>
                             <Form.Item
                                 label="密码"
                                 name="password"
-                                className="form_item"
+                                className="p-3 w-full"
                                 rules={[
                                     {
                                         required: true,
@@ -195,7 +194,7 @@ function Forget() {
                             <Form.Item
                                 label="密码"
                                 name="repeatPassword"
-                                className="form_item"
+                                className="p-3 w-full"
                                 rules={[
                                     {
                                         required: true,

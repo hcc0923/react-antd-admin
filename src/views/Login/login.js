@@ -107,18 +107,18 @@ function Login(props) {
     return (
         <div className="login_register">
             <div className="container">
-                <div className="login_box">
-                    <h1 style={{color: '#000', textAlign: 'center', marginTop: '25%', fontWeight: '700'}}>登录</h1>
+                <div className="w-1/2">
+                    <h1 className="text-black text-2xl py-6 mt-4 text-center font-bold">登录</h1>
                     <Form
                         {...layout}
                         name="basic"
-                        className="form"
+                        className="flex justify-center items-center flex-col p-0 h-3/4 text-center"
                         initialValues={loginForm}
                         onFinish={() => handleLogin()}>
                             <Form.Item
                                 label="邮箱"
                                 name="email"
-                                className="form_item"
+                                className="p-3 w-full"
                                 rules={[
                                     {
                                         required: true,
@@ -135,7 +135,7 @@ function Login(props) {
                             <Form.Item
                                 label="密码"
                                 name="password"
-                                className="form_item"
+                                className="p-3 w-full"
                                 rules={[
                                     {
                                         required: true,
@@ -149,16 +149,21 @@ function Login(props) {
                                 onChange={(event) => handleInputChange(event, 'login', 'password')}>
                                 <Input.Password />
                             </Form.Item>
-                            <Link to="/forget" style={{margin: '5px 0', color: '#333'}}>忘记密码</Link>
+                            <Link to="/forget" className="mx-0 my-1 text-black">忘记密码</Link>
                             <Form.Item {...tailLayout}>
                                 <Button type="primary" disabled={loading ? true : false} htmlType="submit">
-                                {loading ? <LoadingOutlined style={{marginRight: '5px'}}/> : null}登录
+                                {
+                                    loading ? 
+                                    <LoadingOutlined className="mr-1" /> 
+                                    : 
+                                    null
+                                }登录
                                 </Button>
                             </Form.Item>
                     </Form>
                 </div>
-                <div className="register_box">
-                    <h1 style={{color: '#000', textAlign: 'center', marginTop: '25%', fontWeight: '700'}}>注册</h1>
+                <div className="w-1/2">
+                    <h1 className="text-black text-2xl py-6 mt-4 text-center font-bold">注册</h1>
                     <Form
                         {...layout}
                         name="basic"
@@ -168,7 +173,7 @@ function Login(props) {
                             <Form.Item
                                 label="邮箱"
                                 name="email"
-                                className="form_item"
+                                className="p-3 w-full"
                                 rules={[
                                     {
                                         required: true,
@@ -186,7 +191,7 @@ function Login(props) {
                             <Form.Item
                                 label="密码"
                                 name="password"
-                                className="form_item"
+                                className="p-3 w-full"
                                 rules={[
                                     {
                                         required: true,
@@ -202,7 +207,12 @@ function Login(props) {
                             </Form.Item>
                             <Form.Item {...tailLayout}>
                                 <Button type="primary" disabled={loading ? true : false} htmlType="submit">
-                                {loading ? <LoadingOutlined style={{marginRight: '5px'}}/> : null}注册
+                                {
+                                    loading ? 
+                                    <LoadingOutlined className="mr-1" /> 
+                                    : 
+                                    null
+                                }注册
                                 </Button>
                             </Form.Item>
                     </Form>
