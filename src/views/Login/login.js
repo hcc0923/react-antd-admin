@@ -7,7 +7,6 @@ import { setUserInfo } from "@/store/actions/userInfo";
 import { connect } from 'react-redux';
 import CryptoJS from "crypto-js";
 import { formatGMTTime } from '@/utils/formatTool';
-import './login.less';
 
 
 const { $http } = React;
@@ -105,8 +104,8 @@ function Login(props) {
             })
     }
     return (
-        <div className="login_register">
-            <div className="container">
+        <div className="flex justify-center items-center w-screen h-screen bg-slate-100">
+            <div className="flex w-2/5 h-1/2 bg-slate-50 relative shadow-2xl overflow-hidden rounded-xl">
                 <div className="w-1/2">
                     <h1 className="text-black text-2xl py-6 mt-4 text-center font-bold">登录</h1>
                     <Form
@@ -167,7 +166,7 @@ function Login(props) {
                     <Form
                         {...layout}
                         name="basic"
-                        className="form"
+                        className="flex justify-center items-center flex-col p-0 h-3/4 text-center"
                         initialValues={registerForm}
                         onFinish={() => handleRegister()}>
                             <Form.Item
@@ -217,19 +216,19 @@ function Login(props) {
                             </Form.Item>
                     </Form>
                 </div>
-                <div className="overlay" style={{transform: 'translateX('+ overlay.step +'%)', transition: 'ease all 0.5s'}}>
+                <div className="absolute w-1/2 h-full bg-green-800" style={{transform: 'translateX('+ overlay.step +'%)', transition: 'ease all 0.5s'}}>
                     {
                         overlay.isLogin ? 
-                        <section className="overlay_box_right">
-                            <h1>注册新账号！</h1>
-                            <p>输入您的个人信息注册账号。</p>
-                            <button className="login_btns" onClick={() => toggleOverlay(0)}>注册</button>
+                        <section className="flex flex-col justify-center items-center mt-36">
+                            <h1 className="text-center text-white text-4xl font-bold">注册新账号！</h1>
+                            <p className="text-white text-sm font-thin leading-5 tracking-wider mx-0 my-8">输入您的个人信息注册账号。</p>
+                            <button className="border border-solid border-white rounded-2xl text-xs font-bold bg-green-700 px-12 py-3 text-white outline-none cursor-pointer" onClick={() => toggleOverlay(0)}>注册</button>
                         </section>
                         :
-                        <section className="overlay_box_left">
-                            <h1>欢迎回来！</h1>
-                            <p>请您先登录的个人信息，进行操作。</p>
-                            <button className="login_btns" onClick={() => toggleOverlay(100)}>登录</button>
+                        <section className="flex flex-col justify-center items-center mt-36">
+                            <h1 className="text-center text-white text-4xl font-bold">欢迎回来！</h1>
+                            <p className="text-white text-sm font-thin leading-5 tracking-wider mx-0 my-8">请您先登录的个人信息，进行操作。</p>
+                            <button className="border border-solid border-white rounded-2xl text-xs font-bold bg-green-700 px-12 py-3 text-white outline-none cursor-pointer" onClick={() => toggleOverlay(100)}>登录</button>
                         </section>
                     }
                 </div>
