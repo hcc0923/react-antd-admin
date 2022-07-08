@@ -11,13 +11,13 @@ function Excel() {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
     const [fileList, setFileList] = useState([]);
+
     const columns = [
         { title: "姓名", dataIndex: "name" },
         { title: "性别", dataIndex: "gender" },
         { title: "年龄", dataIndex: "age" },
         { title: "工作", dataIndex: "work" }
     ];
-
     const sheetToBlob = (sheet, sheetName) => {
         sheetName = sheetName || 'sheet1';
         const workBook = {
@@ -132,15 +132,11 @@ function Excel() {
     };
     return (  
         <Card title="Excel导入导出解析">
-            <div style={{display: 'flex'}}>
-                <section>
-                    <Upload {...uploadProps}>
-                        <Button type="primary">Excel导入</Button>
-                    </Upload>
-                </section>
-                <section style={{marginLeft: '10px'}}>
-                    <Button type="primary" onClick={() => handleExportAll()}>Excel导出数据</Button>
-                </section>
+            <div className="flex justify-start mb-4">
+                <Upload {...uploadProps}>
+                    <Button type="primary">Excel导入</Button>
+                </Upload>
+                <Button className="ml-4" type="primary" onClick={() => handleExportAll()}>Excel导出数据</Button>
             </div>
             <Table 
                 bordered={true}
