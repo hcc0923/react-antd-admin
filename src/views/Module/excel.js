@@ -1,152 +1,156 @@
-import React, { Component } from 'react';
-import { Card, Table, Upload, Button } from 'antd';
+import React, { useState } from 'react';
+import { 
+    Card, 
+    Table, 
+    Upload, 
+    Button 
+} from 'antd';
 import * as XLSX from 'xlsx';
 
+function Excel() {
+    const [loading, setLoading] = useState(false);
+    const [data, setData] = useState([]);
+    const [fileList, setFileList] = useState([]);
+    const columns = [
+        { title: "姓名", dataIndex: "name" },
+        { title: "性别", dataIndex: "gender" },
+        { title: "年龄", dataIndex: "age" },
+        { title: "工作", dataIndex: "work" }
+    ];
 
-class Excel extends Component {
-    state={
-        columns:[
-            {title:"姓名",dataIndex:"name"},
-            {title:"性别",dataIndex:"gender"},
-            {title:"年龄",dataIndex:"age"},
-            {title:"工作",dataIndex:"work"}
-        ],
-        data:[],
-        fileList:[]
-    };
-    formatTitleOrFileld = (a, b) => {
-        const entozh = {};
-        this.state.columns.forEach(item => {
-            entozh[item[a]] = item[b]
-        });
-        return entozh;
-    };
-    sheet2blob = (sheet, sheetName) => {
+    const sheetToBlob = (sheet, sheetName) => {
         sheetName = sheetName || 'sheet1';
-        let workbook = {
+        const workBook = {
             SheetNames: [sheetName],
             Sheets: {}
         };
-        workbook.Sheets[sheetName] = sheet; // 生成excel的配置项
-        let wopts = {
-          bookType: 'xlsx', // 要生成的文件类型
-          bookSST: false, // 是否生成Shared String Table，官方解释是，如果开启生成速度会下降，但在低版本IOS设备上有更好的兼容性
+        workBook.Sheets[sheetName] = sheet;
+        const options = {
+            bookType: 'xlsx',
+            bookSST: false,
             type: 'binary'
         };
-        let wbout = XLSX.write(workbook, wopts);
-        let blob = new Blob([s2ab(wbout)], {
-            type: "application/octet-stream"
-        }); // 字符串转ArrayBuffer
-        function s2ab(s) {
-            let buf = new ArrayBuffer(s.length);
-            let view = new Uint8Array(buf);
-            for (let i = 0; i !== s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
-            return buf;
-        };
+        const XLSXBook = XLSX.write(workBook, options);
+        function stringToArrayBuffer(string) {
+            const buffer = new ArrayBuffer(string.length);
+            const unit8Array = new Uint8Array(buffer);
+            for (let index = 0; index !== string.length; ++index) {
+                unit8Array[index] = string.charCodeAt(index) & 0xFF;
+            }
+            return buffer;
+        }
+        const blob = new Blob([stringToArrayBuffer(XLSXBook)], { type: "application/octet-stream" }); 
+        console.log(blob);
         return blob;
-    };
-    openDownloadDialog = (url, saveName) => {
-        if (typeof url == 'object' && url instanceof Blob) {
-          url = URL.createObjectURL(url); // 创建blob地址
-        }
-        let aLink = document.createElement('a');
+    }
+    const openDownloadDialog = (blob, saveName) => {
+        const url = URL.createObjectURL(blob);
+        
+        const aLink = document.createElement('a');
+
         aLink.href = url;
-        aLink.download = saveName || ''; // HTML5新增的属性，指定保存文件名，可以不要后缀，注意，file:///模式下不会生效
-        let event;
-        if (window.MouseEvent) event = new MouseEvent('click');
-        else {
-            event = document.createEvent('MouseEvents');
-            event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-        }
+        aLink.download = saveName || ''; 
+        const event = new MouseEvent('click');
         aLink.dispatchEvent(event);
-    };
-    handleExportAll = (e) => {
-        const entozh = {
+    }
+    const handleExportAll = () => {
+        const rowMap = {
             "name":"姓名",
             "gender":"性别",
             "age":"年龄",
             "work":"工作"
         };
-        const nowdata = this.state.data;
-        const json = nowdata.map((item) => {
-            return Object.keys(item).reduce((newData, key) => {
-                const newKey = entozh[key] || key
-                newData[newKey] = item[key]
-                return newData
-            }, {})
+        const newData = data.map(item => {
+            return Object.keys(item).reduce((newItem, key) => {
+               const newKey = rowMap[key];
+               newItem[newKey] = item[key];
+               return newItem;
+            }, {});
         });
-        const sheet = XLSX.utils.json_to_sheet(json);
-        this.openDownloadDialog(this.sheet2blob(sheet,undefined), `全部信息.xlsx`);
-    };
-    handleImpotedJson = (array, file) => {
+
+        const sheet = XLSX.utils.json_to_sheet(newData);
+        openDownloadDialog(sheetToBlob(sheet, undefined), `全部信息.xlsx`);
+    }
+    const formatTitleAndFileld = (a, b) => {
+        const rowMap = {};
+        columns.forEach(item => rowMap[item[a]] = item[b]);
+        return rowMap;
+    }
+    const handleImportJSON = (array, file) => {
         const header = array[0];
-        const entozh = this.formatTitleOrFileld('title', 'dataIndex');
-        const firstRow = header.map(item => entozh[item]);
+        const rowMap = formatTitleAndFileld('title', 'dataIndex');
+        const firstRow = header.map(item => rowMap[item]);
 
         const newArray = [...array];
 
         newArray.splice(0, 1);
 
-        const json = newArray.map((item, index) => {
-            const newitem = {};
-            item.forEach((im, i) => {
-                const newKey = firstRow[i] || i;
-                newitem[newKey] = im
+        const JSON = newArray.map(items => {
+            const newItem = {};
+            items.forEach((item, index) => {
+                const newKey = firstRow[index] || index;
+                newItem[newKey] = item;
             });
-            return newitem;
+            return newItem;
         });
 
-        const formatData = json.map(item => ({
-            name: item.name,
-            gender: item.gender,
-            age: item.age,
-            work: item.work,
-        }));
-        this.setState({ data: formatData, fileList: [file] });
+        const formatData = JSON.map(item => {
+            const { name, gender, age, work } = item;
+            return {
+                name,
+                gender,
+                age,
+                work
+            };
+        });
+        setData(formatData);
+        setFileList([file]);
         return formatData;
+    }
+    const uploadProps = {
+        accept: ".xlsx",
+        fileList,
+        onRemove: () => {
+            setData([]);
+            setFileList([]);
+        },
+        beforeUpload: (file) => {
+            const fileReader = new FileReader();
+            fileReader.addEventListener('load', (event) => {
+                const list = event.target.result;
+
+                // try parse list
+                const workBook = XLSX.read(list, { type: 'binary' });
+
+                // parse sheet to json
+                const JSONList = XLSX.utils.sheet_to_json(workBook.Sheets[workBook.SheetNames[0]], { header: 1 });
+
+                handleImportJSON(JSONList, file);
+            })
+            fileReader.readAsBinaryString(file);
+        }
     };
-    render() { 
-        const { columns, data, fileList }=this.state;
-        const uploadProps={
-            accept: ".xls,.xlsx,application/vnd.ms-excel",
-            fileList,
-            onRemove: () => {
-                this.setState({
-                    data:[],
-                    fileList:[]
-                });
-            },
-            beforeUpload: (file) => {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const list = e.target.result;
+    return (  
+        <Card title="Excel导入导出解析">
+            <div style={{display: 'flex'}}>
+                <section>
+                    <Upload {...uploadProps}>
+                        <Button type="primary">Excel导入</Button>
+                    </Upload>
+                </section>
+                <section style={{marginLeft: '10px'}}>
+                    <Button type="primary" onClick={() => handleExportAll()}>Excel导出数据</Button>
+                </section>
+            </div>
+            <Table 
+                bordered={true}
+                loading={loading}
+                columns={columns} 
+                dataSource={data} 
+                rowKey={(record) => `${record.name}`}
+            />
+        </Card>
+    );
+}
 
-                    //尝试解析list
-                    const workbook = XLSX.read(list, {type: 'binary'});
-
-                    //将工作簿对象转换为JSON对象数组
-                    const JSONList = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1 });
-
-                    this.handleImpotedJson(JSONList, file);
-                };
-                reader.readAsBinaryString(file);
-            }
-        };
-        return (  
-            <Card title="Excel导入解析预览，导出所有">
-                <div style={{display: 'flex'}}>
-                    <section>
-                        <Upload {...uploadProps}>
-                            <Button type="primary">Excel导入</Button>
-                        </Upload>
-                    </section>
-                    <section style={{marginLeft: '10px'}}>
-                        <Button type="primary" onClick={this.handleExportAll}>Excel导出数据</Button>
-                    </section>
-                </div>
-                <Table columns={columns} dataSource={data} bordered></Table>
-            </Card>
-        );
-    };
-};
 export default Excel;
