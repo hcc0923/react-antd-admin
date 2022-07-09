@@ -118,18 +118,18 @@ const Page = Loadable({
     loading: Loading
 });
 
-const NoAuth = Loadable({
-    loader: () => import('@/views/Error/401'),
+const NoAuthority = Loadable({
+    loader: () => import('@/views/Error/no-authority'),
     loading: Loading
 });
 
 const NotFound = Loadable({
-    loader: () => import('@/views/Error/404'),
+    loader: () => import('@/views/Error/not-found'),
     loading: Loading
 });
 
 const ServerError = Loadable({
-    loader: () => import('@/views/Error/500'),
+    loader: () => import('@/views/Error/server-error'),
     loading: Loading
 });
 
@@ -169,7 +169,7 @@ const components = {
     MarkDown,
     Authority,
     Page,
-    NoAuth,
+    NoAuthority,
     NotFound,
     ServerError,
     About

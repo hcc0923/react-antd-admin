@@ -3,6 +3,7 @@ import Chart from '@/components/Chart';
 
 
 function DashboardChart(props) {
+  const { visitData, uploadData, downloadData } = props;
   const chartOptions = {
     color: ['#1f9fff', '#2F4056', '#009688'],
     tooltip: {
@@ -86,25 +87,27 @@ function DashboardChart(props) {
         axisLabel: {
           formatter: '36 ml'
         },
-        data: props.visitData
+        data: visitData
       },
       {
         name: '上传量',
         type: 'line',
         position: 'right',
         smooth: true,
-        data: props.uploadData
+        data: uploadData
       },
       {
         name: '下载量',
         type: 'line',
         smooth: true,
-        data: props.downloadData
+        data: downloadData
       },
     ]
   };
+
   return (  
-    <Chart chartId={"dashboard"} chartHeight="320px" chartOptions={chartOptions}></Chart>
+    <Chart chartId={"dashboard"} chartHeight="320px" chartOptions={chartOptions} />
   );
-};
+}
+
 export default DashboardChart;

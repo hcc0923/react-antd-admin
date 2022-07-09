@@ -134,17 +134,17 @@ const routes = [
                 render: () => store.getState().userInfo.role > 1 ? <RouteComponent.Page /> : <Redirect to="/401" />
             },
             { 
-                path: '/error-page/401',
+                path: '/error-page/no-authority',
                 meta: { title: "权限不足", roles: ["user", "admin", "root"]},
-                component: RouteComponent.NoAuth
+                component: RouteComponent.NoAuthority
             },
             { 
-                path: '/error-page/404',
+                path: '/error-page/not-found',
                 meta: { title: "页面丢失", roles: ["user", "admin", "root"]},
                 component: RouteComponent.NotFound
             },
             { 
-                path: '/error-page/500',
+                path: '/error-page/server-error',
                 meta: { title: "服务器错误", roles: ["user", "admin", "root"]},
                 component: RouteComponent.ServerError
             },

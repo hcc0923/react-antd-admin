@@ -137,16 +137,16 @@ const sideMenu = [
         icon: <StopOutlined />,
         routes: [
             { 
-                path: '/error-page/401',
-                name: '401'
+                path: '/error-page/no-authority',
+                name: '权限不足'
             },
             { 
-                path: '/error-page/404',
-                name: '404'
+                path: '/error-page/not-found',
+                name: '页面丢失'
             },
             { 
-                path: '/error-page/500',
-                name: '500'
+                path: '/error-page/server-error',
+                name: '服务器错误'
             }
         ]
     },
