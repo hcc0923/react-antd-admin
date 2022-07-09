@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
-import { Form, Input, Button, message } from 'antd';
+import { 
+    Form, 
+    Input, 
+    Button, 
+    message 
+} from 'antd';
 import { LoadingOutlined } from "@ant-design/icons";
 import { setToken } from "@/store/actions/token";
 import { setUserInfo } from "@/store/actions/userInfo";
@@ -25,6 +30,7 @@ const tailLayout = {
         span: 16,
     },
 };
+
 function Login(props) {
     const [loading, setLoading] = useState(false);
     const [overlay, setOverlay] = useState({ isLogin: true, step: 100 });

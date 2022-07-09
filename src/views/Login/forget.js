@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
-import { Form, Input, Button, message } from "antd";
+import { 
+    Form, 
+    Input, 
+    Button, 
+    message 
+} from "antd";
 import CryptoJS from "crypto-js";
 import { EMAIL_KEY } from '@/utils/config';
 
@@ -21,7 +26,6 @@ const tailLayout = {
         span: 16,
     },
 };
-
 
 function Forget() {
     const [formType, setFormType] = useState('validate');
@@ -111,7 +115,7 @@ function Forget() {
     }
     return (  
         <div className="flex justify-center items-center w-screen h-screen bg-slate-100">
-            <div className="flex w-96 h-96 bg-slate-50 relative overflow-hidden rounded-lg">
+            <div className="flex w-1/5 h-1/2 bg-slate-50 shadow-2xl overflow-hidden rounded-xl">
                 <div className={`w-full ${formType === 'reset' ? 'hidden' : ''}`}>
                     <h1 className="text-black text-2xl py-6 mt-4 text-center font-bold">忘记密码</h1>
                     <Form
@@ -167,7 +171,7 @@ function Forget() {
                     </Form>
                 </div>
                 <div className={`w-full ${formType === 'validate' ? 'hidden' : ''}`}>
-                    <h1 className="text-black text-2xl py-4 mt-4 text-center font-bold">重置密码</h1>
+                    <h1 className="text-black text-2xl py-6 mt-4 text-center font-bold">重置密码</h1>
                     <Form
                         {...layout}
                         name="basic"
