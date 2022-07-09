@@ -55,6 +55,7 @@ import {
 } from "@ant-design/icons";
 import copy from 'copy-to-clipboard';
 
+
 const icons = [
     { key: "UserAddOutlined", value: <UserAddOutlined />},
     { key: "UserDeleteOutlined", value: <UserDeleteOutlined />},
@@ -105,6 +106,7 @@ const icons = [
     { key: "ApiOutlined", value: <ApiOutlined />},
     { key: "AppstoreAddOutlined", value: <AppstoreAddOutlined />},
 ];
+
 function Icon() {
     const handleCopyToClipboard = (item) => {
         copy(`<${item.key} />`);
@@ -128,4 +130,5 @@ function Icon() {
         </Card>
     );
 }
+
 export default Icon;
