@@ -67,13 +67,10 @@ function Login(props) {
                 localStorage.setItem('token', token);
                 localStorage.setItem('userInfo', JSON.stringify(userInfo));
                 
-                if (isRegistered) {
-                    message.destroy('loading');
-                };
+                if (isRegistered) message.destroy('loading');
                 props.history.push('/');
                 message.success('登陆成功');
                 setLoading(false);
-
             })
             .catch((error) => {
                 console.log(error);
@@ -85,9 +82,7 @@ function Login(props) {
         $http.post('/login/register', params)
             .then((response) => {
                 const { result } = response;
-                if (result.length !== 0) {
-                    return message.error('该邮箱已注册，请登录');
-                }
+                if (result.length !== 0) return message.error('该邮箱已注册，请登录');
             })
             .catch((error) => {
                 console.log(error);
@@ -98,7 +93,7 @@ function Login(props) {
         params.password = CryptoJS.MD5(params.password).toString();
         setLoading(true);
         $http.post('/login/register', params)
-            .then((response) => {
+            .then(() => {
                 message.loading({ content: '注册成功，正在为你登录...', key: 'loading' });
                 setLoginForm(registerForm);
                 handleLogin(registerForm, true);
