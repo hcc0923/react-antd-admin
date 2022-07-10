@@ -7,11 +7,6 @@ const Layout = Loadable({
     loading: Loading
 });
 
-const Container = Loadable({
-    loader: () => import('@/views/Container'),
-    loading: Loading
-});
-
 const Login = Loadable({
     loader: () => import('@/views/Login/login'),
     loading: Loading
@@ -28,22 +23,22 @@ const Dashboard = Loadable({
 });
 
 const UserList = Loadable({
-    loader: () => import('@/views/User/userlist'),
+    loader: () => import('@/views/User/user-list'),
     loading: Loading
 });
 
 const RoleList = Loadable({
-    loader: () => import('@/views/User/rolelist'),
+    loader: () => import('@/views/User/role-list'),
     loading: Loading
 });
 
 const BasicInfo = Loadable({
-    loader: () => import('@/views/Setting/My/basicInfo'),
+    loader: () => import('@/views/Setting/My/basic-info'),
     loading: Loading
 });
 
 const ModifyPassword = Loadable({
-    loader: () => import('@/views/Setting/My/modifyPassword'),
+    loader: () => import('@/views/Setting/My/modify-password'),
     loading: Loading
 });
 
@@ -94,12 +89,12 @@ const Pdf = Loadable({
 });
 
 const FileAdmin = Loadable({
-    loader: () => import('@/views/Module/fileadmin'),
+    loader: () => import('@/views/Module/file-admin'),
     loading: Loading
 });
 
 const RichText = Loadable({
-    loader: () => import('@/views/Module/richtext'),
+    loader: () => import('@/views/Module/rich-text'),
     loading: Loading
 });
 
@@ -146,7 +141,6 @@ const About = Loadable({
 
 const components = {
     Layout,
-    Container,
     Login,
     Forget,
     Dashboard,

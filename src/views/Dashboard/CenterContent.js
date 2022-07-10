@@ -1,9 +1,19 @@
 import React from 'react';
+import { 
+  Card, 
+  Row, 
+  Col, 
+  Tag, 
+  Progress 
+} from "antd";
+import { 
+    LineChartOutlined
+} from "@ant-design/icons";
 import Chart from '@/components/Chart';
 
 
-function DashboardChart(props) {
-  const { visitData, uploadData, downloadData } = props;
+function CenterContent(props) {
+  const { extraTitle, visitData, uploadData, downloadData, progressData } = props;
   const chartOptions = {
     color: ['#1f9fff', '#2F4056', '#009688'],
     tooltip: {
@@ -106,8 +116,29 @@ function DashboardChart(props) {
   };
 
   return (  
-    <Chart chartId={"dashboard"} chartHeight="320px" chartOptions={chartOptions} />
+    <Card 
+      title={<LineChartOutlined className="text-xl" />}
+      extra={<Tag>{extraTitle}</Tag>}>
+      <Row gutter={16}>
+        <Col span={16}>
+          <Chart chartId={"dashboard"} chartHeight="320px" chartOptions={chartOptions} />
+        </Col>
+        <Col span={8}>
+          {
+            progressData?.map((item, index) => {
+              return (
+                <div className="mt-5" key={index}>
+                    <p className="text-xl mb-0">{item.chart_title}</p>
+                    <p className="text-sm mb-0 ml-1">{item.progress_title}</p>
+                    <Progress percent={item.value} strokeWidth={12}></Progress>
+                </div>
+              );
+            })
+          }
+        </Col>
+      </Row>
+    </Card>
   );
 }
 
-export default DashboardChart;
+export default CenterContent;

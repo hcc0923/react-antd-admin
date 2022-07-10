@@ -109,7 +109,7 @@ const routes = [
                 component: RouteComponent.Pdf
             },
             { 
-                path: '/module/fileadmin',
+                path: '/module/file-admin',
                 meta: { title: "文件管理", roles: ["user", "admin", "root"]},
                 component: RouteComponent.FileAdmin
             },

@@ -3,10 +3,10 @@ const router = express.Router();
 
 
 /* 
-    获取卡片数据
-    getCardData
+    获取顶部卡片
+    getTopCard
 */
-router.get('/getCardData', (request, response) => {
+router.get('/getTopCard', (request, response) => {
     const titles = ["访问量", "上传", "下载", "活跃用户"];
     const colors = ["#1890ff", "#2F4056", "#009688", "#FFB800"];
     const smallNames = ["周", "月", "月", "年"];
@@ -29,7 +29,7 @@ router.get('/getCardData', (request, response) => {
             numName: numNames[index],
         };
         data.push(obj);
-    };
+    }
     response.send({
         code: 200,
         message: "获取成功",
@@ -39,49 +39,36 @@ router.get('/getCardData', (request, response) => {
 
 
 /* 
-    获取图表数据
-    getChartData
+    获取中部内容
+    getCenterContent
 */
-router.get('/getChartData', (request, response) => {
-    const data = {};
+router.get('/getCenterContent', (request, response) => {
     const visitData = [];
     const uploadData = [];
     const downloadData = [];
-
     for (let index = 0; index < 12; index++) {
         const number = Math.floor(Math.random() * 100000);
         visitData.push(number);
-    };
+    }
     for (let index = 0; index < 12; index++) {
         const number = Math.floor(Math.random() * 100000);
         uploadData.push(number);
-    };
+    }
     for (let index = 0; index < 12; index++) {
         const number = Math.floor(Math.random() * 100000);
         downloadData.push(number);
-    };
+    }
     
-    data.visitData = visitData;
-    data.uploadData = uploadData;
-    data.downloadData = downloadData;
-    response.send({
-        code: 200,
-        message: "获取成功",
-        data
-    });
-});
-
-
-/* 
-    获取图表增长
-    getChartProgress
-*/
-router.get('/getChartProgress', (request, response) => {
     const monthVisit = { chart_title: "月访问数", progress_title: "比上期增长", value: Math.floor(Math.random() * 100)};
     const monthUpload = { chart_title: "月上传数", progress_title: "比上期增长", value: Math.floor(Math.random() * 100)};
     const monthDownload = { chart_title: "月下载数", progress_title: "比上期增长", value: Math.floor(Math.random() * 100)};
-    const data = [ monthVisit, monthUpload, monthDownload ];
-    
+
+    const data = {
+        visitData,
+        uploadData,
+        downloadData,
+        progressData: [monthVisit, monthUpload, monthUpload]
+    };
     response.send({
         code: 200,
         message: "获取成功",
@@ -92,9 +79,9 @@ router.get('/getChartProgress', (request, response) => {
 
 /* 
     获取任务列表
-    getTaskTableData
+    getFooterTable
 */
-router.get('/getTaskTableData', (request, response) => {
+router.get('/getFooterTable', (request, response) => {
     const data = [
         {"id": "1","key": "1", "taskName": "react","createTime": "2020-07-07", "taskTime": "一小时","taskStatus": 2},
         {"id": "2","key": "2", "taskName": "react-router-dom","createTime": "2020-01-07", "taskTime": "四小时","taskStatus": 1},
@@ -113,6 +100,5 @@ router.get('/getTaskTableData', (request, response) => {
         data
     });
 });
-
 
 module.exports = router;
