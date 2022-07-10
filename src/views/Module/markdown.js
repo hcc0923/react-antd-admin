@@ -1,6 +1,5 @@
 // import React, { Component } from 'react';
 // import Editor from 'for-editor'
-// import './markdown.less';
 
 
 // class MarkDown extends Component {
