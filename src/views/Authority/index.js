@@ -1,8 +1,12 @@
 import React, { useState }from 'react';
 import { 
     Card, 
-    Select 
+    Select,
+    Image,
+    Empty
 } from 'antd';
+import permission from '@/assets/images/permission.png';
+import permissions from '@/assets/images/permissions.png';
 
 
 function Authority() {
@@ -29,6 +33,35 @@ function Authority() {
                         <Select.Option value={3}>超级管理员</Select.Option>
                     </Select>
                 </div>
+            </div>
+            <div className="flex justify-center mt-8">
+                { 
+                    authority > 2 ?
+                    <>
+                        <Image
+                            alt="三上悠亚"
+                            width={400}
+                            height={500}
+                            src={permission}
+                        />
+                        <Image
+                            alt="三上悠亚"
+                            width={400}
+                            height={500}
+                            src={permissions}
+                        />
+                    </>
+                    :
+                    authority > 1 ?
+                    <Image
+                        alt="三上悠亚"
+                        width={400}
+                        height={500}
+                        src={permissions}
+                    />
+                    :
+                    <Empty description={false} imageStyle={{ width: 400, height: 500 }} />
+                }
             </div>
         </Card>
     );

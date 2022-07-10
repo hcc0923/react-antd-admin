@@ -17,9 +17,9 @@ const routes = [
         component: RouteComponent.Forget
     },
     {
-        path: '/401',
+        path: '/no-authority',
         meta: { title: "权限不足", roles: ["user", "admin", "root"]},
-        component: RouteComponent.NoAuth
+        component: RouteComponent.NoAuthority
     },
     {
         render(props) {
@@ -46,12 +46,12 @@ const routes = [
             {
                 path: '/user-menu/user-list',
                 meta: { title: "用户列表", roles: ["admin", "root"]},
-                render: () =>  store.getState().userInfo.role > 1 ? <RouteComponent.UserList /> : <Redirect to="/401" />
+                render: () =>  store.getState().userInfo.role > 1 ? <RouteComponent.UserList /> : <Redirect to="/no-authority" />
             },
             {
                 path: '/user-menu/role-list',
                 meta: { title: "角色列表", roles: ["root"]},
-                render: () =>  store.getState().userInfo.role > 2 ? <RouteComponent.RoleList /> : <Redirect to="/401" />
+                render: () =>  store.getState().userInfo.role > 2 ? <RouteComponent.RoleList /> : <Redirect to="/no-authority" />
             },
             { 
                 path: '/setting-menu/user-setting/basic-info',
@@ -124,14 +124,9 @@ const routes = [
                 component: RouteComponent.MarkDown
             },
             { 
-                path: '/permission/authority',
+                path: '/authority',
                 meta: { title: "权限测试", roles: ["user", "admin", "root"]},
                 component: RouteComponent.Authority
-            },
-            { 
-                path: '/permission/page',
-                meta: { title: "路由拦截", roles: ["user", "admin", "root"]},
-                render: () => store.getState().userInfo.role > 1 ? <RouteComponent.Page /> : <Redirect to="/401" />
             },
             { 
                 path: '/error-page/no-authority',
@@ -153,15 +148,10 @@ const routes = [
                 meta: { title: "疫情地图", roles: ["user", "admin", "root"]},
                 component: RouteComponent.EpidemicMap
             },
-            { 
-                path: '/about', 
-                meta: { title: "关于", roles: ["user", "admin", "root"]},
-                component: RouteComponent.About
-            },
             {
                 path: '*',
                 meta: { title: "页面丢失", roles: ["user", "admin", "root"]},
-                render: () => <Redirect to="/404" />
+                render: () => <Redirect to="/not-found" />
             }
         ]
     }

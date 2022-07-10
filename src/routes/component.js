@@ -104,12 +104,7 @@ const MarkDown = Loadable({
 });
 
 const Authority = Loadable({
-    loader: () => import('@/views/Permission/authority'),
-    loading: Loading
-});
-
-const Page = Loadable({
-    loader: () => import('@/views/Permission/page'),
+    loader: () => import('@/views/Authority/index'),
     loading: Loading
 });
 
@@ -130,11 +125,6 @@ const ServerError = Loadable({
 
 const EpidemicMap = Loadable({
     loader: () => import('@/views/Chart/EpidemicMap/index'),
-    loading: Loading
-});
-
-const About = Loadable({
-    loader: () => import('@/views/About/index'),
     loading: Loading
 });
 
@@ -162,11 +152,9 @@ const components = {
     RichText,
     MarkDown,
     Authority,
-    Page,
     NoAuthority,
     NotFound,
-    ServerError,
-    About
+    ServerError
 };
 
 export default components;

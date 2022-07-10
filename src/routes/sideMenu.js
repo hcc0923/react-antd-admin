@@ -7,7 +7,6 @@ import {
     AreaChartOutlined,
     AppstoreOutlined,
     StockOutlined,
-    CopyrightOutlined,
     EyeInvisibleOutlined
 } from '@ant-design/icons';
  
@@ -117,19 +116,9 @@ const sideMenu = [
         ]
     },
     { 
-        path: '/permission',
+        path: '/authority',
         name: '权限测试', 
         icon: <EyeInvisibleOutlined />,
-        routes: [
-            { 
-                path: '/permission/authority',
-                name: '权限切换'
-            },
-            { 
-                path: '/permission/page',
-                name: '权限页面'
-            }
-        ]
     },
     { 
         path: '/error-page',
@@ -154,11 +143,6 @@ const sideMenu = [
         path: '/epidemic-map',
         name: '疫情地图',
         icon: <StockOutlined />
-    },
-    { 
-        path: '/about', 
-        name: '关于' ,
-        icon: <CopyrightOutlined />
     }
 ]
 
