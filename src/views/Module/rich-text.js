@@ -1,4 +1,4 @@
-import React, { Fragment, Component, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Row, Col, Card } from 'antd';
 import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
@@ -23,13 +23,23 @@ function RichText() {
             const xhr = new XMLHttpRequest();
             xhr.open('POST', `${SERVER_ADDRESS}/file/uploadAvatar`);
             
-            const data = new FormData();
-            data.append('image', file);
-            xhr.send(data);
+            const formData = new FormData();
+            formData.append('avatar', file);
+            xhr.send(formData);
 
             xhr.addEventListener('load', () => {
                 const response = JSON.parse(xhr.responseText);
-                resolve(response);
+                const { path, mimetype, size } = response.file;
+                const dataResponse = {
+                    data: {
+                        link: `${SERVER_ADDRESS}/${path}`,
+                        type: mimetype,
+                        size
+                    },
+                    status: 200,
+                    success: true
+                };
+                resolve(dataResponse);
             });
             xhr.addEventListener('error', () => {
                 const error = JSON.parse(xhr.responseText);
