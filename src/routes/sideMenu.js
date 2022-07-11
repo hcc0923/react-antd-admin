@@ -6,7 +6,6 @@ import {
     StopOutlined,
     AreaChartOutlined,
     AppstoreOutlined,
-    StockOutlined,
     EyeInvisibleOutlined
 } from '@ant-design/icons';
  
@@ -138,11 +137,6 @@ const sideMenu = [
                 name: '服务器错误'
             }
         ]
-    },
-    { 
-        path: '/epidemic-map',
-        name: '疫情地图',
-        icon: <StockOutlined />
     }
 ]
 

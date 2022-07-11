@@ -91,6 +91,7 @@ function Login(props) {
     const handleRegister = () => {
         const params = JSON.parse(JSON.stringify(registerForm));
         params.password = CryptoJS.MD5(params.password).toString();
+
         setLoading(true);
         $http.post('/login/register', params)
             .then(() => {
@@ -102,8 +103,9 @@ function Login(props) {
             .catch((error) => {
                 console.log(error);
                 setLoading(false);
-            })
+            });
     }
+    
     return (
         <div className="flex justify-center items-center w-screen h-screen bg-slate-100">
             <div className="flex w-2/5 h-1/2 bg-slate-50 relative shadow-2xl overflow-hidden rounded-xl">

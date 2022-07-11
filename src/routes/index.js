@@ -143,11 +143,6 @@ const routes = [
                 meta: { title: "服务器错误", roles: ["user", "admin", "root"]},
                 component: RouteComponent.ServerError
             },
-            { 
-                path: '/epidemic-map',
-                meta: { title: "疫情地图", roles: ["user", "admin", "root"]},
-                component: RouteComponent.EpidemicMap
-            },
             {
                 path: '*',
                 meta: { title: "页面丢失", roles: ["user", "admin", "root"]},

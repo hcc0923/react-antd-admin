@@ -6,11 +6,13 @@ import { SERVER_ADDRESS } from '@/utils/config';
 
 function Pdf() {
     const [loading, setLoading] = useState(false);
+    
     const handleDownload = () => {
         setLoading(true);
         window.open(`${SERVER_ADDRESS}/PDF.pdf`);
         setLoading(false);
     }
+
     return (  
         <Card title="下载Pdf">
             {

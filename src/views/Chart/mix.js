@@ -1,5 +1,5 @@
 import React from 'react';
-import Chart from '@/components/Chart';
+import ReactECharts from 'echarts-for-react';
 
 
 const chartOptions = {
@@ -187,9 +187,14 @@ const chartOptions = {
 		}
     ]
 };
+
 function Mix() {
     return (
-        <Chart chartId={"mix"} chartOptions={chartOptions}/>
+        <ReactECharts
+            option={chartOptions}
+            style={{ height: 500 }}
+        />
     );
-};
+}
+
 export default Mix;

@@ -51,21 +51,19 @@ function TopRightContent(props) {
           ]}
         />
     );
+
     return (
         <div className="flex justify-between items-center">
             <div className="flex justify-between items-start">
-                {/* full screen */}
                 <div className="h-full text-2xl cursor-pointer mr-4">
                     <FullScreen />
                 </div>
-                {/* more language */}
                 <div className="h-full text-2xl mr-4">
                     <TranslationOutlined />
                 </div>
             </div>
-            {/* person info */}
             <div className="h-full flex justify-between items-center">
-                <Avatar src={`${SERVER_ADDRESS}/${userInfo.avatar}`} style={{ marginTop: 4 }} />
+                <Avatar src={`${SERVER_ADDRESS}/${userInfo.avatar}`} className="mt-1" />
                 <Dropdown overlay={menu} placement="bottom" arrow>
                     <Button type="link">
                         <span className="text-xl">{userInfo.username}</span>
@@ -78,4 +76,5 @@ function TopRightContent(props) {
 }
 
 const mapStateToProps = state => state;
+
 export default connect(mapStateToProps)(TopRightContent);

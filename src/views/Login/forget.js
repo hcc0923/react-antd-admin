@@ -42,7 +42,7 @@ function Forget() {
         } else {
             resetForm[name] = event.target.value;
             setResetForm(resetForm);
-        };
+        }
     }
     const handleValidateEmail = (event) => {
         const params = {};
@@ -53,7 +53,7 @@ function Forget() {
                 if (result.length === 0) {
                     setDisabled(true)
                     return message.error('邮箱还未注册，请先注册');
-                };
+                }
             })
             .catch(error => {
                 console.log(error);

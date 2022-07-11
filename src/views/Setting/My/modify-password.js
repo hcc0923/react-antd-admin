@@ -60,6 +60,7 @@ function ModifyPassword(props) {
                 console.log(error);
             });
     }
+    
     return (  
         <Card title="修改密码">
             <Spin spinning={spinning}>

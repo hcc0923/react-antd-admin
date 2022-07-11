@@ -1,5 +1,5 @@
 import React from 'react';
-import Chart from '@/components/Chart';
+import ReactECharts from 'echarts-for-react'; 
 
 
 const chartOptions = {
@@ -127,9 +127,14 @@ const chartOptions = {
 		}
     ]
 };
+
 function Bar() {
     return (
-        <Chart chartId={"bar"} chartOptions={chartOptions}></Chart>
+        <ReactECharts
+            option={chartOptions}
+            style={{ height: 500 }}
+        />
     );
-};
+}
+
 export default Bar;

@@ -21,13 +21,15 @@ import PageContainerContent from './PageContainerContent';
 
 function App(props) {
     const [settings, setSetting] = useState({ fixSiderbar: false });
-    function onSettingChange(settings) {
+
+    const onSettingChange = (settings) => {
         setSetting(settings)
         const { primaryColor } = settings;
         props.setPrimaryColor(primaryColor)
     }
+
     return (
-        <div style={{ height: '100vh' }}>
+        <div className="h-screen">
             <ProLayout 
               route={{ routes: sideMenu }}
               waterMarkProps={{ content: 'react-antd-admin' }}  

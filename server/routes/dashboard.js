@@ -17,7 +17,7 @@ router.get('/getTopCard', (request, response) => {
         Math.floor(Math.random() * 100000)
     ];
     const bigNames = ["总访问量", "新上传", "新下载", "近一年"];
-    numNames = ["170万", "29%", "77%", "15%"];
+    const numNames = ["170万", "29%", "77%", "15%"];
     const data = [];
     for (let index = 0; index < numbers.length; index++) {
         const obj = {
@@ -67,7 +67,7 @@ router.get('/getCenterContent', (request, response) => {
         visitData,
         uploadData,
         downloadData,
-        progressData: [monthVisit, monthUpload, monthUpload]
+        progressData: [monthVisit, monthUpload, monthDownload]
     };
     response.send({
         code: 200,

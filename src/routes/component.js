@@ -123,11 +123,6 @@ const ServerError = Loadable({
     loading: Loading
 });
 
-const EpidemicMap = Loadable({
-    loader: () => import('@/views/Chart/EpidemicMap/index'),
-    loading: Loading
-});
-
 
 const components = {
     Layout,
@@ -144,7 +139,6 @@ const components = {
     Pie,
     KeyBoard,
     Mix,
-    EpidemicMap,
     Excel,
     Zip,
     Pdf,

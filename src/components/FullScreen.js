@@ -1,73 +1,55 @@
-import React from 'react';
+import React, { useState, useEffect }from 'react';
 import { FullscreenOutlined } from '@ant-design/icons';
 
 
-class FullScreen extends React.Component {
-	state = {
-		isFullScreen: false
-	};
-	handleRequestFullScreen = () => {
-		let de = document.documentElement;
-		if (de.requestFullscreen) {
-			de.requestFullscreen();
-		} else if (de.mozRequestFullScreen) {
-			de.mozRequestFullScreen();
-		} else if (de.webkitRequestFullScreen) {
-			de.webkitRequestFullScreen();
-		};
-	};
-	handleExitFullscreen = () => {
-		let de = document;
-		if (de.exitFullscreen) {
-			de.exitFullscreen();
-		} else if (de.mozCancelFullScreen) {
-			de.mozCancelFullScreen();
-		} else if (de.webkitCancelFullScreen) {
-			de.webkitCancelFullScreen();
-		};
-	};
-	handleFullScrren = () => {
-		this.state.isFullScreen ? this.handleExitFullscreen() : this.handleRequestFullScreen();
-	};
-	handleWatchFullScreen = () => {
-		document.addEventListener(
-			'fullscreenchange',
-			() => {
-				this.setState({ isFullScreen: document.fullscreenElement });
-			},
-			false
-		);
-		document.addEventListener(
-			'mozfullscreenchange',
-			() => {
-				this.setState({ isFullScreen: document.mozFullScreen });
-			},
-			false
-		);
-		document.addEventListener(
-			'webkitfullscreenchange',
-			() => {
-				this.setState({ isFullScreen: document.webkitIsFullScreen });
-			},
-			false
-		);
-	};
-	componentDidMount() {
-		this.handleWatchFullScreen();
-	};
-	componentWillUnmount() {
-        this.setState = (state, callback) => {
-            return;
-        };
-    };
-	render() {
-		return (
-			<FullscreenOutlined
-				onClick={this.handleFullScrren} 
-			/>
-		);
-	};
-};
+function FullScreen() {
+	const [fullScreen, setFullScreen] = useState(false);
 
+	const handleRequestFullScreen = () => {
+		const docEl = document.documentElement;
+
+		const platforms = ['requestFullscreen', 'mozRequestFullScreen', 'webkitRequestFullScreen'];
+		for (let index = 0; index < platforms.length; index++) {
+			if (docEl[platforms[index]]) {
+				docEl[platforms[index]]();
+				break;
+			}
+		}
+	}
+	const handleExitFullscreen = () => {
+		const platforms = ['exitFullscreen', 'mozCancelFullScreen', 'webkitCancelFullScreen'];
+
+		for (let index = 0; index < platforms.length; index++) {
+			if (document[platforms[index]]) {
+				document[platforms[index]]();
+				break;
+			}
+		}
+	}
+	const handleFullScrren = () => {
+		fullScreen ? handleExitFullscreen() : handleRequestFullScreen();
+	}
+	const handleWatchFullScreen = () => {
+		const platforms = [
+			{ event: 'fullscreenchange', method: 'fullscreenElement' },
+			{ event: 'mozfullscreenchange', method: 'mozFullScreen' },
+			{ event: 'webkitfullscreenchange', method: 'webkitIsFullScreen' }
+		];
+
+		platforms.forEach(platform => {
+			document.addEventListener(platform.event, () => {
+				setFullScreen(`${document[platform.method]}`);
+			}, false);
+		})
+	}
+	useEffect(() => {
+		handleWatchFullScreen();
+	})
+	return (
+		<FullscreenOutlined
+			onClick={() => handleFullScrren()} 
+		/>
+	);
+}
 
 export default FullScreen;

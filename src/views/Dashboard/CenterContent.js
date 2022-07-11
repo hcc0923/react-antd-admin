@@ -9,7 +9,7 @@ import {
 import { 
     LineChartOutlined
 } from "@ant-design/icons";
-import Chart from '@/components/Chart';
+import ReactECharts from 'echarts-for-react';
 
 
 function CenterContent(props) {
@@ -121,7 +121,10 @@ function CenterContent(props) {
       extra={<Tag>{extraTitle}</Tag>}>
       <Row gutter={16}>
         <Col span={16}>
-          <Chart chartId={"dashboard"} chartHeight="320px" chartOptions={chartOptions} />
+          <ReactECharts
+            option={chartOptions}
+            style={{ height: 320 }}
+          />
         </Col>
         <Col span={8}>
           {

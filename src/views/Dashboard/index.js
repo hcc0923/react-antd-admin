@@ -45,6 +45,7 @@ function Dashboard() {
     getCenterContent();
     getFooterTable();
   }, []);
+  
   const { visitData, uploadData, downloadData, progressData } = centerContent;
   return (  
     <Fragment>

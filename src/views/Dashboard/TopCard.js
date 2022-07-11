@@ -18,6 +18,7 @@ import { formatAmount } from "@/utils/formatTool";
 
 function TopCard(props) {
     const { topCard } = props;
+    
     return (  
         <Row gutter={16} className="mb-6">
         {

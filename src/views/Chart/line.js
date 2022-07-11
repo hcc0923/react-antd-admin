@@ -1,6 +1,6 @@
 import React from 'react';
 import * as Echarts from 'echarts';
-import Chart from '@/components/Chart';
+import ReactECharts from 'echarts-for-react';  // or var ReactECharts = require('echarts-for-react');
 
 
 const chartOptions = {
@@ -247,9 +247,14 @@ const chartOptions = {
         },
     ]
 };
+
 function Line() {
     return (
-        <Chart chartId={"line"} chartOptions={chartOptions}/>
+        <ReactECharts
+            option={chartOptions}
+            style={{ height: 500 }}
+        />
     );
-};
+}
+
 export default Line;

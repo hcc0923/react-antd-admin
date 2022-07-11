@@ -73,6 +73,7 @@ function FooterTable(props) {
           }
         }
     ];
+    
     return (
         <Card 
             title={title} 

@@ -19,6 +19,7 @@ function Authority() {
         localStorage.setItem('userInfo', JSON.stringify({...userInfo, 'role': value}));
         window.location.reload();
     }
+    
     return (  
         <Card title="权限切换">
             <div className="flex flex-col items-center">

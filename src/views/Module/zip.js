@@ -21,6 +21,7 @@ function Zip() {
     const [loading, setLoading] = useState(false);
     const [fileName, setFileName] = useState('压缩包');
     const [tableData, setTableData] = useState([]);
+    
     const columns = [
         { title: '姓名', dataIndex: 'name' },
         { title: '性别', dataIndex: 'gender' },
@@ -52,6 +53,7 @@ function Zip() {
     useEffect(() => {
         setTableData(data);
     }, []);
+
     return (  
         <Card title="导出zip">
             <Input 

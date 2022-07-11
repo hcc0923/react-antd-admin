@@ -1,5 +1,5 @@
 import React from 'react';
-import Chart from '@/components/Chart';
+import ReactECharts from 'echarts-for-react';
 
 
 const xAxisData = [];
@@ -151,9 +151,14 @@ const chartOptions = {
 		return idx * 20;
 	}
 };
+
 function KeyBoard() {
     return (
-        <Chart chartId={"keyboard"} chartOptions={chartOptions}></Chart>
+        <ReactECharts
+            option={chartOptions}
+            style={{ height: 500 }}
+        />
     );
-};
+}
+
 export default KeyBoard;

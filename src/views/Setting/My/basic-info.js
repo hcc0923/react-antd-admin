@@ -117,6 +117,7 @@ function BasicInfo() {
     useEffect(() => {
         getUserDetail();
     }, []);
+    
     return (  
         <Card title="基本资料">
             <Spin spinning={spinning}>

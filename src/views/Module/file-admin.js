@@ -54,7 +54,7 @@ function FileAdmin() {
                 break;
             default:
                 break;
-        };
+        }
     }
     const handleUploadFileList = () => {
         const formData = new FormData();
@@ -149,6 +149,7 @@ function FileAdmin() {
         },
         uploadFileList
     };
+    
     return (  
         <Card title="文件管理">
             <Tabs

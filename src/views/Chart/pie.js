@@ -1,5 +1,5 @@
 import React from 'react';
-import Chart from '@/components/Chart';
+import ReactECharts from 'echarts-for-react'; 
 
 
 const chartOptions = {
@@ -40,9 +40,14 @@ const chartOptions = {
 		}
 	]
 };
+
 function Pie() {
     return (
-        <Chart chartId={"pie"} chartOptions={chartOptions}/>
+		<ReactECharts
+            option={chartOptions}
+            style={{ height: 500 }}
+        />
     );
-};
+}
+
 export default Pie;
