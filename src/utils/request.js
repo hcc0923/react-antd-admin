@@ -2,29 +2,29 @@ import Axios from "axios";
 import { message } from "antd";
 import { SERVER_ADDRESS } from '@/utils/config';
 
-// api地址
+// api address
 const HTTP_API = SERVER_ADDRESS;
 const WHITE_API = ['/login', '/register'];
 
-// 创建axios实例
+// create axios instance
 const http = Axios.create({
     baseURL: HTTP_API,
     timeout: 1000 * 5,
     withCredentials: true
 });
 
-// request 拦截
+// intercept request
 http.interceptors.request.use(
     config => {
         const { url } = config;
-        // 不是白名单API
+        // is white list
         if (!WHITE_API.includes(url)) {
-            // 是否有进入非白名单的权限
+            // no white list auth
             const token = localStorage.getItem('token');
             if (token) {
                 config.headers.authorization = `Bearer ${token}`;
-            };
-        };
+            }
+        }
         return config;
     },  
     error => {
@@ -32,7 +32,7 @@ http.interceptors.request.use(
     }
 );
 
-// response 拦截
+// intercept response
 http.interceptors.response.use(
     response => {
         const { status, data } = response;
@@ -40,15 +40,16 @@ http.interceptors.response.use(
             if (!data.code && data.message) {
                 message.error(data.message || 'Error');
                 return Promise.reject(response);
-            };
+            }
             return data;
         } else {
             message.error(data.message || 'Error');
             return Promise.reject(response);
-        };
+        }
     },
     error => {
         return Promise.reject(error);
     }
 );
+
 export default http;

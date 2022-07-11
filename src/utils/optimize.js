@@ -8,8 +8,8 @@ export const debounce = (fn, delay) => {
         fn.id = setTimeout(() => {
             fn.call(this, arguments);
         }, delay);
-    };
-};
+    }
+}
 /* 
     throttle
     节流函数
@@ -23,6 +23,6 @@ export const throttle = (fn, delay) => {
                 fn.call(this, arguments);
                 open = false;
             }, delay);
-        };
-    };
-};
+        }
+    }
+}
