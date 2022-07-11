@@ -47,7 +47,7 @@ function Login(props) {
         } else {
             registerForm[labelName] = event.target.value;
             setRegisterForm(registerForm);
-        };
+        }
     }
     const handleLogin = (values, isRegistered) => {
         setLoginForm(values);
@@ -75,7 +75,7 @@ function Login(props) {
             .catch((error) => {
                 console.log(error);
                 setLoading(false);
-            })
+            });
     }
     const handleAuthRegistered = (event) => {
         const params = { email: event.target.value };
@@ -114,7 +114,7 @@ function Login(props) {
                         name="basic"
                         className="flex justify-center items-center flex-col p-0 h-3/4 text-center"
                         initialValues={loginForm}
-                        onFinish={() => handleLogin()}>
+                        onFinish={(values) => handleLogin(values)}>
                             <Form.Item
                                 label="邮箱"
                                 name="email"

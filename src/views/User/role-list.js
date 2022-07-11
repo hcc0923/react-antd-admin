@@ -94,6 +94,7 @@ function RoleList() {
                 message.success('编辑成功');
             })
             .catch(error => {
+                message.error('编辑失败');
                 console.log(error);
             });
     }
@@ -110,6 +111,7 @@ function RoleList() {
                         getRoleList();
                     })
                     .catch(error => {
+                        message.error('删除失败');
                         console.log(error);
                     });
             }

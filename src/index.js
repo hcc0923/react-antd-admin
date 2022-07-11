@@ -15,7 +15,7 @@ React.$http = http;
 function App() {
   return (
     <Provider store={store}>
-      <ConfigProvider locale={zhCN} >
+      <ConfigProvider locale={zhCN}>
         <HashRouter>
           {renderRoutes(routes)}
         </HashRouter>

@@ -112,6 +112,7 @@ function UserList() {
                     handleCancelModal();
                 })
                 .catch((error) => {
+                    message.error('创建失败');
                     console.log(error);
                 });
         } else {
@@ -123,6 +124,7 @@ function UserList() {
                     handleCancelModal();
                 })
                 .catch((error) => {
+                    message.error('编辑失败');
                     console.log(error);
                 });
         }
@@ -140,6 +142,7 @@ function UserList() {
                         getUserList();
                     })
                     .catch(error => {
+                        message.error('删除失败');
                         console.log(error);
                     });
             }
@@ -162,6 +165,7 @@ function UserList() {
                         getUserList();
                     })
                     .catch(error => {
+                        message.error('删除失败');
                         console.log(error);
                     });
             }
@@ -211,10 +215,12 @@ function UserList() {
             dataIndex: 'gender',
             key: 'gender',
             align: 'center',
-            render: (text, record, index) => {
+            render: (text) => {
                 return (
                     text === 0 ?
-                    <span style={{color: '#001529'}}>男</span> : <span style={{color: '#3DB389'}}>女</span>
+                    <span style={{ color: '#001529' }}>男</span> 
+                    : 
+                    <span style={{ color: '#3DB389' }}>女</span>
                 )
             },
             defaultSortOrder: 'ascend',
@@ -237,7 +243,7 @@ function UserList() {
             dataIndex: 'time',
             key: 'time',
             align: 'center',
-            render: (text, record, index) => {
+            render: (text) => {
                 return (
                     text.substring(0, 10) + ' ' + text.substring(11, 19)
                 )
@@ -253,7 +259,7 @@ function UserList() {
             render: (text, record, index) => {
                 return (
                     <React.Fragment>
-                        <img src={SERVER_ADDRESS + '/' + record.avatar} alt="获取头像失败" style={{ width: '80px', height: '80px'}} />
+                        <img src={SERVER_ADDRESS + '/' + record.avatar} alt="获取头像失败" className="w-20 h-20" />
                     </React.Fragment>
                 )
             }

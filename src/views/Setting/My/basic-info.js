@@ -63,6 +63,7 @@ function BasicInfo() {
                     setLoading(false);
                 })
                 .catch(error => {
+                    message.error('上传失败');
                     console.log(error);
                 });
         }
@@ -87,6 +88,7 @@ function BasicInfo() {
                     message.success('保存成功');
                 })
                 .catch(error => {
+                    message.error('保存失败');
                     console.log(error);
                 });
         }, 500)();
@@ -124,7 +126,7 @@ function BasicInfo() {
                     ref={formRef}
                     initialValues={initialForm}
                     onFinish={(values) => handleSubmit(values)}>
-                        <span style={{marginLeft: '17%', color: '#999'}}>不可修改。用户的唯一标识。</span>
+                        <span style={{marginLeft: '17%', color: '#999'}} className="ml-1/6">不可修改。用户的唯一标识。</span>
                         <Form.Item label="ID" name="id">
                             <Input readOnly />
                         </Form.Item>
