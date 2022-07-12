@@ -1,19 +1,20 @@
-// 服务配置
+// server config
 const serverConfig = {
     port: 3001 
 };
 
 
-// 跨域配置
+// cross domain config
 const corsConfig = {
-    origin: ['http://localhost:3000', 'http://116.62.139.167:3000'], // 前端设置credentials: true后端origin不能为*
+    origin: ['http://localhost:3000', 'http://116.62.139.167:3000'],
     methods: ['GET', 'OPTIONS', 'POST', 'PUT', 'DELETE'],
     credentials: true,
 };
 
 
-// 数据库配置
+// database config
 const mysqlConfig = {
+    connectionLimit: 10,
     host: '127.0.0.1',
     port: 3306,
     user: 'root',
@@ -22,11 +23,11 @@ const mysqlConfig = {
 };
 
 
-// 密钥
+// secret key
 const secretKey = 'key';
 
 
-// 白名单
+// white list
 const whiteList = [
     '/login/login',  
     '/login/register', 
@@ -38,7 +39,7 @@ const whiteList = [
 ];
 
 
-// 邮箱配置
+// email config
 const emailConfig = {
     neteaseConfig: {
         service: 'smtp.163.com',

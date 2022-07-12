@@ -9,7 +9,13 @@ const morgan  = require('morgan');
 const { expressjwt } = require('express-jwt');
 
 
-const { serverConfig, corsConfig, secretKey, whiteList } = require('./utils/config');
+const { 
+    serverConfig, 
+    corsConfig, 
+    secretKey, 
+    whiteList 
+} = require('./utils/config');
+
 const { 
     loginRouter, 
     dashboardRouter,
@@ -21,7 +27,7 @@ const {
 const app = express();
 
 
-// 加载中间件
+// load middlewares
 app.use(favicon(path.join(__dirname, 'static', 'favicon.ico')))
     .use(compression())
     .use(cors(corsConfig))
@@ -43,14 +49,14 @@ app.use(favicon(path.join(__dirname, 'static', 'favicon.ico')))
     });
 
     
-// 加载路由
+// load routes
 app.use('/login', loginRouter)
 app.use('/dashboard', dashboardRouter)
     .use('/user', userRouter)
     .use('/file', fileRouter)
 
 
-// 监听服务
+// listen server
 app.listen(serverConfig.port, '0.0.0.0', () => {
-    console.log('Server is running in http://localhost:' + serverConfig.port);
+    console.log('server is running in http://localhost:' + serverConfig.port);
 });

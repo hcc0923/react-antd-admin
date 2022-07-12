@@ -2,10 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 
-/* 
-    获取顶部卡片
-    getTopCard
-*/
+// top card data
 router.get('/getTopCard', (request, response) => {
     const titles = ["访问量", "上传", "下载", "活跃用户"];
     const colors = ["#1890ff", "#2F4056", "#009688", "#FFB800"];
@@ -19,6 +16,7 @@ router.get('/getTopCard', (request, response) => {
     const bigNames = ["总访问量", "新上传", "新下载", "近一年"];
     const numNames = ["170万", "29%", "77%", "15%"];
     const data = [];
+
     for (let index = 0; index < numbers.length; index++) {
         const obj = {
             title: titles[index],
@@ -30,6 +28,7 @@ router.get('/getTopCard', (request, response) => {
         };
         data.push(obj);
     }
+
     response.send({
         code: 200,
         message: "获取成功",
@@ -38,10 +37,7 @@ router.get('/getTopCard', (request, response) => {
 });
 
 
-/* 
-    获取中部内容
-    getCenterContent
-*/
+// center content data
 router.get('/getCenterContent', (request, response) => {
     const visitData = [];
     const uploadData = [];
@@ -69,6 +65,7 @@ router.get('/getCenterContent', (request, response) => {
         downloadData,
         progressData: [monthVisit, monthUpload, monthDownload]
     };
+
     response.send({
         code: 200,
         message: "获取成功",
@@ -77,10 +74,7 @@ router.get('/getCenterContent', (request, response) => {
 });
 
 
-/* 
-    获取任务列表
-    getFooterTable
-*/
+// footer table data
 router.get('/getFooterTable', (request, response) => {
     const data = [
         {"id": "1","key": "1", "taskName": "react","createTime": "2020-07-07", "taskTime": "一小时","taskStatus": 2},
@@ -94,6 +88,7 @@ router.get('/getFooterTable', (request, response) => {
         {"id": "9","key": "9", "taskName": "echarts","createTime": "2020-10-07", "taskTime": "五小时","taskStatus": 1},
         {"id": "10","key": "10", "taskName": "antd","createTime": "2020-10-07", "taskTime": "六小时","taskStatus": 2}
     ];
+    
     response.send({
         code: 200,
         message: "获取成功",

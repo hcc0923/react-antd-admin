@@ -3,17 +3,26 @@ const router = express.Router();
 const { executeMysql } = require('../utils/database');
 
 
-/* 
-    获取用户
-    getUser
-*/
+// user list
 router.get('/getUser', (request, response) => {
-    const sqlString = `SELECT id FROM user`;
+    const sqlString = `SELECT id
+    FROM user`;
+
     executeMysql(sqlString)
         .then(result => {
-            const total = result.length;
-            const query = request.query;
-            let sqlString = `SELECT id, username, gender, phone, email, time, avatar FROM user WHERE 1 = 1`;
+            const { length: total } = result;
+            const { query } = request;
+            const { pageNum: queryPageNum, pageSize: queryPageSize } = query;
+            let sqlString = `SELECT id,
+                    username,
+                    gender,
+                    phone,
+                    email,
+                    time,
+                    avatar
+            FROM user
+            WHERE 1 = 1`;
+
             Object.keys(query).forEach(key => {
                 switch (key) {
                     case 'username':
@@ -41,10 +50,9 @@ router.get('/getUser', (request, response) => {
                 }
             });
 
-            // 分页查询
-            if (query.pageNum&&query.pageSize) {
-                const pageNum = Number(query.pageNum);
-                const pageSize = Number(query.pageSize);
+            if (queryPageNum && queryPageSize) {
+                const pageNum = Number(queryPageNum);
+                const pageSize = Number(queryPageSize);
                 const n = (pageNum - 1) * pageSize;
                 sqlString += ` LIMIT ${n}, ${pageSize}`;
             } 
@@ -67,17 +75,21 @@ router.get('/getUser', (request, response) => {
 });
 
 
-/* 
-    创建用户
-    addUser
-*/
+// add user
 router.post('/addUser', (request, response) => {
     const { username, gender, phone, email } = request.body;
-    const sqlString = `SELECT id FROM user WHERE username='${username}' AND gender=${gender} AND phone='${phone}' AND email='${email}'`;
+    const sqlString = `SELECT id
+    FROM user
+    WHERE username='${username}'
+            AND gender=${gender}
+            AND phone='${phone}'
+            AND email='${email}'`;
+
     executeMysql(sqlString)
         .then(result => {
             if (result.length === 0) {
                 const sqlString = `INSERT INTO user (username, gender, phone, email) VALUES('${username}', ${gender}, '${phone}', '${email}')`;
+
                 executeMysql(sqlString)
                     .then(result => {
                         if (result.affectedRows > 0) {
@@ -106,13 +118,12 @@ router.post('/addUser', (request, response) => {
 });
 
 
-/* 
-    编辑用户
-    editUser
-*/
+// update user
 router.put('/editUser', (request, response) => {
     const { id, username, gender, phone, email, avatar } = request.body;
-    const sqlString = `UPDATE user SET username='${username}', gender=${gender},phone='${phone}' ,email='${email}', avatar='${avatar}' WHERE id=${id}`;
+    const sqlString = `UPDATE user SET username='${username}', gender=${gender},phone='${phone}' ,email='${email}', avatar='${avatar}'
+    WHERE id=${id}`;
+    
     executeMysql(sqlString)
         .then(result => {
             if (result.affectedRows > 0) {
@@ -133,13 +144,13 @@ router.put('/editUser', (request, response) => {
 });
 
 
-/* 
-    删除用户
-    deleteUser
-*/
+// delete user
 router.delete('/deleteUser', (request, response) => {
     const { id } = request.query;
-    const sqlString = `DELETE FROM user WHERE id = ${id}`;
+    const sqlString = `DELETE
+    FROM user
+    WHERE id = ${id}`;
+
     executeMysql(sqlString)
         .then(result => {
             if (result.affectedRows > 0) {
@@ -159,15 +170,16 @@ router.delete('/deleteUser', (request, response) => {
 });
 
 
-/* 
-    批量删除
-    multipleDelete
-*/
+// multiple delete
 router.delete('/multipleDelete', (request, response) => {
     const { ids } = request.query;
     let count = 0;
+
     ids.forEach(id => {
-        const sqlString = `DELETE FROM user WHERE id = ${id}`;
+        const sqlString = `DELETE
+        FROM user
+        WHERE id = ${id}`;
+
         executeMysql(sqlString)
             .then(() => {
                 count++;
@@ -185,13 +197,19 @@ router.delete('/multipleDelete', (request, response) => {
 });
 
 
-/* 
-    用户详情
-    getUserDetail
-*/
+// user detail
 router.get('/getUserDetail/:id', (request, response) => {
     const { id } = request.params;
-    const sqlString = `SELECT id, username, gender, phone, email, avatar, remark FROM user WHERE id=${id}`;
+    const sqlString = `SELECT id,
+        username,
+        gender,
+        phone,
+        email,
+        avatar,
+        remark
+    FROM user
+    WHERE id=${id}`;
+
     executeMysql(sqlString)
         .then(result => {
             response.send({
@@ -206,13 +224,12 @@ router.get('/getUserDetail/:id', (request, response) => {
 });
 
 
-/* 
-    上传文件
-    uploadAvatar
-*/
+// upload avatar
 router.put('/uploadAvatar', (request, response) => {
     const { id, avatar } = request.body;
-    const sqlString = `UPDATE user SET avatar='${avatar}' WHERE id=${id}`;
+    const sqlString = `UPDATE user SET avatar='${avatar}'
+    WHERE id=${id}`;
+
     executeMysql(sqlString)
         .then(result => {
             if (result.affectedRows > 0) {
@@ -228,13 +245,12 @@ router.put('/uploadAvatar', (request, response) => {
 });
 
 
-/* 
-    修改用户
-    updateUser
-*/
+// update user
 router.put('/updateUser', (request, response) => {
     const { id, username, gender, phone, email, avatar, remark } = request.body;
-    const sqlString = `UPDATE user SET username='${username}', gender=${gender}, phone='${phone}', email='${email}', avatar='${avatar}', remark='${remark}' WHERE id=${id}`;
+    const sqlString = `UPDATE user SET username='${username}', gender=${gender}, phone='${phone}', email='${email}', avatar='${avatar}', remark='${remark}'
+    WHERE id=${id}`;
+
     executeMysql(sqlString)
         .then(result => {
             if (result.affectedRows > 0) {
@@ -250,14 +266,14 @@ router.put('/updateUser', (request, response) => {
 });
 
 
-/* 
-    验证密码
-    verifyPassword
-*/
+// verify password
 router.get('/verifyPassword', (request, response) => {
     const { id } = request.auth;
     const { password } = request.query;
-    const sqlString = `SELECT password FROM user WHERE id=${id}`;
+    const sqlString = `SELECT password
+    FROM user
+    WHERE id=${id}`;
+    
     executeMysql(sqlString)
         .then(result => {
             if (result[0].password === password) {
@@ -277,14 +293,13 @@ router.get('/verifyPassword', (request, response) => {
 });
 
 
-/* 
-    updatePassword
-    修改密码
-*/
+// update password
 router.put('/updatePassword', (request, response) => {
     const { id } = request.auth;
     const { newPassword } = request.body;
-    const sqlString = `UPDATE user SET password='${newPassword}' WHERE id=${id}`;
+    const sqlString = `UPDATE user SET password='${newPassword}'
+    WHERE id=${id}`;
+
     executeMysql(sqlString)
         .then(result => {
             if (result.affectedRows > 0) {
@@ -304,17 +319,22 @@ router.put('/updatePassword', (request, response) => {
 });
 
 
-/* 
-    获取角色
-    getRole
-*/
+// get role
 router.get('/getRole', (request, response) => {
-    const sqlString = `SELECT id FROM user`;
+    const sqlString = `SELECT id
+    FROM user`;
+
     executeMysql(sqlString)
         .then((result) => {
-            const total = result.length;
-            const query = request.query;
-            let sqlString = `SELECT id, username, role FROM user WHERE 1 = 1`;
+            const { length: total } = result;
+            const { query } = request;
+            const { pageNum: queryPageNum, pageSize: queryPageSize } = query;
+            let sqlString = `SELECT id,
+                username,
+                role
+            FROM user
+            WHERE 1 = 1`;
+
             Object.keys(query).forEach(key => {
                 switch (key) {
                     case "id":
@@ -336,10 +356,10 @@ router.get('/getRole', (request, response) => {
                         break;
                 }
             });
-            // 分页查询
-            if (query.pageNum&&query.pageSize) {
-                const pageNum = Number(query.pageNum);
-                const pageSize = Number(query.pageSize);
+
+            if (queryPageNum && queryPageSize) {
+                const pageNum = Number(queryPageNum);
+                const pageSize = Number(queryPageSize);
                 const n = (pageNum - 1) * pageSize;
                 sqlString += ` LIMIT ${n}, ${pageSize}`; 
             }
@@ -363,13 +383,12 @@ router.get('/getRole', (request, response) => {
 });
 
 
-/* 
-    editRole
-    编辑角色
-*/
+// edit role
 router.put('/editRole', (request, response) => {
     const { id, role } = request.body;
-    const sqlString = `UPDATE user SET role = ${role} WHERE id=${id}`;
+    const sqlString = `UPDATE user SET role = ${role}
+    WHERE id=${id}`;
+
     executeMysql(sqlString)
         .then(result => {
             if (result.affectedRows > 0) {
@@ -383,6 +402,5 @@ router.put('/editRole', (request, response) => {
             console.log(error);
         });
 });
-
 
 module.exports = router;

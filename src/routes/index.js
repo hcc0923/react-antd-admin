@@ -26,7 +26,7 @@ const routes = [
             const token = store.getState().token;
             if (!token) {
                 return <Redirect to="/login" />;
-            };
+            }
             const { location, route } = props;
             resolveTitle(location, route);
             return <RouteComponent.Layout {...props} />;

@@ -6,13 +6,19 @@ const { emailAuthCode } = require('../utils/authCode');
 const { secretKey } = require('../utils/config');
 
 
-/* 
-    登录
-    login
-*/
+// login
 router.post('/login', (request, response) => {
     const { email, password } = request.body;
-    const sqlString = `SELECT id, username, role, avatar, last_login_time, last_login_ip FROM user WHERE email = '${email}' AND password = '${password}'`;
+    const sqlString = `SELECT id,
+            username,
+            role,
+            avatar,
+            last_login_time,
+            last_login_ip
+    FROM user
+    WHERE email = '${email}'
+            AND password = '${password}'`;
+
     executeMysql(sqlString)
         .then(result => {
             if (result.length > 0) {
@@ -21,7 +27,10 @@ router.post('/login', (request, response) => {
                 const token = jwt.sign(user, secretKey, {
                     expiresIn: 60 * 60 * 12 * 24 * 7
                 });
-                const sqlString = `UPDATE user SET last_login_time=CURRENT_TIMESTAMP, last_login_ip='${request.ip}' WHERE id=${id}`;
+                const sqlString = `UPDATE user SET last_login_time=CURRENT_TIMESTAMP,
+                        last_login_ip='${request.ip}'
+                WHERE id=${id}`;
+
                 executeMysql(sqlString)
                     .then(() => {
                         response.send({
@@ -33,7 +42,7 @@ router.post('/login', (request, response) => {
                     })
                     .catch(error => {
                         console.log(error);
-                    })
+                    });
             } else {
                 response.send({
                     message: '邮箱或密码错误'
@@ -46,13 +55,14 @@ router.post('/login', (request, response) => {
 });
 
 
-/* 
-    注册
-    register
-*/
+// register
 router.post('/register', (request, response) => {
     const { email, password } = request.body;
-    const sqlString = `SELECT id FROM user WHERE email='${email}' AND password='${password}'`;
+    const sqlString = `SELECT id
+    FROM user
+    WHERE email='${email}'
+            AND password='${password}'`;
+
     executeMysql(sqlString)
         .then(result => {
             if (result.length > 0) {
@@ -62,6 +72,7 @@ router.post('/register', (request, response) => {
                 });     
             } else {
                 const sqlString = `INSERT INTO user (email, password, gender) VALUES('${email}', '${password}', ${0})`;
+
                 executeMysql(sqlString)
                     .then(result => {
                         if (result.affectedRows > 0) {
@@ -82,13 +93,13 @@ router.post('/register', (request, response) => {
 });
 
 
-/* 
-    查询邮箱
-    findEmail
-*/
+// find email
 router.get('/findEmail', (request, response) => {
     const email = request.query.email;
-    const sqlString = `SELECT id FROM user WHERE email ='${email}'`;
+    const sqlString = `SELECT id
+    FROM user
+    WHERE email ='${email}'`;
+
     executeMysql(sqlString)
         .then(result => {
             response.send({
@@ -103,15 +114,11 @@ router.get('/findEmail', (request, response) => {
 });
 
 
-/* 
-    发送邮箱
-    sendEmail
-*/
+// send email
 router.get('/sendEmail', (request, response) => {
     const emailString = request.query.email;
-   
     const userAuthCode = emailAuthCode(emailString);
-    console.log(emailString, userAuthCode);
+    
     response.send({
         code: 200,
         message: '发送成功',
@@ -120,13 +127,12 @@ router.get('/sendEmail', (request, response) => {
 });
 
 
-/* 
-    忘记密码
-    forget
-*/
+// forget password
 router.put('/resetPassword', (request, response) => {
     const { email, password } = request.body;
-    const sqlString = `UPDATE user SET password='${password}' WHERE email='${email}'`;
+    const sqlString = `UPDATE user SET password='${password}'
+    WHERE email='${email}'`;
+
     executeMysql(sqlString)
         .then(result => {
             if (result.affectedRows > 0) {
@@ -145,6 +151,5 @@ router.put('/resetPassword', (request, response) => {
             console.log(error);
         });
 });
-
 
 module.exports = router;
