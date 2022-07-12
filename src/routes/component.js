@@ -73,6 +73,11 @@ const Mix = Loadable({
     loading: Loading
 });
 
+const China = Loadable({
+    loader: () => import('@/views/Chart/china/index'),
+    loading: Loading
+});
+
 const Excel = Loadable({
     loader: () => import('@/views/Module/excel'),
     loading: Loading
@@ -139,6 +144,7 @@ const components = {
     Pie,
     KeyBoard,
     Mix,
+    China,
     Excel,
     Zip,
     Pdf,

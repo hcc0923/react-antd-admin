@@ -94,6 +94,11 @@ const routes = [
                 component: RouteComponent.Mix
             },
             { 
+                path: '/chart/china',
+                meta: { title: "全国地图", roles: ["user", "admin", "root"]},
+                component: RouteComponent.China
+            },
+            { 
                 path: '/module/excel',
                 meta: { title: "Excel", roles: ["user", "admin", "root"]},
                 component: RouteComponent.Excel

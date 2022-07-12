@@ -80,6 +80,10 @@ const sideMenu = [
             { 
                 path: '/chart/mix',
                 name: '混合图表'
+            },
+            { 
+                path: '/chart/china',
+                name: '全国地图'
             }
         ]
     },
