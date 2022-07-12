@@ -21,7 +21,6 @@
     "echarts": "^5.3.3",
     "echarts-for-react": "^3.0.2",
     "file-saver": "^2.0.5",
-    "jquery": "^3.6.0",
     "jszip": "^3.10.0",
     "nprogress": "^0.2.0",
     "prop-types": "^15.8.1",
