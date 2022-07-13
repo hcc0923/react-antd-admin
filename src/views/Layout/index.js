@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 import { Link } from "react-router-dom";
 import { renderRoutes } from "react-router-config";
 import { connect } from 'react-redux';
@@ -14,18 +14,15 @@ import {
 import { LikeOutlined } from '@ant-design/icons';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import sideMenu from '@/routes/sideMenu';
-import { setPrimaryColor } from '@/store/actions/setting';
+import { setSettings } from '@/store/actions/setting';
 import TopRightContent from './TopRightContent';
 import PageContainerContent from './PageContainerContent';
 
 
 function App(props) {
-    const [settings, setSetting] = useState({ fixSiderbar: false });
-
+    const { settings } = props;
     const onSettingChange = (settings) => {
-        setSetting(settings)
-        const { primaryColor } = settings;
-        props.setPrimaryColor(primaryColor)
+        props.setSettings(settings)
     }
 
     return (
@@ -68,8 +65,8 @@ function App(props) {
 
 const mapStateToProps = state => state;
 const mapDispatchToProps = dispatch => ({
-	setPrimaryColor: data => {
-		dispatch(setPrimaryColor(data));
+	setSettings: data => {
+		dispatch(setSettings(data));
 	},
 });
 

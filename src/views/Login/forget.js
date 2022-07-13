@@ -27,7 +27,7 @@ const tailLayout = {
     },
 };
 
-function Forget() {
+function Forget(props) {
     const [formType, setFormType] = useState('validate');
     const [validateForm, setValidateForm] = useState({ email: '', code: '' });
     const [resetForm, setResetForm] = useState({ password: '', repeatPassword: '' });
@@ -98,7 +98,7 @@ function Forget() {
         setValidateForm({ email: '', code: '' });
     }
     const handleResetPassword = () => {
-        const cryptoPassword = CryptoJS.MD5(this.state.resetForm.password).toString();
+        const cryptoPassword = CryptoJS.MD5(resetForm.password).toString();
         const params = {
             email: localStorage.getItem('validateEmail'),
             password: cryptoPassword
@@ -107,7 +107,7 @@ function Forget() {
             .then(() => {
                 message.success('密码重置成功，请到重新登录账号');
                 localStorage.removeItem('validateEmail');
-                this.props.history.push('/login');
+                props.history.push('/login');
             })
             .catch((error) => {
                 message.error(error);

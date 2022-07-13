@@ -1,14 +1,13 @@
 import { combineReducers } from 'redux';
-import { collapse, theme, primaryColor  } from './setting';
-import userInfo from './userInfo';
 import token from './token';
+import userInfo from './userInfo';
+import { settings } from './setting';
 
 
 const concatReducers = combineReducers({
-    collapse, 
-    theme,
-    primaryColor,
+    token,
     userInfo,
-    token
+    settings
 });
+
 export default concatReducers;

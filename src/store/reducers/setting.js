@@ -1,42 +1,28 @@
-import { SET_COLLAPSE, SET_THEME, SET_PRIMARY_COLOR } from '../constants/index';
-const collapseState = localStorage.getItem('collapse') ? JSON.parse(localStorage.getItem('collapse')) : { show: true };
-const themeState = localStorage.getItem('theme') ? JSON.parse(localStorage.getItem('theme')) : { type: 'dark' };
-const primaryColorState = localStorage.getItem('primaryColor') ? JSON.parse(localStorage.getItem('primaryColor')) : '#1DA57A';
+import { SET_SETTINGS } from '../constants/index';
+const defaultSettings = {
+    contentWidth: 'Fluid', 
+    fixSiderbar: false, 
+    fixedHeader: false, 
+    headerHeight: 48,
+    layout: 'side',
+    navTheme: 'dark',
+    primaryColor: '#1890ff',
+    splitMenus: false,
+    test: 100
+};
+const settingsState = localStorage.getItem('settings') ? JSON.parse(localStorage.getItem('settings')) : defaultSettings;
 
 
 /* 
-    折叠
-    collapse
+    设置
+    settings
 */
-export const collapse = (state = collapseState, action) => {
+export const settings = (state = settingsState, action) => {
     switch (action.type) {
-		case SET_COLLAPSE:
-            localStorage.setItem('collapse', JSON.stringify(action.data));
+		case SET_SETTINGS:
+            localStorage.setItem('settings', JSON.stringify(action.data));
 			return action.data;
 		default:
 			return state;
-	};
-};
-/* 
-    主题
-    theme
-*/
-export const theme = (state = themeState, action) => {
-    switch (action.type) {
-        case SET_THEME:
-            localStorage.setItem('theme', JSON.stringify(action.data));
-            return action.data;
-        default:
-            return state;
-    };
-};
-
-export const primaryColor = (state = primaryColorState, action) => {
-    switch (action.type) {
-        case SET_PRIMARY_COLOR:
-            localStorage.setItem('primaryColor', JSON.stringify(action.data));
-            return action.data;
-        default:
-            return state;
-    };
-};
+	}
+}
