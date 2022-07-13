@@ -22,59 +22,41 @@ import PageContainerContent from './PageContainerContent';
 
 function App(props) {
     const { settings, location } = props;
+    const { pathname } = location;
+    const [breadCrumb, setBreadCrumb] = useState([]);
     const onSettingChange = (settings) => {
         props.setSettings(settings)
     }
-    const [routers, setRouters] = useState([]);
-    
-
-    const resolveFn = (menu, path) => {
+    const breadCrumbdData = [];
+    const hnadleNewBreadCrumb = (menu, path) => {
       menu.forEach(item => {
         if (item.path === path) {
-          return item.name;
+          const newBreadCrumb = {
+            path: `#${path}`,
+            breadcrumbName: item.name
+          }; 
+          breadCrumbdData.push(newBreadCrumb);
+        } else {
+          if (item.routes) {
+            hnadleNewBreadCrumb(item.routes, path);
+          }
         }
-        resolveFn(item.routes, path);
-      })
+      }); 
     }
-    const onInitBreadCrumb = () => {
-      const { pathname } = location;
+    const handleInitBreadCrumb = () => {
       const pathNames = pathname.split('/').slice(1);
       let pathStr = '';
       const mergedPaths = pathNames.map(path => pathStr += `/${path}`);
-      console.log(mergedPaths);
       
       mergedPaths.forEach(path => {
-        const pathName = resolveFn(sideMenu, path);
-        console.log(pathName);
-      })
-      // pathNames.forEach(pathname => {
-      //   const newBreadCrumb = {
-      //     path: `#/${pathname}`,
-      //     breadcrumbName: itemNames[index]
-      //   };
-      // })
-    }
-
-
-    const onClickMenuItem = (menuItem) => {
-      setRouters([]);
-      console.log(menuItem);
-      const { path, locale, pro_layout_parentKeys } = menuItem;
-      const itemNames = locale.split('.').slice(1);
-      pro_layout_parentKeys.push(path);
-      pro_layout_parentKeys.forEach((path, index) => {
-        const newBreadCrumb = {
-          path: `#${path}`,
-          breadcrumbName: itemNames[index]
-        };
-        routers.push(newBreadCrumb);
+        hnadleNewBreadCrumb(sideMenu, path);
       });
-      console.log(routers);
-      setRouters(routers);
+      setBreadCrumb(breadCrumbdData);
     }
+
     useEffect(() => {
-      onInitBreadCrumb();
-    }, []);
+      handleInitBreadCrumb();
+    }, [pathname]);
     return (
         <div className="h-screen">
             <ProLayout 
@@ -87,11 +69,10 @@ function App(props) {
                   path: '/',
                   breadcrumbName: '首页',
                 },
-                ...routers
+                ...breadCrumb
               ]}
               waterMarkProps={{ content: 'react-antd-admin' }}  
-              menuItemRender={(menuItem, dom) => (<Link to={menuItem.path} onClick={onClickMenuItem.bind(this, menuItem)}>{dom}</Link>)} 
-              // menuItemRender={(menuItem, dom) => onClick(menuItem){dom})} 
+              menuItemRender={(menuItem, dom) => (<Link to={menuItem.path}>{dom}</Link>)} 
               rightContentRender={() => <TopRightContent />} 
               {...settings}
             >
