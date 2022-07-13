@@ -33,7 +33,7 @@ function App(props) {
         if (item.path === path) {
           return item.name;
         }
-        resolveFn(item.route, path);
+        resolveFn(item.routes, path);
       })
     }
     const onInitBreadCrumb = () => {
