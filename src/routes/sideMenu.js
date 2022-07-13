@@ -9,6 +9,7 @@ import {
     EyeInvisibleOutlined
 } from '@ant-design/icons';
  
+
 const sideMenu = [
     {
         path: '/dashboard',
@@ -22,11 +23,11 @@ const sideMenu = [
         routes: [
             {
                 path: '/user-menu/user-list',
-                name: '用户列表'
+                name: '用户列表',
             },
             {
                 path: '/user-menu/role-list',
-                name: '角色列表'
+                name: '角色列表',
             },
         ],
     },
@@ -142,6 +143,6 @@ const sideMenu = [
             }
         ]
     }
-]
+];
 
 export default sideMenu;
