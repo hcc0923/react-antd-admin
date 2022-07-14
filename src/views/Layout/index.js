@@ -21,14 +21,16 @@ import PageContainerContent from './PageContainerContent';
 
 
 function App(props) {
-    const { settings, location } = props;
-    const { pathname } = location;
     const [breadCrumb, setBreadCrumb] = useState([]);
-    const onSettingChange = (settings) => {
-        props.setSettings(settings)
-    }
+    const [dashboard, setDashboard] = useState(false);
+    const { route: renderRoute, settings, location } = props;
+    const { pathname: locationPathName } = location;
     const breadCrumbdData = [];
-    const hnadleNewBreadCrumb = (menu, path) => {
+
+    const onSettingChange = (settings) => {
+      props.setSettings(settings)
+    }
+    const handleNewBreadCrumb = (menu, path) => {
       menu.forEach(item => {
         if (item.path === path) {
           const newBreadCrumb = {
@@ -38,25 +40,35 @@ function App(props) {
           breadCrumbdData.push(newBreadCrumb);
         } else {
           if (item.routes) {
-            hnadleNewBreadCrumb(item.routes, path);
+            handleNewBreadCrumb(item.routes, path);
           }
         }
       }); 
     }
     const handleInitBreadCrumb = () => {
-      const pathNames = pathname.split('/').slice(1);
+      const pathNames = locationPathName.split('/').slice(1);
       let pathStr = '';
       const mergedPaths = pathNames.map(path => pathStr += `/${path}`);
       
       mergedPaths.forEach(path => {
-        hnadleNewBreadCrumb(sideMenu, path);
+        if (path === '/dashboard') {
+          const newBreadCrumb = {
+            path: '',
+            breadcrumbName: ''
+          }; 
+          breadCrumbdData.push(newBreadCrumb);
+          setDashboard(true);
+        } else {
+          setDashboard(false);
+          handleNewBreadCrumb(sideMenu, path);
+        }
       });
       setBreadCrumb(breadCrumbdData);
     }
-
     useEffect(() => {
       handleInitBreadCrumb();
-    }, [pathname]);
+    }, [locationPathName]);
+    
     return (
         <div className="h-screen">
             <ProLayout 
@@ -71,6 +83,7 @@ function App(props) {
                 },
                 ...breadCrumb
               ]}
+              breadcrumbProps={dashboard ? { separator: '' } : {}}
               waterMarkProps={{ content: 'react-antd-admin' }}  
               menuItemRender={(menuItem, dom) => (<Link to={menuItem.path}>{dom}</Link>)} 
               rightContentRender={() => <TopRightContent />} 
@@ -88,7 +101,7 @@ function App(props) {
               >
                   <TransitionGroup>
                       <CSSTransition classNames="fade" timeout={500}>
-                          {renderRoutes(props.route.routes)}
+                          {renderRoutes(renderRoute.routes)}
                       </CSSTransition>
                   </TransitionGroup>
               </PageContainer>

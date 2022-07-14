@@ -40,7 +40,7 @@ const routes = [
             },
             {
                 path: '/dashboard',
-                meta: { title: "首页", roles: ["user", "admin", "root"]},
+                meta: { title: "主页", roles: ["user", "admin", "root"]},
                 component: RouteComponent.Dashboard
             },
             {
@@ -53,6 +53,11 @@ const routes = [
                 meta: { title: "角色列表", roles: ["root"]},
                 render: () =>  store.getState().userInfo.role > 2 ? <RouteComponent.RoleList /> : <Redirect to="/no-authority" />
             },
+            {
+                path: '/user-menu',
+                meta: { title: "用户管理", roles: ["admin", "root"]},
+                render: () =>  <Redirect to="/user-menu/user-list" />
+            },
             { 
                 path: '/setting-menu/user-setting/basic-info',
                 meta: { title: "基本资料", roles: ["user", "admin", "root"]},
@@ -62,6 +67,16 @@ const routes = [
                 path: '/setting-menu/user-setting/modify-password',
                 meta: { title: "修改密码", roles: ["user", "admin", "root"]},
                 component: RouteComponent.ModifyPassword
+            },
+            { 
+                path: '/setting-menu/user-setting',
+                meta: { title: "用户设置", roles: ["user", "admin", "root"]},
+                render: () => <Redirect to="/setting-menu/user-setting/basic-info" />
+            },
+            { 
+                path: '/setting-menu',
+                meta: { title: "设置管理", roles: ["user", "admin", "root"]},
+                render: () => <Redirect to="/setting-menu/user-setting/basic-info" />
             },
             {
                 path: '/icon-list',
@@ -99,6 +114,11 @@ const routes = [
                 component: RouteComponent.China
             },
             { 
+                path: '/chart',
+                meta: { title: "图表", roles: ["user", "admin", "root"]},
+                render: () => <Redirect to="/chart/line" />
+            },
+            { 
                 path: '/module/excel',
                 meta: { title: "Excel", roles: ["user", "admin", "root"]},
                 component: RouteComponent.Excel
@@ -129,6 +149,11 @@ const routes = [
                 component: RouteComponent.MarkDown
             },
             { 
+                path: '/module',
+                meta: { title: "组件", roles: ["user", "admin", "root"]},
+                render: () => <Redirect to="/chart/excel" />
+            },
+            { 
                 path: '/authority',
                 meta: { title: "权限测试", roles: ["user", "admin", "root"]},
                 component: RouteComponent.Authority
@@ -147,6 +172,11 @@ const routes = [
                 path: '/error-page/server-error',
                 meta: { title: "服务器错误", roles: ["user", "admin", "root"]},
                 component: RouteComponent.ServerError
+            },
+            { 
+                path: '/error-page',
+                meta: { title: "错误页面", roles: ["user", "admin", "root"]},
+                render: () => <Redirect to="/error-page/no-authority" />
             },
             {
                 path: '*',

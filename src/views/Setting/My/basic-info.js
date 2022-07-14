@@ -7,7 +7,6 @@ import {
     Space, 
     Radio, 
     Upload, 
-    Spin, 
     message 
 } from "antd";
 import { 
@@ -36,7 +35,6 @@ const PhoneRegexp = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|
 
 function BasicInfo() {
     const [loading, setLoading] = useState(false);
-    const [spinning, setSpinning] = useState(true);
     const [avatarUrl, setAvatarUrl] = useState('');
     const formRef = useRef();
     const initialForm = { id: 0, username: '', gender: 0, avatar: '', phone: '', email: '', remark: '' };
@@ -100,13 +98,11 @@ function BasicInfo() {
         formRef.current.setFieldsValue({ id });
     }
     const getUserDetail = () => {
-        setSpinning(true);
         const userInfo = JSON.parse(localStorage.getItem('userInfo')) || {};
         $http.get('/user/getUserDetail/' + userInfo.id)
             .then(result => {
                 const data = result.result[0];
 
-                setSpinning(false);
                 setAvatarUrl(data.avatar);
                 formRef.current.setFieldsValue(data);
             })
@@ -120,70 +116,68 @@ function BasicInfo() {
     
     return (  
         <Card title="基本资料">
-            <Spin spinning={spinning}>
-                <Form
-                    {...layout}
-                    name="basicinfo"
-                    ref={formRef}
-                    initialValues={initialForm}
-                    onFinish={(values) => handleSubmit(values)}>
-                        <span style={{marginLeft: '17%', color: '#999'}} className="ml-1/6">不可修改。用户的唯一标识。</span>
-                        <Form.Item label="ID" name="id">
-                            <Input readOnly />
-                        </Form.Item>
-                        <Form.Item label="用户名" name="username">
+            <Form
+                {...layout}
+                name="basicinfo"
+                ref={formRef}
+                initialValues={initialForm}
+                onFinish={(values) => handleSubmit(values)}>
+                    <span style={{marginLeft: '17%', color: '#999'}} className="ml-1/6">不可修改。用户的唯一标识。</span>
+                    <Form.Item label="ID" name="id">
+                        <Input readOnly />
+                    </Form.Item>
+                    <Form.Item label="用户名" name="username">
+                    <Input />
+                    </Form.Item>
+                    <Form.Item label="性别" name="gender">
+                        <Radio.Group>
+                            <Radio value={0}>男</Radio>
+                            <Radio value={1}>女</Radio>
+                        </Radio.Group>
+                    </Form.Item>
+                    <Form.Item 
+                        label="头像"
+                        name="avatar"
+                        valuePropName="avatar">
+                            <Upload
+                                name="avatar"
+                                listType="picture-card"
+                                showUploadList={false}
+                                action={SERVER_ADDRESS + '/file/uploadAvatar'}
+                                beforeUpload={(file) => beforeUpload(file)}
+                                onChange={(info) => handleChange(info)}>
+                                    {
+                                        avatarUrl ? 
+                                        <img src={SERVER_ADDRESS + '/' + avatarUrl} alt="avatar" style={{ width: '100%' }} /> 
+                                        : 
+                                        <div>
+                                            {
+                                                loading ? 
+                                                <LoadingOutlined /> 
+                                                : 
+                                                <PlusOutlined />
+                                            }
+                                            <div style={{ marginTop: 8 }}>Upload</div>
+                                        </div>
+                                    }
+                            </Upload>
+                    </Form.Item>
+                    <Form.Item label="手机" name="phone" rules={[{pattern: PhoneRegexp, message: '手机格式不正确'}]}>
                         <Input />
-                        </Form.Item>
-                        <Form.Item label="性别" name="gender">
-                            <Radio.Group>
-                                <Radio value={0}>男</Radio>
-                                <Radio value={1}>女</Radio>
-                            </Radio.Group>
-                        </Form.Item>
-                        <Form.Item 
-                            label="头像"
-                            name="avatar"
-                            valuePropName="avatar">
-                                <Upload
-                                    name="avatar"
-                                    listType="picture-card"
-                                    showUploadList={false}
-                                    action={SERVER_ADDRESS + '/file/uploadAvatar'}
-                                    beforeUpload={(file) => beforeUpload(file)}
-                                    onChange={(info) => handleChange(info)}>
-                                        {
-                                            avatarUrl ? 
-                                            <img src={SERVER_ADDRESS + '/' + avatarUrl} alt="avatar" style={{ width: '100%' }} /> 
-                                            : 
-                                            <div>
-                                                {
-                                                    loading ? 
-                                                    <LoadingOutlined /> 
-                                                    : 
-                                                    <PlusOutlined />
-                                                }
-                                                <div style={{ marginTop: 8 }}>Upload</div>
-                                            </div>
-                                        }
-                                </Upload>
-                        </Form.Item>
-                        <Form.Item label="手机" name="phone" rules={[{pattern: PhoneRegexp, message: '手机格式不正确'}]}>
-                            <Input />
-                        </Form.Item>
-                        <Form.Item label="邮箱" name="email" rules={[{pattern: EmailRegexp, message: '邮箱格式不正确'}]}>
-                            <Input />
-                        </Form.Item>
-                        <Form.Item label="备注" name="remark">
-                            <Input.TextArea rows={4} placeholder="请输入内容" />
-                        </Form.Item>
-                        <Form.Item {...tailLayout}>
-                            <Space size={20}>
-                                <Button type="primary" htmlType="submit">保存</Button>
-                                <Button htmlType="button" onClick={() => handleReset()}>重新填写</Button>
-                            </Space>
-                        </Form.Item>
-                </Form>
-            </Spin>
+                    </Form.Item>
+                    <Form.Item label="邮箱" name="email" rules={[{pattern: EmailRegexp, message: '邮箱格式不正确'}]}>
+                        <Input />
+                    </Form.Item>
+                    <Form.Item label="备注" name="remark">
+                        <Input.TextArea rows={4} placeholder="请输入内容" />
+                    </Form.Item>
+                    <Form.Item {...tailLayout}>
+                        <Space size={20}>
+                            <Button type="primary" htmlType="submit">保存</Button>
+                            <Button htmlType="button" onClick={() => handleReset()}>重新填写</Button>
+                        </Space>
+                    </Form.Item>
+            </Form>
         </Card>
     );
 }

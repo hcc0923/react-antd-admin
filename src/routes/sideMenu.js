@@ -13,7 +13,7 @@ import {
 const sideMenu = [
     {
         path: '/dashboard',
-        name: '首页',
+        name: '主页',
         icon: <DashboardOutlined />,
     },
     {
