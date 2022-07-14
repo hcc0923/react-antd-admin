@@ -1,23 +1,22 @@
 import React, { useState } from 'react';
-import { Card, Button } from 'antd';
-import Loading from '@/components/Loading';
+import { Card, Button, Spin } from 'antd';
 import { SERVER_ADDRESS } from '@/utils/config';
 
 
 function Pdf() {
-    const [loading, setLoading] = useState(false);
+    const [spinning, setSpinning] = useState(false);
     
     const handleDownload = () => {
-        setLoading(true);
+        setSpinning(true);
         window.open(`${SERVER_ADDRESS}/PDF.pdf`);
-        setLoading(false);
+        setSpinning(false);
     }
 
     return (  
         <Card title="下载Pdf">
             {
-                loading ? 
-                <Loading />
+                spinning ? 
+                <Spin spinning={spinning} />
                 :
                 <Button type="primary" onClick={() => handleDownload()}>下载</Button>
             }

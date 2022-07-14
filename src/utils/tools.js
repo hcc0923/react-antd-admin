@@ -1,3 +1,11 @@
-export const getJson = (data) => {
-    console.log(data);
+import Loadable from 'react-loadable';
+
+
+export const loadable = (loader, loading) => {
+    return Loadable({
+        loader,
+        loading() {
+            return <div>Loading...</div>
+        }
+    });
 }

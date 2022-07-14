@@ -58,7 +58,6 @@ function BasicInfo() {
             $http.put('/user/uploadAvatar', {id, avatar: path})
                 .then(() => {
                     setAvatarUrl(path)
-                    setLoading(false);
                 })
                 .catch(error => {
                     message.error('上传失败');
@@ -67,7 +66,6 @@ function BasicInfo() {
         }
         if (file.status === 'error') {
             message.error('上传失败');
-            setLoading(false);
         }
     }
     const handleSubmit = (values) => {

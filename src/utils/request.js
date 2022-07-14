@@ -1,5 +1,7 @@
 import Axios from "axios";
 import { message } from "antd";
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
 import { SERVER_ADDRESS } from '@/utils/config';
 
 // api address
@@ -16,6 +18,7 @@ const http = Axios.create({
 // intercept request
 http.interceptors.request.use(
     config => {
+        NProgress.start();
         const { url } = config;
         // is white list
         if (!WHITE_API.includes(url)) {
@@ -35,6 +38,7 @@ http.interceptors.request.use(
 // intercept response
 http.interceptors.response.use(
     response => {
+        NProgress.done();
         const { status, data } = response;
         if (status === 200) {
             if (!data.code && data.message) {

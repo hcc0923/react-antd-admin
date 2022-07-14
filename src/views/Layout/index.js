@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { renderRoutes } from "react-router-config";
 import { connect } from 'react-redux';
 import { 
+  Spin,
   Space, 
   Statistic, 
 } from 'antd';
@@ -49,7 +50,7 @@ function App(props) {
       const pathNames = locationPathName.split('/').slice(1);
       let pathStr = '';
       const mergedPaths = pathNames.map(path => pathStr += `/${path}`);
-      
+
       mergedPaths.forEach(path => {
         if (path === '/dashboard') {
           const newBreadCrumb = {
@@ -71,49 +72,55 @@ function App(props) {
     
     return (
         <div className="h-screen">
+          <Spin 
+            spinning={false} 
+            tip="Loading..." 
+            size="large"
+          >
             <ProLayout 
-              title="react-antd-admin"
-              logo={<></>}
-              route={{ routes: sideMenu }}
-              headerContentRender={() => <ProBreadcrumb />}
-              breadcrumbRender={() => [
-                {
-                  path: '/',
-                  breadcrumbName: '首页',
-                },
-                ...breadCrumb
-              ]}
-              breadcrumbProps={dashboard ? { separator: '' } : {}}
-              waterMarkProps={{ content: 'react-antd-admin' }}  
-              menuItemRender={(menuItem, dom) => (<Link to={menuItem.path}>{dom}</Link>)} 
-              rightContentRender={() => <TopRightContent />} 
-              {...settings}
-            >
-              <PageContainer 
-                content={<PageContainerContent />} 
-                breadcrumbRender={false}
-                extraContent={
-                  <Space size={24}>
-                      <Statistic title="Feedback" value={1128} prefix={<LikeOutlined />}/>
-                      <Statistic title="Unmerged" value={93} suffix="/ 100"/>
-                  </Space>
-                } 
+                title="react-antd-admin"
+                logo={<></>}
+                route={{ routes: sideMenu }}
+                headerContentRender={() => <ProBreadcrumb />}
+                breadcrumbRender={() => [
+                  {
+                    path: '/',
+                    breadcrumbName: '首页',
+                  },
+                  ...breadCrumb
+                ]}
+                breadcrumbProps={dashboard ? { separator: '' } : {}}
+                waterMarkProps={{ content: 'react-antd-admin' }}  
+                menuItemRender={(menuItem, dom) => (<Link to={menuItem.path}>{dom}</Link>)} 
+                rightContentRender={() => <TopRightContent />} 
+                {...settings}
               >
-                  <TransitionGroup>
-                      <CSSTransition classNames="fade" timeout={500}>
-                          {renderRoutes(renderRoute.routes)}
-                      </CSSTransition>
-                  </TransitionGroup>
-              </PageContainer>
-            </ProLayout>
-            <SettingDrawer 
-              hideHintAlert
-              hideCopyButton
-              enableDarkTheme 
-              settings={settings}
-              onSettingChange={(settings) => onSettingChange(settings)} 
-              disableUrlParams={true}
-            />
+                <PageContainer 
+                  content={<PageContainerContent />} 
+                  breadcrumbRender={false}
+                  extraContent={
+                    <Space size={24}>
+                        <Statistic title="Feedback" value={1128} prefix={<LikeOutlined />}/>
+                        <Statistic title="Unmerged" value={93} suffix="/ 100"/>
+                    </Space>
+                  } 
+                >
+                    <TransitionGroup>
+                        <CSSTransition classNames="fade" timeout={500}>
+                            {renderRoutes(renderRoute.routes)}
+                        </CSSTransition>
+                    </TransitionGroup>
+                </PageContainer>
+              </ProLayout>
+              <SettingDrawer 
+                hideHintAlert
+                hideCopyButton
+                enableDarkTheme 
+                settings={settings}
+                onSettingChange={(settings) => onSettingChange(settings)} 
+                disableUrlParams={true}
+              />
+          </Spin>
         </div>
     );
 }
