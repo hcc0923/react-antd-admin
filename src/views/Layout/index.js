@@ -71,57 +71,56 @@ function App(props) {
     }, [locationPathName]);
     
     return (
-        <div className="h-screen">
-          <Spin 
-            spinning={false} 
-            tip="Loading..." 
-            size="large"
+      <Spin 
+        spinning={false} 
+        tip="Loading..." 
+        size="large"
+      >
+        <ProLayout 
+            style={{ height: '100%' }}
+            title="react-antd-admin"
+            logo={<></>}
+            route={{ routes: sideMenu }}
+            headerContentRender={() => <ProBreadcrumb />}
+            breadcrumbRender={() => [
+              {
+                path: '/',
+                breadcrumbName: '首页',
+              },
+              ...breadCrumb
+            ]}
+            breadcrumbProps={dashboard ? { separator: '' } : {}}
+            waterMarkProps={{ content: 'react-antd-admin' }}  
+            menuItemRender={(menuItem, dom) => (<Link to={menuItem.path}>{dom}</Link>)} 
+            rightContentRender={() => <TopRightContent />} 
+            {...settings}
           >
-            <ProLayout 
-                title="react-antd-admin"
-                logo={<></>}
-                route={{ routes: sideMenu }}
-                headerContentRender={() => <ProBreadcrumb />}
-                breadcrumbRender={() => [
-                  {
-                    path: '/',
-                    breadcrumbName: '首页',
-                  },
-                  ...breadCrumb
-                ]}
-                breadcrumbProps={dashboard ? { separator: '' } : {}}
-                waterMarkProps={{ content: 'react-antd-admin' }}  
-                menuItemRender={(menuItem, dom) => (<Link to={menuItem.path}>{dom}</Link>)} 
-                rightContentRender={() => <TopRightContent />} 
-                {...settings}
-              >
-                <PageContainer 
-                  content={<PageContainerContent />} 
-                  breadcrumbRender={false}
-                  extraContent={
-                    <Space size={24}>
-                        <Statistic title="Feedback" value={1128} prefix={<LikeOutlined />}/>
-                        <Statistic title="Unmerged" value={93} suffix="/ 100"/>
-                    </Space>
-                  } 
-                >
-                    <TransitionGroup>
-                        <CSSTransition classNames="fade" timeout={500}>
-                            {renderRoutes(renderRoute.routes)}
-                        </CSSTransition>
-                    </TransitionGroup>
-                </PageContainer>
-              </ProLayout>
-              <SettingDrawer 
-                hideHintAlert
-                hideCopyButton
-                enableDarkTheme 
-                settings={settings}
-                onSettingChange={(settings) => onSettingChange(settings)} 
-                disableUrlParams={true}
-              />
-          </Spin>
-        </div>
+            <PageContainer 
+              content={<PageContainerContent />} 
+              breadcrumbRender={false}
+              extraContent={
+                <Space size={24}>
+                    <Statistic title="Feedback" value={1128} prefix={<LikeOutlined />}/>
+                    <Statistic title="Unmerged" value={93} suffix="/ 100"/>
+                </Space>
+              } 
+            >
+                <TransitionGroup>
+                    <CSSTransition classNames="fade" timeout={500}>
+                        {renderRoutes(renderRoute.routes)}
+                    </CSSTransition>
+                </TransitionGroup>
+            </PageContainer>
+          </ProLayout>
+          <SettingDrawer 
+            hideHintAlert
+            hideCopyButton
+            enableDarkTheme 
+            settings={settings}
+            onSettingChange={(settings) => onSettingChange(settings)} 
+            disableUrlParams={true}
+          />
+      </Spin>
     );
 }
 
