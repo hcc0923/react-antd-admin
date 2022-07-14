@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, Fragment } from 'react';
 import { 
     Card, 
     Table, 
@@ -11,6 +11,7 @@ import {
     Select, 
     Radio, 
     Input, 
+    Spin,
     message 
 } from 'antd';
 import { 
@@ -44,7 +45,7 @@ const tailLayout = {
 };
 
 function RoleList() {
-    const [loading, setLoading] = useState(false);
+    const [spinning, setSpinning] = useState(false);
     const [userTableData, setUserTableData] = useState([]);
     const [searchForm, setSearchForm] = useState({ id: 0, username: '', role: 0 });
     const [pagination, setPagination] = useState({ pageNum: 1, pageSize: 10 });
@@ -63,17 +64,19 @@ function RoleList() {
                 params[key] = pagination[key];
             }
         }
-        setLoading(true);
+        setSpinning(true);
         $http.get('/user/getRole', {params})
             .then(response => {
                 const { result, total } = response;
-
-                setLoading(false);
+                
                 setUserTableData(result);
                 setTotal({ total });
             })
             .catch(error => {
                 console.log(error);
+            })
+            .finally(() => {
+                setSpinning(false);
             });
     }
     const handlePageChange = (pagination) => {
@@ -85,13 +88,13 @@ function RoleList() {
         setModalVisible(true);
     }
     const onSaveEditForm = (values) => {
-        setLoading(true);
+        setSpinning(true);
         $http.put('/user/editRole', values)
             .then(() => {
-                setLoading(false);
-                setModalVisible(false);
-                getRoleList();
+                setSpinning(false);
                 message.success('编辑成功');
+                getRoleList();
+                setModalVisible(false);
             })
             .catch(error => {
                 message.error('编辑失败');
@@ -104,9 +107,11 @@ function RoleList() {
             icon: <ExclamationCircleOutlined />,
             content: (<span>确认删除用户<span className="text-light-red">{record.username}</span>吗？</span>),
             onOk: () => {
+                setSpinning(true);
                 const params = {id: record.id};
                 $http.delete('/user/deleteUser', {params})
                     .then(() => {
+                        setSpinning(false);
                         message.success('删除成功');
                         getRoleList();
                     })
@@ -158,10 +163,10 @@ function RoleList() {
             align: 'center',
             render: (text, record) => {
                 return (
-                    <React.Fragment>
+                    <Fragment>
                         <Button type="link" onClick={() => onEdit(record)}><EditOutlined />编辑</Button>
                         <Button type="link" onClick={() => onDelete(record)}><DeleteOutlined />删除</Button>
-                    </React.Fragment>
+                    </Fragment>
                 )
             }
         }
@@ -170,88 +175,89 @@ function RoleList() {
         getRoleList();
     }, [searchForm, pagination]);
     return (  
-        <Card title="角色列表">
-            <Form
-                name="search"
-                ref={searchRef}
-                className="ant-advanced-search-form"
-                onFinish={(values) => setSearchForm(values)}>
-                    <Row
-                        gutter={24}>
-                        <Col span={5}>
-                            <Form.Item name="id" label="ID">
-                                <Input placeholder="请输入ID" />
-                            </Form.Item>
-                        </Col>
-                        <Col span={5}>
-                            <Form.Item name="username" label="姓名">
-                                <Input placeholder="请输入姓名" />
-                            </Form.Item>
-                        </Col>
-                        <Col span={5}>
-                            <Form.Item name="role" label="角色">
-                                <Select initialvalue="不限">
-                                    {
-                                        Options.map(option => (
-                                            <Select.Option
-                                                key={option.value}
-                                                value={option.value}>
-                                                {option.label}
-                                            </Select.Option>
-                                        ))
-                                    }
-                                </Select>
-                            </Form.Item>
-                        </Col>
-                        <Col span={4}>
-                            <Space>
-                                <Button type="primary" htmlType="submit">查询</Button>
-                                <Button onClick={() => searchRef.current.resetFields()}>重置</Button>
-                            </Space>
-                        </Col>
-                    </Row>
-            </Form>
-            <Table
-                bordered
-                loading={loading}
-                columns={columns}
-                dataSource={userTableData}
-                pagination={{...pagination,...total}}
-                onChange={(pagination) => handlePageChange(pagination)}
-                rowKey={(record) => `${record.id}`} />
-                    <Modal
-                        title="修改角色"
-                        visible={modalVisible}
-                        footer={null}
-                        destroyOnClose={true}
-                        onCancel={() => setModalVisible(false)}>
-                            <Form
-                                {...layout}
-                                name="edit"
-                                initialValues={modalForm}
-                                onFinish={(values) => onSaveEditForm(values)}>
-                                <Form.Item label="ID" name="id">
-                                    <Input readOnly />
+        <Spin spinning={spinning}>
+            <Card title="角色列表">
+                <Form
+                    name="search"
+                    ref={searchRef}
+                    className="ant-advanced-search-form"
+                    onFinish={(values) => setSearchForm(values)}>
+                        <Row
+                            gutter={24}>
+                            <Col span={5}>
+                                <Form.Item name="id" label="ID">
+                                    <Input placeholder="请输入ID" />
                                 </Form.Item>
-                                <Form.Item label="用户名" name="username">
-                                    <Input readOnly />
+                            </Col>
+                            <Col span={5}>
+                                <Form.Item name="username" label="姓名">
+                                    <Input placeholder="请输入姓名" />
                                 </Form.Item>
-                                <Form.Item label="角色" name="role">
-                                    <Radio.Group>
-                                        <Radio value={1}>用户</Radio>
-                                        <Radio value={2}>管理员</Radio>
-                                        <Radio value={3}>超级管理员</Radio>
-                                    </Radio.Group>
+                            </Col>
+                            <Col span={5}>
+                                <Form.Item name="role" label="角色">
+                                    <Select initialvalue="不限">
+                                        {
+                                            Options.map(option => (
+                                                <Select.Option
+                                                    key={option.value}
+                                                    value={option.value}>
+                                                    {option.label}
+                                                </Select.Option>
+                                            ))
+                                        }
+                                    </Select>
                                 </Form.Item>
-                                <Form.Item {...tailLayout}>
-                                    <Space>
-                                        <Button type="primary" htmlType="submit">确定</Button>
-                                        <Button type="button" onClick={() => setModalVisible(false)}>取消</Button>
-                                    </Space>
-                                </Form.Item>
-                            </Form>
-                    </Modal>
-        </Card>
+                            </Col>
+                            <Col span={4}>
+                                <Space>
+                                    <Button type="primary" htmlType="submit">查询</Button>
+                                    <Button onClick={() => searchRef.current.resetFields()}>重置</Button>
+                                </Space>
+                            </Col>
+                        </Row>
+                </Form>
+                <Table
+                    bordered
+                    columns={columns}
+                    dataSource={userTableData}
+                    pagination={{...pagination,...total}}
+                    onChange={(pagination) => handlePageChange(pagination)}
+                    rowKey={(record) => `${record.id}`} />
+                        <Modal
+                            title="修改角色"
+                            visible={modalVisible}
+                            footer={null}
+                            destroyOnClose={true}
+                            onCancel={() => setModalVisible(false)}>
+                                <Form
+                                    {...layout}
+                                    name="edit"
+                                    initialValues={modalForm}
+                                    onFinish={(values) => onSaveEditForm(values)}>
+                                    <Form.Item label="ID" name="id">
+                                        <Input readOnly />
+                                    </Form.Item>
+                                    <Form.Item label="用户名" name="username">
+                                        <Input readOnly />
+                                    </Form.Item>
+                                    <Form.Item label="角色" name="role">
+                                        <Radio.Group>
+                                            <Radio value={1}>用户</Radio>
+                                            <Radio value={2}>管理员</Radio>
+                                            <Radio value={3}>超级管理员</Radio>
+                                        </Radio.Group>
+                                    </Form.Item>
+                                    <Form.Item {...tailLayout}>
+                                        <Space>
+                                            <Button type="primary" htmlType="submit">确定</Button>
+                                            <Button type="button" onClick={() => setModalVisible(false)}>取消</Button>
+                                        </Space>
+                                    </Form.Item>
+                                </Form>
+                        </Modal>
+            </Card>
+        </Spin>
     );
 }
 

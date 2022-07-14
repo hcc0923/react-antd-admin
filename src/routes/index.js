@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import store from '@/store/store';
 import { loadable } from '@/utils/tools';
-import { resolveTitle } from '@/utils/formatTool';
+import { resolveTitle } from '@/utils/tools';
 
 
 const { token, userInfo } = store.getState();
@@ -160,7 +160,7 @@ const routes = [
             { 
                 path: '/module',
                 meta: { title: "组件", roles: ["user", "admin", "root"]},
-                render: () => <Redirect to="/chart/excel" />
+                render: () => <Redirect to="/module/excel" />
             },
             { 
                 path: '/authority',

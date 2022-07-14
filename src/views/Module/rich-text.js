@@ -1,5 +1,9 @@
 import React, { Fragment, useState } from 'react';
-import { Row, Col, Card } from 'antd';
+import { 
+    Row, 
+    Col, 
+    Card
+} from 'antd';
 import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';

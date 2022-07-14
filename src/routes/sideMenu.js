@@ -106,7 +106,7 @@ const sideMenu = [
                 name: 'Pdf'
             },
             { 
-                path: '/module/fileadmin',
+                path: '/module/file-admin',
                 name: '文件管理'
             },
             { 

@@ -36,34 +36,40 @@ function ModifyPassword(props) {
         setIsFirst(false);
         const value = event.target.value;
         if (value === '') return message.error('当前密码不能为空');
+
+        setSpinning(true);
         const params = { password: CryptoJS.MD5(value).toString() };
         $http.get('/user/verifyPassword', {params})
-            .then((result) => {
-                const { code } = result;
-                if (code === 200) setVerifyPassword(true);
+            .then(() => {
+                setVerifyPassword(true);
             })
             .catch(error => {
                 console.log(error);
+            })
+            .finally(() => {
+                setSpinning(false);
             });
     }
     const handleSubmit = (values) => {
-        const params = { newPassword: CryptoJS.MD5(values.newPassword).toString() };
         setSpinning(true);
+        const params = { newPassword: CryptoJS.MD5(values.newPassword).toString() };
         $http.put('/user/updatePassword', params)
             .then(() => {
-                setSpinning(false);
-                localStorage.clear();
                 message.success('修改成功，请重新登录');
+                localStorage.clear();
                 props.history.push('/login');
             })
             .catch(error => {
                 console.log(error);
+            })
+            .finally(() => {
+                setSpinning(false);
             });
     }
     
     return (  
-        <Card title="修改密码">
-            <Spin spinning={spinning}>
+        <Spin spinning={spinning}>
+            <Card title="修改密码">
                 <Form
                     {...layout}
                     name="update"
@@ -133,8 +139,8 @@ function ModifyPassword(props) {
                             </Space>
                         </Form.Item>
                 </Form>
-            </Spin>
-        </Card>
+            </Card>
+        </Spin>
     );
 }
 

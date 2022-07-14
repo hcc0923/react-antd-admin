@@ -11,7 +11,6 @@ function Pdf() {
         window.open(`${SERVER_ADDRESS}/PDF.pdf`);
         setSpinning(false);
     }
-
     return (  
         <Card title="下载Pdf">
             {

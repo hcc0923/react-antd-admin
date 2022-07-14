@@ -3,22 +3,23 @@ import {
     Card, 
     Table, 
     Input, 
-    Button 
+    Button,
+    Spin
 } from 'antd';
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
 
 
 const data = [
-    { id: '1', name: '韩畅畅', gender: '男', age: 23, work: 'CV练习生'},
-    { id: '2', name: '曹青青', gender: '女', age: 21, work: '教师'},
-    { id: '3', name: '李亚娟', gender: '女', age: 21, work: '程序员'},
-    { id: '4', name: '田涵', gender: '男', age: 21, work: 'CV练习生'},
-    { id: '5', name: '杨赛娅', gender: '女', age: 21, work: '诗人'}
+    { id: '1', name: '张三', gender: '男', age: 23, work: '程序员'},
+    { id: '2', name: '李四', gender: '女', age: 21, work: '程序员'},
+    { id: '3', name: '王五', gender: '女', age: 21, work: '程序员'},
+    { id: '4', name: '马六', gender: '男', age: 21, work: '程序员'},
+    { id: '5', name: '赵七', gender: '女', age: 21, work: '程序员'}
 ];
 
 function Zip() {
-    const [loading, setLoading] = useState(false);
+    const [spinning, setSpinning] = useState(false);
     const [fileName, setFileName] = useState('压缩包');
     const [tableData, setTableData] = useState([]);
     
@@ -32,7 +33,7 @@ function Zip() {
         setFileName(event.target.value);
     }
     const handleExportZip = () => {
-        setLoading(true);
+        setSpinning(true);
         const zip = new JSZip();
 
         let contentString = '';
@@ -44,10 +45,12 @@ function Zip() {
         zip.generateAsync({ type: 'blob'})
             .then(blob => {
                 saveAs(blob, `${fileName}.zip`);
-                setLoading(false);
             })
             .catch(error => {
                 console.log(error);
+            })
+            .finally(() => {
+                setSpinning(false);
             });
     }
     useEffect(() => {
@@ -55,23 +58,24 @@ function Zip() {
     }, []);
 
     return (  
-        <Card title="导出zip">
-            <Input 
-                className="w-1/4 mr-3"
-                placeholder="请输入文件名" 
-                value={fileName} 
-                onChange={(event) => handleFileChange(event)}
-            />
-            <Button type="primary" onClick={() => handleExportZip()}>导出Zip</Button>
-            <Table
-                className="mt-4"
-                bordered={true}
-                loading={loading}
-                columns={columns}
-                dataSource={tableData}
-                rowKey={(record) => `${record.id}`}
-            />
-        </Card>
+        <Spin spinning={spinning}>
+            <Card title="导出zip">
+                <Input 
+                    className="w-1/4 mr-3"
+                    placeholder="请输入文件名" 
+                    value={fileName} 
+                    onChange={(event) => handleFileChange(event)}
+                />
+                <Button type="primary" onClick={() => handleExportZip()}>导出Zip</Button>
+                <Table
+                    className="mt-4"
+                    bordered={true}
+                    columns={columns}
+                    dataSource={tableData}
+                    rowKey={(record) => `${record.id}`}
+                />
+            </Card>
+        </Spin>
     );
 }
 

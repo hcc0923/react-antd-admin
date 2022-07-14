@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { 
     Card, 
     Form, 
@@ -11,7 +11,8 @@ import {
     Select, 
     Modal,
     Radio, 
-    Upload, 
+    Upload,
+    Spin, 
     message 
 } from "antd";
 import { 
@@ -49,7 +50,7 @@ const PhoneRegexp = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|
 
 function UserList() {
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [spinning, setSpinning] = useState(false);
     const [uploading, setUploading] = useState(false);
     const [avatarUrl, setAvatarUrl] = useState('');
     const [userTableData, setUserTableData] = useState([]);
@@ -71,17 +72,19 @@ function UserList() {
                 params[key] = pagination[key];
             }
         }
-        setLoading(true);
+        setSpinning(true);
         $http.get('/user/getUser', {params})
             .then((response) => {
                 const { result, total } = response;
 
-                setLoading(false);
                 setUserTableData(result);
                 setTotal({ total });
             })
             .catch((error) => {
                 console.log(error);
+            })
+            .finally(() => {
+                setSpinning(false);
             });
     }
     const handlePageChange = (values) => {
@@ -99,35 +102,37 @@ function UserList() {
         setModalType(modalType);
         setModalVisible(true);
     }
-    const handleCancelModal = () => {
-        setModalVisible(false);
-    }
     const onSaveAddEditForm = (values) => {
         values.avatar = values.avatar.file.response.file.path;
         if (modalType === 'add') {
+            setSpinning(true);
             $http.post('/user/addUser', values)
                 .then(() => {
+                    setSpinning(false);
                     message.success('创建成功');
                     getUserList();
-                    handleCancelModal();
+                    setModalVisible(false);
                 })
                 .catch((error) => {
                     message.error('创建失败');
                     console.log(error);
                 });
         } else {
+            setSpinning(true);
             values.id = modalForm.id;
             $http.put('/user/editUser', values)
                 .then(() => {
+                    setSpinning(false);
                     message.success('编辑成功');
                     getUserList();
-                    handleCancelModal();
+                    setModalVisible(false);
                 })
                 .catch((error) => {
                     message.error('编辑失败');
                     console.log(error);
                 });
         }
+        
     }
     const onDelete = (record) => {
         Modal.confirm({
@@ -135,9 +140,11 @@ function UserList() {
             icon: <ExclamationCircleOutlined />,
             content: (<span>确认删除用户<span className="text-light-red">{record.username}</span>吗？</span>),
             onOk: () => {
+                setSpinning(true);
                 const params = { id: record.id };
                 $http.delete('/user/deleteUser', {params})
                     .then(() => {
+                        setSpinning(false);
                         message.success('删除成功');
                         getUserList();
                     })
@@ -158,9 +165,11 @@ function UserList() {
             icon: <ExclamationCircleOutlined />,
             content: (<span>确认删除这些用户吗？</span>),
             onOk: () => {
+                setSpinning(true);
                 const params = { ids: selectedRowKeys };
-                $http.delete('/user/multipleDelete', {params})
+                $http.delete('/user/multipleDelete', { params })
                     .then(() => {
+                        setSpinning(false);
                         message.success('删除成功');
                         getUserList();
                     })
@@ -174,8 +183,10 @@ function UserList() {
     const handleBeforeUpload = (file) => {
         const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
         if (!isJpgOrPng) message.error('只能上传JPG/PNG文件!');
+
         const isLt2M = file.size / 1024 / 1024 < 2;
         if (!isLt2M) message.error('图片大小不能超过2MB!');
+
         return isJpgOrPng && isLt2M;
     }
     const handleAvatarChange = (info) => {
@@ -258,9 +269,9 @@ function UserList() {
             height: '100px',
             render: (text, record, index) => {
                 return (
-                    <React.Fragment>
+                    <Fragment>
                         <img src={SERVER_ADDRESS + '/' + record.avatar} alt="获取头像失败" className="w-20 h-20" />
-                    </React.Fragment>
+                    </Fragment>
                 )
             }
         },
@@ -270,10 +281,10 @@ function UserList() {
             align: 'center',
             render: (text, record, index) => {
                 return (
-                    <React.Fragment>
+                    <Fragment>
                         <Button type="link" onClick={() => openAddEditModal('edit', record)}><EditOutlined />编辑</Button>
                         <Button type="link" onClick={() => onDelete(record)}><DeleteOutlined />删除</Button>
-                    </React.Fragment>
+                    </Fragment>
                 )
             }
         }
@@ -283,119 +294,120 @@ function UserList() {
     }, [searchForm, pagination]);
     const rowSelection = { selectedRowKeys, onChange: onSelectChange };
     return (  
-        <Card title="用户列表">
-            <Form
-                name="search"
-                ref={searchRef}
-                className="ant-advanced-search-form"
-                onFinish={(values) => setSearchForm(values)}>
-                    <Row
-                        gutter={24}>
-                        <Col span={5}>
-                            <Form.Item name="username" label="姓名">
-                                <Input placeholder="请输入姓名" />
-                            </Form.Item>
-                        </Col>
-                        <Col span={5}>
-                            <Form.Item name="gender" label="性别">
-                                <Select initialvalue="不限">
-                                    {
-                                        Options.map(option => (
-                                            <Select.Option
-                                                key={option.value}
-                                                value={option.value}>
-                                                {option.label}
-                                            </Select.Option>
-                                        ))
-                                    }
-                                </Select>
-                            </Form.Item>
-                        </Col>
-                        <Col span={5}>
-                            <Form.Item name="phone" label="手机号码">
-                                <Input placeholder="请输入手机号码" />
-                            </Form.Item>
-                        </Col>
-                        <Col span={5}>
-                            <Form.Item name="email" label="邮箱">
-                                <Input placeholder="请输入邮箱" />
-                            </Form.Item>
-                        </Col>
-                        <Col span={4}>
-                            <Space>
-                                <Button type="primary" htmlType="submit">查询</Button>
-                                <Button onClick={() => searchRef.current.resetFields()}>重置</Button>
-                            </Space>
-                        </Col>
-                    </Row>
-            </Form>
-            <Space className="mb-4">
-                <Button type="primary" onClick={() => openAddEditModal('add')}><PlusOutlined />添加</Button>
-                <Button type="primary" onClick={() => onMultipleDelete()}><DeleteOutlined />批量删除</Button>
-            </Space>
-            <Table 
-                bordered={true}
-                loading={loading}
-                rowSelection={rowSelection} 
-                columns={columns}
-                dataSource={userTableData} 
-                pagination={{...pagination, ...total}}
-                onChange={(values) => handlePageChange(values)}
-                rowKey={(record) => `${record.id}`} />
-            <Modal
-                title={modalType === 'add' ? '创建用户' : '编辑用户'}
-                visible={modalVisible}
-                footer={null}
-                destroyOnClose={true}
-                onCancel={() => handleCancelModal()}>
-                    <Form
-                        {...layout}
-                        name="add-edit"
-                        initialValues={modalForm}
-                        onFinish={(values) => onSaveAddEditForm(values)}>
-                            <Form.Item label="用户名" name="username" rules={[{required: true, message: '请输入用户名'}]}>
-                                <Input placeholder="请输入用户名" />
-                            </Form.Item>
-                            <Form.Item label="性别" name="gender">
-                                <Radio.Group>
-                                    <Radio value={0}>男</Radio>
-                                    <Radio value={1}>女</Radio>
-                                </Radio.Group>
-                            </Form.Item>
-                            <Form.Item 
-                                label="头像"
-                                name="avatar"
-                                valuePropName="avatar">
-                                    <Upload
-                                        name="avatar"
-                                        listType="picture-card"
-                                        showUploadList={false}
-                                        action={SERVER_ADDRESS + '/file/uploadAvatar'}
-                                        beforeUpload={(file) => handleBeforeUpload(file)}
-                                        onChange={(info) => handleAvatarChange(info)}>
-                                            {
-                                                avatarUrl ? 
-                                                <img src={SERVER_ADDRESS + '/' + avatarUrl} alt="获取头像失败" className="w-full" /> 
-                                                : 
-                                                <Uploading uploading={uploading}/>
-                                            }
-                                    </Upload>
-                            </Form.Item>
-                            <Form.Item label="手机号码" name="phone" rules={[{pattern: PhoneRegexp, message: '手机号码格式不正确'}]}>
-                                <Input placeholder="请输入手机号码" />
-                            </Form.Item>
-                            <Form.Item label="邮箱" name="email" rules={[{pattern: EmailRegexp, message: '邮箱格式不正确'}]}>
-                                <Input placeholder="请输入邮箱" />
-                            </Form.Item>
-                            <Form.Item {...tailLayout}>
+        <Spin spinning={spinning}>
+            <Card title="用户列表">
+                <Form
+                    name="search"
+                    ref={searchRef}
+                    className="ant-advanced-search-form"
+                    onFinish={(values) => setSearchForm(values)}>
+                        <Row
+                            gutter={24}>
+                            <Col span={5}>
+                                <Form.Item name="username" label="姓名">
+                                    <Input placeholder="请输入姓名" />
+                                </Form.Item>
+                            </Col>
+                            <Col span={5}>
+                                <Form.Item name="gender" label="性别">
+                                    <Select initialvalue="不限">
+                                        {
+                                            Options.map(option => (
+                                                <Select.Option
+                                                    key={option.value}
+                                                    value={option.value}>
+                                                    {option.label}
+                                                </Select.Option>
+                                            ))
+                                        }
+                                    </Select>
+                                </Form.Item>
+                            </Col>
+                            <Col span={5}>
+                                <Form.Item name="phone" label="手机号码">
+                                    <Input placeholder="请输入手机号码" />
+                                </Form.Item>
+                            </Col>
+                            <Col span={5}>
+                                <Form.Item name="email" label="邮箱">
+                                    <Input placeholder="请输入邮箱" />
+                                </Form.Item>
+                            </Col>
+                            <Col span={4}>
                                 <Space>
-                                    <Button type='primary' htmlType="submit">确定</Button>
-                                    <Button type="button" onClick={() => handleCancelModal()}>取消</Button>
+                                    <Button type="primary" htmlType="submit">查询</Button>
+                                    <Button onClick={() => searchRef.current.resetFields()}>重置</Button>
                                 </Space>
-                            </Form.Item>
-                    </Form>
-            </Modal>
-        </Card>
+                            </Col>
+                        </Row>
+                </Form>
+                <Space className="mb-4">
+                    <Button type="primary" onClick={() => openAddEditModal('add')}><PlusOutlined />添加</Button>
+                    <Button type="primary" onClick={() => onMultipleDelete()}><DeleteOutlined />批量删除</Button>
+                </Space>
+                <Table 
+                    bordered={true}
+                    rowSelection={rowSelection} 
+                    columns={columns}
+                    dataSource={userTableData} 
+                    pagination={{...pagination, ...total}}
+                    onChange={(values) => handlePageChange(values)}
+                    rowKey={(record) => `${record.id}`} />
+                <Modal
+                    title={modalType === 'add' ? '创建用户' : '编辑用户'}
+                    visible={modalVisible}
+                    footer={null}
+                    destroyOnClose={true}
+                    onCancel={() => setModalVisible(false)}>
+                        <Form
+                            {...layout}
+                            name="add-edit"
+                            initialValues={modalForm}
+                            onFinish={(values) => onSaveAddEditForm(values)}>
+                                <Form.Item label="用户名" name="username" rules={[{required: true, message: '请输入用户名'}]}>
+                                    <Input placeholder="请输入用户名" />
+                                </Form.Item>
+                                <Form.Item label="性别" name="gender">
+                                    <Radio.Group>
+                                        <Radio value={0}>男</Radio>
+                                        <Radio value={1}>女</Radio>
+                                    </Radio.Group>
+                                </Form.Item>
+                                <Form.Item 
+                                    label="头像"
+                                    name="avatar"
+                                    valuePropName="avatar">
+                                        <Upload
+                                            name="avatar"
+                                            listType="picture-card"
+                                            showUploadList={false}
+                                            action={SERVER_ADDRESS + '/file/uploadAvatar'}
+                                            beforeUpload={(file) => handleBeforeUpload(file)}
+                                            onChange={(info) => handleAvatarChange(info)}>
+                                                {
+                                                    avatarUrl ? 
+                                                    <img src={SERVER_ADDRESS + '/' + avatarUrl} alt="获取头像失败" className="w-full" /> 
+                                                    : 
+                                                    <Uploading uploading={uploading}/>
+                                                }
+                                        </Upload>
+                                </Form.Item>
+                                <Form.Item label="手机号码" name="phone" rules={[{pattern: PhoneRegexp, message: '手机号码格式不正确'}]}>
+                                    <Input placeholder="请输入手机号码" />
+                                </Form.Item>
+                                <Form.Item label="邮箱" name="email" rules={[{pattern: EmailRegexp, message: '邮箱格式不正确'}]}>
+                                    <Input placeholder="请输入邮箱" />
+                                </Form.Item>
+                                <Form.Item {...tailLayout}>
+                                    <Space>
+                                        <Button type='primary' htmlType="submit">确定</Button>
+                                        <Button type="button" onClick={() => setModalVisible(false)}>取消</Button>
+                                    </Space>
+                                </Form.Item>
+                        </Form>
+                </Modal>
+            </Card>
+        </Spin>
     );
 }
 
