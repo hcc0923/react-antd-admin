@@ -1,6 +1,5 @@
 import React, { Fragment, useState } from 'react';
 import { 
-    Spin,
     Row, 
     Col, 
     Card
@@ -14,7 +13,6 @@ import { SERVER_ADDRESS } from '@/utils/config';
 
 
 function RichText() {
-    const [spinning, setSpinning] = useState(false);
     const [editorContent, setEditorContent] = useState(null);
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
@@ -26,14 +24,12 @@ function RichText() {
     }
     const imageUploadCallBack = (file) => {
         return new Promise((resolve, reject) => {
-            setSpinning(true);
             const xhr = new XMLHttpRequest();
             xhr.open('POST', `${SERVER_ADDRESS}/file/uploadAvatar`);
             
             const formData = new FormData();
             formData.append('avatar', file);
             xhr.send(formData);
-            setSpinning(false);
 
             xhr.addEventListener('load', () => {
                 const response = JSON.parse(xhr.responseText);
@@ -57,7 +53,7 @@ function RichText() {
     }
 
     return (  
-        <Spin spinning={spinning}>
+        <Fragment>
             <Row>
                 <Col span={24}>
                     <Card title="富文本编辑器" bordered>
@@ -90,7 +86,7 @@ function RichText() {
                     </Card>
                 </Col>
             </Row>
-        </Spin>
+        </Fragment>
     );
 }
 
