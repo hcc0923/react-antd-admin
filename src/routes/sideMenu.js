@@ -13,7 +13,7 @@ import {
 const sideMenu = [
     {
         path: '/dashboard',
-        name: '主页',
+        name: '首页',
         icon: <DashboardOutlined />,
     },
     {
@@ -106,7 +106,7 @@ const sideMenu = [
                 name: 'Pdf'
             },
             { 
-                path: '/module/file-admin',
+                path: '/module/fileadmin',
                 name: '文件管理'
             },
             { 

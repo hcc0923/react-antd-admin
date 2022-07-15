@@ -22,6 +22,36 @@ function FileAdmin() {
     const [fileList, setFileList] = useState([]);
     const [myUploadList, setMyUploadList] = useState([]);
 
+    const beforeUploadFile = (fileList) => {
+        setUploadFileList([...uploadFileList, ...fileList]);
+        return false;
+    }
+    const onRemoveFile = (file) => {
+        const index = uploadFileList.indexOf(file);
+        const newUploadFileList = uploadFileList.slice();
+        newUploadFileList.splice(index, 1);
+        setUploadFileList(newUploadFileList);
+    }
+    const handleUploadFileList = () => {
+        setUploading(true);
+
+        const formData = new FormData();
+        uploadFileList.forEach(file => {
+            formData.append('files', file);
+        });
+        $http.post('/file/uploadFileList', formData)
+            .then(() => {
+                setUploadFileList([]);
+                message.success('上传成功');
+            })
+            .catch(error => {
+                console.log(error);
+                message.success('上传失败');
+            })
+            .finally(() => {
+                setUploading(false);
+            });
+    }
     const handleGetFileList = () => {
         setSpinning(true);
         $http.get('/file/getFileList')
@@ -62,28 +92,10 @@ function FileAdmin() {
                 break;
         }
     }
-    const handleUploadFileList = () => {
-        setUploading(true);
-
-        const formData = new FormData();
-        uploadFileList.forEach(file => {
-            formData.append('files', file);
-        });
-        $http.post('/file/uploadFileList', formData)
-            .then(() => {
-                setUploading(false);
-                setUploadFileList([]);
-                message.success('上传成功');
-            })
-            .catch(error => {
-                console.log(error);
-                message.success('上传失败');
-            });
-    }
     const handleDownload = (type) => {
+        setSpinning(true);
         switch (type) {
             case 'filelist':
-                setSpinning(true);
                 fileList.forEach(file => {
                     const name = file.name;
                     window.open(`${SERVER_ADDRESS}/${name}`);
@@ -91,7 +103,6 @@ function FileAdmin() {
                 setSpinning(false);
                 break;
             case 'myupload':
-                setSpinning(true);
                 myUploadList.forEach(file => {
                     const name = file.name;
                     window.open(`${SERVER_ADDRESS}/${name}`);
@@ -99,15 +110,14 @@ function FileAdmin() {
                 setSpinning(false);
                 break;
             default:
-                setSpinning(true);
                 window.open(`${SERVER_ADDRESS}/${type.name}`);
                 setSpinning(false);
                 break;
         }
     }
     const handleDelete = (type) => {
+        setSpinning(true);
         if (type === 'uploadlist') {
-            setSpinning(true);
             const ids = myUploadList.map(file => file.id);
             const params = { ids };
             $http.delete('/file/deleteAllFile', { params })
@@ -121,7 +131,6 @@ function FileAdmin() {
                     message.error('删除失败');
                 });
         } else {
-            setSpinning(true);
             const params = { name: type.name };
             $http.delete('/file/deleteSingleFile', { params })
                 .then(() => {
@@ -135,28 +144,6 @@ function FileAdmin() {
                 });
         }
     }
-    const uploadProps = {
-        onRemove: file => {
-            const index = uploadFileList.indexOf(file);
-            const newUploadFileList = uploadFileList.slice();
-            newUploadFileList.splice(index, 1);
-            setUploadFileList(newUploadFileList);
-        },
-        beforeUpload: file => {
-            setUploadFileList([...uploadFileList, file]);
-            return false;
-        },
-        multiple: true,
-        progress: {
-            strokeColor: {
-                '0%': '#87d068',
-                '100%': '#1DA57A',
-            },
-            strokeWidth: 3,
-            format: percent => `${parseFloat(percent.toFixed(2))}%`,
-        },
-        uploadFileList
-    };
     
     return (  
         <Spin spinning={spinning}>
@@ -167,7 +154,11 @@ function FileAdmin() {
                 >
                     <Tabs.TabPane tab="上传文件"key="upload">
                         <Upload.Dragger 
-                            {...uploadProps} 
+                            maxCount={10}
+                            multiple={true}
+                            fileList={uploadFileList}
+                            beforeUpload={(_, fileList) => beforeUploadFile(fileList)}
+                            onRemove={(file) => onRemoveFile(file)}
                             name="files" 
                             className="w-1/4"
                         >
@@ -247,7 +238,8 @@ function FileAdmin() {
                                         <Button type="default" onClick={() => handleDownload(item)}>下载</Button>
                                         <Button type="danger" onClick={() => handleDelete(item)}>删除</Button>
                                     </Space>
-                                </List.Item>}>
+                                </List.Item>}
+                        >
                         </List>
                     </Tabs.TabPane>
                 </Tabs>

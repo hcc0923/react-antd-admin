@@ -42,7 +42,6 @@ function Excel() {
             return buffer;
         }
         const blob = new Blob([stringToArrayBuffer(XLSXBook)], { type: "application/octet-stream" }); 
-        console.log(blob);
         return blob;
     }
     const openDownloadDialog = (blob, saveName) => {

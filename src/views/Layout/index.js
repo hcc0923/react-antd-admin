@@ -91,7 +91,7 @@ function App(props) {
             ]}
             breadcrumbProps={dashboard ? { separator: '' } : {}}
             waterMarkProps={{ content: 'react-antd-admin' }}  
-            menuItemRender={(menuItem, dom) => (<Link to={menuItem.path}>{dom}</Link>)} 
+            menuItemRender={(menuItem, dom) => (<a href={`#${menuItem.path}`}>{dom}</a>)} 
             rightContentRender={() => <TopRightContent />} 
             {...settings}
           >
