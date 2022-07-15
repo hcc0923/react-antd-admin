@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { 
+    Spin,
     Card, 
     Table, 
     Upload, 
@@ -9,7 +10,7 @@ import * as XLSX from 'xlsx';
 
 
 function Excel() {
-    const [loading, setLoading] = useState(false);
+    const [spinning, setSpinning] = useState(false);
     const [data, setData] = useState([]);
     const [fileList, setFileList] = useState([]);
 
@@ -55,6 +56,7 @@ function Excel() {
         aLink.dispatchEvent(event);
     }
     const handleExportAll = () => {
+        setSpinning(true);
         const rowMap = {
             "name":"姓名",
             "gender":"性别",
@@ -71,6 +73,7 @@ function Excel() {
 
         const sheet = XLSX.utils.json_to_sheet(newData);
         openDownloadDialog(sheetToBlob(sheet, undefined), `全部信息.xlsx`);
+        setSpinning(false);
     }
     const formatTitleAndFileld = (a, b) => {
         const rowMap = {};
@@ -116,6 +119,7 @@ function Excel() {
             setFileList([]);
         },
         beforeUpload: (file) => {
+            setSpinning(true);
             const fileReader = new FileReader();
             fileReader.addEventListener('load', (event) => {
                 const list = event.target.result;
@@ -127,27 +131,35 @@ function Excel() {
                 const JSONList = XLSX.utils.sheet_to_json(workBook.Sheets[workBook.SheetNames[0]], { header: 1 });
 
                 handleImportJSON(JSONList, file);
-            })
+            });
             fileReader.readAsBinaryString(file);
+            setSpinning(false);
         }
     };
     
     return (  
-        <Card title="Excel导入导出解析">
-            <div className="flex justify-start mb-4">
-                <Upload {...uploadProps}>
-                    <Button type="primary">Excel导入</Button>
-                </Upload>
-                <Button className="ml-4" type="primary" onClick={() => handleExportAll()}>Excel导出数据</Button>
-            </div>
-            <Table 
-                bordered={true}
-                loading={loading}
-                columns={columns} 
-                dataSource={data} 
-                rowKey={(record) => `${record.name}`}
-            />
-        </Card>
+        <Spin spinning={spinning}>
+            <Card title="Excel导入导出解析">
+                <div className="flex justify-start mb-4">
+                    <Upload {...uploadProps}>
+                        <Button type="primary">Excel导入</Button>
+                    </Upload>
+                    <Button 
+                        className="ml-4" 
+                        type="primary" 
+                        onClick={() => handleExportAll()}
+                    >
+                        Excel导出数据
+                    </Button>
+                </div>
+                <Table 
+                    bordered={true}
+                    columns={columns} 
+                    dataSource={data} 
+                    rowKey={(record) => `${record.name}`}
+                />
+            </Card>
+        </Spin>
     );
 }
 

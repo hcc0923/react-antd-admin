@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { 
+    Spin,
     Card, 
     Table, 
     Input, 
-    Button,
-    Spin
+    Button
 } from 'antd';
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
@@ -29,9 +29,6 @@ function Zip() {
         { title: '年龄', dataIndex: 'age' },
         { title: '工作', dataIndex: 'work' }
     ];
-    const handleFileChange = (event) => {
-        setFileName(event.target.value);
-    }
     const handleExportZip = () => {
         setSpinning(true);
         const zip = new JSZip();
@@ -64,7 +61,7 @@ function Zip() {
                     className="w-1/4 mr-3"
                     placeholder="请输入文件名" 
                     value={fileName} 
-                    onChange={(event) => handleFileChange(event)}
+                    onChange={(event) => setFileName(event.target.value)}
                 />
                 <Button type="primary" onClick={() => handleExportZip()}>导出Zip</Button>
                 <Table

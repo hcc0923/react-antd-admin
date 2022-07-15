@@ -45,13 +45,11 @@ function Forget(props) {
         }
     }
     const handleValidateEmail = (event) => {
-        const params = {};
-        params.email = event.target.value;
-        $http.get('/login/findEmail', {params})
+        const params = { email: event.target.value };
+        $http.get('/login/findEmail', { params })
             .then(response => {
                 const { result } = response;
                 if (result.length === 0) {
-                    setDisabled(true)
                     return message.error('邮箱还未注册，请先注册');
                 }
             })
@@ -63,8 +61,7 @@ function Forget(props) {
         if (!validateForm.email || !EmailRegexp.test(validateForm.email)) {
             return message.error('请输入正确的邮箱');
         }
-        const params = {};
-        params.email = validateForm.email;
+        const params = { email: validateForm.email };
         $http.get('/login/sendEmail', { params })
             .then(response => {
                 const authCode = CryptoJS.AES.decrypt(response.userAuthCode, EMAIL_KEY).toString(CryptoJS.enc.Utf8);
@@ -73,6 +70,7 @@ function Forget(props) {
                 let second = 59;
                 let timer = null;
                 message.success('验证码已发送到邮箱，请注意查收');
+
                 setDisabled(true);
                 setCodeText(`${second}秒后重新获取`);
                 timer = setInterval(() => {
@@ -102,7 +100,7 @@ function Forget(props) {
         const params = {
             email: localStorage.getItem('validateEmail'),
             password: cryptoPassword
-        }
+        };
         $http.put('/login/resetPassword', params)
             .then(() => {
                 message.success('密码重置成功，请到重新登录账号');
@@ -110,7 +108,8 @@ function Forget(props) {
                 props.history.push('/login');
             })
             .catch((error) => {
-                message.error(error);
+                message.error('密码重置失败');
+                console.log(error);
             });
     }
     return (  
@@ -123,51 +122,55 @@ function Forget(props) {
                         name="basic"
                         className="flex justify-center items-center flex-col p-0 h-3/4 text-center"
                         initialValues={validateForm}
-                        onFinish={() => handleFindPassword()}>
-                            <Form.Item
-                                label="邮箱"
-                                name="email"
-                                className="p-3 w-full"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: '邮箱不能为空!',
-                                    },
-                                    {
-                                        pattern: EmailRegexp,
-                                        message: '邮箱格式不正确!',
-                                    }
-                                ]}
-                                onChange={(event) => handleInputChange(event, 'validate', 'email')}
-                                onBlur={(event) => handleValidateEmail(event)}>
-                                <Input />
-                            </Form.Item>
-                            <Form.Item
-                                label="验证码"
-                                name="code"
-                                className="p-3 w-full"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: '验证码不能为空!',
-                                    }
-                                ]}
-                                onChange={(event) => handleInputChange(event, 'validate', 'code')}>
-                                <section className="flex">
-                                    <Input className="mr-0" />
-                                    <Button 
-                                        type="primary" 
-                                        disabled={disabled}  
-                                        className={`w-25 text-xs px-1 py-0 ml-3 ${disabled ? 'disabled:opacity-50 disabled' : ''}`} 
-                                        onClick={() => handleAuthEmailCode()}>
-                                        {codeText}
-                                    </Button>
-                                </section>
-                            </Form.Item>
-                            <Form.Item {...tailLayout}>
-                                <Button type="primary" htmlType="submit">找回密码</Button>
-                            </Form.Item>
-                            <Link to="/login" className="mx-0 my-1 text-gray-300">已有账号，去登录</Link>
+                        onFinish={() => handleFindPassword()}
+                    >
+                        <Form.Item
+                            label="邮箱"
+                            name="email"
+                            className="p-3 w-full"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: '邮箱不能为空!',
+                                },
+                                {
+                                    pattern: EmailRegexp,
+                                    message: '邮箱格式不正确!',
+                                }
+                            ]}
+                            onChange={(event) => handleInputChange(event, 'validate', 'email')}
+                            onBlur={(event) => handleValidateEmail(event)}
+                        >
+                            <Input />
+                        </Form.Item>
+                        <Form.Item
+                            label="验证码"
+                            name="code"
+                            className="p-3 w-full"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: '验证码不能为空!',
+                                }
+                            ]}
+                            onChange={(event) => handleInputChange(event, 'validate', 'code')}
+                        >
+                            <div className="flex">
+                                <Input className="mr-0" />
+                                <Button 
+                                    type="primary" 
+                                    disabled={disabled}  
+                                    className={`w-25 text-xs px-1 py-0 ml-3 ${disabled ? 'disabled:opacity-50 disabled' : ''}`} 
+                                    onClick={() => handleAuthEmailCode()}
+                                >
+                                    {codeText}
+                                </Button>
+                            </div>
+                        </Form.Item>
+                        <Form.Item {...tailLayout}>
+                            <Button type="primary" htmlType="submit">找回密码</Button>
+                        </Form.Item>
+                        <Link to="/login" className="mx-0 my-1 text-gray-300">已有账号，去登录</Link>
                     </Form>
                 </div>
                 <div className={`w-full ${formType === 'validate' ? 'hidden' : ''}`}>
@@ -177,44 +180,47 @@ function Forget(props) {
                         name="basic"
                         className="flex justify-center items-center flex-col p-0 h-3/4 text-center"
                         initialValues={resetForm}
-                        onFinish={() => handleResetPassword()}>
-                            <Form.Item
-                                label="密码"
-                                name="password"
-                                className="p-3 w-full"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: '密码不能为空!',
-                                    },
-                                    {
-                                        min: 6,
-                                        message: '密码长度不能少于六位!',
-                                    },
-                                ]}
-                                onChange={(event) => handleInputChange(event, 'reset', 'password')}>
-                                <Input.Password />
-                            </Form.Item>
-                            <Form.Item
-                                label="密码"
-                                name="repeatPassword"
-                                className="p-3 w-full"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: '密码不能为空!',
-                                    },
-                                    {
-                                        validator: (_, value) => 
-                                        value === resetForm.password ? Promise.resolve() : Promise.reject('两次输入的密码不一致!')
-                                    },
-                                ]}
-                                onChange={(event) => handleInputChange(event, 'reset', 'repeatPassword')}>
-                                <Input.Password />
-                            </Form.Item>
-                            <Form.Item {...tailLayout}>
-                                <Button type="primary" htmlType="submit">重置新密码</Button>
-                            </Form.Item>
+                        onFinish={() => handleResetPassword()}
+                    >
+                        <Form.Item
+                            label="密码"
+                            name="password"
+                            className="p-3 w-full"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: '密码不能为空!',
+                                },
+                                {
+                                    min: 6,
+                                    message: '密码长度不能少于六位!',
+                                },
+                            ]}
+                            onChange={(event) => handleInputChange(event, 'reset', 'password')}
+                        >
+                            <Input.Password />
+                        </Form.Item>
+                        <Form.Item
+                            label="密码"
+                            name="repeatPassword"
+                            className="p-3 w-full"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: '密码不能为空!',
+                                },
+                                {
+                                    validator: (_, value) => 
+                                    value === resetForm.password ? Promise.resolve() : Promise.reject('两次输入的密码不一致!')
+                                },
+                            ]}
+                            onChange={(event) => handleInputChange(event, 'reset', 'repeatPassword')}
+                        >
+                            <Input.Password />
+                        </Form.Item>
+                        <Form.Item {...tailLayout}>
+                            <Button type="primary" htmlType="submit">重置新密码</Button>
+                        </Form.Item>
                     </Form>
                 </div>
             </div>

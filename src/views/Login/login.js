@@ -50,11 +50,11 @@ function Login(props) {
         }
     }
     const handleLogin = (values, isRegistered) => {
+        setLoading(true);
         setLoginForm(values);
         const params = JSON.parse(JSON.stringify(loginForm));
-        params.password = CryptoJS.MD5(params.password).toString();
+        params['password'] = CryptoJS.MD5(params['password']).toString();
         
-        setLoading(true);
         $http.post('/login/login', params)
             .then((response) => {
                 const { userInfo, token } = response;
@@ -70,10 +70,11 @@ function Login(props) {
                 if (isRegistered) message.destroy('loading');
                 props.history.push('/');
                 message.success('登陆成功');
-                setLoading(false);
             })
             .catch((error) => {
                 console.log(error);
+            })
+            .finally(() => {
                 setLoading(false);
             });
     }
@@ -82,26 +83,29 @@ function Login(props) {
         $http.post('/login/register', params)
             .then((response) => {
                 const { result } = response;
-                if (result.length !== 0) return message.error('该邮箱已注册，请登录');
+                if (result.length !== 0) {
+                    return message.error('该邮箱已注册，请登录');
+                }
             })
             .catch((error) => {
                 console.log(error);
             });
     }
     const handleRegister = () => {
+        setLoading(true);
         const params = JSON.parse(JSON.stringify(registerForm));
         params.password = CryptoJS.MD5(params.password).toString();
 
-        setLoading(true);
         $http.post('/login/register', params)
             .then(() => {
                 message.loading({ content: '注册成功，正在为你登录...', key: 'loading' });
                 setLoginForm(registerForm);
                 handleLogin(registerForm, true);
-                setLoading(false);
             })
             .catch((error) => {
                 console.log(error);
+            })
+            .finally(() => {
                 setLoading(false);
             });
     }
@@ -116,52 +120,59 @@ function Login(props) {
                         name="basic"
                         className="flex justify-center items-center flex-col p-0 h-3/4 text-center"
                         initialValues={loginForm}
-                        onFinish={(values) => handleLogin(values)}>
-                            <Form.Item
-                                label="邮箱"
-                                name="email"
-                                className="p-3 w-full"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: '邮箱不能为空!',
-                                    },
-                                    {
-                                        pattern: EmailRegexp,
-                                        message: '邮箱格式不正确!',
-                                    }
-                                ]}
-                                onChange={(event) => handleInputChange(event, 'login', 'email')}>
-                                <Input autoComplete="off"/>
-                            </Form.Item>
-                            <Form.Item
-                                label="密码"
-                                name="password"
-                                className="p-3 w-full"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: '密码不能为空!',
-                                    },
-                                    {
-                                        min: 6,
-                                        message: '密码长度不能少于六位!',
-                                    },
-                                ]}
-                                onChange={(event) => handleInputChange(event, 'login', 'password')}>
-                                <Input.Password />
-                            </Form.Item>
-                            <Link to="/forget" className="mx-0 my-1 text-black">忘记密码</Link>
-                            <Form.Item {...tailLayout}>
-                                <Button type="primary" disabled={loading ? true : false} htmlType="submit">
+                        onFinish={(values) => handleLogin(values)}
+                    >
+                        <Form.Item
+                            label="邮箱"
+                            name="email"
+                            className="p-3 w-full"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: '邮箱不能为空!',
+                                },
+                                {
+                                    pattern: EmailRegexp,
+                                    message: '邮箱格式不正确!',
+                                }
+                            ]}
+                            onChange={(event) => handleInputChange(event, 'login', 'email')}
+                        >
+                            <Input autoComplete="off"/>
+                        </Form.Item>
+                        <Form.Item
+                            label="密码"
+                            name="password"
+                            className="p-3 w-full"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: '密码不能为空!',
+                                },
+                                {
+                                    min: 6,
+                                    message: '密码长度不能少于六位!',
+                                },
+                            ]}
+                            onChange={(event) => handleInputChange(event, 'login', 'password')}
+                        >
+                            <Input.Password />
+                        </Form.Item>
+                        <Link to="/forget" className="mx-0 my-1 text-black">忘记密码</Link>
+                        <Form.Item {...tailLayout}>
+                            <Button 
+                                type="primary" 
+                                disabled={loading ? true : false} 
+                                htmlType="submit"
+                            >
                                 {
                                     loading ? 
                                     <LoadingOutlined className="mr-1" /> 
                                     : 
                                     null
                                 }登录
-                                </Button>
-                            </Form.Item>
+                            </Button>
+                        </Form.Item>
                     </Form>
                 </div>
                 <div className="w-1/2">
@@ -171,52 +182,59 @@ function Login(props) {
                         name="basic"
                         className="flex justify-center items-center flex-col p-0 h-3/4 text-center"
                         initialValues={registerForm}
-                        onFinish={() => handleRegister()}>
-                            <Form.Item
-                                label="邮箱"
-                                name="email"
-                                className="p-3 w-full"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: '邮箱不能为空!',
-                                    },
-                                    {
-                                        pattern: EmailRegexp,
-                                        message: '邮箱格式不正确!',
-                                    }
-                                ]}
-                                onChange={(event) => handleInputChange(event, 'register', 'email')}
-                                onBlur={(event) => handleAuthRegistered(event)}>
-                                <Input  autoComplete="off"/>
-                            </Form.Item>
-                            <Form.Item
-                                label="密码"
-                                name="password"
-                                className="p-3 w-full"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: '密码不能为空!',
-                                    },
-                                    {
-                                        min: 6,
-                                        message: '密码长度不能小于六位!',
-                                    },
-                                ]}
-                                onChange={(event) => handleInputChange(event, 'register', 'password')}>
-                                <Input.Password />
-                            </Form.Item>
-                            <Form.Item {...tailLayout}>
-                                <Button type="primary" disabled={loading ? true : false} htmlType="submit">
+                        onFinish={() => handleRegister()}
+                    >
+                        <Form.Item
+                            label="邮箱"
+                            name="email"
+                            className="p-3 w-full"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: '邮箱不能为空!',
+                                },
+                                {
+                                    pattern: EmailRegexp,
+                                    message: '邮箱格式不正确!',
+                                }
+                            ]}
+                            onChange={(event) => handleInputChange(event, 'register', 'email')}
+                            onBlur={(event) => handleAuthRegistered(event)}
+                        >
+                            <Input  autoComplete="off"/>
+                        </Form.Item>
+                        <Form.Item
+                            label="密码"
+                            name="password"
+                            className="p-3 w-full"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: '密码不能为空!',
+                                },
+                                {
+                                    min: 6,
+                                    message: '密码长度不能小于六位!',
+                                },
+                            ]}
+                            onChange={(event) => handleInputChange(event, 'register', 'password')}
+                        >
+                            <Input.Password />
+                        </Form.Item>
+                        <Form.Item {...tailLayout}>
+                            <Button 
+                                type="primary" 
+                                disabled={loading ? true : false} 
+                                htmlType="submit"
+                            >
                                 {
                                     loading ? 
                                     <LoadingOutlined className="mr-1" /> 
                                     : 
                                     null
                                 }注册
-                                </Button>
-                            </Form.Item>
+                            </Button>
+                        </Form.Item>
                     </Form>
                 </div>
                 <div className="absolute w-1/2 h-full bg-green-800" style={{transform: 'translateX('+ overlay.step +'%)', transition: 'ease all 0.5s'}}>
