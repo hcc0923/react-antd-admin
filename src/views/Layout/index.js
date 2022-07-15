@@ -24,8 +24,8 @@ import PageContainerContent from './PageContainerContent';
 function App(props) {
     const [breadCrumb, setBreadCrumb] = useState([]);
     const [dashboard, setDashboard] = useState(false);
+    const [locationPathName, setLocationPathName] = useState(localStorage.getItem('pathname') || '/');
     const { route: renderRoute, settings, location } = props;
-    const { pathname: locationPathName } = location;
     const breadCrumbdData = [];
 
     const onSettingChange = (settings) => {
@@ -47,7 +47,7 @@ function App(props) {
       }); 
     }
     const handleInitBreadCrumb = () => {
-      const pathNames = locationPathName.split('/').slice(1);
+      const pathNames = location['pathname'].split('/').slice(1);
       let pathStr = '';
       const mergedPaths = pathNames.map(path => pathStr += `/${path}`);
 
@@ -66,8 +66,14 @@ function App(props) {
       });
       setBreadCrumb(breadCrumbdData);
     }
+    const onClickItem = (item) => {
+      setLocationPathName(item);
+      localStorage.setItem('pathname', item)
+      console.log(item);
+    }
     useEffect(() => {
-      handleInitBreadCrumb();
+      // handleInitBreadCrumb();
+      console.log(locationPathName);
     }, [locationPathName]);
     
     return (
@@ -81,17 +87,20 @@ function App(props) {
             title="react-antd-admin"
             logo={<></>}
             route={{ routes: sideMenu }}
-            headerContentRender={() => <ProBreadcrumb />}
-            breadcrumbRender={() => [
-              {
-                path: '/',
-                breadcrumbName: '首页',
-              },
-              ...breadCrumb
-            ]}
-            breadcrumbProps={dashboard ? { separator: '' } : {}}
+            location={{
+              pathname: locationPathName,
+            }}
+            // headerContentRender={() => <ProBreadcrumb />}
+            // breadcrumbRender={() => [
+            //   {
+            //     path: '/',
+            //     breadcrumbName: '首页',
+            //   },
+            //   ...breadCrumb
+            // ]}
+            // breadcrumbProps={dashboard ? { separator: '' } : {}}
             waterMarkProps={{ content: 'react-antd-admin' }}  
-            menuItemRender={(menuItem, dom) => (<a href={`#${menuItem.path}`}>{dom}</a>)} 
+            menuItemRender={(menuItem, dom) => (<a href={`#${menuItem.path}`} onClick={() => onClickItem(menuItem.path || '/')}>{dom}</a>)} 
             rightContentRender={() => <TopRightContent />} 
             {...settings}
           >
