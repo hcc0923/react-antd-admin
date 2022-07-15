@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { 
+    Spin,
     Card, 
     Form, 
     Input, 
@@ -12,7 +13,6 @@ import {
     Modal,
     Radio, 
     Upload,
-    Spin, 
     message 
 } from "antd";
 import { 
@@ -63,6 +63,7 @@ function UserList() {
     const searchRef = useRef();
     
     const getUserList = () => {
+        setSpinning(true);
         const params = {};
         for (const key in searchForm) {
             params[key] = searchForm[key];
@@ -72,8 +73,7 @@ function UserList() {
                 params[key] = pagination[key];
             }
         }
-        setSpinning(true);
-        $http.get('/user/getUser', {params})
+        $http.get('/user/getUser', { params })
             .then((response) => {
                 const { result, total } = response;
 
@@ -103,22 +103,21 @@ function UserList() {
         setModalVisible(true);
     }
     const onSaveAddEditForm = (values) => {
+        setSpinning(true);
         values.avatar = values.avatar.file.response.file.path;
         if (modalType === 'add') {
-            setSpinning(true);
             $http.post('/user/addUser', values)
                 .then(() => {
                     setSpinning(false);
-                    message.success('创建成功');
+                    message.success('添加成功');
                     getUserList();
                     setModalVisible(false);
                 })
                 .catch((error) => {
-                    message.error('创建失败');
+                    message.error('添加失败');
                     console.log(error);
                 });
         } else {
-            setSpinning(true);
             values.id = modalForm.id;
             $http.put('/user/editUser', values)
                 .then(() => {
@@ -142,7 +141,7 @@ function UserList() {
             onOk: () => {
                 setSpinning(true);
                 const params = { id: record.id };
-                $http.delete('/user/deleteUser', {params})
+                $http.delete('/user/deleteUser', { params })
                     .then(() => {
                         setSpinning(false);
                         message.success('删除成功');
@@ -180,7 +179,7 @@ function UserList() {
             }
         });
     }
-    const handleBeforeUpload = (file) => {
+    const onBeforeUpload = (file) => {
         const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
         if (!isJpgOrPng) message.error('只能上传JPG/PNG文件!');
 
@@ -269,9 +268,7 @@ function UserList() {
             height: '100px',
             render: (text, record, index) => {
                 return (
-                    <Fragment>
-                        <img src={SERVER_ADDRESS + '/' + record.avatar} alt="获取头像失败" className="w-20 h-20" />
-                    </Fragment>
+                    <img src={SERVER_ADDRESS + '/' + record.avatar} alt="获取头像失败" className="w-20 h-20" />
                 )
             }
         },
@@ -293,6 +290,7 @@ function UserList() {
         getUserList();
     }, [searchForm, pagination]);
     const rowSelection = { selectedRowKeys, onChange: onSelectChange };
+
     return (  
         <Spin spinning={spinning}>
             <Card title="用户列表">
@@ -300,46 +298,44 @@ function UserList() {
                     name="search"
                     ref={searchRef}
                     className="ant-advanced-search-form"
-                    onFinish={(values) => setSearchForm(values)}>
-                        <Row
-                            gutter={24}>
-                            <Col span={5}>
-                                <Form.Item name="username" label="姓名">
-                                    <Input placeholder="请输入姓名" />
-                                </Form.Item>
-                            </Col>
-                            <Col span={5}>
-                                <Form.Item name="gender" label="性别">
-                                    <Select initialvalue="不限">
-                                        {
-                                            Options.map(option => (
-                                                <Select.Option
-                                                    key={option.value}
-                                                    value={option.value}>
-                                                    {option.label}
-                                                </Select.Option>
-                                            ))
-                                        }
-                                    </Select>
-                                </Form.Item>
-                            </Col>
-                            <Col span={5}>
-                                <Form.Item name="phone" label="手机号码">
-                                    <Input placeholder="请输入手机号码" />
-                                </Form.Item>
-                            </Col>
-                            <Col span={5}>
-                                <Form.Item name="email" label="邮箱">
-                                    <Input placeholder="请输入邮箱" />
-                                </Form.Item>
-                            </Col>
-                            <Col span={4}>
-                                <Space>
-                                    <Button type="primary" htmlType="submit">查询</Button>
-                                    <Button onClick={() => searchRef.current.resetFields()}>重置</Button>
-                                </Space>
-                            </Col>
-                        </Row>
+                    onFinish={(values) => setSearchForm(values)}
+                >
+                    <Row gutter={24}>
+                        <Col span={5}>
+                            <Form.Item name="username" label="姓名">
+                                <Input placeholder="请输入姓名" />
+                            </Form.Item>
+                        </Col>
+                        <Col span={5}>
+                            <Form.Item name="gender" label="性别">
+                                <Select initialvalue="不限">
+                                    {
+                                        Options.map(option => (
+                                            <Select.Option key={option.value} value={option.value}>
+                                                {option.label}
+                                            </Select.Option>
+                                        ))
+                                    }
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        <Col span={5}>
+                            <Form.Item name="phone" label="手机号码">
+                                <Input placeholder="请输入手机号码" />
+                            </Form.Item>
+                        </Col>
+                        <Col span={5}>
+                            <Form.Item name="email" label="邮箱">
+                                <Input placeholder="请输入邮箱" />
+                            </Form.Item>
+                        </Col>
+                        <Col span={4}>
+                            <Space>
+                                <Button type="primary" htmlType="submit">查询</Button>
+                                <Button onClick={() => searchRef.current.resetFields()}>重置</Button>
+                            </Space>
+                        </Col>
+                    </Row>
                 </Form>
                 <Space className="mb-4">
                     <Button type="primary" onClick={() => openAddEditModal('add')}><PlusOutlined />添加</Button>
@@ -352,59 +348,91 @@ function UserList() {
                     dataSource={userTableData} 
                     pagination={{...pagination, ...total}}
                     onChange={(values) => handlePageChange(values)}
-                    rowKey={(record) => `${record.id}`} />
+                    rowKey={(record) => `${record.id}`}
+                />
                 <Modal
                     title={modalType === 'add' ? '创建用户' : '编辑用户'}
                     visible={modalVisible}
                     footer={null}
                     destroyOnClose={true}
-                    onCancel={() => setModalVisible(false)}>
-                        <Form
-                            {...layout}
-                            name="add-edit"
-                            initialValues={modalForm}
-                            onFinish={(values) => onSaveAddEditForm(values)}>
-                                <Form.Item label="用户名" name="username" rules={[{required: true, message: '请输入用户名'}]}>
-                                    <Input placeholder="请输入用户名" />
-                                </Form.Item>
-                                <Form.Item label="性别" name="gender">
-                                    <Radio.Group>
-                                        <Radio value={0}>男</Radio>
-                                        <Radio value={1}>女</Radio>
-                                    </Radio.Group>
-                                </Form.Item>
-                                <Form.Item 
-                                    label="头像"
+                    onCancel={() => setModalVisible(false)}
+                >
+                    <Form
+                        {...layout}
+                        name="add-edit"
+                        initialValues={modalForm}
+                        onFinish={(values) => onSaveAddEditForm(values)}
+                    >
+                            <Form.Item 
+                                label="用户名" 
+                                name="username" 
+                                rules={[
+                                    {
+                                        required: true, 
+                                        message: '请输入用户名'
+                                    }
+                                ]}
+                            >
+                                <Input placeholder="请输入用户名" />
+                            </Form.Item>
+                            <Form.Item label="性别" name="gender">
+                                <Radio.Group>
+                                    <Radio value={0}>男</Radio>
+                                    <Radio value={1}>女</Radio>
+                                </Radio.Group>
+                            </Form.Item>
+                            <Form.Item 
+                                label="头像"
+                                name="avatar"
+                                valuePropName="avatar"
+                            >
+                                <Upload
                                     name="avatar"
-                                    valuePropName="avatar">
-                                        <Upload
-                                            name="avatar"
-                                            listType="picture-card"
-                                            showUploadList={false}
-                                            action={SERVER_ADDRESS + '/file/uploadAvatar'}
-                                            beforeUpload={(file) => handleBeforeUpload(file)}
-                                            onChange={(info) => handleAvatarChange(info)}>
-                                                {
-                                                    avatarUrl ? 
-                                                    <img src={SERVER_ADDRESS + '/' + avatarUrl} alt="获取头像失败" className="w-full" /> 
-                                                    : 
-                                                    <Uploading uploading={uploading}/>
-                                                }
-                                        </Upload>
-                                </Form.Item>
-                                <Form.Item label="手机号码" name="phone" rules={[{pattern: PhoneRegexp, message: '手机号码格式不正确'}]}>
-                                    <Input placeholder="请输入手机号码" />
-                                </Form.Item>
-                                <Form.Item label="邮箱" name="email" rules={[{pattern: EmailRegexp, message: '邮箱格式不正确'}]}>
-                                    <Input placeholder="请输入邮箱" />
-                                </Form.Item>
-                                <Form.Item {...tailLayout}>
-                                    <Space>
-                                        <Button type='primary' htmlType="submit">确定</Button>
-                                        <Button type="button" onClick={() => setModalVisible(false)}>取消</Button>
-                                    </Space>
-                                </Form.Item>
-                        </Form>
+                                    listType="picture-card"
+                                    showUploadList={false}
+                                    action={SERVER_ADDRESS + '/file/uploadAvatar'}
+                                    beforeUpload={(file) => onBeforeUpload(file)}
+                                    onChange={(info) => handleAvatarChange(info)}
+                                >
+                                    {
+                                        avatarUrl ? 
+                                        <img src={SERVER_ADDRESS + '/' + avatarUrl} alt="获取头像失败" className="w-full h-full" /> 
+                                        : 
+                                        <Uploading uploading={uploading} />
+                                    }
+                                </Upload>
+                            </Form.Item>
+                            <Form.Item 
+                                label="手机号码" 
+                                name="phone" 
+                                rules={[
+                                    {
+                                        pattern: PhoneRegexp, 
+                                        message: '手机号码格式不正确'
+                                    }
+                                ]}
+                            >
+                                <Input placeholder="请输入手机号码" />
+                            </Form.Item>
+                            <Form.Item 
+                                label="邮箱" 
+                                name="email" 
+                                rules={[
+                                    {
+                                        pattern: EmailRegexp, 
+                                        message: '邮箱格式不正确'
+                                    }
+                                ]}
+                            >
+                                <Input placeholder="请输入邮箱" />
+                            </Form.Item>
+                            <Form.Item {...tailLayout}>
+                                <Space>
+                                    <Button type='primary' htmlType="submit">确定</Button>
+                                    <Button type="button" onClick={() => setModalVisible(false)}>取消</Button>
+                                </Space>
+                            </Form.Item>
+                    </Form>
                 </Modal>
             </Card>
         </Spin>

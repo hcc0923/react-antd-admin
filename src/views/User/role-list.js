@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef, Fragment } from 'react';
 import { 
+    Spin,
     Card, 
     Table, 
     Row, 
@@ -11,7 +12,6 @@ import {
     Select, 
     Radio, 
     Input, 
-    Spin,
     message 
 } from 'antd';
 import { 
@@ -55,6 +55,7 @@ function RoleList() {
     const searchRef = useRef();
 
     const getRoleList = () => {
+        setSpinning(true);
         const params = {};
         for (const key in searchForm) {
             params[key] = searchForm[key];
@@ -64,7 +65,6 @@ function RoleList() {
                 params[key] = pagination[key];
             }
         }
-        setSpinning(true);
         $http.get('/user/getRole', {params})
             .then(response => {
                 const { result, total } = response;
@@ -108,8 +108,8 @@ function RoleList() {
             content: (<span>确认删除用户<span className="text-light-red">{record.username}</span>吗？</span>),
             onOk: () => {
                 setSpinning(true);
-                const params = {id: record.id};
-                $http.delete('/user/deleteUser', {params})
+                const params = { id: record.id };
+                $http.delete('/user/deleteUser', { params })
                     .then(() => {
                         setSpinning(false);
                         message.success('删除成功');
@@ -145,11 +145,11 @@ function RoleList() {
             render: (text) => {
                 switch (text) {
                     case 1:
-                        return <span style={{color: '#000000'}}>用户</span>;
+                        return <span style={{ color: '#000000' }}>用户</span>;
                     case 2:
-                        return <span style={{color: '#FFB800'}}>管理员</span>;
+                        return <span style={{ color: '#FFB800' }}>管理员</span>;
                     case 3:
-                        return <span style={{color: '#3DB327'}}>超级管理员</span>;
+                        return <span style={{ color: '#3DB327' }}>超级管理员</span>;
                     default:
                         break;
                 }
@@ -174,6 +174,7 @@ function RoleList() {
     useEffect(() => {
         getRoleList();
     }, [searchForm, pagination]);
+
     return (  
         <Spin spinning={spinning}>
             <Card title="角色列表">
@@ -181,9 +182,9 @@ function RoleList() {
                     name="search"
                     ref={searchRef}
                     className="ant-advanced-search-form"
-                    onFinish={(values) => setSearchForm(values)}>
-                        <Row
-                            gutter={24}>
+                    onFinish={(values) => setSearchForm(values)}
+                >
+                        <Row gutter={24}>
                             <Col span={5}>
                                 <Form.Item name="id" label="ID">
                                     <Input placeholder="请输入ID" />
@@ -199,9 +200,7 @@ function RoleList() {
                                     <Select initialvalue="不限">
                                         {
                                             Options.map(option => (
-                                                <Select.Option
-                                                    key={option.value}
-                                                    value={option.value}>
+                                                <Select.Option key={option.value} value={option.value}>
                                                     {option.label}
                                                 </Select.Option>
                                             ))
@@ -223,39 +222,42 @@ function RoleList() {
                     dataSource={userTableData}
                     pagination={{...pagination,...total}}
                     onChange={(pagination) => handlePageChange(pagination)}
-                    rowKey={(record) => `${record.id}`} />
-                        <Modal
-                            title="修改角色"
-                            visible={modalVisible}
-                            footer={null}
-                            destroyOnClose={true}
-                            onCancel={() => setModalVisible(false)}>
-                                <Form
-                                    {...layout}
-                                    name="edit"
-                                    initialValues={modalForm}
-                                    onFinish={(values) => onSaveEditForm(values)}>
-                                    <Form.Item label="ID" name="id">
-                                        <Input readOnly />
-                                    </Form.Item>
-                                    <Form.Item label="用户名" name="username">
-                                        <Input readOnly />
-                                    </Form.Item>
-                                    <Form.Item label="角色" name="role">
-                                        <Radio.Group>
-                                            <Radio value={1}>用户</Radio>
-                                            <Radio value={2}>管理员</Radio>
-                                            <Radio value={3}>超级管理员</Radio>
-                                        </Radio.Group>
-                                    </Form.Item>
-                                    <Form.Item {...tailLayout}>
-                                        <Space>
-                                            <Button type="primary" htmlType="submit">确定</Button>
-                                            <Button type="button" onClick={() => setModalVisible(false)}>取消</Button>
-                                        </Space>
-                                    </Form.Item>
-                                </Form>
-                        </Modal>
+                    rowKey={(record) => `${record.id}`} 
+                />
+                <Modal
+                    title="修改角色"
+                    visible={modalVisible}
+                    footer={null}
+                    destroyOnClose={true}
+                    onCancel={() => setModalVisible(false)}
+                >
+                    <Form
+                        {...layout}
+                        name="edit"
+                        initialValues={modalForm}
+                        onFinish={(values) => onSaveEditForm(values)}
+                    >
+                        <Form.Item label="ID" name="id">
+                            <Input readOnly />
+                        </Form.Item>
+                        <Form.Item label="用户名" name="username">
+                            <Input readOnly />
+                        </Form.Item>
+                        <Form.Item label="角色" name="role">
+                            <Radio.Group>
+                                <Radio value={1}>用户</Radio>
+                                <Radio value={2}>管理员</Radio>
+                                <Radio value={3}>超级管理员</Radio>
+                            </Radio.Group>
+                        </Form.Item>
+                        <Form.Item {...tailLayout}>
+                            <Space>
+                                <Button type="primary" htmlType="submit">确定</Button>
+                                <Button type="button" onClick={() => setModalVisible(false)}>取消</Button>
+                            </Space>
+                        </Form.Item>
+                    </Form>
+                </Modal>
             </Card>
         </Spin>
     );

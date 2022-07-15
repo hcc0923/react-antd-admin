@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
+    Spin,
     Card, 
     Form, 
     Input, 
@@ -7,7 +8,6 @@ import {
     Space, 
     Radio, 
     Upload, 
-    Spin,
     message 
 } from "antd";
 import { 
@@ -35,22 +35,24 @@ const PhoneRegexp = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|
 
 function BasicInfo() {
     const [spinning, setSpinning] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [uploading, setUploading] = useState(false);
     const [avatarUrl, setAvatarUrl] = useState('');
     const formRef = useRef();
     const initialForm = { id: 0, username: '', gender: 0, avatar: '', phone: '', email: '', remark: '' };
 
-    const beforeUpload = (file) => {
+    const onBeforeUpload = (file) => {
         const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
         if (!isJpgOrPng) message.error('只能上传JPG/PNG文件!');
+
         const isLt2M = file.size / 1024 / 1024 < 2;
         if (!isLt2M) message.error('图片大小不能超过2MB!');
+
         return isJpgOrPng && isLt2M;
     }
-    const handleChange = (info) => {
+    const handleAvatarChange = (info) => {
         const file = info.file;
         
-        if (file.status === 'uploading') setLoading(true);
+        if (file.status === 'uploading') setUploading(true);
         if (file.status === 'done') {
             const { id } = JSON.parse(localStorage.getItem('userInfo'));
             const { path } = file.response.file;
@@ -70,7 +72,10 @@ function BasicInfo() {
                     setSpinning(false);
                 });
         }
-        if (file.status === 'error') message.error('上传失败');
+        if (file.status === 'error') {
+            message.error('上传失败');
+            return setUploading(false);
+        }
     }
     const handleSubmit = (values) => {
         setSpinning(true);
@@ -130,7 +135,8 @@ function BasicInfo() {
                     name="basicinfo"
                     ref={formRef}
                     initialValues={initialForm}
-                    onFinish={(values) => handleSubmit(values)}>
+                    onFinish={(values) => handleSubmit(values)}
+                >
                         <span style={{marginLeft: '17%', color: '#999'}} className="ml-1/6">不可修改。用户的唯一标识。</span>
                         <Form.Item label="ID" name="id">
                             <Input readOnly />
@@ -147,34 +153,54 @@ function BasicInfo() {
                         <Form.Item 
                             label="头像"
                             name="avatar"
-                            valuePropName="avatar">
+                            valuePropName="avatar"
+                        >
                                 <Upload
                                     name="avatar"
                                     listType="picture-card"
                                     showUploadList={false}
                                     action={SERVER_ADDRESS + '/file/uploadAvatar'}
-                                    beforeUpload={(file) => beforeUpload(file)}
-                                    onChange={(info) => handleChange(info)}>
-                                        {
-                                            avatarUrl ? 
-                                            <img src={SERVER_ADDRESS + '/' + avatarUrl} alt="avatar" style={{ width: '100%' }} /> 
-                                            : 
-                                            <div>
-                                                {
-                                                    loading ? 
-                                                    <LoadingOutlined /> 
-                                                    : 
-                                                    <PlusOutlined />
-                                                }
-                                                <div style={{ marginTop: 8 }}>Upload</div>
-                                            </div>
-                                        }
+                                    beforeUpload={(file) => onBeforeUpload(file)}
+                                    onChange={(info) => handleAvatarChange(info)}
+                                >
+                                    {
+                                        avatarUrl ? 
+                                        <img src={SERVER_ADDRESS + '/' + avatarUrl} alt="avatar" style={{ width: '100%' }} /> 
+                                        : 
+                                        <div>
+                                            {
+                                                uploading ? 
+                                                <LoadingOutlined /> 
+                                                : 
+                                                <PlusOutlined />
+                                            }
+                                            <div style={{ marginTop: 8 }}>Upload</div>
+                                        </div>
+                                    }
                                 </Upload>
                         </Form.Item>
-                        <Form.Item label="手机" name="phone" rules={[{pattern: PhoneRegexp, message: '手机格式不正确'}]}>
+                        <Form.Item 
+                            label="手机" 
+                            name="phone" 
+                            rules={[
+                                {
+                                    pattern: PhoneRegexp, 
+                                    message: '手机格式不正确'
+                                }
+                            ]}
+                        >
                             <Input />
                         </Form.Item>
-                        <Form.Item label="邮箱" name="email" rules={[{pattern: EmailRegexp, message: '邮箱格式不正确'}]}>
+                        <Form.Item 
+                            label="邮箱" 
+                            name="email" 
+                            rules={[
+                                {
+                                    pattern: EmailRegexp, 
+                                    message: '邮箱格式不正确'
+                                }
+                            ]}
+                        >
                             <Input />
                         </Form.Item>
                         <Form.Item label="备注" name="remark">

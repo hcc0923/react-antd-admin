@@ -74,7 +74,8 @@ function ModifyPassword(props) {
                     {...layout}
                     name="update"
                     initialValues={{ password: '', repeatPassword: '' }}
-                    onFinish={(values) => handleSubmit(values)}>
+                    onFinish={(values) => handleSubmit(values)}
+                >
                         <Form.Item 
                             label="当前密码"
                             name="password"
@@ -89,7 +90,8 @@ function ModifyPassword(props) {
                                     required: true, 
                                     message: '请输入你的密码!'
                                 },
-                            ]}>
+                            ]}
+                        >
                             <Input.Password onBlur={(event) => handleVerifyPassword(event)} />
                         </Form.Item>
                         <span style={{marginLeft: '17%', color: '#999'}}>密码长度在不少于六位</span>
@@ -106,7 +108,8 @@ function ModifyPassword(props) {
                                     required: true, 
                                     message: '请输入你的新密码!'
                                 },
-                            ]}>
+                            ]}
+                        >
                                 <Input.Password />
                         </Form.Item>
                         <Form.Item
@@ -130,7 +133,8 @@ function ModifyPassword(props) {
                                         }
                                         return Promise.reject('两次输入密码不一致!');
                                     }
-                                })]}>
+                                })]}
+                            >
                                 <Input.Password />
                         </Form.Item>
                         <Form.Item {...tailLayout}>
