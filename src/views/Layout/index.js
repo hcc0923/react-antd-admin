@@ -69,11 +69,9 @@ function App(props) {
     const onClickItem = (item) => {
       setLocationPathName(item);
       localStorage.setItem('pathname', item)
-      console.log(item);
     }
     useEffect(() => {
-      // handleInitBreadCrumb();
-      console.log(locationPathName);
+      handleInitBreadCrumb();
     }, [locationPathName]);
     
     return (
@@ -90,15 +88,15 @@ function App(props) {
             location={{
               pathname: locationPathName,
             }}
-            // headerContentRender={() => <ProBreadcrumb />}
-            // breadcrumbRender={() => [
-            //   {
-            //     path: '/',
-            //     breadcrumbName: '首页',
-            //   },
-            //   ...breadCrumb
-            // ]}
-            // breadcrumbProps={dashboard ? { separator: '' } : {}}
+            headerContentRender={() => <ProBreadcrumb />}
+            breadcrumbRender={() => [
+              {
+                path: '/',
+                breadcrumbName: '首页',
+              },
+              ...breadCrumb
+            ]}
+            breadcrumbProps={dashboard ? { separator: '' } : {}}
             waterMarkProps={{ content: 'react-antd-admin' }}  
             menuItemRender={(menuItem, dom) => (<a href={`#${menuItem.path}`} onClick={() => onClickItem(menuItem.path || '/')}>{dom}</a>)} 
             rightContentRender={() => <TopRightContent />} 

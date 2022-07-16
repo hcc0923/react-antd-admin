@@ -39,12 +39,12 @@ const routes = [
                 path: '/',
                 exact: true,
                 meta: { title: "首页", roles: ["user", "admin", "root"]},
-                render: () => <Redirect to="/dashboard" />
+                render: () => <Redirect to="/home" />
             },
             {
-                path: '/dashboard',
+                path: '/home',
                 meta: { title: "主页", roles: ["user", "admin", "root"]},
-                component: loadable(() => import('@/views/Dashboard/index')),
+                component: loadable(() => import('@/views/Home/index')),
             },
             {
                 path: '/user-menu/user-list',
