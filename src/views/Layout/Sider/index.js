@@ -13,13 +13,15 @@ function LayoutSider() {
             collapsed={false}
             trigger={null}
             style={{
-                zIndex: 10,
-                height: '100%', 
+                overflow: 'auto',
+                height: '100%',
                 position: 'fixed',
-                bottom: 0
+                left: 0,
+                top: 0,
+                bottom: 0,
             }}
             >
-            <div className="logo" />
+            <Logo />
             <Menu />
         </Sider>
     )

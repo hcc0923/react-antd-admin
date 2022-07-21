@@ -29,7 +29,7 @@ function LayoutContent(props) {
             <Content 
             style={{
                 height: "calc(100% - 100px)",
-                
+                width: "100%"
               }}
             >
                 <TransitionGroup>
