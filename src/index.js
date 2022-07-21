@@ -1,22 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { HashRouter } from 'react-router-dom';
-import { renderRoutes } from 'react-router-config';
 import { Provider } from 'react-redux';
-import http from '@/utils/request';
-import routes from '@/routes/index'
+import { ConfigProvider } from "antd";
+import zhCN from "antd/es/locale/zh_CN";
 import store from '@/store/store';
+import Router from '@/router/index';
 import './index.less';
 
+import http from '@/utils/request';
 React.$http = http;
 
 function App() {
   return (
-    <Provider store={store}>
-      <HashRouter>
-        {renderRoutes(routes)}
-      </HashRouter>
-    </Provider>
+    <ConfigProvider locale={zhCN}>
+      <Provider store={store}>
+        <Router />
+      </Provider>
+    </ConfigProvider>
+   
   );
 }
 
