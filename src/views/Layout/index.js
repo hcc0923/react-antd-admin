@@ -11,12 +11,13 @@ import RightPanel from './RightPanel';
 
 function App(props) {
   return (
-    <Layout hasSider style={{ minHeight: '100vh' }}>
+    <Layout style={{ display: 'flex', width: '100%'}}>
       <Sider />
       <Layout
-        className="site-layout"
         style={{
-          marginLeft: 200,
+          overflow: 'auto',
+          height: '100vh',
+          flex: '1',
         }}
       >
         <Header />

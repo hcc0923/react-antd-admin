@@ -14,11 +14,7 @@ function LayoutSider() {
             trigger={null}
             style={{
                 overflow: 'auto',
-                height: '100%',
-                position: 'fixed',
-                left: 0,
-                top: 0,
-                bottom: 0,
+                height: '100vh',
             }}
             >
             <Logo />
