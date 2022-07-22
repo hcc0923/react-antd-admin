@@ -12,48 +12,50 @@ import {
 
 const menuList = [
     {
-        title: "首页",
-        path: "/home",
+        label: "首页",
+        key: "/home",
         icon: <DashboardOutlined />,
         roles:["admin","editor","guest"]
     },
     {
-        title: "用户管理",
-        path: "/user-menu",
+        label: "用户管理",
+        key: "/user-menu",
         icon: <UserOutlined />,
         roles:["admin","editor"],
         children: [
             {
-                title: "用户列表",
-                path: "/user-menu/user-list",
+                label: "用户列表",
+                key: "/user-menu/user-list",
+                icon: <UserOutlined />,
                 roles:["admin","editor"],
             },
             {
-                title: "角色列表",
-                path: "/user-menu/role-list",
+                label: "角色列表",
+                icon: <SettingOutlined />,
+                key: "/user-menu/role-list",
                 roles:["admin"],
             },
         ],
     },
     {
-        title: "设置管理",
-        path: "/setting-menu",
+        label: "设置管理",
+        key: "/setting-menu",
         icon: <SettingOutlined />,
         roles:["admin","editor","guest"],
         children: [
             {
-                title: "用户设置",
-                path: "/setting-menu/user-setting",
+                label: "用户设置",
+                key: "/setting-menu/user-setting",
                 roles:["admin","editor","guest"],
                 children: [
                     { 
-                        title: "基本资料",
-                        path: "/setting-menu/user-setting/basic-info",
+                        label: "基本资料",
+                        key: "/setting-menu/user-setting/basic-info",
                         roles:["admin","editor","guest"],
                     },
                     { 
-                        title: "修改密码",
-                        path: "/setting-menu/user-setting/modify-password",
+                        label: "修改密码",
+                        key: "/setting-menu/user-setting/modify-password",
                         roles:["admin","editor","guest"],
                     }
                 ]
@@ -61,112 +63,112 @@ const menuList = [
         ]
     },
     { 
-        title: "图标",
-        path: "/icon", 
+        label: "图标",
+        key: "/icon", 
         icon: <CopyOutlined />,
         roles:["admin","editor","guest"],
     },
     { 
-        title: "图表",
-        path: "/chart",
+        label: "图表",
+        key: "/chart",
         icon: <AreaChartOutlined />,
         roles:["admin","editor","guest"],
         children: [
             { 
-                title: "折线图",
-                path: "/chart/line",
+                label: "折线图",
+                key: "/chart/line",
                 roles:["admin","editor","guest"],
             },
             { 
-                title: "柱状图",
-                path: "/chart/bar",
+                label: "柱状图",
+                key: "/chart/bar",
                 roles:["admin","editor","guest"],
             },
             { 
-                title: "饼状图",
-                path: "/chart/pie",
+                label: "饼状图",
+                key: "/chart/pie",
                 roles:["admin","editor","guest"],
             },
             { 
-                title: "键盘图",
-                path: "/chart/key-board",
+                label: "键盘图",
+                key: "/chart/key-board",
                 roles:["admin","editor","guest"],
             },
             { 
-                title: "混合图表",
-                path: "/chart/mix",
+                label: "混合图表",
+                key: "/chart/mix",
                 roles:["admin","editor","guest"],
             },
             { 
-                title: "全国地图",
-                path: '/chart/china',
+                label: "全国地图",
+                key: '/chart/china',
                 roles:["admin","editor","guest"],
             }
         ]
     },
     { 
-        title: "组件",
-        path: "/module",
+        label: "组件",
+        key: "/module",
         icon: <AppstoreOutlined />,
         roles:["admin","editor","guest"],
         children: [
             { 
-                title: "Excel",
-                path: "/module/excel",
+                label: "Excel",
+                key: "/module/excel",
                 roles:["admin","editor","guest"],
             },
             { 
-                title: "Zip",
-                path: "/module/zip",
+                label: "Zip",
+                key: "/module/zip",
                 roles:["admin","editor","guest"],
             },
             { 
-                title: "Pdf",
-                path: "/module/pdf",
+                label: "Pdf",
+                key: "/module/pdf",
                 roles:["admin","editor","guest"],
             },
             { 
-                title: "文件管理",
-                path: "/module/file-admin",
+                label: "文件管理",
+                key: "/module/file-admin",
                 roles:["admin","editor","guest"],
             },
             { 
-                title: "富文本",
-                path: "/module/rich-text",
+                label: "富文本",
+                key: "/module/rich-text",
                 roles:["admin","editor","guest"],
             },
             { 
-                title: "MarkDown",
-                path: "/module/mark-down",
+                label: "MarkDown",
+                key: "/module/mark-down",
                 roles:["admin","editor","guest"],
             }
         ]
     },
     { 
-        title: "权限测试",
-        path: "/authority",
+        label: "权限测试",
+        key: "/authority",
         icon: <EyeInvisibleOutlined />,
         roles:["admin","editor","guest"],
     },
     { 
-        title: "错误页面",
-        path: "/error",
+        label: "错误页面",
+        key: "/error",
         icon: <StopOutlined />,
         roles:["admin","editor","guest"],
         children: [
             { 
-                title: "权限不足",
-                path: "/error/no-authority",
+                label: "权限不足",
+                key: "/error/no-authority",
                 roles:["admin","editor","guest"],
             },
             { 
-                title: "页面丢失",
-                path: "/error/not-found",
+                label: "页面丢失",
+                key: "/error/not-found",
                 roles:["admin","editor","guest"],
             },
             { 
-                title: "服务器错误",
-                path: "/error/server-error",
+                label: "服务器错误",
+                key: "/error/server-error",
                 roles:["admin","editor","guest"],
             }
         ]

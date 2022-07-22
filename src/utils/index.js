@@ -12,6 +12,5 @@ export function getMenuItemInMenuListByProperty(menuList, key, value) {
         res = cur;
       }
     }
-    console.log(res);
     return res;
   }

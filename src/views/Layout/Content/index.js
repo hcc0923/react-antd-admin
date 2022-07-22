@@ -15,9 +15,9 @@ function LayoutContent(props) {
     const { pathname } = location;
     const role = 'admin';
     const getPageTitle = (menuList, pathname) => {
-        let item = getMenuItemInMenuListByProperty(menuList, "path", pathname);
+        let item = getMenuItemInMenuListByProperty(menuList, "key", pathname);
         if (item) {
-            return item.title;
+            return item.label;
         }
     };
     const handleFilter = (route) => {

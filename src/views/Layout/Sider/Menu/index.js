@@ -22,43 +22,72 @@ const reorder = (list, startIndex, endIndex) => {
 
 function SiderMenu(props) {
     const [menuTreeNode, setMenuTreeNode] = useState([]);
+    const [authMenuList, setAuthMenuList] = useState([]);
     const [openKey, setOpenKey] = useState([]);
     const path = props.location.pathname;
 
     const filterMenuItem = (item) => {
         const { roles } = item;
-        const role = 'admin';
+        const role = 'editor';
         if (!roles || roles.includes(role)) {
             return true;
         }
         return false;
     }
+    const handleMenuAuthority = (menuList) => {
+        const arr = []
+        menuList?.map((item) => {
+            if(filterMenuItem(item)){
+                arr.push(item);
+                if(item?.children){
+                    const children = handleMenuAuthority(item?.children);
+                    item.children = children;
+                }
+            }
+            return item;
+        })
+        return arr
+        // return menuList.reduce((initial, item) => {
+        //     if (filterMenuItem(item)) {
+        //         if (!item.children) {
+        //             initial.push(item);
+        //         } else {
+        //             // const cItem = item.children.find(cItem => path.indexOf(cItem.key) === 0);
+        //             // if (cItem) {
+        //             //     setOpenKey([...openKey, item.key])
+        //             // }
+        //             // initial.push(item);
+        //             return handleMenuAuthority(item.children)
+        //         }
+        //     }
+        //     return initial;
+        // }, []);
+    }
     const getMenuNodes = (menuList) => {
-        
         return menuList.reduce((pre, item) => {
             if (filterMenuItem(item)) {
                 if (!item.children) {
                     pre.push(
-                        <Menu.Item key={item.path}>
-                            <Link to={item.path}>
+                        <Menu.Item key={item.key}>
+                            <Link to={item.key}>
                                 {item.icon ? item.icon : null}
-                                <span>{item.title}</span>
+                                <span>{item.label}</span>
                             </Link>
                         </Menu.Item>
                     )
                 } else {
-                    const cItem = item.children.find(cItem => path.indexOf(cItem.path) === 0);
+                    const cItem = item.children.find(cItem => path.indexOf(cItem.key) === 0);
                     if (cItem) {
-                        setOpenKey([...openKey, item.path])
+                        setOpenKey([...openKey, item.key])
                     }
 
                     pre.push(
                         <SubMenu
-                            key={item.path}
+                            key={item.key}
                             title={
                                 <span>
                                     {item.icon ? item.icon : null}
-                                    <span>{item.title}</span>
+                                    <span>{item.label}</span>
                                 </span>
                             }
                         >
@@ -82,14 +111,17 @@ function SiderMenu(props) {
           setMenuTreeNode(_items);
     }
     const handleMenuSelect = ({ key = "/home" }) => {
-        let menuItem = getMenuItemInMenuListByProperty(menuList, "path", key);
+        let menuItem = getMenuItemInMenuListByProperty(menuList, "key", key);
         // props.addTag(menuItem)
     }
     useEffect(() => {
-        const menuTreeNode = getMenuNodes(menuList);
-        console.log(menuTreeNode);
-        setMenuTreeNode(menuTreeNode);
-        handleMenuSelect(openKey);
+        // const menuTreeNode = getMenuNodes(menuList);
+        // console.log(menuTreeNode);
+        // setMenuTreeNode(menuTreeNode);
+        // handleMenuSelect(openKey);
+        const authorityMenu = handleMenuAuthority(menuList);
+        setAuthMenuList(authorityMenu)
+        console.log(authorityMenu);
     }, [])
    
     return(
@@ -98,42 +130,15 @@ function SiderMenu(props) {
                 autoHide 
                 autoHideTimeout={1000} 
                 autoHideDuration={200}
-            >
-                <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
-                    <Droppable droppableId="droppable">
-                        {(provided, snapshot) => (
-                            <div {...provided.droppableProps} ref={provided.innerRef}>
-                                {
-                                    menuTreeNode.map((item, index) => (
-                                        <Draggable
-                                            key={item.key}
-                                            draggableId={item.key}
-                                            index={index}
-                                        >
-                                            {(provided, snapshot) => (
-                                                <div
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                >
-                                                    <Menu
-                                                        mode="inline"
-                                                        theme="dark"
-                                                        onSelect={({ key}) => handleMenuSelect({ key})}
-                                                        selectedKeys={[path]}
-                                                        defaultOpenKeys={openKey}
-                                                    >
-                                                        {item}
-                                                    </Menu>
-                                                </div>
-                                            )}
-                                        </Draggable>
-                                    ))
-                                }
-                            </div>
-                        )}
-                    </Droppable>
-                </DragDropContext>
+            >   
+                <Menu
+                    mode="inline"
+                    theme="dark"
+                    onSelect={({ key}) => handleMenuSelect({ key})}
+                    selectedKeys={[path]}
+                    defaultOpenKeys={openKey}
+                    items={authMenuList}
+                />
             </Scrollbars>
         </div>
     )
