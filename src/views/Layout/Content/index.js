@@ -16,6 +16,7 @@ function LayoutContent(props) {
     const role = 'admin';
     const getPageTitle = (menuList, pathname) => {
         let item = getMenuItemInMenuListByProperty(menuList, "key", pathname);
+        console.log();
         if (item) {
             return item.label;
         }
@@ -25,7 +26,7 @@ function LayoutContent(props) {
         return role === "admin" || !route.roles || route.roles.includes(role);
     };
     return (
-        <DocumentTitle title={getPageTitle(menuList, pathname)}>
+        <DocumentTitle title={"标题"}>
             <Content 
             style={{
                 height: "calc(100% - 100px)",
