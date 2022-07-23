@@ -1,4 +1,4 @@
-import { SET_SETTINGS } from '../constants/index';
+import { SET_SETTINGS, SET_COLLAPSE } from '../constants/index';
 
 
 /* 
@@ -7,5 +7,12 @@ import { SET_SETTINGS } from '../constants/index';
 */
 export const setSettings = (data) => ({
     type: SET_SETTINGS,
+    data
+});
+
+
+
+export const setCollapse = (data) => ({
+    type: SET_COLLAPSE,
     data
 });

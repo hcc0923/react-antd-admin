@@ -4,16 +4,22 @@ import { Layout } from 'antd';
 
 import Logo from './Logo/index';
 import Menu from './Menu/index';
+import { setCollapse } from "@/store/actions/setting";
 const { Sider } = Layout;
 
-function LayoutSider() {
+function LayoutSider(props) {
     const [collapsed, setCollapsed] = useState(false);
+    const onCollapseSider = (collapsed) => {
+        console.log(collapsed);
+        setCollapsed(collapsed)
+        props.setCollapse({ collapsed });
+    }
     return (
         <Sider
             theme={"dark"}
             collapsible
             collapsed={collapsed}
-            onCollapse={(collapsed) => setCollapsed(collapsed)}
+            onCollapse={onCollapseSider}
             style={{ overflow: 'auto', height: '100vh' }}
         >
             <Logo />
@@ -22,4 +28,12 @@ function LayoutSider() {
     )
 }
 
-export default LayoutSider;
+
+const mapStateToProps = state => state;
+const mapDispatchToProps = dispatch => ({
+    setCollapse: data => {
+        dispatch(setCollapse(data));
+    }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LayoutSider);

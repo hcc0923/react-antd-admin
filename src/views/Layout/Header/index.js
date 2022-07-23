@@ -1,22 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect} from 'react';
 import { 
     Avatar, 
     Button, 
     Dropdown, 
     Menu,
-    message
+    Space,
+    Drawer,
+    Switch,
+    message,
+    Layout
 } from 'antd';
-import { DownOutlined, TranslationOutlined } from '@ant-design/icons';
+import { 
+    DownOutlined, 
+    SettingOutlined, 
+    TranslationOutlined, 
+    CheckOutlined, 
+    CloseOutlined 
+} from '@ant-design/icons';
 import { connect } from 'react-redux';
 import FullScreen from '@/components/FullScreen';
 import { SERVER_ADDRESS } from '@/utils/config';
+import "./index.less";
+const { Header } = Layout;
 
 
-function Header(props) {
-    const { userInfo } = props;
+function LayoutHeader(props) {
+    const { userInfo, collapse } = props;
+    const [fixedHeader, setFixedHeader] = useState(false);
+    const [visible, setVisible] = useState(false);
     const onLogout = () => {
         localStorage.clear();
         message.success('退出成功，请重新登录');
+    }
+    const onClickSetting = () => {
+        setVisible(true);
+    }
+    const onCloseDrawer = () => {
+        setVisible(false);
+    }
+    const onSwitchChange = (checked) => {
+        setFixedHeader(checked);
     }
     const menu = (
         <Menu
@@ -51,26 +74,78 @@ function Header(props) {
           ]}
         />
     );
-
+    const computedStyle = () => {
+        let styles;
+        if (fixedHeader) {
+          if (collapse.collapsed) {
+            styles = {
+              width: "calc(100% - 80px)",
+            };
+          } else {
+            styles = {
+              width: "calc(100% - 200px)",
+            };
+          }
+        } else {
+          styles = {
+            width: "100%",
+          };
+        }
+        return styles;
+      };
+    useEffect(() => {
+        console.log(collapse);
+        computedStyle();
+    }, [collapse, fixedHeader])
     return (
-        <div className="h-16 flex justify-end items-center">
-            <div className="h-full flex justify-between items-center text-2xl">
-                <FullScreen />
-                <TranslationOutlined className="mx-4"/>
-            </div>
-            <div className="h-full flex justify-between items-center">
-                <Avatar src={`${SERVER_ADDRESS}/${userInfo.avatar}`} />
-                <Dropdown overlay={menu} placement="bottom" arrow>
-                    <Button type="link">
-                        <span className="text-lg">{userInfo.username}</span>
-                        <DownOutlined />
-                    </Button>
-                </Dropdown>
-            </div>
-        </div>
+        <>
+            {fixedHeader ? <Header /> : null}
+            <Header 
+                style={computedStyle()}
+                className={fixedHeader ? "fixed top-0 right-0 z-10" : ""}
+            >
+                <div className={"h-16 flex justify-end items-center mr-4"}>
+                    <div className="h-full flex justify-between items-center text-2xl">
+                        <FullScreen />
+                        <TranslationOutlined className="ml-4" />
+                        <SettingOutlined className="mx-4 cursor-default" onClick={() =>onClickSetting()} />
+                    </div>
+                    <div className="h-full flex justify-between items-center">
+                        <Avatar src={`${SERVER_ADDRESS}/${userInfo.avatar}`} />
+                        <Dropdown overlay={menu} placement="bottom" arrow>
+                            <Button type="link">
+                                <span className="text-lg">{userInfo.username}</span>
+                                <DownOutlined />
+                            </Button>
+                        </Dropdown>
+                    </div>
+                    <Drawer 
+                        title="系统设置" 
+                        closeIcon={<></>}
+                        placement="right" 
+                        visible={visible}
+                        extra={
+                            <Space>
+                                <Button type="primary" onClick={onCloseDrawer}>OK</Button>
+                            </Space>
+                        }
+                    >
+                        <Switch 
+                            checkedChildren="打开"
+                            unCheckedChildren="关闭"
+                            defaultChecked={false}
+                            onChange={onSwitchChange}
+                            className="text-red-600"
+                        />
+                    </Drawer>
+                </div>
+            </Header>
+        </>
     );
 }
 
+
 const mapStateToProps = state => state;
 
-export default connect(mapStateToProps)(Header);
+
+export default connect(mapStateToProps)(LayoutHeader);
