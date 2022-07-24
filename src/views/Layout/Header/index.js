@@ -20,6 +20,7 @@ import {
 import { connect } from 'react-redux';
 import FullScreen from '@/components/FullScreen';
 import { SERVER_ADDRESS } from '@/utils/config';
+import { setOpenKeys } from "@/store/actions/setting";
 import "./index.less";
 const { Header } = Layout;
 
@@ -93,10 +94,6 @@ function LayoutHeader(props) {
         }
         return styles;
       };
-    useEffect(() => {
-        console.log(collapse);
-        computedStyle();
-    }, [collapse, fixedHeader])
     return (
         <>
             {fixedHeader ? <Header /> : null}
@@ -145,7 +142,12 @@ function LayoutHeader(props) {
 }
 
 
+
 const mapStateToProps = state => state;
+const mapDispatchToProps = dispatch => ({
+    setOpenKeys: data => {
+        dispatch(setOpenKeys(data));
+    }
+});
 
-
-export default connect(mapStateToProps)(LayoutHeader);
+export default connect(mapStateToProps, mapDispatchToProps)(LayoutHeader);

@@ -1,4 +1,4 @@
-import { SET_SETTINGS, SET_COLLAPSE } from '../constants/index';
+import { SET_SETTINGS, SET_COLLAPSE, SET_OPEN_KEYS } from '../constants/index';
 
 
 /* 
@@ -14,5 +14,10 @@ export const setSettings = (data) => ({
 
 export const setCollapse = (data) => ({
     type: SET_COLLAPSE,
+    data
+});
+
+export const setOpenKeys = (data) => ({
+    type: SET_OPEN_KEYS,
     data
 });

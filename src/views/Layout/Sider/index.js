@@ -10,7 +10,6 @@ const { Sider } = Layout;
 function LayoutSider(props) {
     const [collapsed, setCollapsed] = useState(false);
     const onCollapseSider = (collapsed) => {
-        console.log(collapsed);
         setCollapsed(collapsed)
         props.setCollapse({ collapsed });
     }
@@ -20,7 +19,7 @@ function LayoutSider(props) {
             collapsible
             collapsed={collapsed}
             onCollapse={onCollapseSider}
-            style={{ overflow: 'auto', height: '100vh' }}
+            style={{ overflow: 'auto', height: '100vh',zIndex: 100 }}
         >
             <Logo />
             <Menu />
