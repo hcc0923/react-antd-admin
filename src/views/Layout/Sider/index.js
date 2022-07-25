@@ -8,16 +8,14 @@ import { setCollapse } from "@/store/actions/setting";
 const { Sider } = Layout;
 
 function LayoutSider(props) {
-    const [collapsed, setCollapsed] = useState(false);
     const onCollapseSider = (collapsed) => {
-        setCollapsed(collapsed)
         props.setCollapse({ collapsed });
     }
     return (
         <Sider
             theme={"dark"}
             collapsible
-            collapsed={collapsed}
+            collapsed={props.collapse.collapsed}
             onCollapse={onCollapseSider}
             style={{ overflow: 'auto', height: '100vh',zIndex: 100 }}
         >

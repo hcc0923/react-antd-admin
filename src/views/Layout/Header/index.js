@@ -22,6 +22,8 @@ import FullScreen from '@/components/FullScreen';
 import { SERVER_ADDRESS } from '@/utils/config';
 import { setOpenKeys } from "@/store/actions/setting";
 import "./index.less";
+import Hamburger from '@/components/Hamburger';
+import BreadCrumb from '@/components/BreadCrumb';
 const { Header } = Layout;
 
 
@@ -93,7 +95,7 @@ function LayoutHeader(props) {
           };
         }
         return styles;
-      };
+    };
     return (
         <>
             {fixedHeader ? <Header /> : null}
@@ -101,8 +103,12 @@ function LayoutHeader(props) {
                 style={computedStyle()}
                 className={fixedHeader ? "fixed top-0 right-0 z-10" : ""}
             >
+              <div className="flex justify-between w-full">
+                <Hamburger />
+                <BreadCrumb />
                 <div className={"h-16 flex justify-end items-center mr-4"}>
                     <div className="h-full flex justify-between items-center text-2xl">
+                    
                         <FullScreen />
                         <TranslationOutlined className="ml-4" />
                         <SettingOutlined className="mx-4 cursor-default" onClick={() =>onClickSetting()} />
@@ -115,6 +121,7 @@ function LayoutHeader(props) {
                                 <DownOutlined />
                             </Button>
                         </Dropdown>
+                        
                     </div>
                     <Drawer 
                         title="系统设置" 
@@ -136,6 +143,7 @@ function LayoutHeader(props) {
                         />
                     </Drawer>
                 </div>
+              </div>
             </Header>
         </>
     );
