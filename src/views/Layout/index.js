@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { Layout } from 'antd';
-
-import Header from './Header';
 import Sider from './Sider';
+import Header from './Header';
+import TagView from './TagView';
 import Content from './Content';
 import RightPanel from './RightPanel';
 
@@ -20,7 +20,7 @@ const LayoutPage = () => {
         }}
       >
         <Header />
-        {/* {tagsView ? <TagsView /> : null} */}
+        {true ? <TagView /> : null}
         <Content />
 
         <RightPanel />
