@@ -1,39 +1,55 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { withRouter } from "react-router-dom";
 import { Breadcrumb } from "antd";
 import menuList from "@/router/menuList";
 
 
 const BreadCrumb = (props) => {
-    const [breadCrumbData, setBreadCrumbData] = useState([]);
     const { location } = props;
-    console.log(location.pathname);
-    const handleBreadCrumb = (menuList) => {
-        menuList.forEach(item => {
-            if (item.key === location.pathname) {
-                const data = {
-                    title: item.label,
-                    path: item.key
+    const { pathname } = location;
+    const handleBreadCrumb = (menuList, pathname) => {
+        const temporaryPath = [];
+        try {
+            function getNodePath(node) {
+                temporaryPath.push(node);
+                // 找到目标节点直接返回
+                if (node.key === pathname) {
+                    throw new Error("GOT IT!");
                 }
-                setBreadCrumbData([data]);
-            } else {
-                if (item.children) {
-                    handleBreadCrumb(item.children);
+                if (node.children && node.children.length > 0) {
+                    for (let index = 0; index < node.children.length; index++) {
+                        getNodePath(node.children[index]);
+                    }
+                    // 遍历完children所有节点没找到
+                    temporaryPath.pop();
+                } else {
+                    // 没找到弹出压入的节点
+                    temporaryPath.pop();
                 }
-                const data = {
-                    title: item.label,
-                    path: item.key
-                }
-                setBreadCrumbData(...breadCrumbData, data);
-                
             }
-        })
+            for (let index = 0; index < menuList.length; index++) {
+                getNodePath(menuList[index]);
+            }
+        } catch (error) {
+            return temporaryPath;
+        }
     }
-    
+    let pathData = handleBreadCrumb(menuList, pathname);
+    if (pathData[0].label !== '首页') {
+        pathData = [{ label: "首页", key: "/home" }].concat(pathData)
+    }
     return (
-        <Breadcrumb>
+        <Breadcrumb className="h-full flex items-center ml-4 text-sm">
             {
-                999
+                pathData.map(item => 
+                    item.label === '首页' ? (
+                        <Breadcrumb.Item key={item.key}>
+                            <a href={`#${item.key}`}>{item.label}</a>
+                        </Breadcrumb.Item>
+                    ) : (
+                        <Breadcrumb.Item key={item.key}>{item.label}</Breadcrumb.Item>
+                    )
+                )
             }
         </Breadcrumb>
     )

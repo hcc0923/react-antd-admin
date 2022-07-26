@@ -43,7 +43,7 @@ function SiderMenu(props) {
                 }
                 handleOpenKey(item.children);
             }
-        })
+        });
     }
     const handleMenuSelect = (data) => {
         const { key, keyPath } = data;

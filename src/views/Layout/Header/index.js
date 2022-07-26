@@ -104,8 +104,10 @@ function LayoutHeader(props) {
                 className={fixedHeader ? "fixed top-0 right-0 z-10" : ""}
             >
               <div className="flex justify-between w-full">
-                <Hamburger />
-                <BreadCrumb />
+                <div className="flex justify-start items-center">
+                  <Hamburger />
+                  <BreadCrumb />
+                </div>
                 <div className={"h-16 flex justify-end items-center mr-4"}>
                     <div className="h-full flex justify-between items-center text-2xl">
                     
