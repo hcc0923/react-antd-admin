@@ -14,8 +14,6 @@ import {
   DownOutlined,
   SettingOutlined,
   TranslationOutlined,
-  CheckOutlined,
-  CloseOutlined,
 } from "@ant-design/icons";
 import { connect } from "react-redux";
 import FullScreen from "@/components/FullScreen";
