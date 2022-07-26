@@ -5,8 +5,7 @@ import { Menu } from 'antd';
 import { getMenuItemInMenuListByProperty } from "@/utils";
 import menuList from '@/router/menuList';
 
-
-function SiderMenu(props) {
+const SiderMenu = (props) => {
     const path = props.location.pathname;
     const [menuPermission, setMenuPermission] = useState([]);
     const [openKey, setOpenKey] = useState([]);

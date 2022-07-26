@@ -15,8 +15,7 @@ import {
 import PropTypes from 'prop-types';
 import { formatAmount } from "@/utils/tools";
 
-
-function TopCard(props) {
+const TopCard = (props) => {
     const { topCard } = props;
     
     return (  

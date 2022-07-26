@@ -9,7 +9,7 @@ import {
 import * as XLSX from 'xlsx';
 
 
-function Excel() {
+const Excel = () => {
     const [spinning, setSpinning] = useState(false);
     const [data, setData] = useState([]);
     const [fileList, setFileList] = useState([]);

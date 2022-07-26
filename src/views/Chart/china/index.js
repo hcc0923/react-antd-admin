@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as Echarts from 'echarts';
 import cityMap from './citymap';
 import CHINA_JSON from '@/assets/map/china.json';
@@ -48,7 +48,7 @@ const provinces = {
 //直辖市和特别行政区-只有二级地图，没有三级地图
 const special = ["北京","天津","上海","重庆","香港","澳门"];
 
-function China() {
+const China = () => {
     let chart;
     const [mapData, setMapData] = useState([]);
     
@@ -206,9 +206,7 @@ function China() {
     }, []);
 
     return (
-        <Fragment>
-            <div id="chartMap" style={{ width: 'auto', height: 600 }}></div>
-        </Fragment>
+        <div id="chartMap" style={{ width: 'auto', height: 600 }}></div>
     )
 }
 

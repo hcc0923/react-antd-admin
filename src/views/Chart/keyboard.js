@@ -152,7 +152,7 @@ const chartOptions = {
 	}
 };
 
-function KeyBoard() {
+const KeyBoard = () => {
     return (
         <ReactECharts
             option={chartOptions}

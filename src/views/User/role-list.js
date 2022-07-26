@@ -43,8 +43,7 @@ const tailLayout = {
         span: 16,
     },
 };
-
-function RoleList() {
+const RoleList = () => {
     const [spinning, setSpinning] = useState(false);
     const [userTableData, setUserTableData] = useState([]);
     const [searchForm, setSearchForm] = useState({ id: 0, username: '', role: 0 });

@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons";
 
 
-function FooterTable(props) {
+const FooterTable = (props) => {
     const { title, dataSource } = props;
     const tableColumns = [
         {

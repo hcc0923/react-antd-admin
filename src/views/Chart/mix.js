@@ -188,7 +188,7 @@ const chartOptions = {
     ]
 };
 
-function Mix() {
+const Mix = () => {
     return (
         <ReactECharts
             option={chartOptions}

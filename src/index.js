@@ -10,14 +10,14 @@ import './index.less';
 import http from '@/utils/request';
 React.$http = http;
 
-function App() {
+
+const App = () => {
   return (
     <ConfigProvider locale={zhCN}>
       <Provider store={store}>
         <Router />
       </Provider>
     </ConfigProvider>
-   
   );
 }
 

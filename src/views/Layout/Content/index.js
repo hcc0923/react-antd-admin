@@ -9,8 +9,7 @@ import routeList from '@/router/routeList';
 import menuList from '@/router/menuList';
 const { Content } = Layout;
 
-
-function LayoutContent(props) {
+const LayoutContent = (props) => {
     const { location } = props;
     const { pathname } = location;
     const role = 'admin';

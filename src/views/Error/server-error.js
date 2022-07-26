@@ -2,7 +2,7 @@ import { Button, Result } from 'antd';
 import React from 'react';
 
 
-function ServerError(props) {
+const ServerError = (props) => {
     return (
         <Result
             status="500"

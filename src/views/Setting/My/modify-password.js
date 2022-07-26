@@ -27,7 +27,7 @@ const tailLayout = {
     },
 };
 
-function ModifyPassword(props) {
+const ModifyPassword = (props) => {
     const [spinning, setSpinning] = useState(false);
     const [isFirst, setIsFirst] = useState(true);
     const [verifyPassword, setVerifyPassword] = useState(false);

@@ -107,7 +107,7 @@ const icons = [
     { key: "AppstoreAddOutlined", value: <AppstoreAddOutlined />},
 ];
 
-function Icon() {
+const Icon = () => {
     const handleCopyToClipboard = (item) => {
         copy(`<${item.key} />`);
         message.success(`<${item.key} />已复制到剪切板！`, 1);

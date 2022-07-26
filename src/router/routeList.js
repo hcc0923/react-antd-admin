@@ -73,7 +73,7 @@ const routeList = [
     },
     { 
         path: "/module/mark-down", 
-        component: Loadable({ loader: () => import('@/views/Module/markdown'), loading: Loading }),
+        component: Loadable({ loader: () => import('@/views/Module/mark-down'), loading: Loading }),
     },
 
     { 

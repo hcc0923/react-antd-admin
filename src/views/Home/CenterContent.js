@@ -12,7 +12,7 @@ import {
 import ReactECharts from 'echarts-for-react';
 
 
-function CenterContent(props) {
+const CenterContent = (props) => {
   const { extraTitle, visitData, uploadData, downloadData, progressData } = props;
   const chartOptions = {
     color: ['#1f9fff', '#2F4056', '#009688'],

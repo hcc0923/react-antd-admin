@@ -2,7 +2,7 @@ import { Button, Result } from 'antd';
 import React from 'react';
 
 
-function NoAuthority(props) {
+const NoAuthority = (props) => {
     return (
         <Result
             status="403"

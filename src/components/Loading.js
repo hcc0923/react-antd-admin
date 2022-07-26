@@ -6,18 +6,18 @@ import "nprogress/nprogress.css"; // progress bar style
 NProgress.configure({ showSpinner: false }); // NProgress Configuration
 
 const Loading = () => {
-  useEffect(() => {
-    NProgress.start();
-    return () => {
-      NProgress.done();
-    };
-  }, []);
+    useEffect(() => {
+        NProgress.start();
+        return () => {
+            NProgress.done();
+        };
+    }, []);
 
-  return (
-    <div>
-      <Spin />
-    </div>
-  );
+    return (
+        <div>
+            <Spin />
+        </div>
+    );
 };
 
 export default Loading;

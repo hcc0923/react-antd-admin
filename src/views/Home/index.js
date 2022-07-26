@@ -4,7 +4,7 @@ import CenterContent from "./CenterContent";
 import FooterTable from "./FooterTable";
 
 
-function Dashboard() {
+const Home = () => {
   const [topCard, setTopCard] = useState([]);
   const [centerContent, setCenterContent] = useState([]);
   const [footerTable, setFooterTable] = useState([]);
@@ -67,4 +67,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default Home;

@@ -18,7 +18,7 @@ const data = [
     { id: '5', name: '赵七', gender: '女', age: 21, work: '程序员'}
 ];
 
-function Zip() {
+const Zip = () => {
     const [spinning, setSpinning] = useState(false);
     const [fileName, setFileName] = useState('压缩包');
     const [tableData, setTableData] = useState([]);

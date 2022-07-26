@@ -7,7 +7,7 @@ import Menu from './Menu/index';
 import { setCollapse } from "@/store/actions/setting";
 const { Sider } = Layout;
 
-function LayoutSider(props) {
+const LayoutSider = (props) => {
     const onCollapseSider = (collapsed) => {
         props.setCollapse({ collapsed });
     }

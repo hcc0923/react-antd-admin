@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { Card, Button, Spin } from 'antd';
 import { SERVER_ADDRESS } from '@/utils/config';
 
-
-function Pdf() {
+const Pdf = () => {
     const [spinning, setSpinning] = useState(false);
     
     const handleDownload = () => {

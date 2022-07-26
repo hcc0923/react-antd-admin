@@ -41,7 +41,7 @@ const chartOptions = {
 	]
 };
 
-function Pie() {
+const Pie = () => {
     return (
 		<ReactECharts
             option={chartOptions}

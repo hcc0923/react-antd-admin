@@ -2,7 +2,7 @@ import { Button, Result } from 'antd';
 import React from 'react';
 
 
-function NotFound(props) {
+const NotFound = (props) => {
     return (
         <Result
             status="404"

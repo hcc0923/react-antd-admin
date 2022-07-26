@@ -8,8 +8,7 @@ import Sider from './Sider';
 import Content from './Content';
 import RightPanel from './RightPanel';
 
-
-function App(props) {
+const LayoutPage = () => {
   return (
     <Layout style={{ display: 'flex', width: '100%'}}>
       <Sider />
@@ -30,4 +29,4 @@ function App(props) {
   )
 }
 
-export default App;
+export default LayoutPage;

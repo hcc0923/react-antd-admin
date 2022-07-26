@@ -248,7 +248,7 @@ const chartOptions = {
     ]
 };
 
-function Line() {
+const Line = () => {
     return (
         <ReactECharts
             option={chartOptions}

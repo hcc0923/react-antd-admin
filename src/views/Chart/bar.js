@@ -128,7 +128,7 @@ const chartOptions = {
     ]
 };
 
-function Bar() {
+const Bar = () => {
     return (
         <ReactECharts
             option={chartOptions}

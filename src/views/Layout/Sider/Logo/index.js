@@ -3,7 +3,7 @@ import logo from "@/assets/images/logo.svg";
 import "./index.less";
 
 
-function Logo() {
+const Logo = () => {
   return (
     <div className="sidebar-logo-container">
       <img src={logo} className="sidebar-logo" alt="logo" />

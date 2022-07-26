@@ -8,8 +8,7 @@ import {
 import permission from '@/assets/images/permission.png';
 import permissions from '@/assets/images/permissions.png';
 
-
-function Authority() {
+const Authority = () => {
     const roleMap = { 1: '用户', 2: '管理员', 3: '超级管理员' };
     const userInfo = JSON.parse(localStorage.getItem('userInfo')) || {};
     const [authority, setAuthority] = useState(userInfo.role);

@@ -31,7 +31,7 @@ const tailLayout = {
     },
 };
 
-function Login(props) {
+const Login = (props) => {
     const [loading, setLoading] = useState(false);
     const [overlay, setOverlay] = useState({ isLogin: true, step: 100 });
     const [loginForm, setLoginForm] = useState({ email: '', password: '' });

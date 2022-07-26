@@ -27,7 +27,7 @@ const tailLayout = {
     },
 };
 
-function Forget(props) {
+const Forget = (props) => {
     const [formType, setFormType] = useState('validate');
     const [validateForm, setValidateForm] = useState({ email: '', code: '' });
     const [resetForm, setResetForm] = useState({ password: '', repeatPassword: '' });
