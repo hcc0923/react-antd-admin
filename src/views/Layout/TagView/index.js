@@ -22,7 +22,7 @@ const TagView = (props) => {
             const tagIndex = tag.findIndex(tagItem => tagItem.key === item.key);
             console.log(tagIndex);
             console.log(tag[tagIndex].key);
-            props.history.push(tag[tagIndex].key);
+            props.history.push(tag[tagIndex+1].key);
         }
         props.deleteTag(item);
     }
