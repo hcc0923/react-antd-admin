@@ -4,6 +4,10 @@ import Loading from '@/components/Loading';
 
 const routeList = [
     { 
+        path: "/", 
+        component: Loadable({ loader: () => import('@/views/Home/index'), loading: Loading }), 
+    },
+    { 
         path: "/home", 
         component: Loadable({ loader: () => import('@/views/Home/index'), loading: Loading }), 
     },
@@ -41,7 +45,7 @@ const routeList = [
     },
     { 
         path: "/chart/key-board", 
-        component: Loadable({ loader: () => import('@/views/Chart/keyboard'), loading: Loading }), 
+        component: Loadable({ loader: () => import('@/views/Chart/key-board'), loading: Loading }), 
     },
     { 
         path: "/chart/mix", 

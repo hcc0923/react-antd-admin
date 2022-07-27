@@ -13,6 +13,13 @@ import {
 const menuList = [
     {
         label: "首页",
+        key: "/",
+        hidden: true,
+        icon: <DashboardOutlined />,
+        roles:["root","admin","user"]
+    },
+    {
+        label: "首页",
         key: "/home",
         icon: <DashboardOutlined />,
         roles:["root","admin","user"]

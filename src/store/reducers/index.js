@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import token from './token';
 import userInfo from './userInfo';
 import { settings,collapse,openKeys } from './setting';
+import tag from './tag';
 
 
 const concatReducers = combineReducers({
@@ -9,7 +10,8 @@ const concatReducers = combineReducers({
     userInfo,
     settings,
     collapse,
-    openKeys
+    openKeys,
+    tag
 });
 
 export default concatReducers;

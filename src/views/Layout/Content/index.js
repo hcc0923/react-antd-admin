@@ -43,13 +43,13 @@ const LayoutContent = (props) => {
                             <Redirect exact from="/" to="/home" />
                             {routeList.map((route) => {
                                 return (
-                                handleFilter(route) && (
-                                    <Route
-                                    component={route.component}
-                                    key={route.path}
-                                    path={route.path}
-                                    />
-                                )
+                                    handleFilter(route) && (
+                                        <Route
+                                            component={route.component}
+                                            key={route.path}
+                                            path={route.path}
+                                        />
+                                    )
                                 );
                             })}
                             <Redirect to="/error/not-found" />
