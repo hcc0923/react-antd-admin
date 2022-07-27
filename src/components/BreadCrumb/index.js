@@ -6,7 +6,8 @@ import menuList from "@/router/menuList";
 
 const BreadCrumb = (props) => {
     const { location } = props;
-    const { pathname } = location;
+    let { pathname } = location;
+    if (pathname === '/') pathname = '/home';
     const handleBreadCrumb = (menuList, pathname) => {
         const temporaryPath = [];
         try {

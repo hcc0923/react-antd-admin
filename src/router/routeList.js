@@ -4,10 +4,6 @@ import Loading from '@/components/Loading';
 
 const routeList = [
     { 
-        path: "/", 
-        component: Loadable({ loader: () => import('@/views/Home/index'), loading: Loading }), 
-    },
-    { 
         path: "/home", 
         component: Loadable({ loader: () => import('@/views/Home/index'), loading: Loading }), 
     },

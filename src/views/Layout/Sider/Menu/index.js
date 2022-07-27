@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
 import { Menu } from 'antd';
-import { getMenuItemInMenuListByProperty } from "@/utils";
+import { addTag } from "@/store/actions/tag";
 import menuList from '@/router/menuList';
 
 const SiderMenu = (props) => {
@@ -45,17 +45,16 @@ const SiderMenu = (props) => {
         });
     }
     const handleMenuSelect = (data) => {
-        const { key, keyPath } = data;
-        setOpenKey(keyPath);
+        const { key, domEvent } = data;
+        props.addTag({ label: domEvent.target.innerText, key });
         props.history.push(key);
     }
     useEffect(() => {
         const menuData = handleMenuPermission(menuList);
         setMenuPermission(menuData);
-        // handleMenuSelect(openKey);
     }, []);
     useEffect(() => {
-        openKey.length = 0;
+        // openKey.length = 0;
         handleOpenKey(menuList);
     }, [path])
     return(
@@ -77,4 +76,9 @@ const SiderMenu = (props) => {
 
 
 const mapStateToProps = state => state;
-export default connect(mapStateToProps)(withRouter(SiderMenu));
+const mapDispatchToProps = dispatch => ({
+    addTag: data => {
+        dispatch(addTag(data));
+    }
+})
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SiderMenu));

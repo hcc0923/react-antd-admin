@@ -5,16 +5,19 @@ const tagState = [{ label: '首页', key: '/home' }];
 const tag = (state = tagState, action) => {
     switch (action.type) {
         case ADD_TAG:
-            if (tagState.includes(action.data)) {
+            const exist = tagState.find(item => item.key === action.data.key);
+            if (exist) {
                 return tagState;
             }
-            return [...tagState, action.data]; 
+            tagState.push(action.data);
+            return tagState; 
         case DELETE_TAG:
-            return tagState.filter(item => {
-                return item.key !== action.data.key;
-            });
+            const targetIndex = tagState.findIndex(item => item.key === action.data.key);
+            tagState.splice(targetIndex, 1);
+            return tagState;
         case EMPTY_TAG:
-            return action.data; 
+            tagState.splice(1);
+            return tagState; 
         case DELETE_OTHER_TAG:
             return action.data; 
         default:

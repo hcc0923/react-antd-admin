@@ -13,13 +13,6 @@ import {
 const menuList = [
     {
         label: "首页",
-        key: "/",
-        hidden: true,
-        icon: <DashboardOutlined />,
-        roles:["root","admin","user"]
-    },
-    {
-        label: "首页",
         key: "/home",
         icon: <DashboardOutlined />,
         roles:["root","admin","user"]
@@ -136,7 +129,7 @@ const menuList = [
             },
             { 
                 label: "文件管理",
-                key: "/module/file-root",
+                key: "/module/file-admin",
                 roles:["root","admin","user"],
             },
             { 

@@ -23,6 +23,7 @@ const LayoutContent = (props) => {
         // 过滤没有权限的页面
         return role === "admin" || !route.roles || route.roles.includes(role);
     };
+    console.log(pathname);
     return (
         <DocumentTitle title={"标题"}>
             <Content 
