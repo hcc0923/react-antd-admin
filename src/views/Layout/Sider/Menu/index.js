@@ -6,10 +6,10 @@ import { addTag } from "@/store/actions/tag";
 import menuList from '@/router/menuList';
 
 const SiderMenu = (props) => {
-    const path = props.location.pathname;
+    const { location } = props;
+    const { pathname } = location;
     const [menuPermission, setMenuPermission] = useState([]);
-    const [openKey, setOpenKey] = useState([]);
-    
+    const [openKeys, setOpenKeys] = useState([]);
     const role = 'admin';
 
 
@@ -36,9 +36,9 @@ const SiderMenu = (props) => {
     const handleOpenKey = (menuList) => {
         menuList.forEach(item => {
             if (item.children) {
-                const cItem = item.children.find(child => path.indexOf(child.key) === 0);
+                const cItem = item.children.find(child => pathname.indexOf(child.key) === 0);
                 if (cItem) {
-                    setOpenKey([...openKey, item.key]);
+                    setOpenKeys([...openKeys, item.key]);
                 }
                 handleOpenKey(item.children);
             }
@@ -54,19 +54,18 @@ const SiderMenu = (props) => {
         setMenuPermission(menuData);
     }, []);
     useEffect(() => {
-        // openKey.length = 0;
         handleOpenKey(menuList);
-    }, [path])
+    }, [pathname]);
     return(
         <div style={{ height: "calc(100% - 64px)" }}>
             <Menu
                 mode="inline"
                 theme="dark"
                 items={menuPermission}
-                defaultOpenKeys={openKey}
-                openKeys={openKey}
-                selectedKeys={[path]}
-                onOpenChange={(openKeys) => setOpenKey(openKeys)}
+                defaultOpenKeys={openKeys}
+                openKeys={openKeys}
+                selectedKeys={[pathname]}
+                onOpenChange={(openKeys) => setOpenKeys(openKeys)}
                 onSelect={handleMenuSelect}
             />
         </div>

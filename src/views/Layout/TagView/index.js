@@ -18,7 +18,7 @@ const TagView = (props) => {
             
             props.history.push(tag[tagLength - 2].key);
         }
-        if (pathname === item.key) {
+        if (pathname === item.key && item.key !== tag[tagLength - 1].key) {
             const tagIndex = tag.findIndex(tagItem => tagItem.key === item.key);
             console.log(tagIndex);
             console.log(tag[tagIndex].key);

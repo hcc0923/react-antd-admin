@@ -6,7 +6,6 @@ import Sider from './Sider';
 import Header from './Header';
 import TagView from './TagView';
 import Content from './Content';
-import RightPanel from './RightPanel';
 
 const LayoutPage = () => {
   return (
@@ -23,7 +22,6 @@ const LayoutPage = () => {
         {true ? <TagView /> : null}
         <Content />
 
-        <RightPanel />
       </Layout>
     </Layout>
   )

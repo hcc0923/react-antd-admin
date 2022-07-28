@@ -7,9 +7,8 @@ import { Layout } from 'antd';
 import { getMenuItemInMenuListByProperty } from "@/utils";
 import routeList from '@/router/routeList';
 import menuList from '@/router/menuList';
-const { Content } = Layout;
 
-const LayoutContent = (props) => {
+const Content = (props) => {
     const { location } = props;
     const { pathname } = location;
     const role = 'admin';
@@ -26,7 +25,7 @@ const LayoutContent = (props) => {
     console.log(pathname);
     return (
         <DocumentTitle title={"标题"}>
-            <Content 
+            <Layout.Content 
             style={{
                 height: "calc(100% - 100px)",
                 width: "100%",
@@ -57,11 +56,11 @@ const LayoutContent = (props) => {
                         </Switch>
                     </CSSTransition>
                 </TransitionGroup>
-            </Content>
+            </Layout.Content>
         </DocumentTitle>
     )
 }
 
 const mapStateToProps = state => state;
 
-export default connect(mapStateToProps)(withRouter(LayoutContent));
+export default connect(mapStateToProps)(withRouter(Content));

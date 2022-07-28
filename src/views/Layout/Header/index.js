@@ -22,24 +22,18 @@ import { setOpenKeys } from "@/store/actions/setting";
 import "./index.less";
 import Hamburger from "@/components/Hamburger";
 import BreadCrumb from "@/components/BreadCrumb";
+import DrawerSettings from "@/components/DrawerSettings";
 const { Header } = Layout;
 
-const LayoutHeader = (props) => {
+const HeaderContainer = (props) => {
   const { userInfo, collapse } = props;
+  const [drawerVisible, setDrawerVisible] = useState(false);
   const [fixedHeader, setFixedHeader] = useState(false);
-  const [visible, setVisible] = useState(false);
+
+ 
   const onLogout = () => {
     localStorage.clear();
     message.success("退出成功，请重新登录");
-  };
-  const onClickSetting = () => {
-    setVisible(true);
-  };
-  const onCloseDrawer = () => {
-    setVisible(false);
-  };
-  const onSwitchChange = (checked) => {
-    setFixedHeader(checked);
   };
   const menu = (
     <Menu
@@ -105,7 +99,7 @@ const LayoutHeader = (props) => {
               <TranslationOutlined className="ml-4" />
               <SettingOutlined
                 className="mx-4 cursor-default"
-                onClick={() => onClickSetting()}
+                onClick={() => setDrawerVisible(true)}
               />
             </div>
             <div className="h-full flex justify-between items-center">
@@ -117,28 +111,13 @@ const LayoutHeader = (props) => {
                 </Button>
               </Dropdown>
             </div>
-            <Drawer
-              title="系统设置"
-              closeIcon={<></>}
-              placement="right"
-              visible={visible}
-              extra={
-                <Space>
-                  <Button type="primary" onClick={onCloseDrawer}>
-                    OK
-                  </Button>
-                </Space>
-              }
-            >
-              <Switch
-                checkedChildren="打开"
-                unCheckedChildren="关闭"
-                defaultChecked={false}
-                onChange={onSwitchChange}
-                className="text-red-600"
-              />
-            </Drawer>
           </div>
+          <DrawerSettings 
+            drawerVisible={drawerVisible}
+            fixedHeader={fixedHeader}
+            setDrawerVisible={setDrawerVisible}
+            setFixedHeader={setFixedHeader}
+          />
         </div>
       </Header>
     </>
@@ -152,4 +131,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(LayoutHeader);
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer);
