@@ -1,106 +1,98 @@
-import React from 'react';
-import Home from  '@/views/Home/index';
-import Home2 from  '@/views/User/user-list';
-import Home3 from  '@/views/User/role-list';
-import Loadable from 'react-loadable';
-import Loading from '@/components/Loading';
+import loadable from '@loadable/component';
 
-// const Loading = () => <></>;
+
 const routeList = [
     { 
         path: "/home", 
-        component: Home,
+        component: loadable(() => import('@/views/Home/index')),
     },
     { 
         path: "/user-menu/user-list", 
-        component: Home2,
+        component: loadable(() => import('@/views/User/user-list')),
     },
     { 
         path: "/user-menu/role-list", 
-        component: Home3,
+        component: loadable(() => import('@/views/User/role-list')),
     },
-
-
-    // { 
-    //     path: "/home", 
-    //     component: Loadable({ loader: () => import('@/views/Home/index'), loading: Loading }), 
-    // },
-    // { 
-    //     path: "/setting-menu/user-setting/basic-info", 
-    //     component: Loadable({ loader: () => import('@/views/Setting/My/basic-info'), loading: Loading }), 
-    // },
-    // { 
-    //     path: "/setting-menu/user-setting/modify-password", 
-    //     component: Loadable({ loader: () => import('@/views/Setting/My/modify-password'), loading: Loading }), 
-    // },
-    // { 
-    //     path: "/icon", 
-    //     component: Loadable({ loader: () => import('@/views/Icon/index'), loading: Loading }), 
-    // },
-    // { 
-    //     path: "/chart/line", 
-    //     component: Loadable({ loader: () => import('@/views/Chart/line'), loading: Loading }), 
-    // },
-    // { 
-    //     path: "/chart/bar", 
-    //     component: Loadable({ loader: () => import('@/views/Chart/bar'), loading: Loading }), 
-    // },
-    // { 
-    //     path: "/chart/pie", 
-    //     component: Loadable({ loader: () => import('@/views/Chart/pie'), loading: Loading }), 
-    // },
-    // { 
-    //     path: "/chart/key-board", 
-    //     component: Loadable({ loader: () => import('@/views/Chart/key-board'), loading: Loading }), 
-    // },
-    // { 
-    //     path: "/chart/mix", 
-    //     component: Loadable({ loader: () => import('@/views/Chart/mix'), loading: Loading }), 
-    // },
-    // { 
-    //     path: "/chart/china", 
-    //     component: Loadable({ loader: () => import('@/views/Chart/china/index'), loading: Loading }), 
-    // },
-    // { 
-    //     path: "/module/excel", 
-    //     component: Loadable({ loader: () => import('@/views/Module/excel'), loading: Loading }),
-    // },
-    // { 
-    //     path: "/module/zip", 
-    //     component: Loadable({ loader: () => import('@/views/Module/zip'), loading: Loading }),
-    // },
-    // { 
-    //     path: "/module/pdf", 
-    //     component: Loadable({ loader: () => import('@/views/Module/pdf'), loading: Loading }),
-    // },
-    // { 
-    //     path: "/module/file-admin", 
-    //     component: Loadable({ loader: () => import('@/views/Module/file-admin'), loading: Loading }),
-    // },
-    // { 
-    //     path: "/module/rich-text", 
-    //     component: Loadable({ loader: () => import('@/views/Module/rich-text'), loading: Loading }),
-    // },
-    // { 
-    //     path: "/module/mark-down", 
-    //     component: Loadable({ loader: () => import('@/views/Module/mark-down'), loading: Loading }),
-    // },
-
-    // { 
-    //     path: "/authority", 
-    //     component: Loadable({ loader: () => import('@/views/Authority/index'), loading: Loading }),
-    // },
-    // { 
-    //     path: "/error/no-authority", 
-    //     component: Loadable({ loader: () => import('@/views/Error/no-authority'), loading: Loading }),
-    // },
-    // { 
-    //     path: "/error/not-found", 
-    //     component: Loadable({ loader: () => import('@/views/Error/not-found'), loading: Loading }),
-    // },
-    // { 
-    //     path: "/error/server-error", 
-    //     component: Loadable({ loader: () => import('@/views/Error/server-error'), loading: Loading }),
-    // },
+    { 
+        path: "/setting-menu/user-setting/basic-info", 
+        component: loadable(() => import('@/views/Setting/My/basic-info')),
+    },
+    { 
+        path: "/setting-menu/user-setting/modify-password", 
+        component: loadable(() => import('@/views/Setting/My/modify-password')),
+    },
+    { 
+        path: "/icon", 
+        component: loadable(() => import('@/views/Icon/index')),
+    },
+    { 
+        path: "/chart/line", 
+        component: loadable(() => import('@/views/Chart/line')),
+    },
+    { 
+        path: "/chart/bar", 
+        component: loadable(() => import('@/views/Chart/bar')),
+    },
+    { 
+        path: "/chart/line", 
+        component: loadable(() => import('@/views/Chart/line')),
+    },
+    { 
+        path: "/chart/pie", 
+        component: loadable(() => import('@/views/Chart/pie')),
+    },
+    { 
+        path: "/chart/key-board", 
+        component: loadable(() => import('@/views/Chart/key-board')),
+    },
+    { 
+        path: "/chart/mix", 
+        component: loadable(() => import('@/views/Chart/mix')),
+    },
+    { 
+        path: "/chart/china", 
+        component: loadable(() => import('@/views/Chart/china')),
+    },
+    { 
+        path: "/module/excel", 
+        component: loadable(() => import('@/views/Module/excel')),
+    },
+    { 
+        path: "/module/zip", 
+        component: loadable(() => import('@/views/Module/zip')),
+    },
+    { 
+        path: "/module/pdf", 
+        component: loadable(() => import('@/views/Module/pdf')),
+    },
+    { 
+        path: "/module/file-admin", 
+        component: loadable(() => import('@/views/Module/file-admin')),
+    },
+    { 
+        path: "/module/rich-text", 
+        component: loadable(() => import('@/views/Module/rich-text')),
+    },
+    { 
+        path: "/module/mark-down", 
+        component: loadable(() => import('@/views/Module/mark-down')),
+    },
+    { 
+        path: "/authority", 
+        component: loadable(() => import('@/views/Authority/index')),
+    },
+    { 
+        path: "/error/no-authority", 
+        component: loadable(() => import('@/views/Error/no-authority')),
+    },
+    { 
+        path: "/error/not-found", 
+        component: loadable(() => import('@/views/Error/not-found')),
+    },
+    { 
+        path: "/error/server-error", 
+        component: loadable(() => import('@/views/Error/server-error')),
+    },
 ];
 export default routeList;

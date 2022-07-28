@@ -1,17 +1,3 @@
-import Loadable from 'react-loadable';
-
-
-/* 
-    loadable
-    按需加载
-*/
-export const loadable = (loader, loading) => {
-    return Loadable({
-        loader,
-        loading: () => <div></div>
-    });
-}
-
 /* 
     formatAmount
     格式化价格

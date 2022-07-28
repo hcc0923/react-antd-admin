@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import * as Echarts from 'echarts';
 import cityMap from './citymap';
-import CHINA_JSON from '@/assets/map/china.json';
+import CHINA_JSON from './map/china.json';
 
 
 //34个省、市、自治区的名字拼音映射数组
@@ -157,7 +157,8 @@ const China = () => {
             const { name, seriesName } = params;
             if (name in provinces) {
                 //如果点击的是34个省、市、自治区，绘制选中地区的二级地图
-                const moduleData = import(`@/assets/map/province/${provinces[name]}.json`);
+                const moduleData = import(`./map/province/${provinces[name]}.json`);
+                console.log(moduleData);
                 moduleData.then(result => {
                     Echarts.registerMap(name, result.default);
 
@@ -176,7 +177,7 @@ const China = () => {
                     renderMap('china', mapData);
                 }else{
                     //显示县级地图
-                    const moduleData = import(`@/assets/map/city/${cityMap[name]}.json`);
+                    const moduleData = import(`./map/city/${cityMap[name]}.json`);
                     
                     moduleData.then((result) => {
                         Echarts.registerMap(name, result.default);
