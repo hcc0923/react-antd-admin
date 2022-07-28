@@ -9,8 +9,9 @@ import './index.css';
 
 import http from '@/utils/request';
 React.$http = http;
+const { $http } = React;
 
-
+console.log($http.get);
 
 const App = () => {
   return (

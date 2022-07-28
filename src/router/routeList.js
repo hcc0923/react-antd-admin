@@ -2,8 +2,10 @@ import React from 'react';
 import Home from  '@/views/Home/index';
 import Home2 from  '@/views/User/user-list';
 import Home3 from  '@/views/User/role-list';
+import Loadable from 'react-loadable';
+import Loading from '@/components/Loading';
 
-
+// const Loading = () => <></>;
 const routeList = [
     { 
         path: "/home", 
@@ -11,17 +13,17 @@ const routeList = [
     },
     { 
         path: "/user-menu/user-list", 
-        component: <Home2 />,
+        component: Home2,
     },
     { 
         path: "/user-menu/role-list", 
-        component: <Home3 />,
-    }
+        component: Home3,
+    },
 
 
     // { 
-    //     path: "/user-menu/role-list", 
-    //     component: Loadable({ loader: () => import('@/views/User/role-list'), loading: Loading }), 
+    //     path: "/home", 
+    //     component: Loadable({ loader: () => import('@/views/Home/index'), loading: Loading }), 
     // },
     // { 
     //     path: "/setting-menu/user-setting/basic-info", 

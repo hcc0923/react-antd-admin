@@ -2,13 +2,12 @@ import React, { Fragment, useState, useEffect  }from 'react';
 import TopCard from "./TopCard";
 import CenterContent from "./CenterContent";
 import FooterTable from "./FooterTable";
-
+import $http from '@/utils/request';
 
 const Home = () => {
   const [topCard, setTopCard] = useState([]);
   const [centerContent, setCenterContent] = useState([]);
   const [footerTable, setFooterTable] = useState([]);
-  const { $http } = React;
 
   const getTopCard = () => {
     $http.get('/dashboard/getTopCard')

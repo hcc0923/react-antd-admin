@@ -1,5 +1,4 @@
 import path from "path";
-import fs from 'fs/promises';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 

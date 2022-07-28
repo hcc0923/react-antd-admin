@@ -23,9 +23,8 @@ import {
 } from '@ant-design/icons';
 import { SERVER_ADDRESS } from '@/utils/config';
 import Uploading from '@/components/Uploading';
+import $http from '@/utils/request';
 
-
-const { $http } = React;
 const Options = [
     { label: '不限', value: -1 },
     { label: '男', value: 0 },

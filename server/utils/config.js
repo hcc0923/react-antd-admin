@@ -6,7 +6,7 @@ const serverConfig = {
 
 // cross domain config
 const corsConfig = {
-    origin: ['http://localhost:3000', 'http://116.62.139.167:3000'],
+    origin: ['http://localhost:3000'],
     methods: ['GET', 'OPTIONS', 'POST', 'PUT', 'DELETE'],
     credentials: true,
 };
