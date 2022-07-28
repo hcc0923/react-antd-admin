@@ -4,9 +4,6 @@ import {
   Button,
   Dropdown,
   Menu,
-  Space,
-  Drawer,
-  Switch,
   message,
   Layout,
 } from "antd";
@@ -18,7 +15,7 @@ import {
 import { connect } from "react-redux";
 import FullScreen from "@/components/FullScreen";
 import { SERVER_ADDRESS } from "@/utils/config";
-import { setOpenKeys } from "@/store/actions/setting";
+import { setOpenKeys, setFixedHeader } from "@/store/actions/setting";
 import "./index.less";
 import Hamburger from "@/components/Hamburger";
 import BreadCrumb from "@/components/BreadCrumb";
@@ -26,9 +23,8 @@ import DrawerSettings from "@/components/DrawerSettings";
 const { Header } = Layout;
 
 const HeaderContainer = (props) => {
-  const { userInfo, collapse } = props;
+  const { userInfo, collapse, fixedHeader } = props;
   const [drawerVisible, setDrawerVisible] = useState(false);
-  const [fixedHeader, setFixedHeader] = useState(false);
 
  
   const onLogout = () => {
@@ -116,7 +112,6 @@ const HeaderContainer = (props) => {
             drawerVisible={drawerVisible}
             fixedHeader={fixedHeader}
             setDrawerVisible={setDrawerVisible}
-            setFixedHeader={setFixedHeader}
           />
         </div>
       </Header>
@@ -129,6 +124,9 @@ const mapDispatchToProps = (dispatch) => ({
   setOpenKeys: (data) => {
     dispatch(setOpenKeys(data));
   },
+  setFixedHeader: (data) => {
+    dispatch(setFixedHeader(data));
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer);

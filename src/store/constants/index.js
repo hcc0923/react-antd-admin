@@ -15,3 +15,9 @@ export const ADD_TAG = 'add_tag';
 export const DELETE_TAG = 'delete_tag';
 export const EMPTY_TAG = 'empty_tag';
 export const DELETE_OTHER_TAG = 'delete_other_tag';
+
+export const SET_LOGO = 'set_logo';
+
+export const SET_FIXED_HEADER = 'set_fixed_header';
+
+export const SET_TAG = 'set_tag';

@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import { Layout } from 'antd';
 import Sider from './Sider';
 import Header from './Header';
-import TagView from './TagView';
 import Content from './Content';
+import Tags from "@/components/Tags";
 
-const LayoutPage = () => {
+const LayoutPage = (props) => {
+  const { showTag } = props;
   return (
     <Layout style={{ display: 'flex', width: '100%'}}>
       <Sider />
@@ -19,12 +20,13 @@ const LayoutPage = () => {
         }}
       >
         <Header />
-        {true ? <TagView /> : null}
+        {showTag ? <Tags /> : null}
         <Content />
-
       </Layout>
     </Layout>
   )
 }
 
-export default LayoutPage;
+const mapStateToProps = state => state;
+
+export default connect(mapStateToProps)(LayoutPage);

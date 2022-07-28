@@ -10,7 +10,6 @@ import { deleteTag } from '@/store/actions/tag';
 const TagView = (props) => {
     const { location, tag } = props;
     const { pathname } = location;
-    console.log(pathname);
     const onCloseTag = (item) => {
         const tagLength = tag.length;
         // 删除最后一个tag跳转到前一个
@@ -20,8 +19,6 @@ const TagView = (props) => {
         }
         if (pathname === item.key && item.key !== tag[tagLength - 1].key) {
             const tagIndex = tag.findIndex(tagItem => tagItem.key === item.key);
-            console.log(tagIndex);
-            console.log(tag[tagIndex].key);
             props.history.push(tag[tagIndex+1].key);
         }
         props.deleteTag(item);

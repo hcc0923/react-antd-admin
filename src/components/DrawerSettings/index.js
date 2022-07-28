@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Drawer, Switch, Space, Button, Divider } from 'antd';
+import { setFixedHeader, setLogo, setTag } from "@/store/actions/setting";
 
 
 const DrawerSettings = (props) => {
-    const { drawerVisible, fixedHeader, setDrawerVisible, setFixedHeader } = props;
+    const { drawerVisible, fixedHeader, setDrawerVisible, setFixedHeader, logo, setLogo, showTag, setTag } = props;
     return (
         <Drawer
             title="系统设置"
@@ -27,7 +28,7 @@ const DrawerSettings = (props) => {
                     checkedChildren="打开"
                     unCheckedChildren="关闭"
                     defaultChecked={fixedHeader}
-                    onChange={() => setFixedHeader(true)}
+                    onChange={(checked) => setFixedHeader(checked)}
                 />
             </div>
             <Divider dashed />
@@ -37,8 +38,8 @@ const DrawerSettings = (props) => {
                 <Switch
                     checkedChildren="打开"
                     unCheckedChildren="关闭"
-                    defaultChecked={fixedHeader}
-                    onChange={() => setFixedHeader(true)}
+                    defaultChecked={logo}
+                    onChange={(checked) => setLogo(checked)}
                 />
             </div>
             <Divider dashed />
@@ -48,8 +49,8 @@ const DrawerSettings = (props) => {
                 <Switch
                     checkedChildren="打开"
                     unCheckedChildren="关闭"
-                    defaultChecked={fixedHeader}
-                    onChange={() => setFixedHeader(true)}
+                    defaultChecked={showTag}
+                    onChange={(checked) => setTag(checked)}
                 />
             </div>
         </Drawer>
@@ -57,5 +58,15 @@ const DrawerSettings = (props) => {
 }
 
 const mapStateToProps = state => state;
-const mapDispatchToProps = dispatch => ({})
+const mapDispatchToProps = dispatch => ({
+    setFixedHeader: data => {
+        dispatch(setFixedHeader(data))
+    },
+    setLogo: data => {
+        dispatch(setLogo(data))
+    },
+    setTag: data => {
+        dispatch(setTag(data))
+    }
+})
 export default connect(mapStateToProps, mapDispatchToProps)(DrawerSettings);
