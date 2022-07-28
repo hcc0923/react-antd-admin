@@ -1,0 +1,21 @@
+.sidebar-logo-container {
+    position: relative;
+    width: 100%;
+    height: 64px;
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+    
+  }
+  .sidebar-logo {
+    width: 64px;
+    animation: sidebar-logo-spin infinite 10s linear;
+  }
+@keyframes sidebar-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

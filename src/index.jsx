@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { ConfigProvider } from "antd";
 import zhCN from "antd/es/locale/zh_CN";
-import store from '@/store/store';
+import store from '@/store/store.js';
 import Router from '@/router/index';
-import './index.less';
+import './index.css';
 
 import http from '@/utils/request';
 React.$http = http;

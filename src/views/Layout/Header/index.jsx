@@ -16,7 +16,7 @@ import { connect } from "react-redux";
 import FullScreen from "@/components/FullScreen";
 import { SERVER_ADDRESS } from "@/utils/config";
 import { setOpenKeys, setFixedHeader } from "@/store/actions/setting";
-import "./index.less";
+import "./index.css";
 import Hamburger from "@/components/Hamburger";
 import BreadCrumb from "@/components/BreadCrumb";
 import DrawerSettings from "@/components/DrawerSettings";

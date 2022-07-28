@@ -1,18 +1,18 @@
 {
-  "name": "reacts",
-  "version": "0.1.0",
+  "name": "react-antd-admin",
   "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
-    "@craco/craco": "^6.4.3",
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.3.0",
-    "@testing-library/user-event": "^14.2.1",
     "@toast-ui/react-editor": "^3.1.8",
     "antd": "^4.21.7",
     "axios": "^0.27.2",
     "copy-to-clipboard": "^3.3.1",
-    "craco-less": "^2.0.0",
     "crypto-js": "^4.1.1",
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
@@ -21,7 +21,6 @@
     "echarts-for-react": "^3.0.2",
     "file-saver": "^2.0.5",
     "jszip": "^3.10.0",
-    "lodash": "^4.17.21",
     "nprogress": "^0.2.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
@@ -31,40 +30,16 @@
     "react-loadable": "^5.5.0",
     "react-redux": "^8.0.2",
     "react-router-dom": "5.3.1",
-    "react-scripts": "5.0.1",
     "react-transition-group": "^4.4.2",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
-    "web-vitals": "^2.1.4",
     "xlsx": "^0.18.5"
   },
-  "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
   "devDependencies": {
+    "@vitejs/plugin-react": "1.0.7",
     "autoprefixer": "^10.4.7",
     "postcss": "^8.4.14",
-    "tailwindcss": "^3.1.4"
+    "tailwindcss": "^3.1.4",
+    "vite": "2.9.0"
   }
 }
