@@ -5,7 +5,7 @@ import { ConfigProvider } from "antd";
 import zhCN from "antd/es/locale/zh_CN";
 import store from '@/store/store.js';
 import Router from '@/router/index';
-import './index.css';
+import './index.less';
 
 import http from '@/utils/request';
 React.$http = http;

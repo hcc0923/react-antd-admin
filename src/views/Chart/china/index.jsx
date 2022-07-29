@@ -158,7 +158,6 @@ const China = () => {
             if (name in provinces) {
                 //如果点击的是34个省、市、自治区，绘制选中地区的二级地图
                 const moduleData = import(`./map/province/${provinces[name]}.json`);
-                console.log(moduleData);
                 moduleData.then(result => {
                     Echarts.registerMap(name, result.default);
 
@@ -208,7 +207,7 @@ const China = () => {
 
     return (
         <div id="chartMap" style={{ width: 'auto', height: 600 }}></div>
-    )
+    );
 }
 
 export default China;
