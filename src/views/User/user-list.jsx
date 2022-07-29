@@ -23,6 +23,7 @@ import {
 } from '@ant-design/icons';
 import { SERVER_ADDRESS } from '@/utils/config';
 import Uploading from '@/components/Uploading';
+import { getUser, addUser, editUser, deleteUser, multipleDelete } from '@/api/user';
 import $http from '@/utils/request';
 
 const Options = [
@@ -72,14 +73,14 @@ const UserList = () => {
                 params[key] = pagination[key];
             }
         }
-        $http.get('/user/getUser', { params })
-            .then((response) => {
+        getUser(params)
+            .then(response => {
                 const { result, total } = response;
 
                 setUserTableData(result);
                 setTotal({ total });
             })
-            .catch((error) => {
+            .catch(error => {
                 console.log(error);
             })
             .finally(() => {
@@ -105,20 +106,20 @@ const UserList = () => {
         setSpinning(true);
         values.avatar = values.avatar.file.response.file.path;
         if (modalType === 'add') {
-            $http.post('/user/addUser', values)
+            addUser(values)
                 .then(() => {
                     setSpinning(false);
                     message.success('添加成功');
                     getUserList();
                     setModalVisible(false);
                 })
-                .catch((error) => {
+                .catch(error => {
                     message.error('添加失败');
                     console.log(error);
                 });
         } else {
             values.id = modalForm.id;
-            $http.put('/user/editUser', values)
+            editUser(values)
                 .then(() => {
                     setSpinning(false);
                     message.success('编辑成功');
@@ -140,7 +141,7 @@ const UserList = () => {
             onOk: () => {
                 setSpinning(true);
                 const params = { id: record.id };
-                $http.delete('/user/deleteUser', { params })
+                deleteUser(params)
                     .then(() => {
                         setSpinning(false);
                         message.success('删除成功');
@@ -165,7 +166,7 @@ const UserList = () => {
             onOk: () => {
                 setSpinning(true);
                 const params = { ids: selectedRowKeys };
-                $http.delete('/user/multipleDelete', { params })
+                multipleDelete(params)
                     .then(() => {
                         setSpinning(false);
                         message.success('删除成功');

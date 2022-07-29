@@ -9,14 +9,14 @@ const HTTP_API = SERVER_ADDRESS;
 const WHITE_API = ['/login', '/register'];
 
 // create axios instance
-const http = Axios.create({
+const request = Axios.create({
     baseURL: HTTP_API,
     timeout: 1000 * 5,
     withCredentials: true
 });
 
 // intercept request
-http.interceptors.request.use(
+request.interceptors.request.use(
     config => {
         NProgress.start();
         const { url } = config;
@@ -36,7 +36,7 @@ http.interceptors.request.use(
 );
 
 // intercept response
-http.interceptors.response.use(
+request.interceptors.response.use(
     response => {
         NProgress.done();
         const { status, data } = response;
@@ -56,4 +56,4 @@ http.interceptors.response.use(
     }
 );
 
-export default http;
+export default request;
