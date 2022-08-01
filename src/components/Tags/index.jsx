@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Tag } from 'antd';
 import { CloseOutlined } from "@ant-design/icons";
-
 import { deleteTag } from '@/store/actions/tag';
 
 
@@ -33,7 +32,7 @@ const TagView = (props) => {
                     <Tag
                         key={item.key}
                         closable={item.key !== '/home'}
-                        color={item.key === pathname ? 'var(--ant-primary-color)' : ''}
+                        color={item.key === pathname ? '#1890ff' : ''}
                         closeIcon={<CloseOutlined className="align-baseline" />}
                         onClose={() => onCloseTag(item)} 
                         className="text-sm"
