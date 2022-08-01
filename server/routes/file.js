@@ -21,7 +21,7 @@ router.post('/uploadAvatar', upload.single('avatar'), (request, response) => {
 
 
 // upload files
-router.post('/uploadFileList', upload.array('files', 10), (request, response) => {
+router.post('/uploadMultipleFile', upload.array('files', 10), (request, response) => {
     const { id } = request.auth
     const files = request.files;
     const fileList = [];

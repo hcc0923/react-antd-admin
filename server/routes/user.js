@@ -4,15 +4,16 @@ const { executeMysql } = require('../utils/database');
 
 
 // user list
-router.get('/getUser', (request, response) => {
+router.post('/getUser', (request, response) => {
     const sqlString = `SELECT id
     FROM user`;
 
     executeMysql(sqlString)
         .then(result => {
             const { length: total } = result;
-            const { query } = request;
-            const { pageNum: queryPageNum, pageSize: queryPageSize } = query;
+            const { body } = request;
+           
+            const { pageNum: queryPageNum, pageSize: queryPageSize } = body;
             let sqlString = `SELECT id,
                     username,
                     gender,
@@ -23,26 +24,26 @@ router.get('/getUser', (request, response) => {
             FROM user
             WHERE 1 = 1`;
 
-            Object.keys(query).forEach(key => {
+            Object.keys(body).forEach(key => {
                 switch (key) {
                     case 'username':
-                        if (query['username'] !== '') {
-                            sqlString += ` AND username = '${query[key]}'`;
+                        if (body['username'] !== '') {
+                            sqlString += ` AND username = '${body[key]}'`;
                         }
                         break;
                     case 'gender':
-                        if (query['gender'] !== '-1') {
-                            sqlString += ` AND gender = ${query[key]}`;
+                        if (body['gender'] !== -1) {
+                            sqlString += ` AND gender = ${body[key]}`;
                         }
                         break;
                     case 'phone':
-                        if (query['phone'] !== '') {
-                            sqlString += ` AND phone = '${query[key]}'`;
+                        if (body['phone'] !== '') {
+                            sqlString += ` AND phone = '${body[key]}'`;
                         }
                         break;
                     case 'email':
-                        if (query['email'] !== '') {
-                            sqlString += ` AND email = '${query[key]}'`;
+                        if (body['email'] !== '') {
+                            sqlString += ` AND email = '${body[key]}'`;
                         }
                         break;
                     default:
@@ -146,7 +147,7 @@ router.put('/editUser', (request, response) => {
 
 // delete user
 router.delete('/deleteUser', (request, response) => {
-    const { id } = request.query;
+    const { id } = request.body;
     const sqlString = `DELETE
     FROM user
     WHERE id = ${id}`;
@@ -172,7 +173,7 @@ router.delete('/deleteUser', (request, response) => {
 
 // multiple delete
 router.delete('/multipleDelete', (request, response) => {
-    const { ids } = request.query;
+    const { ids } = request.body;
     let count = 0;
 
     ids.forEach(id => {
@@ -266,10 +267,10 @@ router.put('/updateUser', (request, response) => {
 });
 
 
-// verify password
-router.get('/verifyPassword', (request, response) => {
+// check password
+router.post('/checkPassword', (request, response) => {
     const { id } = request.auth;
-    const { password } = request.query;
+    const { password } = request.body;
     const sqlString = `SELECT password
     FROM user
     WHERE id=${id}`;
@@ -320,36 +321,35 @@ router.put('/updatePassword', (request, response) => {
 
 
 // get role
-router.get('/getRole', (request, response) => {
+router.post('/getRole', (request, response) => {
     const sqlString = `SELECT id
     FROM user`;
 
     executeMysql(sqlString)
         .then((result) => {
             const { length: total } = result;
-            const { query } = request;
-            const { pageNum: queryPageNum, pageSize: queryPageSize } = query;
+            const { body } = request;
+            const { pageNum: queryPageNum, pageSize: queryPageSize } = body;
             let sqlString = `SELECT id,
                 username,
                 role
             FROM user
             WHERE 1 = 1`;
-
-            Object.keys(query).forEach(key => {
+            Object.keys(body).forEach(key => {
                 switch (key) {
                     case "id":
-                        if (query["id"] !== '0') {
-                            sqlString += ` AND id =  ${Number(query[key])}`;
+                        if (body["id"] !== 0) {
+                            sqlString += ` AND id =  ${Number(body[key])}`;
                         }
                         break;
                     case "username":
-                        if (query["username"] !== '') {
-                            sqlString += ` AND username = '${query[key]}'`;
+                        if (body["username"] !== '') {
+                            sqlString += ` AND username = '${body[key]}'`;
                         }
                         break;
                     case "role":
-                        if (query["role"] !== '0') {
-                            sqlString += ` AND role = ${Number(query[key])}`;
+                        if (body["role"] !== 0) {
+                            sqlString += ` AND role = ${Number(body[key])}`;
                         }
                         break;
                     default:

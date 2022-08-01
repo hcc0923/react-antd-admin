@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Redirect, withRouter, Route, Switch } from 'react-router-dom';
 import DocumentTitle from "react-document-title";
 import { connect } from 'react-redux';
@@ -22,7 +22,6 @@ const Content = (props) => {
         // 过滤没有权限的页面
         return role === "admin" || !route.roles || route.roles.includes(role);
     };
-    console.log(pathname);
     return (
         <DocumentTitle title={"标题"}>
             <Layout.Content 
@@ -41,17 +40,21 @@ const Content = (props) => {
                     >
                         <Switch location={location}>
                             <Redirect exact from="/" to="/home" />
-                            {routeList.map((route) => {
-                                return (
-                                    handleFilter(route) && (
-                                        <Route
-                                            component={route.component}
-                                            key={route.path}
-                                            path={route.path}
-                                        />
-                                    )
-                                );
-                            })}
+                            <Suspense fallback={<></>}>
+                                {
+                                    routeList.map((route) => {
+                                        return (
+                                            handleFilter(route) && (
+                                                <Route
+                                                    component={route.component}
+                                                    key={route.path}
+                                                    path={route.path}
+                                                />
+                                            )
+                                        );
+                                    })
+                                }
+                            </Suspense>
                             <Redirect to="/error/not-found" />
                         </Switch>
                     </CSSTransition>

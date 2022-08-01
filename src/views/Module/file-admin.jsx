@@ -12,7 +12,13 @@ import {
 import { InboxOutlined } from '@ant-design/icons';
 import { formatGMTTime } from '@/utils/tools';
 import { SERVER_ADDRESS } from '@/utils/config';
-const { $http } = React;
+import { 
+    uploadMultipleFile, 
+    getFileList, 
+    getMyUploadList, 
+    deleteSingleFile, 
+    deleteAllFile 
+} from '@/api/file';
 
 
 const FileAdmin = () => {
@@ -39,7 +45,8 @@ const FileAdmin = () => {
         uploadFileList.forEach(file => {
             formData.append('files', file);
         });
-        $http.post('/file/uploadFileList', formData)
+        
+        uploadMultipleFile(formData)
             .then(() => {
                 setUploadFileList([]);
                 message.success('上传成功');
@@ -54,7 +61,7 @@ const FileAdmin = () => {
     }
     const handleGetFileList = () => {
         setSpinning(true);
-        $http.get('/file/getFileList')
+        getFileList()
             .then(response => {
                 const { result } = response;
                 setFileList(result);
@@ -68,7 +75,7 @@ const FileAdmin = () => {
     }
     const handleGetMyUploadList = () => {
         setSpinning(true);
-        $http.get('/file/getMyUploadList')
+        getMyUploadList()
             .then(response => {
                 const { result } = response;
                 setMyUploadList(result);
@@ -120,7 +127,7 @@ const FileAdmin = () => {
         if (type === 'uploadlist') {
             const ids = myUploadList.map(file => file.id);
             const params = { ids };
-            $http.delete('/file/deleteAllFile', { params })
+            deleteSingleFile(params)
                 .then(() => {
                     setSpinning(false);
                     handleGetMyUploadList();
@@ -132,7 +139,7 @@ const FileAdmin = () => {
                 });
         } else {
             const params = { name: type.name };
-            $http.delete('/file/deleteSingleFile', { params })
+            deleteAllFile(params)
                 .then(() => {
                     setSpinning(false);
                     handleGetMyUploadList();

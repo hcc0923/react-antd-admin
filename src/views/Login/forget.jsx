@@ -8,9 +8,13 @@ import {
 } from "antd";
 import CryptoJS from "crypto-js";
 import { EMAIL_KEY } from '@/utils/config';
+import { 
+    findEmail,
+    sendEmail,
+    resetPassword
+} from '@/api/login';
 
 
-const { $http } = React;
 const EmailRegexp = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
 const layout = {
     labelCol: {
@@ -46,7 +50,7 @@ const Forget = (props) => {
     }
     const handleValidateEmail = (event) => {
         const params = { email: event.target.value };
-        $http.get('/login/findEmail', { params })
+        findEmail(params)
             .then(response => {
                 const { result } = response;
                 if (result.length === 0) {
@@ -62,7 +66,8 @@ const Forget = (props) => {
             return message.error('请输入正确的邮箱');
         }
         const params = { email: validateForm.email };
-        $http.get('/login/sendEmail', { params })
+
+        sendEmail(params)
             .then(response => {
                 const authCode = CryptoJS.AES.decrypt(response.userAuthCode, EMAIL_KEY).toString(CryptoJS.enc.Utf8);
                 setAuthCode(authCode);
@@ -101,7 +106,8 @@ const Forget = (props) => {
             email: localStorage.getItem('validateEmail'),
             password: cryptoPassword
         };
-        $http.put('/login/resetPassword', params)
+
+        resetPassword(params)
             .then(() => {
                 message.success('密码重置成功，请到重新登录账号');
                 localStorage.removeItem('validateEmail');

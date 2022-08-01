@@ -1,8 +1,5 @@
 import React from 'react';
-import { 
-    Card, 
-    message 
-} from "antd";
+import { Card, message } from "antd";
 import { 
     StepBackwardOutlined,
     StepForwardOutlined,

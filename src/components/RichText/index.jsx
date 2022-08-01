@@ -7,6 +7,7 @@ import draftToMarkdown from "draftjs-to-markdown";
 import { SERVER_ADDRESS } from "@/utils/config";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
+
 const RichText = () => {
   const [editorContent, setEditorContent] = useState(null);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());

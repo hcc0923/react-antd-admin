@@ -124,11 +124,6 @@ const menuList = [
                 roles:["root","admin","user"],
             },
             { 
-                label: "Pdf",
-                key: "/module/pdf",
-                roles:["root","admin","user"],
-            },
-            { 
                 label: "文件管理",
                 key: "/module/file-admin",
                 roles:["root","admin","user"],

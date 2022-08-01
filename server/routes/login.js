@@ -6,8 +6,8 @@ const { emailAuthCode } = require('../utils/authCode');
 const { secretKey } = require('../utils/config');
 
 
-// login
-router.post('/login', (request, response) => {
+// user login
+router.post('/userLogin', (request, response) => {
     const { email, password } = request.body;
     const sqlString = `SELECT id,
             username,
@@ -55,8 +55,8 @@ router.post('/login', (request, response) => {
 });
 
 
-// register
-router.post('/register', (request, response) => {
+// user register
+router.post('/userRegister', (request, response) => {
     const { email, password } = request.body;
     const sqlString = `SELECT id
     FROM user
@@ -94,8 +94,8 @@ router.post('/register', (request, response) => {
 
 
 // find email
-router.get('/findEmail', (request, response) => {
-    const email = request.query.email;
+router.post('/findEmail', (request, response) => {
+    const { email } = request.body;
     const sqlString = `SELECT id
     FROM user
     WHERE email ='${email}'`;
@@ -115,9 +115,9 @@ router.get('/findEmail', (request, response) => {
 
 
 // send email
-router.get('/sendEmail', (request, response) => {
-    const emailString = request.query.email;
-    const userAuthCode = emailAuthCode(emailString);
+router.post('/sendEmail', (request, response) => {
+    const { email } = request.body;
+    const userAuthCode = emailAuthCode(email);
     
     response.send({
         code: 200,

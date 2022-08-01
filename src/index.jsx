@@ -7,13 +7,9 @@ import store from '@/store/store.js';
 import Router from '@/router/index';
 import './index.less';
 
-import http from '@/utils/request';
-React.$http = http;
-const { $http } = React;
-
-console.log($http.get);
 
 const App = () => {
+  if (!window.global) window.global = globalThis;
   return (
     <ConfigProvider locale={zhCN}>
       <Provider store={store}>

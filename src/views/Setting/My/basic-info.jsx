@@ -17,9 +17,8 @@ import {
 import { SERVER_ADDRESS } from '@/utils/config';
 import { setUserInfo } from "@/store/actions/userInfo";
 import store from '@/store/store';
+import { getUserDetail, updateUser, uploadAvatar } from '@/api/user';
 
-
-const { $http } = React;
 const layout = {
     labelCol: { span: 4 },
     wrapperCol: { span: 16 }
@@ -59,10 +58,11 @@ const BasicInfo = () => {
 
             // 上传成功把用户上传的文件和用户信息写入数据库
             setSpinning(true);
-            $http.put('/user/uploadAvatar', { id, avatar: path })
+            const params = { id, avatar: path };
+            uploadAvatar(params)
                 .then(() => {
                     setAvatarUrl(path);
-                    message.error('上传成功');
+                    message.success('上传成功');
                 })
                 .catch(error => {
                     message.error('上传失败');
@@ -70,6 +70,7 @@ const BasicInfo = () => {
                 })
                 .finally(() => {
                     setSpinning(false);
+                    setUploading(false);
                 });
         }
         if (file.status === 'error') {
@@ -80,7 +81,7 @@ const BasicInfo = () => {
     const handleSubmit = (values) => {
         setSpinning(true);
         values['avatar'] = avatarUrl;
-        $http.put('/user/updateUser', values)
+        updateUser(values)
             .then(() => {
                 const userInfo = JSON.parse(localStorage.getItem('userInfo')) || {};
                 userInfo['username'] = values['username'];
@@ -106,10 +107,10 @@ const BasicInfo = () => {
         formRef.current.resetFields();
         formRef.current.setFieldsValue({ id });
     }
-    const getUserDetail = () => {
+    const handleGetUserDetail = () => {
         setSpinning(true);
         const userInfo = JSON.parse(localStorage.getItem('userInfo')) || {};
-        $http.get('/user/getUserDetail/' + userInfo.id)
+        getUserDetail(userInfo.id)
             .then(result => {
                 const data = result.result[0];
 
@@ -124,7 +125,7 @@ const BasicInfo = () => {
             });
     }
     useEffect(() => {
-        getUserDetail();
+        handleGetUserDetail();
     }, []);
     
     return (  
@@ -209,7 +210,7 @@ const BasicInfo = () => {
                         <Form.Item {...tailLayout}>
                             <Space size={20}>
                                 <Button type="primary" htmlType="submit">保存</Button>
-                                <Button htmlType="button" onClick={() => handleReset()}>重新填写</Button>
+                                <Button htmlType="button" onClick={handleReset}>重新填写</Button>
                             </Space>
                         </Form.Item>
                 </Form>

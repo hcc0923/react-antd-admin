@@ -2,15 +2,16 @@ import React, { Fragment, useState, useEffect  }from 'react';
 import TopCard from "./TopCard";
 import CenterContent from "./CenterContent";
 import FooterTable from "./FooterTable";
-import $http from '@/utils/request';
+import { getTopCard, getCenterContent, getFooterTable } from '@/api/home';
+
 
 const Home = () => {
   const [topCard, setTopCard] = useState([]);
   const [centerContent, setCenterContent] = useState([]);
   const [footerTable, setFooterTable] = useState([]);
 
-  const getTopCard = () => {
-    $http.get('/dashboard/getTopCard')
+  const handleGetTopCard = () => {
+    getTopCard()
         .then(response => {
           const { data } = response;
           setTopCard(data);
@@ -19,8 +20,8 @@ const Home = () => {
           console.log(error);
         });
   }
-  const getCenterContent = () => {
-    $http.get('/dashboard/getCenterContent')
+  const handleGetCenterContent = () => {
+    getCenterContent()
         .then(response => {
           const { data } = response;
           setCenterContent(data);
@@ -29,8 +30,8 @@ const Home = () => {
           console.log(error);
         });
   }
-  const getFooterTable = () => {
-    $http.get('/dashboard/getFooterTable')
+  const handleGetFooterTable = () => {
+    getFooterTable()
         .then(response => {
           const { data } = response;
           setFooterTable(data);
@@ -40,9 +41,9 @@ const Home = () => {
         });
   }
   useEffect(() => { 
-    getTopCard();
-    getCenterContent();
-    getFooterTable();
+    handleGetTopCard();
+    handleGetCenterContent();
+    handleGetFooterTable();
   }, []);
   
   const { visitData, uploadData, downloadData, progressData } = centerContent;

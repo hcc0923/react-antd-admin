@@ -22,6 +22,7 @@ export default defineConfig({
     },
   },
   build: {
+    minify: 'terser',
     terserOptions: {
         compress: {
             //生产环境时移除console
@@ -53,4 +54,7 @@ export default defineConfig({
       ext: '.gz',
     }),
   ],
+  server: {
+    port: 3000
+  }
 })

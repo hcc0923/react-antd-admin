@@ -1,6 +1,6 @@
 import React from 'react';
 import * as Echarts from 'echarts';
-import ReactECharts from 'echarts-for-react';  // or var ReactECharts = require('echarts-for-react');
+import ReactECharts from 'echarts-for-react';
 
 
 const chartOptions = {

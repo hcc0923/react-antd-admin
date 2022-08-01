@@ -18,7 +18,7 @@ const {
 
 const { 
     loginRouter, 
-    dashboardRouter,
+    homeRouter,
     userRouter,
     fileRouter
 } = require('./routes/router');
@@ -51,7 +51,7 @@ app.use(favicon(path.join(__dirname, 'static', 'favicon.ico')))
     
 // load routes
 app.use('/login', loginRouter)
-app.use('/dashboard', dashboardRouter)
+app.use('/home', homeRouter)
     .use('/user', userRouter)
     .use('/file', fileRouter)
 

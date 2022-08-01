@@ -12,9 +12,9 @@ import { setUserInfo } from "@/store/actions/userInfo";
 import { connect } from 'react-redux';
 import CryptoJS from "crypto-js";
 import { formatGMTTime } from '@/utils/tools';
+import { userLogin, userRegister } from '@/api/login';
 
 
-const { $http } = React;
 const EmailRegexp = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
 const layout = {
     labelCol: {
@@ -55,7 +55,7 @@ const Login = (props) => {
         const params = JSON.parse(JSON.stringify(loginForm));
         params['password'] = CryptoJS.MD5(params['password']).toString();
         
-        $http.post('/login/login', params)
+        userLogin(params)
             .then((response) => {
                 const { userInfo, token } = response;
                 const { last_login_time, last_login_ip } = userInfo;
@@ -80,7 +80,8 @@ const Login = (props) => {
     }
     const handleAuthRegistered = (event) => {
         const params = { email: event.target.value };
-        $http.post('/login/register', params)
+
+        userRegister(params)
             .then((response) => {
                 const { result } = response;
                 if (result.length !== 0) {
@@ -96,7 +97,7 @@ const Login = (props) => {
         const params = JSON.parse(JSON.stringify(registerForm));
         params.password = CryptoJS.MD5(params.password).toString();
 
-        $http.post('/login/register', params)
+        userRegister(params)
             .then(() => {
                 message.loading({ content: '注册成功，正在为你登录...', key: 'loading' });
                 setLoginForm(registerForm);

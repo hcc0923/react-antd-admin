@@ -13,7 +13,7 @@ const LayoutSider = (props) => {
     const { pathname } = location;
     const [menuPermission, setMenuPermission] = useState([]);
     const [openKeys, setOpenKeys] = useState([]);
-    const role = 'admin';
+    const role = 'root';
 
 
     const onCollapseSider = (collapsed) => {

@@ -9,9 +9,9 @@ import {
     message 
 } from 'antd';
 import CryptoJS from 'crypto-js'; 
+import { checkPassword, updatePassword } from '@/api/user';
 
 
-const { $http } = React;
 const layout = {
     labelCol: {
         span: 4,
@@ -39,7 +39,8 @@ const ModifyPassword = (props) => {
 
         setSpinning(true);
         const params = { password: CryptoJS.MD5(value).toString() };
-        $http.get('/user/verifyPassword', {params})
+
+        checkPassword(params)
             .then(() => {
                 setVerifyPassword(true);
             })
@@ -53,7 +54,8 @@ const ModifyPassword = (props) => {
     const handleSubmit = (values) => {
         setSpinning(true);
         const params = { newPassword: CryptoJS.MD5(values.newPassword).toString() };
-        $http.put('/user/updatePassword', params)
+
+        updatePassword(params)
             .then(() => {
                 message.success('修改成功，请重新登录');
                 localStorage.clear();

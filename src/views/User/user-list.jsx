@@ -23,8 +23,14 @@ import {
 } from '@ant-design/icons';
 import { SERVER_ADDRESS } from '@/utils/config';
 import Uploading from '@/components/Uploading';
-import { getUser, addUser, editUser, deleteUser, multipleDelete } from '@/api/user';
-import $http from '@/utils/request';
+import { 
+    getUser, 
+    addUser, 
+    editUser, 
+    deleteUser, 
+    multipleDelete 
+} from '@/api/user';
+
 
 const Options = [
     { label: '不限', value: -1 },

@@ -1,12 +1,12 @@
 const loginRouter = require('./login');
-const dashboardRouter = require('./dashboard');
+const homeRouter = require('./home');
 const userRouter = require('./user');
 const fileRouter = require('./file');
 
 
 module.exports = {
     loginRouter,
-    dashboardRouter,
+    homeRouter,
     userRouter,
     fileRouter
 };

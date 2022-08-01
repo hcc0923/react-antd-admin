@@ -19,9 +19,9 @@ import {
     DeleteOutlined,
     ExclamationCircleOutlined 
 } from '@ant-design/icons';
+import { getRole, editRole, deleteUser } from '@/api/user';
 
 
-const { $http } = React;
 const Options = [
     { label: '不限', value: 0 },
     { label: '用户', value: 1 },
@@ -64,7 +64,7 @@ const RoleList = () => {
                 params[key] = pagination[key];
             }
         }
-        $http.get('/user/getRole', {params})
+        getRole(params)
             .then(response => {
                 const { result, total } = response;
                 
@@ -88,7 +88,7 @@ const RoleList = () => {
     }
     const onSaveEditForm = (values) => {
         setSpinning(true);
-        $http.put('/user/editRole', values)
+        editRole(values)
             .then(() => {
                 setSpinning(false);
                 message.success('编辑成功');
@@ -108,7 +108,7 @@ const RoleList = () => {
             onOk: () => {
                 setSpinning(true);
                 const params = { id: record.id };
-                $http.delete('/user/deleteUser', { params })
+                deleteUser(params)
                     .then(() => {
                         setSpinning(false);
                         message.success('删除成功');
