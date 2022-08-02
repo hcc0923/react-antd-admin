@@ -13,7 +13,7 @@ import {
     UserOutlined
 } from "@ant-design/icons";
 import PropTypes from 'prop-types';
-import { formatAmount } from "@/utils/tools";
+import { formatAmount } from "@/utils";
 
 const TopCard = (props) => {
     const { topCard } = props;

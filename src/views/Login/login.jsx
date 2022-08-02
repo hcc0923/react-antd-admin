@@ -11,7 +11,7 @@ import { setToken } from "@/store/actions/token";
 import { setUserInfo } from "@/store/actions/userInfo";
 import { connect } from 'react-redux';
 import CryptoJS from "crypto-js";
-import { formatGMTTime } from '@/utils/tools';
+import { formatGMTTime } from '@/utils';
 import { userLogin, userRegister } from '@/api/login';
 
 

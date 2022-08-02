@@ -10,7 +10,7 @@ import {
     message 
 } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
-import { formatGMTTime } from '@/utils/tools';
+import { formatGMTTime } from '@/utils';
 import { SERVER_ADDRESS } from '@/utils/config';
 import { 
     uploadMultipleFile, 

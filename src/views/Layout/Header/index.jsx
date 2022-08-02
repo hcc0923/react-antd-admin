@@ -20,12 +20,11 @@ import "./index.css";
 import Hamburger from "@/components/Hamburger";
 import BreadCrumb from "@/components/BreadCrumb";
 import DrawerSettings from "@/components/DrawerSettings";
-const { Header } = Layout;
 
-const HeaderContainer = (props) => {
+
+const Header = (props) => {
   const { userInfo, collapse, fixedHeader } = props;
   const [drawerVisible, setDrawerVisible] = useState(false);
-
  
   const onLogout = () => {
     localStorage.clear();
@@ -80,7 +79,7 @@ const HeaderContainer = (props) => {
   return (
     <>
       {fixedHeader ? <Header /> : null}
-      <Header
+      <Layout.Header
         style={computedStyle()}
         className={fixedHeader ? "fixed top-0 right-0 z-10" : ""}
       >
@@ -114,7 +113,7 @@ const HeaderContainer = (props) => {
             setDrawerVisible={setDrawerVisible}
           />
         </div>
-      </Header>
+      </Layout.Header>
     </>
   );
 };
@@ -129,4 +128,4 @@ const mapDispatchToProps = (dispatch) => ({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

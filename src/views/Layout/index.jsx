@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
 import { Layout } from 'antd';
 import Sider from './Sider';
 import Header from './Header';
@@ -24,7 +23,7 @@ const LayoutPage = (props) => {
         <Content />
       </Layout>
     </Layout>
-  )
+  );
 }
 
 const mapStateToProps = state => state;

@@ -2,17 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Layout, Menu } from 'antd';
+import DocumentTitle from "react-document-title";
 import { addTag } from "@/store/actions/tag";
 import Logo from "@/components/Logo";
 import menuList from '@/router/menuList';
 import { setCollapse } from "@/store/actions/setting";
-const { Sider } = Layout;
 
-const LayoutSider = (props) => {
+
+const Sider = (props) => {
     const { location, logo } = props;
     const { pathname } = location;
     const [menuPermission, setMenuPermission] = useState([]);
     const [openKeys, setOpenKeys] = useState([]);
+    const [documentTitle, setDocumentTitle] = useState('');
     const role = 'root';
 
 
@@ -53,8 +55,20 @@ const LayoutSider = (props) => {
     }
     const handleMenuSelect = (data) => {
         const { key, domEvent } = data;
+        setDocumentTitle(domEvent.target.innerText);
         props.addTag({ label: domEvent.target.innerText, key });
         props.history.push(key);
+    }
+    const handleDocumentTitle = (menuList, pathname) => {
+        menuList.forEach(item => {
+            if (item.key === pathname) {
+                setDocumentTitle(item.label);
+            } else {
+                if (item.children) {
+                    handleDocumentTitle(item.children, pathname);
+                }
+            }
+        });
     }
     useEffect(() => {
         const menuData = handleMenuPermission(menuList);
@@ -63,29 +77,32 @@ const LayoutSider = (props) => {
     useEffect(() => {
         handleOpenKeys(menuList);
         setOpenKeys(openKeysData);
+        handleDocumentTitle(menuList, pathname);
     }, [pathname]);
     return (
-        <Sider
-            theme={"dark"}
-            collapsible
-            collapsed={props.collapse.collapsed}
-            onCollapse={onCollapseSider}
-            style={{ overflow: 'auto', height: '100vh',zIndex: 100 }}
-        >
-            { logo ? <Logo /> : null}
-            <div style={{ height: "calc(100% - 64px)" }}>
-                <Menu
-                    mode="inline"
-                    theme="dark"
-                    items={menuPermission}
-                    defaultOpenKeys={openKeys}
-                    openKeys={openKeys}
-                    selectedKeys={[pathname]}
-                    onOpenChange={(openKeys) => setOpenKeys(openKeys)}
-                    onSelect={handleMenuSelect}
-                />
-            </div>
-        </Sider>
+        <DocumentTitle title={documentTitle}>
+            <Layout.Sider
+                theme={"dark"}
+                collapsible
+                collapsed={props.collapse.collapsed}
+                onCollapse={onCollapseSider}
+                style={{ overflow: 'auto', height: '100vh',zIndex: 100 }}
+            >
+                { logo ? <Logo /> : null}
+                <div style={{ height: "calc(100% - 64px)" }}>
+                    <Menu
+                        mode="inline"
+                        theme="dark"
+                        items={menuPermission}
+                        defaultOpenKeys={openKeys}
+                        openKeys={openKeys}
+                        selectedKeys={[pathname]}
+                        onOpenChange={(openKeys) => setOpenKeys(openKeys)}
+                        onSelect={handleMenuSelect}
+                    />
+                </div>
+            </Layout.Sider>
+        </DocumentTitle>
     )
 }
 
@@ -99,5 +116,5 @@ const mapDispatchToProps = dispatch => ({
         dispatch(addTag(data));
     }
 })
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(LayoutSider));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Sider));
 
