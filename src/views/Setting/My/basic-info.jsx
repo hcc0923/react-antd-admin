@@ -14,10 +14,11 @@ import {
     LoadingOutlined, 
     PlusOutlined 
 } from "@ant-design/icons";
-import { SERVER_ADDRESS } from '@/utils/config';
-import { setUserInfo } from "@/store/actions/userInfo";
-import store from '@/store/store';
 import { getUserDetail, updateUser, uploadAvatar } from '@/api/user';
+import store from '@/store/store';
+import { setUserInfo } from "@/store/actions/userInfo";
+import { SERVER_ADDRESS } from '@/utils/config';
+
 
 const layout = {
     labelCol: { span: 4 },

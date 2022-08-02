@@ -1,7 +1,3 @@
-/* 
-    formatAmount
-    格式化价格
-*/
 export const formatAmount = (val, n=0) => {
   if (val) {
       const num = parseInt(val, 10);
@@ -11,10 +7,6 @@ export const formatAmount = (val, n=0) => {
 }
 
 
-/* 
-  formatGMTTime
-  格式化GMT时间
-*/
 export const formatGMTTime = time => {
   const date = new Date(time);
   const year = date.getFullYear();
@@ -52,10 +44,7 @@ export const formatGMTTime = time => {
   return result;
 }
 
-/* 
-  formatRole
-  格式化权限
-*/
+
 export const formatRole = (role) => {
   switch (role) {
       case 1:
@@ -70,10 +59,6 @@ export const formatRole = (role) => {
 }
 
 
-/* 
-    debounce
-    防抖函数
-*/
 export const debounce = (fn, delay) => {
   return function () {
       fn.id && clearTimeout(fn.id);
@@ -82,10 +67,8 @@ export const debounce = (fn, delay) => {
       }, delay);
   }
 }
-/* 
-  throttle
-  节流函数
-*/
+
+
 export const throttle = (fn, delay) => {
   let open = false;
   return function () {

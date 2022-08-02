@@ -127,6 +127,6 @@ const Icon = () => {
             </ul>
         </Card>
     );
-}
+};
 
 export default Icon;

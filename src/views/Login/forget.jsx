@@ -7,12 +7,12 @@ import {
     message 
 } from "antd";
 import CryptoJS from "crypto-js";
-import { EMAIL_KEY } from '@/utils/config';
 import { 
     findEmail,
     sendEmail,
     resetPassword
 } from '@/api/login';
+import { EMAIL_KEY } from '@/utils/config';
 
 
 const EmailRegexp = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
@@ -118,6 +118,7 @@ const Forget = (props) => {
                 console.log(error);
             });
     }
+
     return (  
         <div className="flex justify-center items-center w-screen h-screen bg-slate-100">
             <div className="flex w-1/5 h-1/2 bg-slate-50 shadow-2xl overflow-hidden rounded-xl">

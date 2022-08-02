@@ -6,8 +6,10 @@ import Header from './Header';
 import Content from './Content';
 import Tags from "@/components/Tags";
 
+
 const LayoutPage = (props) => {
   const { showTag } = props;
+
   return (
     <Layout style={{ display: 'flex', width: '100%'}}>
       <Sider />

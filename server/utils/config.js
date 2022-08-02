@@ -29,8 +29,8 @@ const secretKey = 'key';
 
 // white list
 const whiteList = [
-    '/login/login',  
-    '/login/register', 
+    '/login/userLogin',  
+    '/login/userRegister', 
     '/login/findEmail', 
     '/login/sendEmail', 
     '/login/resetPassword', 

@@ -21,7 +21,6 @@ import {
     DeleteOutlined, 
     ExclamationCircleOutlined 
 } from '@ant-design/icons';
-import { SERVER_ADDRESS } from '@/utils/config';
 import Uploading from '@/components/Uploading';
 import { 
     getUser, 
@@ -30,6 +29,7 @@ import {
     deleteUser, 
     multipleDelete 
 } from '@/api/user';
+import { SERVER_ADDRESS } from '@/utils/config';
 
 
 const Options = [

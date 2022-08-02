@@ -1,20 +1,18 @@
 import { combineReducers } from 'redux';
-import token from './token';
-import userInfo from './userInfo';
 import { settings,logo,fixedHeader, showTag, collapse,openKeys } from './setting';
 import tag from './tag';
+import user from './user';
 
 
 const concatReducers = combineReducers({
-    token,
-    userInfo,
+    user,
     settings,
     fixedHeader,
     logo,
     showTag,
     collapse,
     openKeys,
-    tag
+    tag,
 });
 
 export default concatReducers;

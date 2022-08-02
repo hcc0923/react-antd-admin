@@ -1,18 +1,20 @@
-import React, { useEffect, useState, Suspense } from 'react';
+import React, { Suspense } from 'react';
 import { Redirect, withRouter, Route, Switch } from 'react-router-dom';
-import { connect } from 'react-redux';
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { connect } from 'react-redux';
 import { Layout } from 'antd';
 import routeList from '@/router/routeList';
+import { formatRole } from '@/utils';
 
 
 const Content = (props) => {
-    const { location } = props;
+    const { location, user } = props;
     const { pathname } = location;
-    const role = 'admin';
+    const { userInfo } = user;
     const filterComponent = (route) => {
-        return !route.roles || route.roles.includes(role);
+        return !route.roles || route.roles.includes(formatRole(userInfo.role));
     };
+
     return (
         <Layout.Content 
             style={{ height: "calc(100% - 100px)", width: "100%", padding: '1rem' }}
@@ -46,8 +48,8 @@ const Content = (props) => {
                 </CSSTransition>
             </TransitionGroup>
         </Layout.Content>
-    )
-}
+    );
+};
 
 const mapStateToProps = state => state;
 

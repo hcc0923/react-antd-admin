@@ -36,8 +36,8 @@ router.post('/userLogin', (request, response) => {
                         response.send({
                             code: 200,
                             message: '登陆成功',
-                            userInfo: user,
-                            token
+                            token,
+                            userInfo: user
                         });
                     })
                     .catch(error => {

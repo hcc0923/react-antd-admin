@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
 import { 
     Form, 
     Input, 
@@ -7,12 +8,10 @@ import {
     message 
 } from 'antd';
 import { LoadingOutlined } from "@ant-design/icons";
-import { setToken } from "@/store/actions/token";
-import { setUserInfo } from "@/store/actions/userInfo";
-import { connect } from 'react-redux';
 import CryptoJS from "crypto-js";
-import { formatGMTTime } from '@/utils';
 import { userLogin, userRegister } from '@/api/login';
+import { setToken, setUserInfo } from "@/store/actions/user";
+import { formatGMTTime } from '@/utils';
 
 
 const EmailRegexp = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
@@ -57,18 +56,16 @@ const Login = (props) => {
         
         userLogin(params)
             .then((response) => {
-                const { userInfo, token } = response;
+                const { token, userInfo } = response;
                 const { last_login_time, last_login_ip } = userInfo;
                 message.info(`上次登录时间：${formatGMTTime(last_login_time)} 上次登录IP：${last_login_ip}`, 13);
 
                 props.setToken(token);
                 props.setUserInfo(userInfo);
-
-                localStorage.setItem('token', token);
-                localStorage.setItem('userInfo', JSON.stringify(userInfo));
+                localStorage.setItem('user', JSON.stringify({ token, userInfo }));
                 
                 if (isRegistered) message.destroy('loading');
-                props.history.push('/');
+                props.history.push('/home');
                 message.success('登陆成功');
             })
             .catch((error) => {

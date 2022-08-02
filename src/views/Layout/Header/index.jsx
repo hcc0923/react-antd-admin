@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { connect } from "react-redux";
 import {
   Avatar,
   Button,
@@ -12,18 +13,18 @@ import {
   SettingOutlined,
   TranslationOutlined,
 } from "@ant-design/icons";
-import { connect } from "react-redux";
 import FullScreen from "@/components/FullScreen";
-import { SERVER_ADDRESS } from "@/utils/config";
-import { setOpenKeys, setFixedHeader } from "@/store/actions/setting";
-import "./index.css";
+import DrawerSettings from "@/components/DrawerSettings";
 import Hamburger from "@/components/Hamburger";
 import BreadCrumb from "@/components/BreadCrumb";
-import DrawerSettings from "@/components/DrawerSettings";
+import { setOpenKeys, setFixedHeader } from "@/store/actions/setting";
+import { SERVER_ADDRESS } from "@/utils/config";
+import "./index.less";
 
 
 const Header = (props) => {
-  const { userInfo, collapse, fixedHeader } = props;
+  const { user, collapse, fixedHeader } = props;
+  const { userInfo } = user;
   const [drawerVisible, setDrawerVisible] = useState(false);
  
   const onLogout = () => {
@@ -76,9 +77,10 @@ const Header = (props) => {
     }
     return styles;
   };
+
   return (
     <>
-      {fixedHeader ? <Header /> : null}
+      {fixedHeader ? <Layout.Header /> : null}
       <Layout.Header
         style={computedStyle()}
         className={fixedHeader ? "fixed top-0 right-0 z-10" : ""}
@@ -98,10 +100,10 @@ const Header = (props) => {
               />
             </div>
             <div className="h-full flex justify-between items-center">
-              <Avatar src={`${SERVER_ADDRESS}/${userInfo.avatar}`} />
+              <Avatar src={`${SERVER_ADDRESS}/${userInfo?.avatar}`} />
               <Dropdown overlay={menu} placement="bottom" arrow>
                 <Button type="link">
-                  <span className="text-lg">{userInfo.username}</span>
+                  <span className="text-lg">{userInfo?.username}</span>
                   <DownOutlined />
                 </Button>
               </Dropdown>

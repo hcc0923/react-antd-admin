@@ -7,9 +7,8 @@ import Login from "@/views/Login/login";
 
 
 function Router(props) {
-    // const { role } = props;
+    const { user } = props;
     const role = 'admin';
-    const token = 'xxx';
     const getUserInfo = (data) => {
         return new Promise((resolve, reject) => {
             const userInfo = {
@@ -29,7 +28,7 @@ function Router(props) {
                 <Route
                     path="/"
                     render={() => {
-                        if (!token) {
+                        if (!user.token) {
                             return <Redirect to="/login" />;
                         } else {
                             if (role) {
@@ -48,5 +47,5 @@ function Router(props) {
     );
 }
 
-
-export default Router;
+const mapStateToProps = state => state;
+export default connect(mapStateToProps)(Router);

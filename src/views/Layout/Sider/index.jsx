@@ -1,29 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Layout, Menu } from 'antd';
 import DocumentTitle from "react-document-title";
-import { addTag } from "@/store/actions/tag";
+import { Layout, Menu } from 'antd';
 import Logo from "@/components/Logo";
 import menuList from '@/router/menuList';
 import { setCollapse } from "@/store/actions/setting";
+import { addTag } from "@/store/actions/tag";
+import { formatRole } from '@/utils';
 
 
 const Sider = (props) => {
-    const { location, logo } = props;
+    const { location, user, logo } = props;
     const { pathname } = location;
+    const { userInfo } = user;
     const [menuPermission, setMenuPermission] = useState([]);
     const [openKeys, setOpenKeys] = useState([]);
     const [documentTitle, setDocumentTitle] = useState('');
-    const role = 'root';
-
 
     const onCollapseSider = (collapsed) => {
         props.setCollapse({ collapsed });
     }
     const authMenuItem = (item) => {
         const { roles } = item;
-        if (!roles || roles.includes(role)) {
+        if (!roles || roles.includes(formatRole(userInfo.role))) {
             return true;
         }
         return false;
@@ -79,6 +79,7 @@ const Sider = (props) => {
         setOpenKeys(openKeysData);
         handleDocumentTitle(menuList, pathname);
     }, [pathname]);
+
     return (
         <DocumentTitle title={documentTitle}>
             <Layout.Sider
@@ -103,9 +104,8 @@ const Sider = (props) => {
                 </div>
             </Layout.Sider>
         </DocumentTitle>
-    )
-}
-
+    );
+};
 
 const mapStateToProps = state => state;
 const mapDispatchToProps = dispatch => ({
@@ -115,6 +115,6 @@ const mapDispatchToProps = dispatch => ({
     addTag: data => {
         dispatch(addTag(data));
     }
-})
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Sider));
+});
 
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Sider));

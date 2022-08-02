@@ -43,6 +43,7 @@ const tailLayout = {
         span: 16,
     },
 };
+
 const RoleList = () => {
     const [spinning, setSpinning] = useState(false);
     const [userTableData, setUserTableData] = useState([]);

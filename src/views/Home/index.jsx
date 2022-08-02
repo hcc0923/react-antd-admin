@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect  }from 'react';
+import React, { useState, useEffect, Fragment }from 'react';
 import TopCard from "./TopCard";
 import CenterContent from "./CenterContent";
 import FooterTable from "./FooterTable";
@@ -65,6 +65,6 @@ const Home = () => {
       </FooterTable>
     </Fragment>
   );
-}
+};
 
 export default Home;

@@ -85,6 +85,6 @@ const FooterTable = (props) => {
             />
         </Card>
     );
-}
+};
 
 export default FooterTable;
