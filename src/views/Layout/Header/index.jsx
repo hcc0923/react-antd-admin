@@ -17,7 +17,7 @@ import FullScreen from "@/components/FullScreen";
 import DrawerSettings from "@/components/DrawerSettings";
 import Hamburger from "@/components/Hamburger";
 import BreadCrumb from "@/components/BreadCrumb";
-import { setOpenKeys, setFixedHeader } from "@/store/actions/setting";
+import { setFixedHeader } from "@/store/actions/setting";
 import { SERVER_ADDRESS } from "@/utils/config";
 import "./index.less";
 
@@ -122,9 +122,6 @@ const Header = (props) => {
 
 const mapStateToProps = (state) => state;
 const mapDispatchToProps = (dispatch) => ({
-  setOpenKeys: (data) => {
-    dispatch(setOpenKeys(data));
-  },
   setFixedHeader: (data) => {
     dispatch(setFixedHeader(data));
   }

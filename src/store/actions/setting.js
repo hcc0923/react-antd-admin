@@ -1,10 +1,13 @@
-import { SET_SETTINGS, SET_COLLAPSE, SET_LOGO, SET_TAG, SET_FIXED_HEADER, SET_OPEN_KEYS } from '../constants/index';
+import { 
+    SET_SETTINGS, 
+    SET_COLLAPSE, 
+    SET_LOGO, 
+    SET_TAG, 
+    SET_FIXED_HEADER, 
+    SET_OPEN_KEYS 
+} from '../constants/index';
 
 
-/* 
-    设置settings
-    setSettings
-*/
 export const setSettings = (data) => ({
     type: SET_SETTINGS,
     data

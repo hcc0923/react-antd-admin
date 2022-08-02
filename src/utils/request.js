@@ -6,7 +6,7 @@ import { SERVER_ADDRESS } from '@/utils/config';
 
 // api address
 const HTTP_API = SERVER_ADDRESS;
-const WHITE_API = ['/login', '/register'];
+const WHITE_API = ['/login/userLogin', '/login/userRegister'];
 
 // create axios instance
 const request = Axios.create({

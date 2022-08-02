@@ -12,13 +12,13 @@ export const deleteTag = (data) => ({
     data
 });
 
-
+// !TODO
 export const emptyTag = (data) => ({
     type: EMPTY_TAG,
     data
 });
 
-
+// !TODO
 export const deleteOtherTag = (data) => ({
     type: DELETE_OTHER_TAG,
     data

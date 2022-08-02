@@ -56,7 +56,9 @@ const Login = (props) => {
         
         userLogin(params)
             .then((response) => {
+                console.log(response);
                 const { token, userInfo } = response;
+                
                 const { last_login_time, last_login_ip } = userInfo;
                 message.info(`上次登录时间：${formatGMTTime(last_login_time)} 上次登录IP：${last_login_ip}`, 13);
 
