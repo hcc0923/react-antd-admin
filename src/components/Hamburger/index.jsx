@@ -4,18 +4,18 @@ import {
     MenuFoldOutlined, 
     MenuUnfoldOutlined, 
 } from '@ant-design/icons';
-import { setCollapse } from "@/store/actions/setting";
+import { setCollapse } from "@/store/actions/collapsed";
+
 
 const Hamburger = (props) => {
-    const { collapse, setCollapse } = props;
-    // console.log(collapse);
+    const { collapsed, setCollapse } = props;
     return (
         <div 
             className="h-full flex items-center cursor-pointer text-2xl -ml-8" 
-            onClick={() => setCollapse({ collapsed: !collapse.collapsed })}
+            onClick={() => setCollapse(!collapsed)}
         >
             {
-                collapse.collapsed ?
+                collapsed ?
                 <MenuFoldOutlined  />
                 :
                 <MenuUnfoldOutlined />

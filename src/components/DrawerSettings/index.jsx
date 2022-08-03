@@ -1,11 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Drawer, Switch, Space, Button, Divider } from 'antd';
-import { setFixedHeader, setLogo, setTag } from "@/store/actions/setting";
-
+import { setSettings } from "@/store/actions/settings";
 
 const DrawerSettings = (props) => {
-    const { drawerVisible, fixedHeader, setDrawerVisible, setFixedHeader, logo, setLogo, showTag, setTag } = props;
+    const { drawerVisible, setDrawerVisible, settings, setSettings } = props;
+    const onSettings = (checked, type) => {
+        switch (type) {
+            case 'fixedHeader':
+                setSettings({ ...settings, fixedHeader: checked });
+                break;
+            case 'showLogo':
+                setSettings({ ...settings, showLogo: checked });
+                break;
+            case 'showTag':
+                setSettings({ ...settings, showTag: checked });
+                break;
+            default:
+                break;
+        }
+    }
     return (
         <Drawer
             title="系统设置"
@@ -27,8 +41,8 @@ const DrawerSettings = (props) => {
                 <Switch
                     checkedChildren="打开"
                     unCheckedChildren="关闭"
-                    defaultChecked={fixedHeader}
-                    onChange={(checked) => setFixedHeader(checked)}
+                    defaultChecked={settings.fixedHeader}
+                    onChange={(checked) => onSettings(checked, 'fixedHeader')}
                 />
             </div>
             <Divider dashed />
@@ -38,8 +52,8 @@ const DrawerSettings = (props) => {
                 <Switch
                     checkedChildren="打开"
                     unCheckedChildren="关闭"
-                    defaultChecked={logo}
-                    onChange={(checked) => setLogo(checked)}
+                    defaultChecked={settings.showLogo}
+                    onChange={(checked) => onSettings(checked, 'showLogo')}
                 />
             </div>
             <Divider dashed />
@@ -49,24 +63,19 @@ const DrawerSettings = (props) => {
                 <Switch
                     checkedChildren="打开"
                     unCheckedChildren="关闭"
-                    defaultChecked={showTag}
-                    onChange={(checked) => setTag(checked)}
+                    defaultChecked={settings.showTag}
+                    onChange={(checked) => onSettings(checked, 'showTag')}
                 />
             </div>
         </Drawer>
-    )
-}
+    );
+};
 
 const mapStateToProps = state => state;
 const mapDispatchToProps = dispatch => ({
-    setFixedHeader: data => {
-        dispatch(setFixedHeader(data))
-    },
-    setLogo: data => {
-        dispatch(setLogo(data))
-    },
-    setTag: data => {
-        dispatch(setTag(data))
+    setSettings: data => {
+        dispatch(setSettings(data))
     }
-})
+});
+
 export default connect(mapStateToProps, mapDispatchToProps)(DrawerSettings);

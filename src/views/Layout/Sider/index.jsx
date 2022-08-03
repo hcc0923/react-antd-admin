@@ -3,21 +3,24 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import DocumentTitle from "react-document-title";
 import { Layout, Menu } from 'antd';
-import Logo from "@/components/Logo";
+import Logo from '@/components/Logo';
 import menuList from '@/router/menuList';
+import { setCollapse } from '@/store/actions/collapsed';
 import { addTag } from "@/store/actions/tag";
 import { formatRole } from '@/utils';
 
 
 const Sider = (props) => {
-    const { location, user, logo } = props;
+    const { location, user, collapsed, settings } = props;
     const { pathname } = location;
     const { userInfo } = user;
     const [menuPermission, setMenuPermission] = useState([]);
     const [openKeys, setOpenKeys] = useState([]);
-    const [collapsed, setCollapsed] = useState(false);
     const [documentTitle, setDocumentTitle] = useState('');
 
+    const onCollapse = (collapsed) => {
+        props.setCollapse(collapsed);
+    }
     const authMenuItem = (item) => {
         const { roles } = item;
         if (!roles || roles.includes(formatRole(userInfo.role))) {
@@ -83,10 +86,10 @@ const Sider = (props) => {
                 theme={"dark"}
                 collapsible
                 collapsed={collapsed}
-                onCollapse={(collapsed) => setCollapsed(collapsed)}
+                onCollapse={onCollapse}
                 style={{ overflow: 'auto', height: '100vh',zIndex: 100 }}
             >
-                { logo ? <Logo /> : null}
+                { settings.showLogo ? <Logo /> : null}
                 <div style={{ height: "calc(100% - 64px)" }}>
                     <Menu
                         mode="inline"
@@ -106,6 +109,9 @@ const Sider = (props) => {
 
 const mapStateToProps = state => state;
 const mapDispatchToProps = dispatch => ({
+    setCollapse: data => {
+        dispatch(setCollapse(data));
+    },
     addTag: data => {
         dispatch(addTag(data));
     }

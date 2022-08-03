@@ -1,17 +1,14 @@
 import { combineReducers } from 'redux';
-import { settings,logo,fixedHeader, showTag, collapse,openKeys } from './setting';
-import tag from './tag';
 import user from './user';
+import collapsed from './collapsed';
+import settings from './settings';
+import tag from './tag';
 
 
 const concatReducers = combineReducers({
     user,
+    collapsed,
     settings,
-    fixedHeader,
-    logo,
-    showTag,
-    collapse,
-    openKeys,
     tag,
 });
 

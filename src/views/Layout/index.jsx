@@ -8,7 +8,7 @@ import Tags from "@/components/Tags";
 
 
 const LayoutPage = (props) => {
-  const { showTag } = props;
+  const { settings } = props;
 
   return (
     <Layout style={{ display: 'flex', width: '100%'}}>
@@ -21,7 +21,7 @@ const LayoutPage = (props) => {
         }}
       >
         <Header />
-        {showTag ? <Tags /> : null}
+        {settings.showTag ? <Tags /> : null}
         <Content />
       </Layout>
     </Layout>

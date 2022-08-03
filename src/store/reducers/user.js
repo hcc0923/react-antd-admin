@@ -1,5 +1,6 @@
 import { SET_TOKEN, SET_USER_INFO } from '../constants/index';
 
+
 const initState = {
     token: '',
     userInfo: {

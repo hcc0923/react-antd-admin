@@ -17,14 +17,14 @@ import FullScreen from "@/components/FullScreen";
 import DrawerSettings from "@/components/DrawerSettings";
 import Hamburger from "@/components/Hamburger";
 import BreadCrumb from "@/components/BreadCrumb";
-import { setFixedHeader } from "@/store/actions/setting";
 import { SERVER_ADDRESS } from "@/utils/config";
 import "./index.less";
 
 
 const Header = (props) => {
-  const { user, collapse, fixedHeader } = props;
+  const { user, collapsed, settings } = props;
   const { userInfo } = user;
+  const { fixedHeader } = settings;
   const [drawerVisible, setDrawerVisible] = useState(false);
  
   const onLogout = () => {
@@ -61,7 +61,7 @@ const Header = (props) => {
   const computedStyle = () => {
     let styles;
     if (fixedHeader) {
-      if (collapse.collapsed) {
+      if (collapsed) {
         styles = {
           width: "calc(100% - 80px)",
         };
@@ -121,10 +121,5 @@ const Header = (props) => {
 };
 
 const mapStateToProps = (state) => state;
-const mapDispatchToProps = (dispatch) => ({
-  setFixedHeader: (data) => {
-    dispatch(setFixedHeader(data));
-  }
-});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps)(Header);
