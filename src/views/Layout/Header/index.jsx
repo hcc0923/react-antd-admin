@@ -18,7 +18,6 @@ import DrawerSettings from "@/components/DrawerSettings";
 import Hamburger from "@/components/Hamburger";
 import BreadCrumb from "@/components/BreadCrumb";
 import { SERVER_ADDRESS } from "@/utils/config";
-import "./index.less";
 
 
 const Header = (props) => {
@@ -82,8 +81,8 @@ const Header = (props) => {
     <>
       {fixedHeader ? <Layout.Header /> : null}
       <Layout.Header
-        style={computedStyle()}
-        className={fixedHeader ? "fixed top-0 right-0 z-10" : ""}
+        style={{...computedStyle(), transition: 'width 0.3s', zIndex: 1, height: 64, backgroundColor: 'white', boxShadow: "0px 0px 3px rgba(0, 0, 0, 0.25)"}}
+        className={fixedHeader ? "fixed top-0 right-0" : ""}
       >
         <div className="flex justify-between w-full">
           <div className="flex justify-start items-center">

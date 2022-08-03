@@ -1,25 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Drawer, Switch, Space, Button, Divider } from 'antd';
-import { setSettings } from "@/store/actions/settings";
+import { setFixedHeader, setShowLogo, setShowTag } from "@/store/actions/settings";
 
 const DrawerSettings = (props) => {
-    const { drawerVisible, setDrawerVisible, settings, setSettings } = props;
-    const onSettings = (checked, type) => {
-        switch (type) {
-            case 'fixedHeader':
-                setSettings({ ...settings, fixedHeader: checked });
-                break;
-            case 'showLogo':
-                setSettings({ ...settings, showLogo: checked });
-                break;
-            case 'showTag':
-                setSettings({ ...settings, showTag: checked });
-                break;
-            default:
-                break;
-        }
-    }
+    const { drawerVisible, setDrawerVisible, settings, setFixedHeader, setShowLogo, setShowTag } = props;
     return (
         <Drawer
             title="系统设置"
@@ -42,7 +27,7 @@ const DrawerSettings = (props) => {
                     checkedChildren="打开"
                     unCheckedChildren="关闭"
                     defaultChecked={settings.fixedHeader}
-                    onChange={(checked) => onSettings(checked, 'fixedHeader')}
+                    onChange={(checked) => setFixedHeader(checked)}
                 />
             </div>
             <Divider dashed />
@@ -53,7 +38,7 @@ const DrawerSettings = (props) => {
                     checkedChildren="打开"
                     unCheckedChildren="关闭"
                     defaultChecked={settings.showLogo}
-                    onChange={(checked) => onSettings(checked, 'showLogo')}
+                    onChange={(checked) => setShowLogo(checked)}
                 />
             </div>
             <Divider dashed />
@@ -64,7 +49,7 @@ const DrawerSettings = (props) => {
                     checkedChildren="打开"
                     unCheckedChildren="关闭"
                     defaultChecked={settings.showTag}
-                    onChange={(checked) => onSettings(checked, 'showTag')}
+                    onChange={(checked) => setShowTag(checked)}
                 />
             </div>
         </Drawer>
@@ -73,9 +58,15 @@ const DrawerSettings = (props) => {
 
 const mapStateToProps = state => state;
 const mapDispatchToProps = dispatch => ({
-    setSettings: data => {
-        dispatch(setSettings(data))
-    }
+    setFixedHeader: data => {
+        dispatch(setFixedHeader(data))
+    },
+    setShowLogo: data => {
+        dispatch(setShowLogo(data))
+    },
+    setShowTag: data => {
+        dispatch(setShowTag(data))
+    },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DrawerSettings);

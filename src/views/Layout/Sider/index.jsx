@@ -5,13 +5,13 @@ import DocumentTitle from "react-document-title";
 import { Layout, Menu } from 'antd';
 import Logo from '@/components/Logo';
 import menuList from '@/router/menuList';
-import { setCollapse } from '@/store/actions/collapsed';
+import { setCollapse } from '@/store/actions/settings';
 import { addTag } from "@/store/actions/tag";
 import { formatRole } from '@/utils';
 
 
 const Sider = (props) => {
-    const { location, user, collapsed, settings } = props;
+    const { location, user, settings } = props;
     const { pathname } = location;
     const { userInfo } = user;
     const [menuPermission, setMenuPermission] = useState([]);
@@ -85,9 +85,9 @@ const Sider = (props) => {
             <Layout.Sider
                 theme={"dark"}
                 collapsible
-                collapsed={collapsed}
+                collapsed={settings.collapsed}
                 onCollapse={onCollapse}
-                style={{ overflow: 'auto', height: '100vh',zIndex: 100 }}
+                style={{ overflow: 'auto', height: '100vh' }}
             >
                 { settings.showLogo ? <Logo /> : null}
                 <div style={{ height: "calc(100% - 64px)" }}>
