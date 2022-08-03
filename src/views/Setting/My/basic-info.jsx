@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { connect } from 'react-redux';
 import { 
     Spin,
     Card, 
@@ -10,13 +11,10 @@ import {
     Upload, 
     message 
 } from "antd";
-import { 
-    LoadingOutlined, 
-    PlusOutlined 
-} from "@ant-design/icons";
+import Uploading from '@/components/Uploading';
 import { getUserDetail, updateUser, uploadAvatar } from '@/api/user';
 import store from '@/store/store';
-import { setUserInfo } from "@/store/actions/userInfo";
+import { setUserInfo } from "@/store/actions/user";
 import { SERVER_ADDRESS } from '@/utils/config';
 
 
@@ -33,7 +31,9 @@ const tailLayout = {
 const EmailRegexp = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
 const PhoneRegexp = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
 
-const BasicInfo = () => {
+const BasicInfo = (props) => {
+    const { user } = props;
+    const { userInfo } = user;
     const [spinning, setSpinning] = useState(false);
     const [uploading, setUploading] = useState(false);
     const [avatarUrl, setAvatarUrl] = useState('');
@@ -49,34 +49,32 @@ const BasicInfo = () => {
 
         return isJpgOrPng && isLt2M;
     }
-    const handleAvatarChange = (info) => {
-        const file = info.file;
-        
-        if (file.status === 'uploading') setUploading(true);
-        if (file.status === 'done') {
-            const { id } = JSON.parse(localStorage.getItem('userInfo'));
-            const { path } = file.response.file;
-
-            // 上传成功把用户上传的文件和用户信息写入数据库
-            setSpinning(true);
-            const params = { id, avatar: path };
-            uploadAvatar(params)
-                .then(() => {
-                    setAvatarUrl(path);
-                    message.success('上传成功');
-                })
-                .catch(error => {
-                    message.error('上传失败');
-                    console.log(error);
-                })
-                .finally(() => {
-                    setSpinning(false);
-                    setUploading(false);
-                });
-        }
-        if (file.status === 'error') {
-            message.error('上传失败');
-            return setUploading(false);
+    const handleAvatarChange = (avatar) => {
+        const { file } = avatar;
+        const { status } = file;
+        switch (status) {
+            case 'uploading':
+                return setUploading(true);
+            case 'done':
+                const { path } = file.response.file;
+                const params = { id: userInfo.id, avatar: path };
+                setSpinning(true);
+                uploadAvatar(params)
+                    .then(() => {
+                        setAvatarUrl(path);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+                    .finally(() => {
+                        setSpinning(false);
+                        setUploading(false);
+                    });
+                break;
+            case 'error':
+                return setUploading(false);
+            default:
+                break;
         }
     }
     const handleSubmit = (values) => {
@@ -84,14 +82,7 @@ const BasicInfo = () => {
         values['avatar'] = avatarUrl;
         updateUser(values)
             .then(() => {
-                const userInfo = JSON.parse(localStorage.getItem('userInfo')) || {};
-                userInfo['username'] = values['username'];
-                userInfo['avatar'] = avatarUrl;
-
-                const action = setUserInfo(userInfo);
-                store.dispatch(action);
-
-                localStorage.setItem('userInfo', JSON.stringify(userInfo));
+                console.log(values);
                 message.success('保存成功');
             })
             .catch(error => {
@@ -110,7 +101,6 @@ const BasicInfo = () => {
     }
     const handleGetUserDetail = () => {
         setSpinning(true);
-        const userInfo = JSON.parse(localStorage.getItem('userInfo')) || {};
         getUserDetail(userInfo.id)
             .then(result => {
                 const data = result.result[0];
@@ -162,22 +152,14 @@ const BasicInfo = () => {
                                     listType="picture-card"
                                     showUploadList={false}
                                     action={SERVER_ADDRESS + '/file/uploadAvatar'}
-                                    beforeUpload={(file) => onBeforeUpload(file)}
-                                    onChange={(info) => handleAvatarChange(info)}
+                                    beforeUpload={onBeforeUpload}
+                                    onChange={handleAvatarChange}
                                 >
                                     {
                                         avatarUrl ? 
-                                        <img src={SERVER_ADDRESS + '/' + avatarUrl} alt="avatar" style={{ width: '100%' }} /> 
+                                        <img src={SERVER_ADDRESS + '/' + avatarUrl} alt="获取头像失败" className="w-full h-full" /> 
                                         : 
-                                        <div>
-                                            {
-                                                uploading ? 
-                                                <LoadingOutlined /> 
-                                                : 
-                                                <PlusOutlined />
-                                            }
-                                            <div style={{ marginTop: 8 }}>Upload</div>
-                                        </div>
+                                        <Uploading uploading={uploading} />
                                     }
                                 </Upload>
                         </Form.Item>
@@ -220,4 +202,11 @@ const BasicInfo = () => {
     );
 }
 
-export default BasicInfo;
+const mapStateToProps = state => state;
+const mapDispatchToProps = dispatch => ({
+    setUserInfo: data => {
+        dispatch(setUserInfo(data))
+    }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(BasicInfo);

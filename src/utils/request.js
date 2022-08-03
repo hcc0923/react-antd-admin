@@ -4,18 +4,15 @@ import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 import { SERVER_ADDRESS } from '@/utils/config';
 
-// api address
+
 const HTTP_API = SERVER_ADDRESS;
 const WHITE_API = ['/login/userLogin', '/login/userRegister'];
-
-// create axios instance
 const request = Axios.create({
     baseURL: HTTP_API,
     timeout: 1000 * 5,
     withCredentials: true
 });
 
-// intercept request
 request.interceptors.request.use(
     config => {
         NProgress.start();
@@ -35,7 +32,6 @@ request.interceptors.request.use(
     }
 );
 
-// intercept response
 request.interceptors.response.use(
     response => {
         NProgress.done();

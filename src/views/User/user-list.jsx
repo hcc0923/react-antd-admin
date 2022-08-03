@@ -109,12 +109,13 @@ const UserList = () => {
         setModalVisible(true);
     }
     const onSaveAddEditForm = (values) => {
+        if (Object.prototype.toString.call(values.avatar) === '[object Object]') {
+            values.avatar = values.avatar.file.response.file.path;
+        }
         setSpinning(true);
-        values.avatar = values.avatar.file.response.file.path;
         if (modalType === 'add') {
             addUser(values)
                 .then(() => {
-                    setSpinning(false);
                     message.success('添加成功');
                     getUserList();
                     setModalVisible(false);
@@ -122,12 +123,14 @@ const UserList = () => {
                 .catch(error => {
                     message.error('添加失败');
                     console.log(error);
+                })
+                .finally(() => {
+                    setSpinning(false);
                 });
         } else {
             values.id = modalForm.id;
             editUser(values)
                 .then(() => {
-                    setSpinning(false);
                     message.success('编辑成功');
                     getUserList();
                     setModalVisible(false);
@@ -135,9 +138,11 @@ const UserList = () => {
                 .catch((error) => {
                     message.error('编辑失败');
                     console.log(error);
+                })
+                .finally(() => {
+                    setSpinning(false);
                 });
         }
-        
     }
     const onDelete = (record) => {
         Modal.confirm({
@@ -149,13 +154,15 @@ const UserList = () => {
                 const params = { id: record.id };
                 deleteUser(params)
                     .then(() => {
-                        setSpinning(false);
                         message.success('删除成功');
                         getUserList();
                     })
                     .catch(error => {
                         message.error('删除失败');
                         console.log(error);
+                    })
+                    .finally(() => {
+                        setSpinning(false);
                     });
             }
         });
@@ -164,7 +171,7 @@ const UserList = () => {
         setSelectedRowKeys(selectedRowKeys);
     }
     const onMultipleDelete = () => {
-        if (!selectedRowKeys.length) return message.error('请先选择删除的用户！');
+        if (!selectedRowKeys.length) return message.error('请先选择要删除的用户！');
         Modal.confirm({
             title: '批量删除',
             icon: <ExclamationCircleOutlined />,
@@ -174,13 +181,15 @@ const UserList = () => {
                 const params = { ids: selectedRowKeys };
                 multipleDelete(params)
                     .then(() => {
-                        setSpinning(false);
                         message.success('删除成功');
                         getUserList();
                     })
                     .catch(error => {
                         message.error('删除失败');
                         console.log(error);
+                    })
+                    .finally(() => {
+                        setSpinning(false);
                     });
             }
         });
@@ -367,7 +376,7 @@ const UserList = () => {
                         {...layout}
                         name="add-edit"
                         initialValues={modalForm}
-                        onFinish={(values) => onSaveAddEditForm(values)}
+                        onFinish={onSaveAddEditForm}
                     >
                             <Form.Item 
                                 label="用户名" 
@@ -397,8 +406,8 @@ const UserList = () => {
                                     listType="picture-card"
                                     showUploadList={false}
                                     action={SERVER_ADDRESS + '/file/uploadAvatar'}
-                                    beforeUpload={(file) => onBeforeUpload(file)}
-                                    onChange={(info) => handleAvatarChange(info)}
+                                    beforeUpload={onBeforeUpload}
+                                    onChange={handleAvatarChange}
                                 >
                                     {
                                         avatarUrl ? 

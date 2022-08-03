@@ -91,7 +91,6 @@ const RoleList = () => {
         setSpinning(true);
         editRole(values)
             .then(() => {
-                setSpinning(false);
                 message.success('编辑成功');
                 getRoleList();
                 setModalVisible(false);
@@ -99,6 +98,9 @@ const RoleList = () => {
             .catch(error => {
                 message.error('编辑失败');
                 console.log(error);
+            })
+            .finally(() => {
+                setSpinning(false);
             });
     }
     const onDelete = (record) => {
@@ -111,13 +113,15 @@ const RoleList = () => {
                 const params = { id: record.id };
                 deleteUser(params)
                     .then(() => {
-                        setSpinning(false);
                         message.success('删除成功');
                         getRoleList();
                     })
                     .catch(error => {
                         message.error('删除失败');
                         console.log(error);
+                    })
+                    .finally(() => {
+                        setSpinning(false);
                     });
             }
         });

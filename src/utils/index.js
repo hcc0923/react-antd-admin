@@ -58,6 +58,24 @@ export const formatRole = (role) => {
   }
 }
 
+export const beforeUploadImage = (file) => {
+    let message;
+    if (file.type === 'image/jpeg' || file.type === 'image/png') {
+        message = '只能上传JPG/PNG文件!'
+    }
+    if (file.size / 1024 / 1024 < 2) {
+        message = '图片大小不能超过2MB!';
+    }
+    return message;
+    // const isJpgOrPng = ;
+    // if (!isJpgOrPng) message.error();
+
+    // const isLt2M = ;
+    // if (!isLt2M) message.error('');
+
+    // return isJpgOrPng && isLt2M;
+}
+
 
 export const debounce = (fn, delay) => {
   return function () {

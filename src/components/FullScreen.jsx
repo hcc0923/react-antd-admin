@@ -2,7 +2,7 @@ import React, { useState, useEffect }from 'react';
 import { FullscreenOutlined } from '@ant-design/icons';
 
 
-function FullScreen() {
+const FullScreen = () => {
 	const [fullScreen, setFullScreen] = useState(false);
 
 	const handleRequestFullScreen = () => {
@@ -44,12 +44,13 @@ function FullScreen() {
 	}
 	useEffect(() => {
 		handleWatchFullScreen();
-	})
+	});
+
 	return (
 		<FullscreenOutlined
 			onClick={() => handleFullScrren()} 
 		/>
 	);
-}
+};
 
 export default FullScreen;

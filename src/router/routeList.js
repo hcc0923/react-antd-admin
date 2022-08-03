@@ -87,4 +87,5 @@ const routeList = [
         component: React.lazy(() => import('@/views/Error/server-error')),
     },
 ];
+
 export default routeList;

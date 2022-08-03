@@ -4,6 +4,7 @@ import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 
 const Uploading = (props) => {
     const { uploading } = props;
+    
     return (
         <Fragment>
             {
@@ -15,6 +16,6 @@ const Uploading = (props) => {
             <div className="mt-2">Upload</div>
         </Fragment>
     );
-}
+};
 
 export default Uploading;

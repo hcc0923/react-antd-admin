@@ -1,26 +1,14 @@
 import React from 'react';
 import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from "react-redux";
-// import { getUserInfo } from "@/store/actions";
 import Layout from "@/views/Layout";
 import Login from "@/views/Login/login";
 
 
 function Router(props) {
     const { user } = props;
-    const role = 'admin';
-    const getUserInfo = (data) => {
-        return new Promise((resolve, reject) => {
-            const userInfo = {
-                avatar: "https://s1.ax1x.com/2020/04/28/J5hUaT.jpg",
-                description: "拥有系统内所有菜单和路由权限",
-                id: "admin",
-                name: "难凉热血",
-                role: "admin"
-            }
-            localStorage.setItem('testData', userInfo)
-        })
-    }
+    const { userInfo } = user;
+    
     return (
         <HashRouter>
             <Switch>
@@ -31,14 +19,9 @@ function Router(props) {
                         if (!user.token) {
                             return <Redirect to="/login" />;
                         } else {
-                            if (role) {
+                            if (userInfo.role) {
                                 return <Layout />;
-                            } else {
-                                // 用token换信息  role
-                                getUserInfo(token).then(() => {
-                                    return <Layout />;
-                                })
-                            }
+                            } 
                         }
                     }}
                 />
@@ -48,4 +31,5 @@ function Router(props) {
 }
 
 const mapStateToProps = state => state;
+
 export default connect(mapStateToProps)(Router);

@@ -9,11 +9,10 @@ import { deleteTag } from '@/store/actions/tag';
 const TagView = (props) => {
     const { location, tag } = props;
     const { pathname } = location;
+
     const onCloseTag = (item) => {
         const tagLength = tag.length;
-        // 删除最后一个tag跳转到前一个
         if (pathname === item.key && item.key === tag[tagLength - 1].key) {
-            
             props.history.push(tag[tagLength - 2].key);
         }
         if (pathname === item.key && item.key !== tag[tagLength - 1].key) {
@@ -25,6 +24,7 @@ const TagView = (props) => {
     const onClickTag = (item) => {
         props.history.push(item.key);
     }
+
     return (
         <div className="w-full pl-4 py-2" style={{ backgroundColor: '#fafafa'}}>
             {
@@ -56,6 +56,5 @@ const mapDispatchToProps = dispatch => ({
         dispatch(deleteTag(data));
     }
 });
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(TagView));
