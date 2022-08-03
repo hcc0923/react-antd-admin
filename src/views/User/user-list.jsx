@@ -194,30 +194,32 @@ const UserList = () => {
             }
         });
     }
-    const onBeforeUpload = (file) => {
-        const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-        if (!isJpgOrPng) message.error('只能上传JPG/PNG文件!');
-
-        const isLt2M = file.size / 1024 / 1024 < 2;
-        if (!isLt2M) message.error('图片大小不能超过2MB!');
-
-        return isJpgOrPng && isLt2M;
+    const handleBeforeUpload = (file) => {
+        if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
+            message.error('只能上传JPG/PNG文件!');
+            return false;
+        }
+        if (file.size / 1024 / 1024 > 2) {
+            message.error('图片大小不能超过2MB!');
+            return false;
+        }
+        return true;
     }
-    const handleAvatarChange = (info) => {
+    const handleAvatarChange = (avatar) => {
         setUploading(true);
-        const file = info.file;
-
-        if (file.status === 'uploading') {
-            return setUploading(true);
-        }
-        if (file.status === 'done') {
-            const path = file.response.file.path;
-            setAvatarUrl(path);
-            return setUploading(false);
-        }
-        if (file.status === 'error') {
-            message.error('上传失败');
-            return setUploading(false);
+        const { file } = avatar;
+        const { status } = file;
+        switch (status) {
+            case 'uploading':
+                return setUploading(true);
+            case 'done':
+                const { path } = file.response.file;
+                setAvatarUrl(path);
+                return setUploading(false);
+            case 'error':
+                return setUploading(false);
+            default:
+                break;
         }
     }
     const columns = [
@@ -406,7 +408,7 @@ const UserList = () => {
                                     listType="picture-card"
                                     showUploadList={false}
                                     action={SERVER_ADDRESS + '/file/uploadAvatar'}
-                                    beforeUpload={onBeforeUpload}
+                                    beforeUpload={handleBeforeUpload}
                                     onChange={handleAvatarChange}
                                 >
                                     {

@@ -58,7 +58,7 @@ export const formatRole = (role) => {
   }
 }
 
-export const beforeUploadImage = (file) => {
+export const checkUploadImage = (file) => {
     let message;
     if (file.type === 'image/jpeg' || file.type === 'image/png') {
         message = '只能上传JPG/PNG文件!'

@@ -12,9 +12,8 @@ import {
     message 
 } from "antd";
 import Uploading from '@/components/Uploading';
-import { getUserDetail, updateUser, uploadAvatar } from '@/api/user';
-import store from '@/store/store';
-import { setUserInfo } from "@/store/actions/user";
+import { getUserDetail, updateUser } from '@/api/user';
+import { setUserInfo } from '@/store/actions/user';
 import { SERVER_ADDRESS } from '@/utils/config';
 
 
@@ -40,16 +39,19 @@ const BasicInfo = (props) => {
     const formRef = useRef();
     const initialForm = { id: 0, username: '', gender: 0, avatar: '', phone: '', email: '', remark: '' };
 
-    const onBeforeUpload = (file) => {
-        const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-        if (!isJpgOrPng) message.error('只能上传JPG/PNG文件!');
-
-        const isLt2M = file.size / 1024 / 1024 < 2;
-        if (!isLt2M) message.error('图片大小不能超过2MB!');
-
-        return isJpgOrPng && isLt2M;
+    const handleBeforeUpload = (file) => {
+        if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
+            message.error('只能上传JPG/PNG文件!');
+            return false;
+        }
+        if (file.size / 1024 / 1024 > 2) {
+            message.error('图片大小不能超过2MB!');
+            return false;
+        }
+        return true;
     }
     const handleAvatarChange = (avatar) => {
+        setUploading(true);
         const { file } = avatar;
         const { status } = file;
         switch (status) {
@@ -57,20 +59,8 @@ const BasicInfo = (props) => {
                 return setUploading(true);
             case 'done':
                 const { path } = file.response.file;
-                const params = { id: userInfo.id, avatar: path };
-                setSpinning(true);
-                uploadAvatar(params)
-                    .then(() => {
-                        setAvatarUrl(path);
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    })
-                    .finally(() => {
-                        setSpinning(false);
-                        setUploading(false);
-                    });
-                break;
+                setAvatarUrl(path);
+                return setUploading(false);
             case 'error':
                 return setUploading(false);
             default:
@@ -82,7 +72,6 @@ const BasicInfo = (props) => {
         values['avatar'] = avatarUrl;
         updateUser(values)
             .then(() => {
-                console.log(values);
                 message.success('保存成功');
             })
             .catch(error => {
@@ -127,7 +116,7 @@ const BasicInfo = (props) => {
                     name="basicinfo"
                     ref={formRef}
                     initialValues={initialForm}
-                    onFinish={(values) => handleSubmit(values)}
+                    onFinish={handleSubmit}
                 >
                         <span style={{marginLeft: '17%', color: '#999'}} className="ml-1/6">不可修改。用户的唯一标识。</span>
                         <Form.Item label="ID" name="id">
@@ -152,7 +141,7 @@ const BasicInfo = (props) => {
                                     listType="picture-card"
                                     showUploadList={false}
                                     action={SERVER_ADDRESS + '/file/uploadAvatar'}
-                                    beforeUpload={onBeforeUpload}
+                                    beforeUpload={handleBeforeUpload}
                                     onChange={handleAvatarChange}
                                 >
                                     {
