@@ -33,7 +33,7 @@ const TagView = (props) => {
           color={item.key === pathname ? "#1890ff" : ""}
           closeIcon={<CloseOutlined className="align-baseline" />}
           onClose={() => onCloseTag(item)}
-          className="text-sm"
+          className="text-sm mb-2"
         >
           <span onClick={() => onClickTag(item)} className="cursor-pointer">
             {item.label}

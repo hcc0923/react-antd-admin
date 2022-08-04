@@ -51,7 +51,7 @@ const ModifyPassword = (props) => {
       <Card title="修改密码">
         <Form
           labelCol={{ span: 4 }}
-          wrapperCol={{ span: 20 }}
+          wrapperCol={{ span: 12 }}
           name="update"
           initialValues={{ password: "", repeatPassword: "" }}
           onFinish={handleSubmitForm}
