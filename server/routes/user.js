@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { executeMysql } = require('../utils/database');
+const executeMysql = require('../utils/database');
 
 
 // user list
