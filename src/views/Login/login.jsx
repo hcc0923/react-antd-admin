@@ -6,23 +6,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import CryptoJS from "crypto-js";
 import { userLogin, userRegister } from "@/api/login";
 import { setToken, setUserInfo } from "@/store/actions/user";
-import { formatGMTTime } from "@/utils";
-
-const EmailRegexp = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-const layout = {
-  labelCol: {
-    span: 5,
-  },
-  wrapperCol: {
-    span: 16,
-  },
-};
-const tailLayout = {
-  wrapperCol: {
-    offset: 0,
-    span: 16,
-  },
-};
+import { EmailRegexp, formatGMTTime } from "@/utils";
 
 const Login = (props) => {
   const { history, setToken, setUserInfo } = props;
@@ -120,7 +104,8 @@ const Login = (props) => {
             登录
           </h1>
           <Form
-            {...layout}
+            labelCol={{ span: 5 }}
+            wrapperCol={{ span: 16 }}
             name="basic"
             className="flex justify-center items-center flex-col p-0 h-3/4 text-center"
             initialValues={loginForm}
@@ -167,7 +152,7 @@ const Login = (props) => {
             <Link to="/forget" className="mx-0 my-1 text-black">
               忘记密码
             </Link>
-            <Form.Item {...tailLayout}>
+            <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
               <Button
                 type="primary"
                 disabled={loading ? true : false}
@@ -183,7 +168,8 @@ const Login = (props) => {
             注册
           </h1>
           <Form
-            {...layout}
+            labelCol={{ span: 5 }}
+            wrapperCol={{ span: 16 }}
             name="basic"
             className="flex justify-center items-center flex-col p-0 h-3/4 text-center"
             initialValues={registerForm}
@@ -230,7 +216,7 @@ const Login = (props) => {
             >
               <Input.Password />
             </Form.Item>
-            <Form.Item {...tailLayout}>
+            <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
               <Button
                 type="primary"
                 disabled={loading ? true : false}

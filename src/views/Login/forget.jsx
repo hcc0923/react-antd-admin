@@ -3,23 +3,8 @@ import { Link } from "react-router-dom";
 import { Form, Input, Button, message } from "antd";
 import CryptoJS from "crypto-js";
 import { findEmail, sendEmail, resetPassword } from "@/api/login";
+import { EmailRegexp } from "@/utils";
 import { EMAIL_KEY } from "@/utils/config";
-
-const EmailRegexp = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-const layout = {
-  labelCol: {
-    span: 5,
-  },
-  wrapperCol: {
-    span: 16,
-  },
-};
-const tailLayout = {
-  wrapperCol: {
-    offset: 0,
-    span: 16,
-  },
-};
 
 const Forget = (props) => {
   const { history } = props;
@@ -124,7 +109,8 @@ const Forget = (props) => {
             忘记密码
           </h1>
           <Form
-            {...layout}
+            labelCol={{ span: 5 }}
+            wrapperCol={{ span: 16 }}
             name="basic"
             className="flex justify-center items-center flex-col p-0 h-3/4 text-center"
             initialValues={validateForm}
@@ -177,7 +163,7 @@ const Forget = (props) => {
                 </Button>
               </div>
             </Form.Item>
-            <Form.Item {...tailLayout}>
+            <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
               <Button type="primary" htmlType="submit">
                 找回密码
               </Button>
@@ -192,7 +178,8 @@ const Forget = (props) => {
             重置密码
           </h1>
           <Form
-            {...layout}
+            labelCol={{ span: 5 }}
+            wrapperCol={{ span: 16 }}
             name="basic"
             className="flex justify-center items-center flex-col p-0 h-3/4 text-center"
             initialValues={resetForm}
@@ -240,7 +227,7 @@ const Forget = (props) => {
             >
               <Input.Password />
             </Form.Item>
-            <Form.Item {...tailLayout}>
+            <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
               <Button type="primary" htmlType="submit">
                 重置新密码
               </Button>

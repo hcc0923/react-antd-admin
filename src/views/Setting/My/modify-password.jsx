@@ -3,21 +3,6 @@ import { Card, Form, Input, Button, Space, Spin, message } from "antd";
 import CryptoJS from "crypto-js";
 import { checkPassword, updatePassword } from "@/api/user";
 
-const layout = {
-  labelCol: {
-    span: 4,
-  },
-  wrapperCol: {
-    span: 20,
-  },
-};
-const tailLayout = {
-  wrapperCol: {
-    offset: 4,
-    span: 20,
-  },
-};
-
 const ModifyPassword = (props) => {
   const { history } = props;
   const [spinning, setSpinning] = useState(false);
@@ -65,7 +50,8 @@ const ModifyPassword = (props) => {
     <Spin spinning={spinning}>
       <Card title="修改密码">
         <Form
-          {...layout}
+          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 20 }}
           name="update"
           initialValues={{ password: "", repeatPassword: "" }}
           onFinish={handleSubmitForm}
@@ -134,7 +120,7 @@ const ModifyPassword = (props) => {
           >
             <Input.Password />
           </Form.Item>
-          <Form.Item {...tailLayout}>
+          <Form.Item wrapperCol={{ offset: 4, span: 20 }}>
             <Space size={20}>
               <Button type="primary" htmlType="submit">
                 保存

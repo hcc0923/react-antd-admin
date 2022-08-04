@@ -27,21 +27,6 @@ const Options = [
   { label: "管理员", value: 2 },
   { label: "超级管理员", value: 3 },
 ];
-const layout = {
-  labelCol: {
-    span: 8,
-  },
-  wrapperCol: {
-    span: 16,
-  },
-};
-const tailLayout = {
-  wrapperCol: {
-    offset: 8,
-    span: 16,
-  },
-};
-
 const RoleList = () => {
   const [spinning, setSpinning] = useState(false);
   const [userTableData, setUserTableData] = useState([]);
@@ -251,7 +236,8 @@ const RoleList = () => {
           onCancel={() => setModalVisible(false)}
         >
           <Form
-            {...layout}
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
             name="edit"
             initialValues={modalForm}
             onFinish={onSaveEditForm}
@@ -269,7 +255,7 @@ const RoleList = () => {
                 <Radio value={3}>超级管理员</Radio>
               </Radio.Group>
             </Form.Item>
-            <Form.Item {...tailLayout}>
+            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
               <Space>
                 <Button type="primary" htmlType="submit">
                   确定

@@ -29,6 +29,7 @@ import {
   deleteUser,
   multipleDelete,
 } from "@/api/user";
+import { EmailRegexp, PhoneRegexp } from "@/utils";
 import { SERVER_ADDRESS } from "@/utils/config";
 
 const Options = [
@@ -36,24 +37,6 @@ const Options = [
   { label: "男", value: 0 },
   { label: "女", value: 1 },
 ];
-const layout = {
-  labelCol: {
-    span: 8,
-  },
-  wrapperCol: {
-    span: 16,
-  },
-};
-const tailLayout = {
-  wrapperCol: {
-    offset: 8,
-    span: 16,
-  },
-};
-const EmailRegexp = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-const PhoneRegexp =
-  /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
-
 const UserList = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [spinning, setSpinning] = useState(false);
@@ -411,7 +394,8 @@ const UserList = () => {
           onCancel={() => setModalVisible(false)}
         >
           <Form
-            {...layout}
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
             name="add-edit"
             initialValues={modalForm}
             onFinish={onSaveAddEditForm}
@@ -478,7 +462,7 @@ const UserList = () => {
             >
               <Input placeholder="请输入邮箱" />
             </Form.Item>
-            <Form.Item {...tailLayout}>
+            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
               <Space>
                 <Button type="primary" htmlType="submit">
                   确定

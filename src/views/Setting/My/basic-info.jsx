@@ -14,21 +14,8 @@ import {
 import Uploading from "@/components/Uploading";
 import { getUserDetail, updateUser } from "@/api/user";
 import { setUserInfo } from "@/store/actions/user";
+import { EmailRegexp, PhoneRegexp } from "@/utils";
 import { SERVER_ADDRESS } from "@/utils/config";
-
-const layout = {
-  labelCol: { span: 4 },
-  wrapperCol: { span: 16 },
-};
-const tailLayout = {
-  wrapperCol: {
-    offset: 4,
-    span: 16,
-  },
-};
-const EmailRegexp = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-const PhoneRegexp =
-  /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
 
 const BasicInfo = (props) => {
   const { user, setUserInfo } = props;
@@ -80,7 +67,11 @@ const BasicInfo = (props) => {
     values["avatar"] = avatarUrl;
     updateUser(values)
       .then(() => {
-        setUserInfo({...userInfo, username: values["username"], avatar: values["avatar"]});
+        setUserInfo({
+          ...userInfo,
+          username: values["username"],
+          avatar: values["avatar"],
+        });
         message.success("保存成功");
       })
       .catch((error) => {
@@ -121,7 +112,8 @@ const BasicInfo = (props) => {
     <Spin spinning={spinning}>
       <Card title="基本资料">
         <Form
-          {...layout}
+          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 12 }}
           name="basicinfo"
           ref={formRef}
           initialValues={initialForm}
@@ -189,7 +181,7 @@ const BasicInfo = (props) => {
           <Form.Item label="备注" name="remark">
             <Input.TextArea rows={4} placeholder="请输入内容" />
           </Form.Item>
-          <Form.Item {...tailLayout}>
+          <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
             <Space size={20}>
               <Button type="primary" htmlType="submit">
                 保存
