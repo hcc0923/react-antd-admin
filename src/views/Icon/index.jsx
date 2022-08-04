@@ -116,10 +116,10 @@ const Icon = () => {
           <li
             key={index}
             onClick={handleCopyToClipboard.bind(this, item)}
-            className="w-1/6 h-full overflow-hidden text-center justify-center list-none cursor-pointer hover:text-green-500 hover:bg-black"
+            className="w-1/6 h-full overflow-hidden text-center justify-center list-none cursor-pointer hover:bg-slate-300"
           >
-            <span className="block mt-3 mx-0 mb-2 text-2xl">{item.value}</span>
-            <span className="block">{item.key}</span>
+            <span className="block mx-0 my-3 text-2xl">{item.value}</span>
+            <span className="block mb-3">{item.key}</span>
           </li>
         ))}
       </ul>
