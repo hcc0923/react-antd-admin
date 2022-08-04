@@ -23,7 +23,7 @@ export const deleteSingleFile = (data) => {
     return request({
         url: '/file/deleteSingleFile',
         method: 'delete',
-        data: { data }
+        data
     });
 }
 
@@ -32,7 +32,7 @@ export const deleteAllFile = (data) => {
     return request({
         url: '/file/deleteAllFile',
         method: 'delete',
-        data: { data }
+        data
     });
 }
 

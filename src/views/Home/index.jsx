@@ -1,9 +1,8 @@
-import React, { useState, useEffect, Fragment }from 'react';
+import React, { useState, useEffect, Fragment } from "react";
 import TopCard from "./TopCard";
 import CenterContent from "./CenterContent";
 import FooterTable from "./FooterTable";
-import { getTopCard, getCenterContent, getFooterTable } from '@/api/home';
-
+import { getTopCard, getCenterContent, getFooterTable } from "@/api/home";
 
 const Home = () => {
   const [topCard, setTopCard] = useState([]);
@@ -12,46 +11,44 @@ const Home = () => {
 
   const handleGetTopCard = () => {
     getTopCard()
-        .then(response => {
-          const { data } = response;
-          setTopCard(data);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-  }
+      .then((response) => {
+        const { data } = response;
+        setTopCard(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const handleGetCenterContent = () => {
     getCenterContent()
-        .then(response => {
-          const { data } = response;
-          setCenterContent(data);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-  }
+      .then((response) => {
+        const { data } = response;
+        setCenterContent(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const handleGetFooterTable = () => {
     getFooterTable()
-        .then(response => {
-          const { data } = response;
-          setFooterTable(data);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-  }
-  useEffect(() => { 
+      .then((response) => {
+        const { data } = response;
+        setFooterTable(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  useEffect(() => {
     handleGetTopCard();
     handleGetCenterContent();
     handleGetFooterTable();
   }, []);
-  
+
   const { visitData, uploadData, downloadData, progressData } = centerContent;
-  return (  
+  return (
     <Fragment>
-      <TopCard
-        topCard={topCard}
-      />
+      <TopCard topCard={topCard} />
       <CenterContent
         extraTitle="增长量"
         visitData={visitData}
@@ -59,10 +56,7 @@ const Home = () => {
         downloadData={downloadData}
         progressData={progressData}
       />
-      <FooterTable
-          title="学习计划"
-          dataSource={footerTable}>
-      </FooterTable>
+      <FooterTable title="学习计划" dataSource={footerTable}></FooterTable>
     </Fragment>
   );
 };

@@ -1,11 +1,8 @@
-import React from 'react'
-import RichText from '@/components/RichText';
-
+import React from "react";
+import RichText from "@/components/RichText";
 
 const RichTextPage = () => {
-    return (
-        <RichText />
-    )
-}
+  return <RichText />;
+};
 
 export default RichTextPage;

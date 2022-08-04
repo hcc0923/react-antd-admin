@@ -55,10 +55,10 @@ router.post('/uploadMultipleFile', upload.array('files', 10), (request, response
 
 // delete file
 router.delete('/deleteSingleFile', (request, response) => {
-    const { name } = request.query;
+    const { id, name } = request.body;
     const sqlString = `DELETE
     FROM file
-    WHERE name='${name}'`;
+    WHERE id='${id}'`;
 
     executeMysql(sqlString)
         .then(() => {
@@ -83,23 +83,31 @@ router.delete('/deleteSingleFile', (request, response) => {
 
 // delete all files
 router.delete('/deleteAllFile', (request, response) => {
-    const { ids } = request.query;
+    const { deleteParams } = request.body;
     let count = 0;
 
-    ids.forEach(id => {
+    deleteParams.forEach(item => {
         const sqlString = `DELETE
         FROM file
-        WHERE id=${id}`;
+        WHERE id=${item.id}`;
 
         executeMysql(sqlString)
             .then(() => {
-                count++;
-                if (count === ids.length) {
-                    response.send({
-                        code: 200,
-                        message: '删除成功'
-                    });
-                }
+                fs.unlink(`static/${item.name}`, error => {
+                    if (error) {
+                        response.send({
+                            message: '删除失败'
+                        });
+                    } else {
+                        count++;
+                        if (count === deleteParams.length) {
+                            response.send({
+                                code: 200,
+                                message: '删除成功'
+                            });
+                        }
+                    };
+                });
             })
             .catch(error => {
                 console.log(error);

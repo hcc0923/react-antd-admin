@@ -1,23 +1,22 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Layout } from 'antd';
-import Sider from './Sider';
-import Header from './Header';
-import Content from './Content';
+import React from "react";
+import { connect } from "react-redux";
+import { Layout } from "antd";
+import Sider from "./Sider";
+import Header from "./Header";
+import Content from "./Content";
 import Tags from "@/components/Tags";
-
 
 const LayoutPage = (props) => {
   const { settings } = props;
 
   return (
-    <Layout style={{ display: 'flex', width: '100%'}}>
+    <Layout style={{ display: "flex", width: "100%" }}>
       <Sider />
       <Layout
         style={{
-          overflow: 'auto',
-          height: '100vh',
-          flex: '1',
+          overflow: "auto",
+          height: "100vh",
+          flex: "1",
         }}
       >
         <Header />
@@ -26,8 +25,8 @@ const LayoutPage = (props) => {
       </Layout>
     </Layout>
   );
-}
+};
 
-const mapStateToProps = state => state;
+const mapStateToProps = (state) => state;
 
 export default connect(mapStateToProps)(LayoutPage);
