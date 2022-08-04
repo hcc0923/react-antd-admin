@@ -31,7 +31,7 @@ const PhoneRegexp =
   /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
 
 const BasicInfo = (props) => {
-  const { user } = props;
+  const { user, setUserInfo } = props;
   const { userInfo } = user;
   const [spinning, setSpinning] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -80,6 +80,7 @@ const BasicInfo = (props) => {
     values["avatar"] = avatarUrl;
     updateUser(values)
       .then(() => {
+        setUserInfo({...userInfo, username: values["username"], avatar: values["avatar"]});
         message.success("保存成功");
       })
       .catch((error) => {

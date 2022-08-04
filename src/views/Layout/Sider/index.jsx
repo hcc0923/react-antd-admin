@@ -10,7 +10,7 @@ import { addTag } from "@/store/actions/tag";
 import { formatRole } from "@/utils";
 
 const Sider = (props) => {
-  const { location, user, settings } = props;
+  const { location, history, user, settings, setCollapse, addTag } = props;
   const { pathname } = location;
   const { userInfo } = user;
   const [menuPermission, setMenuPermission] = useState([]);
@@ -18,7 +18,7 @@ const Sider = (props) => {
   const [documentTitle, setDocumentTitle] = useState("");
 
   const onCollapse = (collapsed) => {
-    props.setCollapse(collapsed);
+    setCollapse(collapsed);
   };
   const handleAuthMenuItem = (item) => {
     const { roles } = item;
@@ -57,8 +57,8 @@ const Sider = (props) => {
   const handleMenuSelect = (data) => {
     const { key, domEvent } = data;
     setDocumentTitle(domEvent.target.innerText);
-    props.addTag({ label: domEvent.target.innerText, key });
-    props.history.push(key);
+    addTag({ label: domEvent.target.innerText, key });
+    history.push(key);
   };
   const handleDocumentTitle = (menuList, pathname) => {
     menuList.forEach((item) => {

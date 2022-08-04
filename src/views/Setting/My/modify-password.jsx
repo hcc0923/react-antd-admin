@@ -19,6 +19,7 @@ const tailLayout = {
 };
 
 const ModifyPassword = (props) => {
+  const { history } = props;
   const [spinning, setSpinning] = useState(false);
   const [isFirst, setIsFirst] = useState(true);
   const [verifyPassword, setVerifyPassword] = useState(false);
@@ -50,7 +51,7 @@ const ModifyPassword = (props) => {
       .then(() => {
         message.success("修改成功，请重新登录");
         localStorage.clear();
-        props.history.push("/login");
+        history.push("/login");
       })
       .catch((error) => {
         console.log(error);

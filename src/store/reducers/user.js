@@ -17,15 +17,19 @@ const userState = localStorage.getItem("user")
 const user = (state = userState, action) => {
   switch (action.type) {
     case SET_TOKEN:
-      return {
+      const userToken = {
         ...state,
-        token: action.token,
+        toekn: action.toekn,
       };
+      localStorage.setItem("user", JSON.stringify(userToken));
+      return userToken;
     case SET_USER_INFO:
-      return {
+      const userUserInfo = {
         ...state,
         userInfo: action.userInfo,
       };
+      localStorage.setItem("user", JSON.stringify(userUserInfo));
+      return userUserInfo;
     default:
       return state;
   }

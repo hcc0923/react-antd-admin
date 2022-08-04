@@ -22,6 +22,7 @@ const tailLayout = {
 };
 
 const Forget = (props) => {
+  const { history } = props;
   const [formType, setFormType] = useState("validate");
   const [validateForm, setValidateForm] = useState({ email: "", code: "" });
   const [resetForm, setResetForm] = useState({
@@ -107,7 +108,7 @@ const Forget = (props) => {
       .then(() => {
         message.success("密码重置成功，请到重新登录账号");
         localStorage.removeItem("validateEmail");
-        props.history.push("/login");
+        history.push("/login");
       })
       .catch((error) => {
         message.error("密码重置失败");

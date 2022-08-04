@@ -17,33 +17,33 @@ const settingsState = localStorage.getItem("settings")
 export const settings = (state = settingsState, action) => {
   switch (action.type) {
     case SET_COLLAPSE:
-      const collapsedSettings = {
+      const settingsCollapsed = {
         ...state,
         collapsed: action.collapsed,
       };
-      localStorage.setItem("settings", JSON.stringify(collapsedSettings));
-      return collapsedSettings;
+      localStorage.setItem("settings", JSON.stringify(settingsCollapsed));
+      return settingsCollapsed;
     case SET_FIXED_HEADER:
-      const fixedHeaderSettings = {
+      const settingsFixedHeader = {
         ...state,
         fixedHeader: action.fixedHeader,
       };
-      localStorage.setItem("settings", JSON.stringify(fixedHeaderSettings));
-      return fixedHeaderSettings;
+      localStorage.setItem("settings", JSON.stringify(settingsFixedHeader));
+      return settingsFixedHeader;
     case SET_SHOW_LOGO:
-      const showLogoSettings = {
+      const settingsShowLogo = {
         ...state,
         showLogo: action.showLogo,
       };
-      localStorage.setItem("settings", JSON.stringify(showLogoSettings));
-      return showLogoSettings;
+      localStorage.setItem("settings", JSON.stringify(settingsShowLogo));
+      return settingsShowLogo;
     case SET_SHOW_TAG:
-      const showTagSettings = {
+      const settingsShowTag = {
         ...state,
         showTag: action.showTag,
       };
-      localStorage.setItem("settings", JSON.stringify(showTagSettings));
-      return showTagSettings;
+      localStorage.setItem("settings", JSON.stringify(settingsShowTag));
+      return settingsShowTag;
     default:
       return state;
   }

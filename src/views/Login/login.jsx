@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { Form, Input, Button, message } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
@@ -25,6 +25,7 @@ const tailLayout = {
 };
 
 const Login = (props) => {
+  const { history, setToken, setUserInfo } = props;
   const [loading, setLoading] = useState(false);
   const [overlay, setOverlay] = useState({ isLogin: true, step: 100 });
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
@@ -60,13 +61,12 @@ const Login = (props) => {
           )} 上次登录IP：${last_login_ip}`,
           13
         );
-
-        props.setToken(token);
-        props.setUserInfo(userInfo);
+        setToken(token);
+        setUserInfo(userInfo);
         localStorage.setItem("user", JSON.stringify({ token, userInfo }));
 
         if (isRegistered) message.destroy("loading");
-        props.history.push("/home");
+        history.push("/home");
         message.success("登陆成功");
       })
       .catch((error) => {
@@ -295,4 +295,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login));

@@ -6,22 +6,22 @@ import { CloseOutlined } from "@ant-design/icons";
 import { deleteTag } from "@/store/actions/tag";
 
 const TagView = (props) => {
-  const { location, tag } = props;
+  const { location, history, tag, deleteTag } = props;
   const { pathname } = location;
 
   const onCloseTag = (item) => {
     const tagLength = tag.length;
     if (pathname === item.key && item.key === tag[tagLength - 1].key) {
-      props.history.push(tag[tagLength - 2].key);
+      history.push(tag[tagLength - 2].key);
     }
     if (pathname === item.key && item.key !== tag[tagLength - 1].key) {
       const tagIndex = tag.findIndex((tagItem) => tagItem.key === item.key);
-      props.history.push(tag[tagIndex + 1].key);
+      history.push(tag[tagIndex + 1].key);
     }
-    props.deleteTag(item);
+    deleteTag(item);
   };
   const onClickTag = (item) => {
-    props.history.push(item.key);
+    history.push(item.key);
   };
 
   return (

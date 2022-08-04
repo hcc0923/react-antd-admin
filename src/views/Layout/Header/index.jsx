@@ -98,10 +98,10 @@ const Header = (props) => {
               />
             </div>
             <div className="h-full flex justify-between items-center">
-              <Avatar src={`${SERVER_ADDRESS}/${userInfo?.avatar}`} />
+              <Avatar src={`${SERVER_ADDRESS}/${userInfo.avatar}`} />
               <Dropdown overlay={menu} placement="bottom" arrow>
                 <Button type="link">
-                  <span className="text-lg">{userInfo?.username}</span>
+                  <span className="text-lg">{userInfo.username}</span>
                   <DownOutlined />
                 </Button>
               </Dropdown>
