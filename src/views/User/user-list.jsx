@@ -68,7 +68,7 @@ const UserList = () => {
     const [modalType, setModalType] = useState();
     const searchRef = useRef();
     
-    const getUserList = () => {
+    const handleGetUserList = () => {
         setSpinning(true);
         const params = {};
         for (const key in searchForm) {
@@ -97,7 +97,7 @@ const UserList = () => {
         const { current, pageSize } = values;
         setPagination({ pageNum: current, pageSize })
     }
-    const openAddEditModal = (modalType, record) => {
+    const onOpenAddEditForm = (modalType, record) => {
         if (record) {
             setModalForm(record);
             setAvatarUrl(record.avatar);
@@ -117,7 +117,7 @@ const UserList = () => {
             addUser(values)
                 .then(() => {
                     message.success('添加成功');
-                    getUserList();
+                    handleGetUserList();
                     setModalVisible(false);
                 })
                 .catch(error => {
@@ -132,7 +132,7 @@ const UserList = () => {
             editUser(values)
                 .then(() => {
                     message.success('编辑成功');
-                    getUserList();
+                    handleGetUserList();
                     setModalVisible(false);
                 })
                 .catch((error) => {
@@ -144,7 +144,7 @@ const UserList = () => {
                 });
         }
     }
-    const onDelete = (record) => {
+    const handleSingleDeleteUser = (record) => {
         Modal.confirm({
             title: '删除用户',
             icon: <ExclamationCircleOutlined />,
@@ -155,7 +155,7 @@ const UserList = () => {
                 deleteUser(params)
                     .then(() => {
                         message.success('删除成功');
-                        getUserList();
+                        handleGetUserList();
                     })
                     .catch(error => {
                         message.error('删除失败');
@@ -167,10 +167,7 @@ const UserList = () => {
             }
         });
     }
-    const onSelectChange = (selectedRowKeys) => {
-        setSelectedRowKeys(selectedRowKeys);
-    }
-    const onMultipleDelete = () => {
+    const handleMultipleDelete = () => {
         if (!selectedRowKeys.length) return message.error('请先选择要删除的用户！');
         Modal.confirm({
             title: '批量删除',
@@ -182,7 +179,7 @@ const UserList = () => {
                 multipleDelete(params)
                     .then(() => {
                         message.success('删除成功');
-                        getUserList();
+                        handleGetUserList();
                     })
                     .catch(error => {
                         message.error('删除失败');
@@ -296,17 +293,16 @@ const UserList = () => {
             render: (text, record, index) => {
                 return (
                     <Fragment>
-                        <Button type="link" onClick={() => openAddEditModal('edit', record)}><EditOutlined />编辑</Button>
-                        <Button type="link" onClick={() => onDelete(record)}><DeleteOutlined />删除</Button>
+                        <Button type="link" onClick={() => onOpenAddEditForm('edit', record)}><EditOutlined />编辑</Button>
+                        <Button type="link" onClick={() => handleSingleDeleteUser(record)}><DeleteOutlined />删除</Button>
                     </Fragment>
                 )
             }
         }
     ];
     useEffect(() => {
-        getUserList();
+        handleGetUserList();
     }, [searchForm, pagination]);
-    const rowSelection = { selectedRowKeys, onChange: onSelectChange };
 
     return (  
         <Spin spinning={spinning}>
@@ -355,12 +351,12 @@ const UserList = () => {
                     </Row>
                 </Form>
                 <Space className="mb-4">
-                    <Button type="primary" onClick={() => openAddEditModal('add')}><PlusOutlined />添加</Button>
-                    <Button type="primary" onClick={() => onMultipleDelete()}><DeleteOutlined />批量删除</Button>
+                    <Button type="primary" onClick={() => onOpenAddEditForm('add')}><PlusOutlined />添加</Button>
+                    <Button type="primary" onClick={() => handleMultipleDelete()}><DeleteOutlined />批量删除</Button>
                 </Space>
                 <Table 
                     bordered={true}
-                    rowSelection={rowSelection} 
+                    rowSelection={{ selectedRowKeys, onChange: setSelectedRowKeys }} 
                     columns={columns}
                     dataSource={userTableData} 
                     pagination={{...pagination, ...total}}
