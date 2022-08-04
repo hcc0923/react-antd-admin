@@ -1,25 +1,26 @@
-import { SET_COLLAPSE, SET_FIXED_HEADER, SET_SHOW_LOGO, SET_SHOW_TAG } from '../constants/index';
-
+import {
+  SET_COLLAPSE,
+  SET_FIXED_HEADER,
+  SET_SHOW_LOGO,
+  SET_SHOW_TAG,
+} from "../constants/index";
 
 export const setCollapse = (collapsed) => ({
-    type: SET_COLLAPSE,
-    collapsed
+  type: SET_COLLAPSE,
+  collapsed,
 });
-
 
 export const setFixedHeader = (fixedHeader) => ({
-    type: SET_FIXED_HEADER,
-    fixedHeader
+  type: SET_FIXED_HEADER,
+  fixedHeader,
 });
-
 
 export const setShowLogo = (showLogo) => ({
-    type: SET_SHOW_LOGO,
-    showLogo
+  type: SET_SHOW_LOGO,
+  showLogo,
 });
 
-
 export const setShowTag = (showTag) => ({
-    type: SET_SHOW_TAG,
-    showTag
+  type: SET_SHOW_TAG,
+  showTag,
 });

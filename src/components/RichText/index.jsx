@@ -7,7 +7,6 @@ import draftToMarkdown from "draftjs-to-markdown";
 import { SERVER_ADDRESS } from "@/utils/config";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
-
 const RichText = () => {
   const [editorContent, setEditorContent] = useState(null);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
@@ -57,7 +56,7 @@ const RichText = () => {
           <Card title="富文本编辑器" bordered>
             <Editor
               editorState={editorState}
-              onEditorStateChange={(value) => onEditorStateChange(value)}
+              onEditorStateChange={onEditorStateChange}
               toolbar={{
                 history: { inDropdown: true },
                 inline: { inDropdown: false },
@@ -65,7 +64,7 @@ const RichText = () => {
                 textAlign: { inDropdown: true },
                 image: { uploadCallback: (file) => imageUploadCallBack(file) },
               }}
-              onContentStateChange={(value) => onContentStateChange(value)}
+              onContentStateChange={onContentStateChange}
               placeholder="请输入正文"
               spellCheck
             />

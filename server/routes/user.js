@@ -78,18 +78,16 @@ router.post('/getUser', (request, response) => {
 
 // add user
 router.post('/addUser', (request, response) => {
-    const { username, gender, phone, email } = request.body;
+    const { username, gender, phone, email, avatar } = request.body;
     const sqlString = `SELECT id
     FROM user
-    WHERE username='${username}'
-            AND gender=${gender}
-            AND phone='${phone}'
-            AND email='${email}'`;
+    WHERE email='${email}'`;
 
     executeMysql(sqlString)
         .then(result => {
+            console.log(result);
             if (result.length === 0) {
-                const sqlString = `INSERT INTO user (username, gender, phone, email) VALUES('${username}', ${gender}, '${phone}', '${email}')`;
+                const sqlString = `INSERT INTO user (username, gender, phone, email, avatar) VALUES('${username}', ${gender}, '${phone}', '${email}', '${avatar}')`;
 
                 executeMysql(sqlString)
                     .then(result => {
