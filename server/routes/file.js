@@ -5,7 +5,6 @@ const multer = require("multer");
 const upload = multer({ dest: "static" });
 const executeMysql = require("../utils/database");
 
-// upload avatar
 router.post("/uploadAvatar", upload.single("avatar"), (request, response) => {
   const file = request.file;
   const fileTypeName = file.originalname.split(".")[1];
@@ -18,7 +17,6 @@ router.post("/uploadAvatar", upload.single("avatar"), (request, response) => {
   });
 });
 
-// upload files
 router.post(
   "/uploadMultipleFile",
   upload.array("files", 10),
@@ -57,7 +55,6 @@ router.post(
   }
 );
 
-// delete file
 router.delete("/deleteSingleFile", (request, response) => {
   const { id, name } = request.body;
   const sqlString = `DELETE
@@ -84,7 +81,6 @@ router.delete("/deleteSingleFile", (request, response) => {
     });
 });
 
-// delete all files
 router.delete("/deleteAllFile", (request, response) => {
   const { deleteParams } = request.body;
   let count = 0;
@@ -118,8 +114,7 @@ router.delete("/deleteAllFile", (request, response) => {
   });
 });
 
-// get file list
-router.get("/getFileList", (request, response) => {
+router.get("/getAllFileList", (request, response) => {
   const sqlString = `SELECT id,
          originalname,
          name,
@@ -139,7 +134,6 @@ router.get("/getFileList", (request, response) => {
     });
 });
 
-// my upload file list
 router.get("/getMyUploadList", (request, response) => {
   const { id } = request.auth;
   const sqlString = `SELECT id,

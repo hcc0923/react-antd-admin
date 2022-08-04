@@ -32,9 +32,9 @@ export const deleteAllFile = (data) => {
   });
 };
 
-export const getFileList = (data) => {
+export const getAllFileList = (data) => {
   return request({
-    url: "/file/getFileList",
+    url: "/file/getAllFileList",
     method: "get",
     data: { data },
   });

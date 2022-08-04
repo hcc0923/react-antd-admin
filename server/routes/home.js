@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-// top card data
 router.get("/getTopCard", (request, response) => {
   const titles = ["访问量", "上传", "下载", "活跃用户"];
   const colors = ["#1890ff", "#2F4056", "#009688", "#FFB800"];
@@ -35,7 +34,6 @@ router.get("/getTopCard", (request, response) => {
   });
 });
 
-// center content data
 router.get("/getCenterContent", (request, response) => {
   const visitData = [];
   const uploadData = [];
@@ -83,7 +81,6 @@ router.get("/getCenterContent", (request, response) => {
   });
 });
 
-// footer table data
 router.get("/getFooterTable", (request, response) => {
   const data = [
     {

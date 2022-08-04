@@ -5,7 +5,7 @@ import { formatGMTTime } from "@/utils";
 import { SERVER_ADDRESS } from "@/utils/config";
 import {
   uploadMultipleFile,
-  getFileList,
+  getAllFileList,
   getMyUploadList,
   deleteSingleFile,
   deleteAllFile,
@@ -51,7 +51,7 @@ const FileAdmin = () => {
   };
   const handleGetAllFileList = () => {
     setSpinning(true);
-    getFileList()
+    getAllFileList()
       .then((response) => {
         const { result } = response;
         setFileList(result);

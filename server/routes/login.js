@@ -5,7 +5,6 @@ const executeMysql = require("../utils/database");
 const { emailAuthCode } = require("../utils/authCode");
 const { secretKey } = require("../utils/config");
 
-// user login
 router.post("/userLogin", (request, response) => {
   const { email, password } = request.body;
   const sqlString = `SELECT id,
@@ -53,7 +52,6 @@ router.post("/userLogin", (request, response) => {
     });
 });
 
-// user register
 router.post("/userRegister", (request, response) => {
   const { email, password } = request.body;
   const sqlString = `SELECT id
@@ -90,7 +88,6 @@ router.post("/userRegister", (request, response) => {
     });
 });
 
-// find email
 router.post("/findEmail", (request, response) => {
   const { email } = request.body;
   const sqlString = `SELECT id
@@ -110,7 +107,6 @@ router.post("/findEmail", (request, response) => {
     });
 });
 
-// send email
 router.post("/sendEmail", (request, response) => {
   const { email } = request.body;
   const userAuthCode = emailAuthCode(email);
@@ -122,7 +118,6 @@ router.post("/sendEmail", (request, response) => {
   });
 });
 
-// forget password
 router.put("/resetPassword", (request, response) => {
   const { email, password } = request.body;
   const sqlString = `UPDATE user SET password='${password}'
