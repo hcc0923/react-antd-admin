@@ -86,7 +86,7 @@ router.get("/getFooterTable", (request, response) => {
     {
       id: "1",
       key: "1",
-      taskName: "吸收借鉴github后台管理系统的特色功能",
+      taskName: "更新首页实现增删改查要实现的功能表格",
       taskLevel: 1,
     },
     {
@@ -122,8 +122,26 @@ router.get("/getFooterTable", (request, response) => {
     {
       id: "7",
       key: "7",
-      taskName: "更新首页实现增删改查要实现的功能表格",
+      taskName: "",
       taskLevel: 3,
+    },
+    {
+      id: "8",
+      key: "8",
+      taskName: "动态主题颜色，动态换肤",
+      taskLevel: 2,
+    },
+    {
+      id: "9",
+      key: "9",
+      taskName: "配置自动化更新部署，CI/CD",
+      taskLevel: 2,
+    },
+    {
+      id: "10",
+      key: "10",
+      taskName: "实现响应式布局，兼容移动设备",
+      taskLevel: 2,
     },
   ];
 
