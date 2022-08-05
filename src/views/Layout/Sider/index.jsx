@@ -13,6 +13,7 @@ const Sider = (props) => {
   const { location, history, user, settings, setCollapse, addTag } = props;
   const { pathname } = location;
   const { userInfo } = user;
+  const { collapsed } = settings;
   const [menuPermission, setMenuPermission] = useState([]);
   const [openKeys, setOpenKeys] = useState([]);
   const [documentTitle, setDocumentTitle] = useState("");
@@ -86,7 +87,7 @@ const Sider = (props) => {
       <Layout.Sider
         theme={"dark"}
         collapsible
-        collapsed={settings.collapsed}
+        collapsed={collapsed}
         onCollapse={onCollapse}
         style={{ overflow: "auto", height: "100vh" }}
       >

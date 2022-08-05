@@ -5,12 +5,13 @@ import { setCollapse } from "@/store/actions/settings";
 
 const Hamburger = (props) => {
   const { settings, setCollapse } = props;
+  const { collapsed } = settings;
   return (
     <div
       className="h-full flex items-center cursor-pointer text-2xl -ml-8"
-      onClick={() => setCollapse(!settings.collapsed)}
+      onClick={() => setCollapse(!collapsed)}
     >
-      {settings.collapsed ? <MenuFoldOutlined /> : <MenuUnfoldOutlined />}
+      {collapsed ? <MenuFoldOutlined /> : <MenuUnfoldOutlined />}
     </div>
   );
 };

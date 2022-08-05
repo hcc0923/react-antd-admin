@@ -16,7 +16,6 @@ const Header = (props) => {
   const { user, settings } = props;
   const { userInfo } = user;
   const { collapsed, fixedHeader } = settings;
-  console.log(fixedHeader, collapsed);
   const [drawerVisible, setDrawerVisible] = useState(false);
 
   const handleLogout = () => {
