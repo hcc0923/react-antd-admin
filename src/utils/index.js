@@ -1,12 +1,19 @@
-export const formatAmount = (val, n = 0) => {
-  if (val) {
-    const num = parseInt(val, 10);
-    return num
-      .toFixed(n)
-      .toString()
-      .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,");
+export const EmailRegexp = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+
+export const PhoneRegexp =
+  /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
+
+export const formatRole = (role) => {
+  switch (role) {
+    case 1:
+      return "user";
+    case 2:
+      return "admin";
+    case 3:
+      return "root";
+    default:
+      break;
   }
-  return "0.00";
 };
 
 export const formatGMTTime = (time) => {
@@ -46,41 +53,13 @@ export const formatGMTTime = (time) => {
   return result;
 };
 
-export const EmailRegexp = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-export const PhoneRegexp =
-  /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
-
-export const formatRole = (role) => {
-  switch (role) {
-    case 1:
-      return "user";
-    case 2:
-      return "admin";
-    case 3:
-      return "root";
-    default:
-      break;
+export const formatAmount = (val, n = 0) => {
+  if (val) {
+    const num = parseInt(val, 10);
+    return num
+      .toFixed(n)
+      .toString()
+      .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,");
   }
-};
-
-export const debounce = (fn, delay) => {
-  return function () {
-    fn.id && clearTimeout(fn.id);
-    fn.id = setTimeout(() => {
-      fn.call(this, arguments);
-    }, delay);
-  };
-};
-
-export const throttle = (fn, delay) => {
-  let open = false;
-  return function () {
-    if (!open) {
-      open = true;
-      setTimeout(() => {
-        fn.call(this, arguments);
-        open = false;
-      }, delay);
-    }
-  };
+  return "0.00";
 };

@@ -8,6 +8,12 @@ import Router from '@/router/index';
 import './index.less';
 
 
+// ! TODO config dev prod env
+// ! TODO debounce throttle
+// ! TODO 国际化
+// ! TODO TS重写
+
+
 const App = () => {
   if (!window.global) window.global = globalThis;
   return (

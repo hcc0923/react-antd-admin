@@ -1,10 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Spin, Card, Table, Upload, Button } from "antd";
 import * as XLSX from "xlsx";
 
+const data = [
+  { id: "1", name: "张三", gender: "男", age: 23, work: "程序员" },
+  { id: "2", name: "李四", gender: "女", age: 21, work: "程序员" },
+  { id: "3", name: "王五", gender: "女", age: 21, work: "程序员" },
+  { id: "4", name: "马六", gender: "男", age: 21, work: "程序员" },
+  { id: "5", name: "赵七", gender: "女", age: 21, work: "程序员" },
+];
+
 const Excel = () => {
   const [spinning, setSpinning] = useState(false);
-  const [data, setData] = useState([]);
+  const [tableData, setTableData] = useState([]);
   const [fileList, setFileList] = useState([]);
 
   const columns = [
@@ -133,6 +141,9 @@ const Excel = () => {
       setSpinning(false);
     },
   };
+  useEffect(() => {
+    setTableData(data);
+  }, []);
 
   return (
     <Spin spinning={spinning}>
@@ -148,8 +159,9 @@ const Excel = () => {
         <Table
           bordered={true}
           columns={columns}
-          dataSource={data}
-          rowKey={(record) => `${record.name}`}
+          dataSource={tableData}
+          pagination={false}
+          rowKey={(record) => `${record.id}`}
         />
       </Card>
     </Spin>

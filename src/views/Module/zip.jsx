@@ -69,10 +69,10 @@ const Zip = () => {
           导出Zip
         </Button>
         <Table
-          className="mt-4"
           bordered={true}
           columns={columns}
           dataSource={tableData}
+          pagination={false}
           rowKey={(record) => `${record.id}`}
         />
       </Card>

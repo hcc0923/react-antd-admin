@@ -152,7 +152,12 @@ const chartOptions = {
 };
 
 const KeyBoard = () => {
-  return <ReactECharts option={chartOptions} style={{ height: 500 }} />;
+  return (
+    <ReactECharts
+      option={chartOptions}
+      style={{ width: "100%", height: "calc(100vh - 100px - 2rem)" }}
+    />
+  );
 };
 
 export default KeyBoard;

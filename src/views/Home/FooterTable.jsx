@@ -1,15 +1,12 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { Card, Table, Tag } from "antd";
-import {
-  FundProjectionScreenOutlined,
-  HistoryOutlined,
-  FieldTimeOutlined,
-} from "@ant-design/icons";
+
 
 const FooterTable = (props) => {
   const { title, dataSource } = props;
   const tableColumns = [
     {
+      align: "center",
       title: "ID",
       dataIndex: "id",
       key: "id",
@@ -20,52 +17,24 @@ const FooterTable = (props) => {
       key: "taskName",
       render: (text) => {
         return (
-          <Fragment>
-            <FundProjectionScreenOutlined className="text-base" />
-            <span className="text-base ml-2">{text}</span>
-          </Fragment>
+            <span className="text-base">{text}</span>
         );
       },
     },
     {
-      title: "创建时间",
-      dataIndex: "createTime",
-      key: "createTime",
-      render: (text) => {
-        return (
-          <Fragment>
-            <HistoryOutlined className="text-base" />
-            <span className="text-base ml-2">{text}</span>
-          </Fragment>
-        );
-      },
-    },
-    {
-      title: "任务时间",
-      dataIndex: "taskTime",
-      key: "taskTime",
-      render: (text) => {
-        return (
-          <Fragment>
-            <FieldTimeOutlined className="text-base" />
-            <span className="text-base ml-2">{text}</span>
-          </Fragment>
-        );
-      },
-    },
-    {
-      title: "完成状态",
-      dataIndex: "taskStatus",
-      key: "taskStatus",
+      align: "center",
+      title: "状态",
+      dataIndex: "taskLevel",
+      key: "taskLevel",
       render: (text, record) => {
-        const status = record.taskStatus;
-        switch (status) {
-          case 0:
-            return <Tag color="#1890ff">未开始</Tag>;
+        const level = record.taskLevel;
+        switch (level) {
           case 1:
-            return <Tag color="#1DA57A">进行中</Tag>;
+            return <Tag color="#FFD111">普通</Tag>
           case 2:
-            return <Tag color="#FFB801">已完成</Tag>;
+            return <Tag color="#1890ff">重要</Tag>;
+          case 3:
+            return <Tag color="#1DA57A">紧急</Tag>;
           default:
             break;
         }
@@ -76,6 +45,7 @@ const FooterTable = (props) => {
   return (
     <Card title={title}>
       <Table
+        bordered={true}
         columns={tableColumns}
         dataSource={dataSource}
         pagination={false}

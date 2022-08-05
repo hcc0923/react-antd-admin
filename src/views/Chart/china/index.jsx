@@ -204,7 +204,12 @@ const China = () => {
     }
   }, []);
 
-  return <div id="chartMap" style={{ width: "auto", height: 600 }}></div>;
+  return (
+    <div
+      id="chartMap"
+      style={{ width: "100%", height: "calc(100vh - 100px - 2rem)" }}
+    />
+  );
 };
 
 export default China;
