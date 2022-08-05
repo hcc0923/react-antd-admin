@@ -122,25 +122,25 @@ router.get("/getFooterTable", (request, response) => {
     {
       id: "7",
       key: "7",
-      taskName: "",
+      taskName: "动态主题颜色，动态换肤",
       taskLevel: 3,
     },
     {
       id: "8",
       key: "8",
-      taskName: "动态主题颜色，动态换肤",
+      taskName: "配置自动化更新部署，CI/CD",
       taskLevel: 2,
     },
     {
       id: "9",
       key: "9",
-      taskName: "配置自动化更新部署，CI/CD",
+      taskName: "实现响应式布局，兼容移动设备",
       taskLevel: 2,
     },
     {
       id: "10",
       key: "10",
-      taskName: "实现响应式布局，兼容移动设备",
+      taskName: "使用pnpm代替npm包管理器",
       taskLevel: 2,
     },
   ];
