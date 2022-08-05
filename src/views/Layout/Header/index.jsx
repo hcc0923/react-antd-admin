@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Avatar, Button, Dropdown, Menu, message, Layout } from "antd";
+import { Layout, Menu, Dropdown, Avatar, Button, Tooltip, message } from "antd";
 import {
   DownOutlined,
   SettingOutlined,
@@ -88,14 +88,18 @@ const Header = (props) => {
             <Hamburger />
             <BreadCrumb />
           </div>
-          <div className={"h-16 flex justify-end items-center mr-4"}>
+          <div className={"h-16 flex justify-end items-center mr-12"}>
             <div className="h-full flex justify-between items-center text-2xl">
               <FullScreen />
-              <TranslationOutlined className="ml-4" />
-              <SettingOutlined
-                className="mx-4 cursor-default"
-                onClick={() => setDrawerVisible(true)}
-              />
+              <Tooltip placement="bottom" title={"国际化"}>
+                <TranslationOutlined className="ml-4" />
+              </Tooltip>
+              <Tooltip placement="bottom" title={"系统设置"}>
+                <SettingOutlined
+                  className="mx-4 cursor-default"
+                  onClick={() => setDrawerVisible(true)}
+                />
+              </Tooltip>
             </div>
             <div className="h-full flex justify-between items-center">
               <Avatar src={`${SERVER_ADDRESS}/${userInfo.avatar}`} />

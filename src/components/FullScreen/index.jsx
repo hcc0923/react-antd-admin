@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Tooltip } from "antd";
 import { FullscreenOutlined } from "@ant-design/icons";
 
 const FullScreen = () => {
@@ -57,7 +58,11 @@ const FullScreen = () => {
     handleWatchFullScreen();
   });
 
-  return <FullscreenOutlined onClick={handleFullScrren} />;
+  return (
+    <Tooltip placement="bottom" title={"全屏"}>
+      <FullscreenOutlined onClick={handleFullScrren} />
+    </Tooltip>
+  );
 };
 
 export default FullScreen;

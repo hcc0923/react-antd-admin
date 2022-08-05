@@ -3,6 +3,7 @@ import TopCard from "./TopCard";
 import CenterContent from "./CenterContent";
 import FooterTable from "./FooterTable";
 import { getTopCard, getCenterContent, getFooterTable } from "@/api/home";
+import './index.less';
 
 const Home = () => {
   const [topCard, setTopCard] = useState([]);
@@ -48,6 +49,12 @@ const Home = () => {
   const { visitData, uploadData, downloadData, progressData } = centerContent;
   return (
     <Fragment>
+      <a
+        href="https://github.com/hcc960923/react-antd-admin"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="github-logo"
+      ></a>
       <TopCard topCard={topCard} />
       <CenterContent
         extraTitle="增长量"
