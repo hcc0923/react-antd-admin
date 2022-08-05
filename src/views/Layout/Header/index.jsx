@@ -11,12 +11,12 @@ import DrawerSettings from "@/components/DrawerSettings";
 import Hamburger from "@/components/Hamburger";
 import BreadCrumb from "@/components/BreadCrumb";
 import { SERVER_ADDRESS } from "@/utils/config";
-import "./index.less";
 
 const Header = (props) => {
-  const { user, collapsed, settings } = props;
+  const { user, settings } = props;
   const { userInfo } = user;
-  const { fixedHeader } = settings;
+  const { collapsed, fixedHeader } = settings;
+  console.log(fixedHeader, collapsed);
   const [drawerVisible, setDrawerVisible] = useState(false);
 
   const handleLogout = () => {
@@ -74,7 +74,14 @@ const Header = (props) => {
     <>
       {fixedHeader ? <Layout.Header /> : null}
       <Layout.Header
-        style={computedStyle()}
+        style={{
+          ...computedStyle(),
+          transition: "width 0.2s",
+          zIndex: 9,
+          height: 64,
+          backgroundColor: "#fff",
+          boxShadow: "0 1px 4px rgba(0, 21, 41, 0.08)",
+        }}
         className={fixedHeader ? "fixed top-0 right-0" : ""}
       >
         <div className="flex justify-between w-full">
