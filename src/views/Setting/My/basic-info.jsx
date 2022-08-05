@@ -11,6 +11,7 @@ import {
   Upload,
   message,
 } from "antd";
+import TypeWriter from '@/components/TypeWriter';
 import Uploading from "@/components/Uploading";
 import { getUserDetail, updateUser } from "@/api/user";
 import { setUserInfo } from "@/store/actions/user";
@@ -111,6 +112,7 @@ const BasicInfo = (props) => {
   return (
     <Spin spinning={spinning}>
       <Card title="基本资料">
+        <TypeWriter content={"Hello World"} />
         <Form
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 12 }}

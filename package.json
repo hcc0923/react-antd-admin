@@ -32,6 +32,7 @@
     "react-transition-group": "^4.4.5",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
+    "typewriter-effect": "^2.19.0",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
