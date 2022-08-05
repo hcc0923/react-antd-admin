@@ -137,6 +137,11 @@ const menuList = [
         key: "/module/mark-down",
         roles: ["root", "admin", "user"],
       },
+      {
+        label: "打字效果",
+        key: "/module/type-effect",
+        roles: ["root", "admin", "user"],
+      },
     ],
   },
   {

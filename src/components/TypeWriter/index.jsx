@@ -7,6 +7,7 @@ const TypeWriter = (props) => {
     <TypeWriterEffect
       options={{
         strings: content,
+        pauseFor: 100,
         autoStart: true,
       }}
     />

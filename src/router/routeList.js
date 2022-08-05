@@ -70,6 +70,10 @@ const routeList = [
     component: React.lazy(() => import("@/views/Module/mark-down")),
   },
   {
+    path: "/module/type-effect",
+    component: React.lazy(() => import("@/views/Module/type-effect")),
+  },
+  {
     path: "/authority",
     component: React.lazy(() => import("@/views/Authority/index")),
   },
