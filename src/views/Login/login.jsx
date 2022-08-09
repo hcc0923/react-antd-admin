@@ -35,7 +35,6 @@ const Login = (props) => {
 
     userLogin(params)
       .then((response) => {
-        console.log(response);
         const { token, userInfo } = response;
 
         const { last_login_time, last_login_ip } = userInfo;
@@ -48,7 +47,6 @@ const Login = (props) => {
         setToken(token);
         setUserInfo(userInfo);
         localStorage.setItem("user", JSON.stringify({ token, userInfo }));
-
         if (isRegistered) message.destroy("loading");
         history.push("/home");
         message.success("登陆成功");

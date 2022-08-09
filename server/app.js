@@ -17,7 +17,7 @@ const {
 
 const {
   loginRouter,
-  homeRouter,
+  taskRouter,
   userRouter,
   fileRouter,
 } = require("./routes/router");
@@ -50,7 +50,7 @@ app
 
 // load routes
 app.use("/login", loginRouter);
-app.use("/home", homeRouter).use("/user", userRouter).use("/file", fileRouter);
+app.use("/task", taskRouter).use("/user", userRouter).use("/file", fileRouter);
 
 // listen server
 app.listen(serverConfig.port, "0.0.0.0", () => {
