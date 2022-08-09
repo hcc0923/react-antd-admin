@@ -138,9 +138,9 @@ router.get("/getFooterTable", (request, response) => {
       taskLevel: 2,
     },
     {
-      id: "10",
-      key: "10",
-      taskName: "使用pnpm代替npm包管理器",
+      id: "11",
+      key: "11",
+      taskName: "使用TS重写",
       taskLevel: 2,
     },
   ];

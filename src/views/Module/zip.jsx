@@ -13,14 +13,34 @@ const data = [
 
 const Zip = () => {
   const [spinning, setSpinning] = useState(false);
-  const [fileName, setFileName] = useState("压缩包");
+  const [fileName, setFileName] = useState("file");
   const [tableData, setTableData] = useState([]);
 
   const columns = [
-    { title: "姓名", dataIndex: "name" },
-    { title: "性别", dataIndex: "gender" },
-    { title: "年龄", dataIndex: "age" },
-    { title: "工作", dataIndex: "work" },
+    {
+      align: "center",
+      title: "姓名",
+      key: "name",
+      dataIndex: "name",
+    },
+    {
+      align: "center",
+      title: "性别",
+      key: "gender",
+      dataIndex: "gender",
+    },
+    {
+      align: "center",
+      title: "年龄",
+      key: "age",
+      dataIndex: "age",
+    },
+    {
+      align: "center",
+      title: "工作",
+      key: "work",
+      dataIndex: "work",
+    },
   ];
   const handleExportZip = () => {
     setSpinning(true);
@@ -61,14 +81,14 @@ const Zip = () => {
       <Card title="导出zip">
         <Input
           className="w-1/4 mr-3"
-          placeholder="请输入文件名"
-          value={fileName}
+          placeholder="请输入文件名(默认file)"
           onChange={(event) => setFileName(event.target.value)}
         />
         <Button type="primary" onClick={handleExportZip}>
           导出Zip
         </Button>
         <Table
+          className="mt-4"
           bordered={true}
           columns={columns}
           dataSource={tableData}

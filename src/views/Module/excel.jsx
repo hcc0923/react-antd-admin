@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Spin, Card, Table, Upload, Button } from "antd";
+import { Spin, Card, Input, Select, Space, Upload, Table, Button } from "antd";
 import * as XLSX from "xlsx";
 
 const data = [
@@ -9,17 +9,51 @@ const data = [
   { id: "4", name: "马六", gender: "男", age: 21, work: "程序员" },
   { id: "5", name: "赵七", gender: "女", age: 21, work: "程序员" },
 ];
+const dataMap = {
+  id: "ID",
+  name: "姓名",
+  gender: "性别",
+  age: "年龄",
+  work: "工作",
+};
 
 const Excel = () => {
   const [spinning, setSpinning] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [fileList, setFileList] = useState([]);
+  const [fileName, setFileName] = useState("file");
 
   const columns = [
-    { title: "姓名", dataIndex: "name" },
-    { title: "性别", dataIndex: "gender" },
-    { title: "年龄", dataIndex: "age" },
-    { title: "工作", dataIndex: "work" },
+    {
+      align: "center",
+      title: "ID",
+      key: "id",
+      dataIndex: "id",
+    },
+    {
+      align: "center",
+      title: "姓名",
+      key: "name",
+      dataIndex: "name",
+    },
+    {
+      align: "center",
+      title: "性别",
+      key: "gender",
+      dataIndex: "gender",
+    },
+    {
+      align: "center",
+      title: "年龄",
+      key: "age",
+      dataIndex: "age",
+    },
+    {
+      align: "center",
+      title: "工作",
+      key: "work",
+      dataIndex: "work",
+    },
   ];
   const sheetToBlob = (sheet, sheetName) => {
     sheetName = sheetName || "sheet1";
@@ -59,22 +93,17 @@ const Excel = () => {
   };
   const handleExportAll = () => {
     setSpinning(true);
-    const rowMap = {
-      name: "姓名",
-      gender: "性别",
-      age: "年龄",
-      work: "工作",
-    };
+
     const newData = data.map((item) => {
       return Object.keys(item).reduce((newItem, key) => {
-        const newKey = rowMap[key];
+        const newKey = dataMap[key];
         newItem[newKey] = item[key];
         return newItem;
       }, {});
     });
 
     const sheet = XLSX.utils.json_to_sheet(newData);
-    openDownloadDialog(sheetToBlob(sheet, undefined), `全部信息.xlsx`);
+    openDownloadDialog(sheetToBlob(sheet, undefined), `${fileName}.xlsx`);
     setSpinning(false);
   };
   const formatTitleAndFileld = (a, b) => {
@@ -101,26 +130,20 @@ const Excel = () => {
     });
 
     const formatData = JSON.map((item) => {
-      const { name, gender, age, work } = item;
+      const { id, name, gender, age, work } = item;
       return {
+        id,
         name,
         gender,
         age,
         work,
       };
     });
-    setData(formatData);
+    setTableData(formatData);
     setFileList([file]);
     return formatData;
   };
-  const uploadProps = {
-    accept: ".xlsx",
-    fileList,
-    onRemove: () => {
-      setData([]);
-      setFileList([]);
-    },
-    beforeUpload: (file) => {
+  const handleBeforeUploadFile = (file) => {
       setSpinning(true);
       const fileReader = new FileReader();
       fileReader.addEventListener("load", (event) => {
@@ -139,8 +162,12 @@ const Excel = () => {
       });
       fileReader.readAsBinaryString(file);
       setSpinning(false);
-    },
-  };
+      return false;
+  }
+  const handleRemoveFile = () => {
+    setTableData([]);
+    setFileList([]);
+  }
   useEffect(() => {
     setTableData(data);
   }, []);
@@ -148,14 +175,28 @@ const Excel = () => {
   return (
     <Spin spinning={spinning}>
       <Card title="Excel导入导出解析">
-        <div className="flex justify-start mb-4">
-          <Upload {...uploadProps}>
-            <Button type="primary">Excel导入</Button>
-          </Upload>
-          <Button className="ml-4" type="primary" onClick={handleExportAll}>
-            Excel导出数据
-          </Button>
+        <div className="mb-4">
+          <Input
+            className="w-1/4 mr-4"
+            placeholder="请输入文件名(默认file)"
+            onChange={(event) => setFileName(event.target.value)}
+          />
+          <Space className="ml-4">
+            <Upload 
+              accept=".xlsx"
+              fileList={fileList}
+              showUploadList={true}
+              beforeUpload={handleBeforeUploadFile}
+              onRemove={handleRemoveFile}
+            >
+              <Button type="primary">Excel导入</Button>
+            </Upload>
+            <Button type="primary" className="ml-16" onClick={handleExportAll}>
+              Excel导出
+            </Button>
+          </Space>
         </div>
+
         <Table
           bordered={true}
           columns={columns}
