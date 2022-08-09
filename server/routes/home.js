@@ -92,56 +92,45 @@ router.get("/getFooterTable", (request, response) => {
     {
       id: "2",
       key: "2",
-      taskName: "优化Excel导入导出",
-      taskLevel: 3,
+      taskName: "优化接口的防抖与节流",
+      taskLevel: 1,
+      
     },
     {
       id: "3",
       key: "3",
-      taskName: "优化导出ZIP文件",
-      taskLevel: 3,
+      taskName: "升级react-router v6",
+      taskLevel: 1,
     },
     {
       id: "4",
       key: "4",
-      taskName: "升级react-router v6",
+      taskName: "配置vite开发环境和生产环境",
       taskLevel: 2,
     },
     {
       id: "5",
       key: "5",
-      taskName: "配置vite开发环境和生产环境",
+      taskName: "实现响应式布局，兼容移动设备",
       taskLevel: 2,
     },
     {
       id: "6",
       key: "6",
-      taskName: "优化接口的防抖与节流",
+      taskName: "动态主题颜色，动态换肤",
       taskLevel: 2,
     },
     {
       id: "7",
       key: "7",
-      taskName: "动态主题颜色，动态换肤",
+      taskName: "使用TS重写",
       taskLevel: 3,
     },
     {
       id: "8",
       key: "8",
       taskName: "配置自动化更新部署，CI/CD",
-      taskLevel: 2,
-    },
-    {
-      id: "9",
-      key: "9",
-      taskName: "实现响应式布局，兼容移动设备",
-      taskLevel: 2,
-    },
-    {
-      id: "11",
-      key: "11",
-      taskName: "使用TS重写",
-      taskLevel: 2,
+      taskLevel: 3,
     },
   ];
 

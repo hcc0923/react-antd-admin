@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Spin, Card, Input, Select, Space, Upload, Table, Button } from "antd";
+import { Spin, Card, Input, Upload, Table, Button } from "antd";
 import * as XLSX from "xlsx";
 
 const data = [

@@ -80,7 +80,7 @@ const Zip = () => {
     <Spin spinning={spinning}>
       <Card title="导出zip">
         <Input
-          className="w-1/4 mr-3"
+          className="w-1/4 mr-4"
           placeholder="请输入文件名(默认file)"
           onChange={(event) => setFileName(event.target.value)}
         />
