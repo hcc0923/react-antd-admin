@@ -144,57 +144,55 @@ const Excel = () => {
     return formatData;
   };
   const handleBeforeUploadFile = (file) => {
-      setSpinning(true);
-      const fileReader = new FileReader();
-      fileReader.addEventListener("load", (event) => {
-        const list = event.target.result;
+    setSpinning(true);
+    const fileReader = new FileReader();
+    fileReader.addEventListener("load", (event) => {
+      const list = event.target.result;
 
-        // try parse list
-        const workBook = XLSX.read(list, { type: "binary" });
+      // try parse list
+      const workBook = XLSX.read(list, { type: "binary" });
 
-        // parse sheet to json
-        const JSONList = XLSX.utils.sheet_to_json(
-          workBook.Sheets[workBook.SheetNames[0]],
-          { header: 1 }
-        );
+      // parse sheet to json
+      const JSONList = XLSX.utils.sheet_to_json(
+        workBook.Sheets[workBook.SheetNames[0]],
+        { header: 1 }
+      );
 
-        handleImportJSON(JSONList, file);
-      });
-      fileReader.readAsBinaryString(file);
-      setSpinning(false);
-      return false;
-  }
+      handleImportJSON(JSONList, file);
+    });
+    fileReader.readAsBinaryString(file);
+    setSpinning(false);
+    return false;
+  };
   const handleRemoveFile = () => {
     setTableData([]);
     setFileList([]);
-  }
+  };
   useEffect(() => {
     setTableData(data);
   }, []);
 
   return (
     <Spin spinning={spinning}>
-      <Card title="Excel导入导出解析">
+      <Card title="Excel导入导出">
         <div className="mb-4">
           <Input
-            className="w-1/4 mr-4"
+            className="w-1/4 mb-2 mr-4"
             placeholder="请输入文件名(默认file)"
             onChange={(event) => setFileName(event.target.value)}
           />
-          <Space className="ml-4">
-            <Upload 
-              accept=".xlsx"
-              fileList={fileList}
-              showUploadList={true}
-              beforeUpload={handleBeforeUploadFile}
-              onRemove={handleRemoveFile}
-            >
-              <Button type="primary">Excel导入</Button>
-            </Upload>
-            <Button type="primary" className="ml-16" onClick={handleExportAll}>
-              Excel导出
-            </Button>
-          </Space>
+          <Button className="mr-4" type="primary" onClick={handleExportAll}>
+            Excel导出
+          </Button>
+          <Upload
+            accept=".xlsx"
+            fileList={fileList}
+            showUploadList={true}
+            beforeUpload={handleBeforeUploadFile}
+            onRemove={handleRemoveFile}
+          >
+            <Button type="primary">Excel导入</Button>
+          </Upload>
         </div>
 
         <Table
