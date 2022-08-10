@@ -131,7 +131,6 @@ router.post("/getTask", (request, response) => {
         const n = (pageNum - 1) * pageSize;
         sqlString += ` LIMIT ${n}, ${pageSize}`;
       }
-      console.log(sqlString);
       executeMysql(sqlString)
         .then((result) => {
           // response.header('Cache-Control', 'max-age=31536000');
