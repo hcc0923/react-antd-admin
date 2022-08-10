@@ -29,12 +29,6 @@ const menuList = [
         icon: <UserOutlined />,
         roles: ["root", "admin"],
       },
-      {
-        label: "角色列表",
-        icon: <SettingOutlined />,
-        key: "/user-menu/role-list",
-        roles: ["root"],
-      },
     ],
   },
   {

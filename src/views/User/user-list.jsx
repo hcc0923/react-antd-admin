@@ -21,6 +21,7 @@ import {
   DeleteOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
+import { useRequest } from "ahooks";
 import Uploading from "@/components/Uploading";
 import {
   getUser,
@@ -31,15 +32,19 @@ import {
 } from "@/api/user";
 import { EmailRegexp, PhoneRegexp } from "@/utils";
 import { SERVER_ADDRESS } from "@/utils/config";
-
-const Options = [
+const genderOptions = [
   { label: "不限", value: -1 },
   { label: "男", value: 0 },
   { label: "女", value: 1 },
 ];
+const roleOptions = [
+  { label: "不限", value: 0 },
+  { label: "用户", value: 1 },
+  { label: "管理员", value: 2 },
+  { label: "超级管理员", value: 3 },
+];
 const UserList = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [spinning, setSpinning] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState("");
   const [userTableData, setUserTableData] = useState([]);
@@ -61,19 +66,33 @@ const UserList = () => {
   });
   const [modalType, setModalType] = useState();
   const searchRef = useRef();
+  const { loading: loadingGetUser, runAsync: runGetUser } = useRequest(
+    (params) => getUser(params),
+    { manual: true, throttleWait: 3000 }
+  );
+  const { loading: loadingaAddUser, runAsync: runAddUser } = useRequest(
+    (params) => addUser(params),
+    { manual: true, throttleWait: 3000 }
+  );
+  const { loading: loadingEditUser, runAsync: runEditUser } = useRequest(
+    (params) => editUser(params),
+    { manual: true, throttleWait: 3000 }
+  );
+  const { loading: loadingDeleteUser, runAsync: runDeleteUser } = useRequest(
+    (params) => deleteUser(params),
+    { manual: true, throttleWait: 3000 }
+  );
+  const { loading: loadingMultipleDelete, runAsync: runMultipleDelete } =
+    useRequest((params) => multipleDelete(params), {
+      manual: true,
+      throttleWait: 3000,
+    });
 
   const handleGetUserList = () => {
-    setSpinning(true);
-    const params = {};
-    for (const key in searchForm) {
-      params[key] = searchForm[key];
-    }
-    for (const key in pagination) {
-      if (key !== "total") {
-        params[key] = pagination[key];
-      }
-    }
-    getUser(params)
+    const params = { ...searchForm, ...pagination };
+    if (params["total"]) delete params["total"];
+
+    runGetUser(params)
       .then((response) => {
         const { result, total } = response;
 
@@ -82,9 +101,6 @@ const UserList = () => {
       })
       .catch((error) => {
         console.log(error);
-      })
-      .finally(() => {
-        setSpinning(false);
       });
   };
   const handlePageChange = (values) => {
@@ -108,13 +124,12 @@ const UserList = () => {
     setModalType(modalType);
     setModalVisible(true);
   };
-  const onSaveAddEditForm = (values) => {
-    if (Object.prototype.toString.call(values.avatar) === "[object Object]") {
-      values.avatar = values.avatar.file.response.file.path;
+  const onSaveAddEditForm = (params) => {
+    if (Object.prototype.toString.call(params.avatar) === "[object Object]") {
+      params.avatar = params.avatar.file.response.file.path;
     }
-    setSpinning(true);
     if (modalType === "add") {
-      addUser(values)
+      runAddUser(params)
         .then(() => {
           message.success("添加成功");
           handleGetUserList();
@@ -123,13 +138,10 @@ const UserList = () => {
         .catch((error) => {
           message.error("添加失败");
           console.log(error);
-        })
-        .finally(() => {
-          setSpinning(false);
         });
     } else {
-      values.id = modalForm.id;
-      editUser(values)
+      params.id = modalForm.id;
+      runEditUser(params)
         .then(() => {
           message.success("编辑成功");
           handleGetUserList();
@@ -138,9 +150,6 @@ const UserList = () => {
         .catch((error) => {
           message.error("编辑失败");
           console.log(error);
-        })
-        .finally(() => {
-          setSpinning(false);
         });
     }
   };
@@ -155,9 +164,8 @@ const UserList = () => {
         </span>
       ),
       onOk: () => {
-        setSpinning(true);
         const params = { id: record.id };
-        deleteUser(params)
+        runDeleteUser(params)
           .then(() => {
             message.success("删除成功");
             handleGetUserList();
@@ -165,23 +173,21 @@ const UserList = () => {
           .catch((error) => {
             message.error("删除失败");
             console.log(error);
-          })
-          .finally(() => {
-            setSpinning(false);
           });
       },
     });
   };
   const handleMultipleDelete = () => {
-    if (!selectedRowKeys.length) return message.error("请先选择要删除的用户！");
+    if (!selectedRowKeys.length) {
+      return message.error("请先选择要删除的用户！");
+    }
     Modal.confirm({
       title: "批量删除",
       icon: <ExclamationCircleOutlined />,
       content: <span>确认删除这些用户吗？</span>,
       onOk: () => {
-        setSpinning(true);
         const params = { ids: selectedRowKeys };
-        multipleDelete(params)
+        runMultipleDelete(params)
           .then(() => {
             message.success("删除成功");
             handleGetUserList();
@@ -189,9 +195,6 @@ const UserList = () => {
           .catch((error) => {
             message.error("删除失败");
             console.log(error);
-          })
-          .finally(() => {
-            setSpinning(false);
           });
       },
     });
@@ -253,6 +256,26 @@ const UserList = () => {
       },
       defaultSortOrder: "ascend",
       sorter: (a, b) => a.gender - b.gender,
+    },
+    {
+      title: "角色",
+      dataIndex: "role",
+      key: "role",
+      align: "center",
+      render: (text) => {
+        switch (text) {
+          case 1:
+            return <span style={{ color: "#000000" }}>用户</span>;
+          case 2:
+            return <span style={{ color: "#FFB800" }}>管理员</span>;
+          case 3:
+            return <span style={{ color: "#3DB327" }}>超级管理员</span>;
+          default:
+            break;
+        }
+      },
+      defaultSortOrder: "ascend",
+      sorter: (a, b) => a.role - b.role,
     },
     {
       title: "手机号码",
@@ -320,7 +343,15 @@ const UserList = () => {
   }, [searchForm, pagination]);
 
   return (
-    <Spin spinning={spinning}>
+    <Spin
+      spinning={
+        loadingGetUser ||
+        loadingaAddUser ||
+        loadingEditUser ||
+        loadingDeleteUser ||
+        loadingMultipleDelete
+      }
+    >
       <Card title="用户列表">
         <Form
           name="search"
@@ -329,15 +360,15 @@ const UserList = () => {
           onFinish={setSearchForm}
         >
           <Row gutter={24}>
-            <Col span={5}>
+            <Col span={4}>
               <Form.Item name="username" label="姓名">
                 <Input placeholder="请输入姓名" />
               </Form.Item>
             </Col>
-            <Col span={5}>
+            <Col span={4}>
               <Form.Item name="gender" label="性别">
                 <Select initialvalue="不限">
-                  {Options.map((option) => (
+                  {genderOptions.map((option) => (
                     <Select.Option key={option.value} value={option.value}>
                       {option.label}
                     </Select.Option>
@@ -345,12 +376,23 @@ const UserList = () => {
                 </Select>
               </Form.Item>
             </Col>
-            <Col span={5}>
+            <Col span={4}>
+              <Form.Item name="role" label="角色">
+                <Select initialvalue="不限">
+                  {roleOptions.map((option) => (
+                    <Select.Option key={option.value} value={option.value}>
+                      {option.label}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col span={4}>
               <Form.Item name="phone" label="手机号码">
                 <Input placeholder="请输入手机号码" />
               </Form.Item>
             </Col>
-            <Col span={5}>
+            <Col span={4}>
               <Form.Item name="email" label="邮箱">
                 <Input placeholder="请输入邮箱" />
               </Form.Item>
@@ -416,6 +458,13 @@ const UserList = () => {
               <Radio.Group>
                 <Radio value={0}>男</Radio>
                 <Radio value={1}>女</Radio>
+              </Radio.Group>
+            </Form.Item>
+            <Form.Item label="角色" name="role">
+              <Radio.Group>
+                <Radio value={1}>用户</Radio>
+                <Radio value={2}>管理员</Radio>
+                <Radio value={3}>超级管理员</Radio>
               </Radio.Group>
             </Form.Item>
             <Form.Item label="头像" name="avatar" valuePropName="avatar">

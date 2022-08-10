@@ -15,6 +15,7 @@ router.post("/getUser", (request, response) => {
       let sqlString = `SELECT id,
                     username,
                     gender,
+                    role,
                     phone,
                     email,
                     time,
@@ -32,6 +33,11 @@ router.post("/getUser", (request, response) => {
           case "gender":
             if (body["gender"] !== -1) {
               sqlString += ` AND gender = ${body[key]}`;
+            }
+            break;
+          case "role":
+            if (body["role"] !== 0) {
+              sqlString += ` AND role = ${body[key]}`;
             }
             break;
           case "phone":
@@ -83,7 +89,7 @@ router.post("/addUser", (request, response) => {
     .then((result) => {
       console.log(result);
       if (result.length === 0) {
-        const sqlString = `INSERT INTO user (username, gender, phone, email, avatar) VALUES('${username}', ${gender}, '${phone}', '${email}', '${avatar}')`;
+        const sqlString = `INSERT INTO user (username, gender, role, phone, email, avatar) VALUES('${username}', ${gender}, ${role}, '${phone}', '${email}', '${avatar}')`;
 
         executeMysql(sqlString)
           .then((result) => {
@@ -114,7 +120,7 @@ router.post("/addUser", (request, response) => {
 
 router.put("/editUser", (request, response) => {
   const { id, username, gender, phone, email, avatar } = request.body;
-  const sqlString = `UPDATE user SET username='${username}', gender=${gender},phone='${phone}' ,email='${email}', avatar='${avatar}'
+  const sqlString = `UPDATE user SET username='${username}', gender=${gender}, role=${role}, phone='${phone}', email='${email}', avatar='${avatar}'
     WHERE id=${id}`;
 
   executeMysql(sqlString)
@@ -190,6 +196,7 @@ router.get("/getUserDetail/:id", (request, response) => {
   const sqlString = `SELECT id,
         username,
         gender,
+        role,
         phone,
         email,
         avatar,
@@ -231,7 +238,7 @@ router.put("/uploadAvatar", (request, response) => {
 
 router.put("/updateUser", (request, response) => {
   const { id, username, gender, phone, email, avatar, remark } = request.body;
-  const sqlString = `UPDATE user SET username='${username}', gender=${gender}, phone='${phone}', email='${email}', avatar='${avatar}', remark='${remark}'
+  const sqlString = `UPDATE user SET username='${username}', gender=${gender}, role=${role}, phone='${phone}', email='${email}', avatar='${avatar}', remark='${remark}'
     WHERE id=${id}`;
 
   executeMysql(sqlString)
@@ -289,86 +296,6 @@ router.put("/updatePassword", (request, response) => {
       } else {
         response.send({
           message: "修改失败",
-        });
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-});
-
-router.post("/getRole", (request, response) => {
-  const sqlString = `SELECT id
-    FROM user`;
-
-  executeMysql(sqlString)
-    .then((result) => {
-      const { length: total } = result;
-      const { body } = request;
-      const { pageNum: queryPageNum, pageSize: queryPageSize } = body;
-      let sqlString = `SELECT id,
-                username,
-                role
-            FROM user
-            WHERE 1 = 1`;
-      Object.keys(body).forEach((key) => {
-        switch (key) {
-          case "id":
-            if (body["id"] !== 0) {
-              sqlString += ` AND id =  ${Number(body[key])}`;
-            }
-            break;
-          case "username":
-            if (body["username"] !== "") {
-              sqlString += ` AND username = '${body[key]}'`;
-            }
-            break;
-          case "role":
-            if (body["role"] !== 0) {
-              sqlString += ` AND role = ${Number(body[key])}`;
-            }
-            break;
-          default:
-            break;
-        }
-      });
-
-      if (queryPageNum && queryPageSize) {
-        const pageNum = Number(queryPageNum);
-        const pageSize = Number(queryPageSize);
-        const n = (pageNum - 1) * pageSize;
-        sqlString += ` LIMIT ${n}, ${pageSize}`;
-      }
-      executeMysql(sqlString)
-        .then((result) => {
-          // response.header('Cache-Control', 'max-age=31536000');
-          response.send({
-            code: 200,
-            message: "获取成功",
-            result,
-            total,
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-});
-
-router.put("/editRole", (request, response) => {
-  const { id, role } = request.body;
-  const sqlString = `UPDATE user SET role = ${role}
-    WHERE id=${id}`;
-
-  executeMysql(sqlString)
-    .then((result) => {
-      if (result.affectedRows > 0) {
-        response.send({
-          code: 200,
-          message: "编辑成功",
         });
       }
     })

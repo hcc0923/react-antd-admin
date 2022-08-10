@@ -10,10 +10,6 @@ const routeList = [
     component: React.lazy(() => import("@/views/User/user-list")),
   },
   {
-    path: "/user-menu/role-list",
-    component: React.lazy(() => import("@/views/User/role-list")),
-  },
-  {
     path: "/setting-menu/user-setting/basic-info",
     component: React.lazy(() => import("@/views/Setting/My/basic-info")),
   },

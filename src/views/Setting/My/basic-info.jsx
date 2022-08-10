@@ -28,6 +28,7 @@ const BasicInfo = (props) => {
     id: 0,
     username: "",
     gender: 0,
+    role: 1,
     avatar: "",
     phone: "",
     email: "",
@@ -132,6 +133,13 @@ const BasicInfo = (props) => {
             <Radio.Group>
               <Radio value={0}>男</Radio>
               <Radio value={1}>女</Radio>
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item label="角色" name="role">
+            <Radio.Group>
+              <Radio value={1}>用户</Radio>
+              <Radio value={2}>管理员</Radio>
+              <Radio value={3}>超级管理员</Radio>
             </Radio.Group>
           </Form.Item>
           <Form.Item label="头像" name="avatar" valuePropName="avatar">
