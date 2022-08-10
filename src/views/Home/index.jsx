@@ -23,10 +23,10 @@ import {
 import { getTask, addTask, editTask, deleteTask } from "@/api/task";
 
 const Options = [
-  { label: "不限", value: 0 },
-  { label: "一般", value: 1 },
-  { label: "重要", value: 2 },
-  { label: "紧急", value: 3 },
+  { label: "不限", value: "0" },
+  { label: "一般", value: "1" },
+  { label: "重要", value: "2" },
+  { label: "紧急", value: "3" },
 ];
 const TaskList = () => {
   const [spinning, setSpinning] = useState(false);
@@ -40,7 +40,7 @@ const TaskList = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalForm, setModalForm] = useState({
     taskname: "",
-    tasklevel: 0,
+    tasklevel: "0",
   });
   const [modalType, setModalType] = useState();
   const searchRef = useRef();
@@ -80,7 +80,7 @@ const TaskList = () => {
     } else {
       setModalForm({
         taskname: "",
-        tasklevel: 0,
+        tasklevel: "1",
       });
     }
     setModalType(modalType);
@@ -170,11 +170,11 @@ const TaskList = () => {
       align: "center",
       render: (text) => {
         switch (text) {
-          case 1:
+          case "1":
             return <span style={{ color: "#000000" }}>一般</span>;
-          case 2:
+          case "2":
             return <span style={{ color: "#FFB800" }}>重要</span>;
-          case 3:
+          case "3":
             return <span style={{ color: "#3DB327" }}>紧急</span>;
           default:
             break;
@@ -290,9 +290,9 @@ const TaskList = () => {
             </Form.Item>
             <Form.Item label="优先级" name="tasklevel">
               <Radio.Group>
-                <Radio value={1}>一般</Radio>
-                <Radio value={2}>重要</Radio>
-                <Radio value={3}>紧急</Radio>
+                <Radio value={"1"}>一般</Radio>
+                <Radio value={"2"}>重要</Radio>
+                <Radio value={"3"}>紧急</Radio>
               </Radio.Group>
             </Form.Item>
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
