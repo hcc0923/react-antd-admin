@@ -68,24 +68,24 @@ const UserList = () => {
   const searchRef = useRef();
   const { loading: loadingGetUser, runAsync: runGetUser } = useRequest(
     (params) => getUser(params),
-    { manual: true, throttleWait: 3000 }
+    { manual: true, throttleWait: 1000 }
   );
   const { loading: loadingaAddUser, runAsync: runAddUser } = useRequest(
     (params) => addUser(params),
-    { manual: true, throttleWait: 3000 }
+    { manual: true, throttleWait: 1000 }
   );
   const { loading: loadingEditUser, runAsync: runEditUser } = useRequest(
     (params) => editUser(params),
-    { manual: true, throttleWait: 3000 }
+    { manual: true, throttleWait: 1000 }
   );
   const { loading: loadingDeleteUser, runAsync: runDeleteUser } = useRequest(
     (params) => deleteUser(params),
-    { manual: true, throttleWait: 3000 }
+    { manual: true, throttleWait: 1000 }
   );
   const { loading: loadingMultipleDelete, runAsync: runMultipleDelete } =
     useRequest((params) => multipleDelete(params), {
       manual: true,
-      throttleWait: 3000,
+      throttleWait: 1000,
     });
 
   const handleGetUserList = () => {
@@ -360,12 +360,12 @@ const UserList = () => {
           onFinish={setSearchForm}
         >
           <Row gutter={24}>
-            <Col span={4}>
+            <Col span={3}>
               <Form.Item name="username" label="姓名">
                 <Input placeholder="请输入姓名" />
               </Form.Item>
             </Col>
-            <Col span={4}>
+            <Col span={3}>
               <Form.Item name="gender" label="性别">
                 <Select initialvalue="不限">
                   {genderOptions.map((option) => (
@@ -376,7 +376,7 @@ const UserList = () => {
                 </Select>
               </Form.Item>
             </Col>
-            <Col span={4}>
+            <Col span={3}>
               <Form.Item name="role" label="角色">
                 <Select initialvalue="不限">
                   {roleOptions.map((option) => (
@@ -387,17 +387,17 @@ const UserList = () => {
                 </Select>
               </Form.Item>
             </Col>
-            <Col span={4}>
+            <Col span={5}>
               <Form.Item name="phone" label="手机号码">
                 <Input placeholder="请输入手机号码" />
               </Form.Item>
             </Col>
-            <Col span={4}>
+            <Col span={5}>
               <Form.Item name="email" label="邮箱">
                 <Input placeholder="请输入邮箱" />
               </Form.Item>
             </Col>
-            <Col span={4}>
+            <Col span={5}>
               <Space>
                 <Button type="primary" htmlType="submit">
                   查询

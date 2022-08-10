@@ -80,7 +80,7 @@ router.post("/getUser", (request, response) => {
 });
 
 router.post("/addUser", (request, response) => {
-  const { username, gender, phone, email, avatar } = request.body;
+  const { username, gender, role, phone, email, avatar } = request.body;
   const sqlString = `SELECT id
     FROM user
     WHERE email='${email}'`;
@@ -119,7 +119,7 @@ router.post("/addUser", (request, response) => {
 });
 
 router.put("/editUser", (request, response) => {
-  const { id, username, gender, phone, email, avatar } = request.body;
+  const { id, username, gender, role, phone, email, avatar } = request.body;
   const sqlString = `UPDATE user SET username='${username}', gender=${gender}, role=${role}, phone='${phone}', email='${email}', avatar='${avatar}'
     WHERE id=${id}`;
 
@@ -237,7 +237,7 @@ router.put("/uploadAvatar", (request, response) => {
 });
 
 router.put("/updateUser", (request, response) => {
-  const { id, username, gender, phone, email, avatar, remark } = request.body;
+  const { id, username, gender, role, phone, email, avatar, remark } = request.body;
   const sqlString = `UPDATE user SET username='${username}', gender=${gender}, role=${role}, phone='${phone}', email='${email}', avatar='${avatar}', remark='${remark}'
     WHERE id=${id}`;
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Spin, Card, Tabs, List, Upload, Space, Button, message } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
+import { useRequest } from "ahooks";
 import { formatGMTTime } from "@/utils";
 import { SERVER_ADDRESS } from "@/utils/config";
 import {
@@ -17,6 +18,25 @@ const FileAdmin = () => {
   const [uploadFileList, setUploadFileList] = useState([]);
   const [fileList, setFileList] = useState([]);
   const [myUploadList, setMyUploadList] = useState([]);
+  const { loading: loadingMultipleFile, runAsync: runUploadMultipleFile } =
+    useRequest((params) => uploadMultipleFile(params), {
+      manual: true,
+      throttleWait: 1000,
+    });
+  const { loading: loadingGetAllFileList, runAsync: runGetAllFileList } =
+    useRequest(getAllFileList, { manual: true, throttleWait: 1000 });
+  const { loading: loadingGetMyUploadList, runAsync: runGetMyUploadList } =
+    useRequest(getMyUploadList, { manual: true, throttleWait: 1000 });
+  const { loading: loadingDeleteSingleFile, runAsync: runDeleteSingleFile } =
+    useRequest((params) => deleteSingleFile(params), {
+      manual: true,
+      throttleWait: 1000,
+    });
+  const { loading: loadingDeleteAllFile, runAsync: runDeleteAllFile } =
+    useRequest((params) => deleteAllFile(params), {
+      manual: true,
+      throttleWait: 1000,
+    });
 
   const handleBeforeUploadFile = (fileList) => {
     setUploadFileList([...uploadFileList, ...fileList]);
@@ -36,7 +56,7 @@ const FileAdmin = () => {
       formData.append("files", file);
     });
 
-    uploadMultipleFile(formData)
+    runUploadMultipleFile(formData)
       .then(() => {
         setUploadFileList([]);
         message.success("上传成功");
@@ -50,31 +70,23 @@ const FileAdmin = () => {
       });
   };
   const handleGetAllFileList = () => {
-    setSpinning(true);
-    getAllFileList()
+    runGetAllFileList()
       .then((response) => {
         const { result } = response;
         setFileList(result);
       })
       .catch((error) => {
         console.log(error);
-      })
-      .finally(() => {
-        setSpinning(false);
       });
   };
   const handleGetMyUploadFileList = () => {
-    setSpinning(true);
-    getMyUploadList()
+    runGetMyUploadList()
       .then((response) => {
         const { result } = response;
         setMyUploadList(result);
       })
       .catch((error) => {
         console.log(error);
-      })
-      .finally(() => {
-        setSpinning(false);
       });
   };
   const handleTabChange = (key) => {
@@ -90,7 +102,6 @@ const FileAdmin = () => {
     }
   };
   const handleDownloadFile = (type) => {
-    console.log(type);
     setSpinning(true);
     switch (type) {
       case "filelist":
@@ -114,7 +125,6 @@ const FileAdmin = () => {
     }
   };
   const handleDeleteFile = (data) => {
-    setSpinning(true);
     if (data === "uploadlist") {
       const deleteParams = myUploadList.map((file) => {
         return {
@@ -123,7 +133,7 @@ const FileAdmin = () => {
         };
       });
       const params = { deleteParams };
-      deleteAllFile(params)
+      runDeleteAllFile(params)
         .then(() => {
           handleGetMyUploadFileList();
           message.success("删除成功");
@@ -131,29 +141,31 @@ const FileAdmin = () => {
         .catch((error) => {
           console.log(error);
           message.error("删除失败");
-        })
-        .finally(() => {
-          setSpinning(false);
         });
     } else {
       const params = { id: data.id, name: data.name };
-      deleteSingleFile(params)
+      runDeleteSingleFile(params)
         .then(() => {
           handleGetMyUploadFileList();
           message.success("删除成功");
         })
         .catch((error) => {
           console.log(error);
-          message.error("删除失败");
-        })
-        .finally(() => {
-          setSpinning(false);
         });
     }
   };
 
   return (
-    <Spin spinning={spinning}>
+    <Spin
+      spinning={
+        loadingMultipleFile ||
+        loadingGetAllFileList ||
+        loadingGetMyUploadList ||
+        loadingDeleteSingleFile ||
+        loadingDeleteAllFile ||
+        spinning
+      }
+    >
       <Card title="文件管理">
         <Tabs defaultActiveKey="upload" onChange={handleTabChange}>
           <Tabs.TabPane tab="上传文件" key="upload">

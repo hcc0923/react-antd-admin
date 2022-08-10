@@ -11,6 +11,7 @@ import {
   Upload,
   message,
 } from "antd";
+import { useRequest } from "ahooks";
 import Uploading from "@/components/Uploading";
 import { getUserDetail, updateUser } from "@/api/user";
 import { setUserInfo } from "@/store/actions/user";
@@ -20,7 +21,6 @@ import { SERVER_ADDRESS } from "@/utils/config";
 const BasicInfo = (props) => {
   const { user, setUserInfo } = props;
   const { userInfo } = user;
-  const [spinning, setSpinning] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState("");
   const formRef = useRef();
@@ -34,6 +34,15 @@ const BasicInfo = (props) => {
     email: "",
     remark: "",
   };
+  const { loading: loadingGetUserDetail, runAsync: runGetUserDetail } =
+    useRequest((params) => getUserDetail(params), {
+      manual: true,
+      throttleWait: 1000,
+    });
+  const { loading: loadingUpdateUser, runAsync: runUpdateUser } = useRequest(
+    (params) => updateUser(params),
+    { manual: true, throttleWait: 1000 }
+  );
 
   const handleBeforeUpload = (file) => {
     if (file.type !== "image/jpeg" && file.type !== "image/png") {
@@ -63,24 +72,20 @@ const BasicInfo = (props) => {
         break;
     }
   };
-  const handleSubmitForm = (values) => {
-    setSpinning(true);
-    values["avatar"] = avatarUrl;
-    updateUser(values)
+  const handleSubmitForm = (params) => {
+    params["avatar"] = avatarUrl;
+    runUpdateUser(params)
       .then(() => {
         setUserInfo({
           ...userInfo,
-          username: values["username"],
-          avatar: values["avatar"],
+          username: params["username"],
+          avatar: params["avatar"],
         });
         message.success("保存成功");
       })
       .catch((error) => {
         message.error("保存失败");
         console.log(error);
-      })
-      .finally(() => {
-        setSpinning(false);
       });
   };
   const handleResetForm = () => {
@@ -90,19 +95,16 @@ const BasicInfo = (props) => {
     formRef.current.setFieldsValue({ id });
   };
   const handleGetUserDetail = () => {
-    setSpinning(true);
-    getUserDetail(userInfo.id)
-      .then((result) => {
-        const data = result.result[0];
+    runGetUserDetail(userInfo.id)
+      .then((response) => {
+        const { result } = response;
+        const data = result[0];
 
         setAvatarUrl(data.avatar);
         formRef.current.setFieldsValue(data);
       })
       .catch((error) => {
         console.log(error);
-      })
-      .finally(() => {
-        setSpinning(false);
       });
   };
   useEffect(() => {
@@ -110,7 +112,7 @@ const BasicInfo = (props) => {
   }, []);
 
   return (
-    <Spin spinning={spinning}>
+    <Spin spinning={loadingGetUserDetail || loadingUpdateUser}>
       <Card title="基本资料">
         <Form
           labelCol={{ span: 4 }}

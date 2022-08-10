@@ -1,38 +1,44 @@
 import React, { useState } from "react";
 import { Card, Form, Input, Button, Space, Spin, message } from "antd";
 import CryptoJS from "crypto-js";
+import { useRequest } from "ahooks";
 import { checkPassword, updatePassword } from "@/api/user";
 
 const ModifyPassword = (props) => {
   const { history } = props;
-  const [spinning, setSpinning] = useState(false);
   const [isFirst, setIsFirst] = useState(true);
   const [verifyPassword, setVerifyPassword] = useState(false);
+  const { loading: loadingCheckPassword, runAsync: runCheckPassword } =
+    useRequest((params) => checkPassword(params), {
+      manual: true,
+      throttleWait: 1000,
+    });
+  const { loading: loadingUpdatePassword, runAsync: runUpdatePassword } =
+    useRequest((params) => updatePassword(params), {
+      manual: true,
+      throttleWait: 1000,
+    });
 
   const handleVerifyPassword = (event) => {
     setIsFirst(false);
     const value = event.target.value;
-    if (value === "") return message.error("当前密码不能为空");
+    if (value === "") {
+      return message.error("当前密码不能为空");
+    }
 
-    setSpinning(true);
     const params = { password: CryptoJS.MD5(value).toString() };
-
-    checkPassword(params)
+    runCheckPassword(params)
       .then(() => {
         setVerifyPassword(true);
       })
       .catch((error) => {
         console.log(error);
-      })
-      .finally(() => {
-        setSpinning(false);
       });
   };
   const handleSubmitForm = (values) => {
-    setSpinning(true);
     const params = { newPassword: CryptoJS.MD5(values.newPassword).toString() };
 
-    updatePassword(params)
+    runUpdatePassword(params)
       .then(() => {
         message.success("修改成功，请重新登录");
         localStorage.clear();
@@ -40,14 +46,11 @@ const ModifyPassword = (props) => {
       })
       .catch((error) => {
         console.log(error);
-      })
-      .finally(() => {
-        setSpinning(false);
       });
   };
 
   return (
-    <Spin spinning={spinning}>
+    <Spin spinning={loadingCheckPassword || loadingUpdatePassword}>
       <Card title="修改密码">
         <Form
           labelCol={{ span: 4 }}
