@@ -2,12 +2,9 @@ import Axios from "axios";
 import { message } from "antd";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
-import { SERVER_ADDRESS } from "@/utils/config";
 
-const HTTP_API = SERVER_ADDRESS;
 const WHITE_API = ["/login/userLogin", "/login/userRegister"];
 const request = Axios.create({
-  baseURL: HTTP_API,
   timeout: 1000 * 5,
   withCredentials: true,
 });
