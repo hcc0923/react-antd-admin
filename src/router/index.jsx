@@ -3,6 +3,7 @@ import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import Layout from "@/views/Layout";
 import Login from "@/views/Login/login";
+import Forget from "@/views/Login/forget";
 
 function Router(props) {
   const { user } = props;
@@ -12,6 +13,7 @@ function Router(props) {
     <HashRouter>
       <Switch>
         <Route exact path="/login" component={Login} />
+        <Route exact path="/forget" component={Forget} />
         <Route
           path="/"
           render={() => {

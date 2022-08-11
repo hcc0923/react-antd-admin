@@ -20,6 +20,7 @@ import {
   DeleteOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
+import { useRequest } from "ahooks";
 import { getTask, addTask, editTask, deleteTask } from "@/api/task";
 
 const Options = [
@@ -29,7 +30,6 @@ const Options = [
   { label: "紧急", value: "3" },
 ];
 const TaskList = () => {
-  const [spinning, setSpinning] = useState(false);
   const [taskTableData, setTaskTableData] = useState([]);
   const [searchForm, setSearchForm] = useState({
     taskname: "",
@@ -44,19 +44,26 @@ const TaskList = () => {
   });
   const [modalType, setModalType] = useState();
   const searchRef = useRef();
+  const { loading: loadingGetTask, runAsync: runGetTask } = useRequest(
+    (params) => getTask(params),
+    { manual: true, throttleWait: 1000 }
+  );
+  const { loading: loadingAddTask, runAsync: runAddTask } = useRequest(
+    (params) => addTask(params),
+    { manual: true, throttleWait: 1000 }
+  );
+  const { loading: loadingEditTask, runAsync: runEditTask } = useRequest(
+    (params) => editTask(params),
+    { manual: true, throttleWait: 1000 }
+  );
+  const { loading: loadingDeleteTask, runAsync: runDeleteTask } = useRequest(
+    (params) => deleteTask(params),
+    { manual: true, throttleWait: 1000 }
+  );
 
   const handleGetTaskList = () => {
-    setSpinning(true);
-    const params = {};
-    for (const key in searchForm) {
-      params[key] = searchForm[key];
-    }
-    for (const key in pagination) {
-      if (key !== "total") {
-        params[key] = pagination[key];
-      }
-    }
-    getTask(params)
+    const params = { ...searchForm, ...pagination };
+    runGetTask(params)
       .then((response) => {
         const { result, total } = response;
 
@@ -65,9 +72,6 @@ const TaskList = () => {
       })
       .catch((error) => {
         console.log(error);
-      })
-      .finally(() => {
-        setSpinning(false);
       });
   };
   const handlePageChange = (values) => {
@@ -87,9 +91,8 @@ const TaskList = () => {
     setModalVisible(true);
   };
   const onSaveAddEditForm = (values) => {
-    setSpinning(true);
     if (modalType === "add") {
-      addTask(values)
+      runAddTask(values)
         .then(() => {
           message.success("添加成功");
           handleGetTaskList();
@@ -98,13 +101,10 @@ const TaskList = () => {
         .catch((error) => {
           message.error("添加失败");
           console.log(error);
-        })
-        .finally(() => {
-          setSpinning(false);
         });
     } else {
       values.id = modalForm.id;
-      editTask(values)
+      runEditTask(values)
         .then(() => {
           message.success("编辑成功");
           handleGetTaskList();
@@ -113,9 +113,6 @@ const TaskList = () => {
         .catch((error) => {
           message.error("编辑失败");
           console.log(error);
-        })
-        .finally(() => {
-          setSpinning(false);
         });
     }
   };
@@ -130,9 +127,8 @@ const TaskList = () => {
         </span>
       ),
       onOk: () => {
-        setSpinning(true);
         const params = { id: record.id };
-        deleteTask(params)
+        runDeleteTask(params)
           .then(() => {
             message.success("删除成功");
             handleGetTaskList();
@@ -140,14 +136,10 @@ const TaskList = () => {
           .catch((error) => {
             message.error("删除失败");
             console.log(error);
-          })
-          .finally(() => {
-            setSpinning(false);
           });
       },
     });
   };
-
   const columns = [
     {
       title: "ID",
@@ -211,7 +203,11 @@ const TaskList = () => {
   }, [searchForm, pagination]);
 
   return (
-    <Spin spinning={spinning}>
+    <Spin
+      spinning={
+        loadingGetTask || loadingAddTask || loadingEditTask || loadingDeleteTask
+      }
+    >
       <Card title="任务列表">
         <Form
           name="search"
