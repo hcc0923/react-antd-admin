@@ -96,7 +96,7 @@ const menuList = [
       {
         label: "全国地图",
         key: "/chart/china",
-        roles: ["root", "admin", "user"],
+        roles: ["root", "admin"],
       },
     ],
   },

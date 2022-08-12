@@ -5,9 +5,14 @@ import Login from "@/views/Login/login";
 import Forget from "@/views/Login/forget";
 import Layout from "@/views/Layout";
 import routeList from "@/router/routeList";
+import { formatRole } from "@/utils";
 
 function Router(props) {
   const { user } = props;
+  const { userInfo } = user;
+  const handleFilterComponent = (route) => {
+    return route.roles.includes(formatRole(userInfo.role));
+  };
 
   return (
     <HashRouter>
@@ -19,11 +24,13 @@ function Router(props) {
             <Route index element={<Navigate to="/home" />} />
             {routeList.map((route) => {
               return (
-                <Route
-                  key={route.path}
-                  path={route.path}
-                  element={<route.component />}
-                />
+                handleFilterComponent(route) && (
+                  <Route
+                    key={route.path}
+                    path={route.path}
+                    element={<route.component />}
+                  />
+                )
               );
             })}
           </Route>
