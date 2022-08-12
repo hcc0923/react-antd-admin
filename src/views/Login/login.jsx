@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { Spin, Form, Input, Button, message } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
@@ -10,7 +10,8 @@ import { setToken, setUserInfo } from "@/store/actions/user";
 import { EmailRegexp, formatGMTTime } from "@/utils";
 
 const Login = (props) => {
-  const { history, setToken, setUserInfo } = props;
+  const { setToken, setUserInfo } = props;
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [overlay, setOverlay] = useState({ isLogin: true, step: 100 });
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
@@ -54,7 +55,7 @@ const Login = (props) => {
         setUserInfo(userInfo);
         localStorage.setItem("user", JSON.stringify({ token, userInfo }));
         if (isRegistered) message.destroy("loading");
-        history.push("/home");
+        navigate("/home");
         message.success("登陆成功");
       })
       .catch((error) => {
@@ -285,4 +286,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login));
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

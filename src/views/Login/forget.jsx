@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Spin, Form, Input, Button, message } from "antd";
 import CryptoJS from "crypto-js";
 import { useRequest } from "ahooks";
@@ -7,8 +7,8 @@ import { findEmail, sendEmail, resetPassword } from "@/api/login";
 import { EmailRegexp } from "@/utils";
 import { EMAIL_KEY } from "@/utils/config";
 
-const Forget = (props) => {
-  const { history } = props;
+const Forget = () => {
+  const navigate = useNavigate();
   const [formType, setFormType] = useState("validate");
   const [validateForm, setValidateForm] = useState({ email: "", code: "" });
   const [resetForm, setResetForm] = useState({
@@ -107,7 +107,7 @@ const Forget = (props) => {
       .then(() => {
         message.success("密码重置成功，请到重新登录账号");
         localStorage.removeItem("validateEmail");
-        history.push("/login");
+        navigate("/login");
       })
       .catch((error) => {
         message.error("密码重置失败");

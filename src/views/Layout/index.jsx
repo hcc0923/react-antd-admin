@@ -1,12 +1,16 @@
-import React from "react";
+import React, { Suspense } from "react";
+import { useLocation, Outlet } from "react-router-dom";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { connect } from "react-redux";
 import { Layout } from "antd";
 import Sider from "./Sider";
 import Header from "./Header";
-import Content from "./Content";
 import Tags from "@/components/Tags";
+const { Content } = Layout;
 
 const LayoutPage = (props) => {
+  const location = useLocation();
+  const { pathname } = location;
   const { settings } = props;
 
   return (
@@ -21,7 +25,26 @@ const LayoutPage = (props) => {
       >
         <Header />
         {settings.showTag ? <Tags /> : null}
-        <Content />
+        <Content
+          style={{
+            height: "calc(100% - 100px)",
+            width: "100%",
+            padding: "1rem",
+          }}
+        >
+          <TransitionGroup>
+            <CSSTransition
+              key={pathname}
+              timeout={500}
+              classNames="fade"
+              exit={false}
+            >
+              <Suspense fallback={<></>}>
+                <Outlet />
+              </Suspense>
+            </CSSTransition>
+          </TransitionGroup>
+        </Content>
       </Layout>
     </Layout>
   );

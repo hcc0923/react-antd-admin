@@ -1,11 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { Provider } from 'react-redux';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
 import { ConfigProvider } from "antd";
 import zhCN from "antd/es/locale/zh_CN";
-import store from '@/store/store.js';
-import Router from '@/router/index';
-import './index.less';
+import store from "@/store/store.js";
+import Router from "@/router/index";
+import "./main.less";
 
 const App = () => {
   if (!window.global) window.global = globalThis;
@@ -16,6 +16,6 @@ const App = () => {
       </Provider>
     </ConfigProvider>
   );
-}
+};
 
-ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);

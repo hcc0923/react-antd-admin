@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { withRouter } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import DocumentTitle from "react-document-title";
 import { Layout, Menu } from "antd";
@@ -10,7 +10,9 @@ import { addTag } from "@/store/actions/tag";
 import { formatRole } from "@/utils";
 
 const Sider = (props) => {
-  const { location, history, user, settings, setCollapse, addTag } = props;
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { user, settings, setCollapse, addTag } = props;
   const { pathname } = location;
   const { userInfo } = user;
   const { collapsed } = settings;
@@ -59,7 +61,7 @@ const Sider = (props) => {
     const { key, domEvent } = data;
     setDocumentTitle(domEvent.target.innerText);
     addTag({ label: domEvent.target.innerText, key });
-    history.push(key);
+    navigate(key);
   };
   const handleDocumentTitle = (menuList, pathname) => {
     menuList.forEach((item) => {
@@ -119,4 +121,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Sider));
+export default connect(mapStateToProps, mapDispatchToProps)(Sider);

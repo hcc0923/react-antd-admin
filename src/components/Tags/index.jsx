@@ -1,27 +1,29 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { Tag } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { deleteTag } from "@/store/actions/tag";
 
 const TagView = (props) => {
-  const { location, history, tag, deleteTag } = props;
+  const location = useLocation();
+  const navigate = useNavigate();
   const { pathname } = location;
+  const { tag, deleteTag } = props;
 
   const onCloseTag = (item) => {
     const tagLength = tag.length;
     if (pathname === item.key && item.key === tag[tagLength - 1].key) {
-      history.push(tag[tagLength - 2].key);
+      navigate(tag[tagLength - 2].key);
     }
     if (pathname === item.key && item.key !== tag[tagLength - 1].key) {
       const tagIndex = tag.findIndex((tagItem) => tagItem.key === item.key);
-      history.push(tag[tagIndex + 1].key);
+      navigate(tag[tagIndex + 1].key);
     }
     deleteTag(item);
   };
   const onClickTag = (item) => {
-    history.push(item.key);
+    navigate(item.key);
   };
 
   return (
@@ -51,7 +53,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withRouter(TagView));
+export default connect(mapStateToProps, mapDispatchToProps)(TagView);

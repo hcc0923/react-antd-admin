@@ -85,6 +85,10 @@ const routeList = [
     path: "/error/server-error",
     component: React.lazy(() => import("@/views/Error/server-error")),
   },
+  {
+    path: "*",
+    component: React.lazy(() => import("@/views/Error/not-found")),
+  },
 ];
 
 export default routeList;

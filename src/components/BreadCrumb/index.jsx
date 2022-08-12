@@ -1,10 +1,10 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Breadcrumb } from "antd";
 import menuList from "@/router/menuList";
 
-const BreadCrumb = (props) => {
-  const { location } = props;
+const BreadCrumb = () => {
+  const location = useLocation();
   let { pathname } = location;
   if (pathname === "/") pathname = "/home";
   const handleBreadCrumb = (menuList, pathname) => {
@@ -53,4 +53,4 @@ const BreadCrumb = (props) => {
   );
 };
 
-export default withRouter(BreadCrumb);
+export default BreadCrumb;
