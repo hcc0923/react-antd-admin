@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const executeMysql = require("../utils/database");
-const { emailAuthCode } = require("../utils/authCode");
+const { generateEmailCode } = require("../utils/authCode");
 const { secretKey } = require("../utils/config");
 
 router.post("/userLogin", (request, response) => {
@@ -109,12 +109,12 @@ router.post("/findEmail", (request, response) => {
 
 router.post("/sendEmail", (request, response) => {
   const { email } = request.body;
-  const userAuthCode = emailAuthCode(email);
+  const emailAuthCode = generateEmailCode(email);
 
   response.send({
     code: 200,
     message: "发送成功",
-    userAuthCode,
+    emailAuthCode,
   });
 });
 

@@ -24,7 +24,6 @@ const {
 
 const app = express();
 
-// load middlewares
 app
   .use(favicon(path.join(__dirname, "static", "favicon.ico")))
   .use(compression())
@@ -48,11 +47,12 @@ app
     }
   });
 
-// load routes
-app.use("/login", loginRouter);
-app.use("/task", taskRouter).use("/user", userRouter).use("/file", fileRouter);
+app
+  .use("/login", loginRouter)
+  .use("/task", taskRouter)
+  .use("/user", userRouter)
+  .use("/file", fileRouter);
 
-// listen server
 app.listen(serverConfig.port, "0.0.0.0", () => {
   console.log("server is running in http://localhost:" + serverConfig.port);
 });

@@ -63,7 +63,7 @@ const Forget = () => {
     runSendEmail(params)
       .then((response) => {
         const authCode = CryptoJS.AES.decrypt(
-          response.userAuthCode,
+          response.emailAuthCode,
           EMAIL_KEY
         ).toString(CryptoJS.enc.Utf8);
         setAuthCode(authCode);

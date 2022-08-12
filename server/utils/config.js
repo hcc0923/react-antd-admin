@@ -1,16 +1,13 @@
-// server config
 const serverConfig = {
   port: 3001,
 };
 
-// cross domain config
 const corsConfig = {
   origin: ["http://localhost:3000"],
   methods: ["GET", "OPTIONS", "POST", "PUT", "DELETE"],
   credentials: true,
 };
 
-// database config
 const mysqlConfig = {
   connectionLimit: 10,
   host: "127.0.0.1",
@@ -20,10 +17,8 @@ const mysqlConfig = {
   database: "user",
 };
 
-// secret key
 const secretKey = "key";
 
-// white list
 const whiteList = [
   "/login/userLogin",
   "/login/userRegister",
@@ -34,7 +29,6 @@ const whiteList = [
   "/file/uploadFiles",
 ];
 
-// email config
 const emailConfig = {
   neteaseConfig: {
     service: "smtp.163.com",
@@ -42,18 +36,8 @@ const emailConfig = {
     secure: true,
     port: 465,
     auth: {
-      user: "hcc96923@163.com",
-      pass: "DYSUSQVPAHWUAYBX",
-    },
-  },
-  qqConfig: {
-    service: "smtp.qq.com",
-    host: "smtp.qq.com",
-    secure: true,
-    port: 465,
-    auth: {
-      user: "734499162@qq.com",
-      pass: "tlhfreucwmcobbac",
+      user: "15657122362@163.com",
+      pass: "GXGDVPAWNTITQWTZ",
     },
   },
   secretKey: "emailSecretKey",
