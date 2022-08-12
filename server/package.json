@@ -1,7 +1,7 @@
 {
   "name": "react-antd-admin",
   "version": "1.0.0",
-  "description": "",
+  "description": "react-antd-admin-back-end",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -20,7 +20,7 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.4",
     "mysql": "^2.18.1",
-    "nodemailer": "^6.7.7",
+    "nodemailer": "^6.7.8",
     "nodemon": "^2.0.19",
     "serve-favicon": "^2.5.0"
   }
