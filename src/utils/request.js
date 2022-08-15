@@ -5,7 +5,7 @@ import "nprogress/nprogress.css";
 import { SERVER_ADDRESS } from "@/utils/config";
 
 const HTTP_API = SERVER_ADDRESS;
-const WHITE_API = ["/login/userLogin", "/login/userRegister"];
+const WHITE_API = ["/login/userLogin", "/login/userRegister", "/login/findEmail"];
 const request = Axios.create({
   baseURL: HTTP_API,
   timeout: 1000 * 5,

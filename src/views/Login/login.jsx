@@ -5,7 +5,7 @@ import { Spin, Form, Input, Button, message } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import CryptoJS from "crypto-js";
 import { useRequest } from "ahooks";
-import { userLogin, userRegister } from "@/api/login";
+import { userLogin, userRegister, findEmail } from "@/api/login";
 import { setToken, setUserInfo } from "@/store/actions/user";
 import { EmailRegexp, formatGMTTime } from "@/utils";
 
@@ -17,11 +17,19 @@ const Login = (props) => {
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
   const [registerForm, setRegisterForm] = useState({ email: "", password: "" });
   const { loading: loadingUserLogin, runAsync: runUserLogin } = useRequest(
-    userLogin,
+    (params) => userLogin(params),
     { manual: true, throttleWait: 1000 }
   );
   const { loading: loadingUserRegister, runAsync: runUserRegister } =
-    useRequest(userRegister, { manual: true, throttleWait: 1000 });
+    useRequest((params) => userRegister(params), {
+      manual: true,
+      throttleWait: 1000,
+    });
+
+  const { loading: loadingFindEmail, runAsync: runFindEmail } = useRequest(
+    (params) => findEmail(params),
+    { manual: true, throttleWait: 1000 }
+  );
 
   const handleToggleOverlay = (step) => {
     setOverlay({ isLogin: !overlay.isLogin, step });
@@ -36,14 +44,13 @@ const Login = (props) => {
     }
   };
   const handleLogin = (values, isRegistered) => {
-    setLoginForm(values);
-    const params = JSON.parse(JSON.stringify(loginForm));
+    const params = JSON.parse(JSON.stringify(values));
     params["password"] = CryptoJS.MD5(params["password"]).toString();
 
+    console.log(params);
     runUserLogin(params)
       .then((response) => {
         const { token, userInfo } = response;
-
         const { last_login_time, last_login_ip } = userInfo;
         message.info(
           `上次登录时间：${formatGMTTime(
@@ -65,8 +72,7 @@ const Login = (props) => {
   };
   const handleAuthRegistered = (event) => {
     const params = { email: event.target.value };
-
-    runUserRegister(params)
+    runFindEmail(params)
       .then((response) => {
         const { result } = response;
         if (result.length !== 0) {
@@ -100,7 +106,7 @@ const Login = (props) => {
   }, [loadingUserLogin, loadingUserRegister]);
 
   return (
-    <Spin spinning={loadingUserLogin || loadingUserRegister}>
+    <Spin spinning={loadingUserLogin || loadingUserRegister || loadingFindEmail}>
       <div className="flex justify-center items-center w-screen h-screen bg-slate-100">
         <div className="flex w-2/5 h-1/2 bg-slate-50 relative shadow-2xl overflow-hidden rounded-xl">
           <div className="w-1/2">
