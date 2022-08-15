@@ -105,7 +105,7 @@ const Forget = () => {
 
     runResetPassword(params)
       .then(() => {
-        message.success("密码重置成功，请到重新登录账号");
+        message.success("密码重置成功，请重新登录账号");
         localStorage.removeItem("validateEmail");
         navigate("/login");
       })

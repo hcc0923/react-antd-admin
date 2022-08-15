@@ -28,7 +28,7 @@ const generateEmailCode = (emailString) => {
         </style>
         <body>
             <div id="container">
-              <div class="content">您的验证码为：${emailAuthCode}, 请妥善保管。</div>
+              <div class="content">您的验证码为：${randomCode}, 请妥善保管。</div>
             </div>
         </body>
     </html>`;
