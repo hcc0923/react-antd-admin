@@ -1,8 +1,8 @@
 import {
   ADD_TAG,
-  DELETE_TAG,
-  EMPTY_TAG,
-  DELETE_OTHER_TAG,
+  CLOSE_TAG,
+  CLOSE_OTHER_TAG,
+  CLOSE_ALL_TAG,
 } from "../constants/index";
 
 export const addTag = (data) => ({
@@ -10,19 +10,17 @@ export const addTag = (data) => ({
   data,
 });
 
-export const deleteTag = (data) => ({
-  type: DELETE_TAG,
+export const closeTag = (data) => ({
+  type: CLOSE_TAG,
   data,
 });
 
-// !TODO
-export const emptyTag = (data) => ({
-  type: EMPTY_TAG,
+export const closeOtherTag = (data) => ({
+  type: CLOSE_OTHER_TAG,
   data,
 });
 
-// !TODO
-export const deleteOtherTag = (data) => ({
-  type: DELETE_OTHER_TAG,
+export const closeAllTag = (data) => ({
+  type: CLOSE_ALL_TAG,
   data,
 });

@@ -1,8 +1,8 @@
 import {
   ADD_TAG,
-  DELETE_TAG,
-  EMPTY_TAG,
-  DELETE_OTHER_TAG,
+  CLOSE_TAG,
+  CLOSE_OTHER_TAG,
+  CLOSE_ALL_TAG,
 } from "../constants/index";
 const tagState = [{ label: "首页", key: "/home" }];
 
@@ -15,17 +15,20 @@ const tag = (state = tagState, action) => {
       }
       tagState.push(action.data);
       return tagState;
-    case DELETE_TAG:
+    case CLOSE_TAG:
       const targetIndex = tagState.findIndex(
         (item) => item.key === action.data.key
       );
       tagState.splice(targetIndex, 1);
       return tagState;
-    case EMPTY_TAG:
-      tagState.splice(1);
-      return tagState;
-    case DELETE_OTHER_TAG:
-      return action.data;
+    case CLOSE_OTHER_TAG:
+      const filterState = tagState.filter(
+        (item) => item.key === action.data.key || item.key === "/home"
+      );
+      return filterState;
+    case CLOSE_ALL_TAG:
+      const emptyState = tagState.filter((item) => item.key === "/home");
+      return emptyState;
     default:
       return state;
   }

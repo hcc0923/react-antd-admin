@@ -8,6 +8,6 @@ export const SET_SHOW_LOGO = "set_show_logo";
 export const SET_SHOW_TAG = "set_show_tag";
 
 export const ADD_TAG = "add_tag";
-export const DELETE_TAG = "delete_tag";
-export const EMPTY_TAG = "empty_tag";
-export const DELETE_OTHER_TAG = "delete_other_tag";
+export const CLOSE_TAG = "close_tag";
+export const CLOSE_OTHER_TAG = "close_other_tag";
+export const CLOSE_ALL_TAG = "close_all_tag";

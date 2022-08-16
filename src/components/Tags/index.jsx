@@ -1,15 +1,15 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
-import { Tag } from "antd";
+import { Tag, Tooltip, Space, Button } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
-import { deleteTag } from "@/store/actions/tag";
+import { closeTag, closeOtherTag, closeAllTag } from "@/store/actions/tag";
 
 const TagView = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { pathname } = location;
-  const { tag, deleteTag } = props;
+  const { tag, closeTag, closeOtherTag, closeAllTag } = props;
 
   const onCloseTag = (item) => {
     const tagLength = tag.length;
@@ -20,10 +20,16 @@ const TagView = (props) => {
       const tagIndex = tag.findIndex((tagItem) => tagItem.key === item.key);
       navigate(tag[tagIndex + 1].key);
     }
-    deleteTag(item);
+    closeTag(item);
   };
   const onClickTag = (item) => {
     navigate(item.key);
+  };
+  const onCloseOtherTag = (item) => {
+    closeOtherTag(item);
+  };
+  const onCloseAllTag = () => {
+    closeAllTag();
   };
 
   return (
@@ -37,9 +43,19 @@ const TagView = (props) => {
           onClose={() => onCloseTag(item)}
           className="text-sm mb-2"
         >
-          <span onClick={() => onClickTag(item)} className="cursor-pointer">
-            {item.label}
-          </span>
+          <Tooltip
+            placement="bottom"
+            title={
+              <Space>
+                <Button onClick={() => onCloseOtherTag(item)}>删除其他</Button>
+                <Button onClick={onCloseAllTag}>删除所有</Button>
+              </Space>
+            }
+          >
+            <span onClick={() => onClickTag(item)} className="cursor-pointer">
+              {item.label}
+            </span>
+          </Tooltip>
         </Tag>
       ))}
     </div>
@@ -48,8 +64,14 @@ const TagView = (props) => {
 
 const mapStateToProps = (state) => state;
 const mapDispatchToProps = (dispatch) => ({
-  deleteTag: (data) => {
-    dispatch(deleteTag(data));
+  closeTag: (data) => {
+    dispatch(closeTag(data));
+  },
+  closeOtherTag: (data) => {
+    dispatch(closeOtherTag(data));
+  },
+  closeAllTag: (data) => {
+    dispatch(closeAllTag(data));
   },
 });
 
