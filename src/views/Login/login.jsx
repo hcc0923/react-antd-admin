@@ -47,7 +47,6 @@ const Login = (props) => {
     const params = JSON.parse(JSON.stringify(values));
     params["password"] = CryptoJS.MD5(params["password"]).toString();
 
-    console.log(params);
     runUserLogin(params)
       .then((response) => {
         const { token, userInfo } = response;
@@ -106,7 +105,9 @@ const Login = (props) => {
   }, [loadingUserLogin, loadingUserRegister]);
 
   return (
-    <Spin spinning={loadingUserLogin || loadingUserRegister || loadingFindEmail}>
+    <Spin
+      spinning={loadingUserLogin || loadingUserRegister || loadingFindEmail}
+    >
       <div className="flex justify-center items-center w-screen h-screen bg-slate-100">
         <div className="flex w-2/5 h-1/2 bg-slate-50 relative shadow-2xl overflow-hidden rounded-xl">
           <div className="w-1/2">
@@ -163,13 +164,13 @@ const Login = (props) => {
                 忘记密码
               </Link>
               <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
-                <Button
-                  type="primary"
-                  disabled={loading ? true : false}
-                  htmlType="submit"
-                >
-                  {loading ? <LoadingOutlined className="mr-1" /> : null}登录
-                </Button>
+                  <Button
+                    type="primary"
+                    disabled={loading ? true : false}
+                    htmlType="submit"
+                  >
+                    {loading ? <LoadingOutlined className="mr-1" /> : null}登录
+                  </Button>
               </Form.Item>
             </Form>
           </div>

@@ -15,7 +15,6 @@ import {
   Upload,
   message,
 } from "antd";
-import { FormattedMessage } from "react-intl";
 import {
   PlusOutlined,
   EditOutlined,
@@ -31,7 +30,7 @@ import {
   deleteUser,
   multipleDelete,
 } from "@/api/user";
-import { EmailRegexp, PhoneRegexp } from "@/utils";
+import { formatMessage, EmailRegexp, PhoneRegexp } from "@/utils";
 import { SERVER_ADDRESS } from "@/utils/config";
 const genderOptions = [
   { label: "不限", value: -1 },
@@ -353,7 +352,7 @@ const UserList = () => {
         loadingMultipleDelete
       }
     >
-      <Card title={<FormattedMessage id="user_list.title" />}>
+      <Card title={formatMessage("user_list.title")}>
         <Form
           name="search"
           ref={searchRef}
@@ -362,13 +361,18 @@ const UserList = () => {
         >
           <Row gutter={24}>
             <Col span={3}>
-              <Form.Item name="username" label="姓名">
-                <Input placeholder="请输入姓名" />
+              <Form.Item
+                name="username"
+                label={formatMessage("user_list.input_username")}
+              >
+                <Input
+                  placeholder={formatMessage("user_list.username_placeholder")}
+                />
               </Form.Item>
             </Col>
             <Col span={3}>
-              <Form.Item name="gender" label="性别">
-                <Select initialvalue="不限">
+              <Form.Item name="gender" label={formatMessage("user_list.input_gender")}>
+                <Select initialvalues={formatMessage("user_list.initial_gender")} placeholder={formatMessage("user_list.initial_gender")}>
                   {genderOptions.map((option) => (
                     <Select.Option key={option.value} value={option.value}>
                       {option.label}
@@ -378,8 +382,8 @@ const UserList = () => {
               </Form.Item>
             </Col>
             <Col span={3}>
-              <Form.Item name="role" label="角色">
-                <Select initialvalue="不限">
+              <Form.Item name="role" label={formatMessage("user_list.input_role")}>
+                <Select initialvalues={formatMessage("user_list.initial_role")} placeholder={formatMessage("user_list.initial_role")}>
                   {roleOptions.map((option) => (
                     <Select.Option key={option.value} value={option.value}>
                       {option.label}

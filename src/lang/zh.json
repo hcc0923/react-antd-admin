@@ -1,3 +1,9 @@
 {
-    "user_list.title": "用户列表"
+    "user_list.title": "用户列表",
+    "user_list.input_username": "姓名",
+    "user_list.username_placeholder": "请输入姓名",
+    "user_list.input_gender": "性别",
+    "user_list.initial_gender": "不限",
+    "user_list.input_role": "角色",
+    "user_list.initial_role": "不限"
 }

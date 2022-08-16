@@ -115,7 +115,8 @@ const Header = (props) => {
           </div>
           <div className={"h-16 flex justify-end items-center mr-12"}>
             <div className="h-full flex justify-between items-center text-2xl">
-              <FullScreen />
+                <FullScreen />
+
               <Dropdown overlay={intlMenu} placement="bottom" arrow>
                 <a onClick={(e) => e.preventDefault()}>
                   <Space>
@@ -125,10 +126,10 @@ const Header = (props) => {
               </Dropdown>
 
               <Tooltip placement="bottom" title={"系统设置"}>
-                <SettingOutlined
-                  className="mx-4 cursor-default"
-                  onClick={() => setDrawerVisible(true)}
-                />
+                  <SettingOutlined
+                    className="mx-4 cursor-default"
+                    onClick={() => setDrawerVisible(true)}
+                  />
               </Tooltip>
             </div>
             <div className="h-full flex justify-between items-center">
