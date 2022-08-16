@@ -1,6 +1,15 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Layout, Menu, Dropdown, Avatar, Button, Tooltip, message } from "antd";
+import {
+  Layout,
+  Menu,
+  Dropdown,
+  Space,
+  Avatar,
+  Button,
+  Tooltip,
+  message,
+} from "antd";
 import {
   DownOutlined,
   SettingOutlined,
@@ -10,10 +19,11 @@ import FullScreen from "@/components/FullScreen";
 import DrawerSettings from "@/components/DrawerSettings";
 import Hamburger from "@/components/Hamburger";
 import BreadCrumb from "@/components/BreadCrumb";
+import { setIntl } from "@/store/actions/settings";
 import { SERVER_ADDRESS } from "@/utils/config";
 
 const Header = (props) => {
-  const { user, settings } = props;
+  const { user, settings, setIntl } = props;
   const { userInfo } = user;
   const { collapsed, fixedHeader } = settings;
   const [drawerVisible, setDrawerVisible] = useState(false);
@@ -22,7 +32,22 @@ const Header = (props) => {
     localStorage.clear();
     message.success("退出成功，请重新登录");
   };
-  const menu = (
+  const intlMenu = (
+    <Menu
+      onClick={(event) => setIntl(event.key)}
+      items={[
+        {
+          key: "en",
+          label: "English",
+        },
+        {
+          key: "zh",
+          label: "中文",
+        },
+      ]}
+    />
+  );
+  const systemMenu = (
     <Menu
       items={[
         {
@@ -91,9 +116,14 @@ const Header = (props) => {
           <div className={"h-16 flex justify-end items-center mr-12"}>
             <div className="h-full flex justify-between items-center text-2xl">
               <FullScreen />
-              <Tooltip placement="bottom" title={"国际化"}>
-                <TranslationOutlined className="ml-4" />
-              </Tooltip>
+              <Dropdown overlay={intlMenu} placement="bottom" arrow>
+                <a onClick={(e) => e.preventDefault()}>
+                  <Space>
+                    <TranslationOutlined className="ml-4" />
+                  </Space>
+                </a>
+              </Dropdown>
+
               <Tooltip placement="bottom" title={"系统设置"}>
                 <SettingOutlined
                   className="mx-4 cursor-default"
@@ -103,7 +133,7 @@ const Header = (props) => {
             </div>
             <div className="h-full flex justify-between items-center">
               <Avatar src={`${SERVER_ADDRESS}/${userInfo.avatar}`} />
-              <Dropdown overlay={menu} placement="bottom" arrow>
+              <Dropdown overlay={systemMenu} placement="bottom" arrow>
                 <Button type="link">
                   <span className="text-lg">{userInfo.username}</span>
                   <DownOutlined />
@@ -123,5 +153,10 @@ const Header = (props) => {
 };
 
 const mapStateToProps = (state) => state;
+const mapDispatchToProps = (dispatch) => ({
+  setIntl: (data) => {
+    dispatch(setIntl(data));
+  },
+});
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

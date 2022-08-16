@@ -1,5 +1,6 @@
 import {
   SET_COLLAPSE,
+  SET_INTL,
   SET_FIXED_HEADER,
   SET_SHOW_LOGO,
   SET_SHOW_TAG,
@@ -8,6 +9,11 @@ import {
 export const setCollapse = (collapsed) => ({
   type: SET_COLLAPSE,
   collapsed,
+});
+
+export const setIntl = (intl) => ({
+  type: SET_INTL,
+  intl,
 });
 
 export const setFixedHeader = (fixedHeader) => ({

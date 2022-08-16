@@ -15,6 +15,7 @@ import {
   Upload,
   message,
 } from "antd";
+import { FormattedMessage } from "react-intl";
 import {
   PlusOutlined,
   EditOutlined,
@@ -352,7 +353,7 @@ const UserList = () => {
         loadingMultipleDelete
       }
     >
-      <Card title="用户列表">
+      <Card title={<FormattedMessage id="user_list.title" />}>
         <Form
           name="search"
           ref={searchRef}
