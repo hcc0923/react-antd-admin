@@ -5,6 +5,7 @@
     "message.delete.error": "删除失败",
     "message.edit.success": "编辑成功",
     "message.edit.error": "编辑失败",
+    
     "user_list.title": "用户列表",
     "user_list.input_username": "姓名",
     "user_list.placeholder_username": "请输入姓名",

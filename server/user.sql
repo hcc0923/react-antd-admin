@@ -11,7 +11,7 @@
  Target Server Version : 50738
  File Encoding         : 65001
 
- Date: 15/08/2022 17:25:50
+ Date: 17/08/2022 17:11:11
 */
 
 SET NAMES utf8mb4;
@@ -28,7 +28,7 @@ CREATE TABLE `file`  (
   `time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0),
   `userId` int(11) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of file
@@ -44,6 +44,7 @@ INSERT INTO `file` VALUES (19, 'profile-fb-kid-03.png', 'a5b6ecf5be85ceadd638424
 INSERT INTO `file` VALUES (20, '20220705-093120.jpg', 'da90921ed172af384492a06b8fa4fb8c.jpg', '2022-08-15 16:52:06', 5);
 INSERT INTO `file` VALUES (21, 'index.html', 'a7a39491ab7cb49d3f40bd3e4078670b.html', '2022-08-15 16:52:06', 5);
 INSERT INTO `file` VALUES (22, '全部信息 (1).xlsx', '58958f060664d9dd08d4c7f7e09ae2cd.xlsx', '2022-08-15 16:52:06', 5);
+INSERT INTO `file` VALUES (23, '全部信息 (1).xlsx', '6b80c5f952a8ba6f149ab5a3ca255a77.xlsx', '2022-08-17 11:03:05', 59);
 
 -- ----------------------------
 -- Table structure for task
@@ -54,18 +55,14 @@ CREATE TABLE `task`  (
   `taskname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `tasklevel` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of task
 -- ----------------------------
-INSERT INTO `task` VALUES (1, '实现响应式布局，兼容移动设备', '3');
-INSERT INTO `task` VALUES (2, '使用TS重写', '2');
-INSERT INTO `task` VALUES (3, '配置自动化更新部署，CI/CD', '2');
-INSERT INTO `task` VALUES (4, '修复在登陆的时候表单默认行为，多次登录才跳转成功', '1');
-INSERT INTO `task` VALUES (5, '大文件断点续传', '3');
-INSERT INTO `task` VALUES (6, '修复邮箱验证', '3');
-INSERT INTO `task` VALUES (13, '国际化', '3');
+INSERT INTO `task` VALUES (1, '使用TS重写', '3');
+INSERT INTO `task` VALUES (2, '配置自动化更新部署，CI/CD', '2');
+INSERT INTO `task` VALUES (3, '修复在登陆的时候表单默认行为，多次登录才跳转成功', '1');
 
 -- ----------------------------
 -- Table structure for user
@@ -85,7 +82,7 @@ CREATE TABLE `user`  (
   `last_login_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0),
   `last_login_ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 60 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
@@ -108,6 +105,7 @@ INSERT INTO `user` VALUES (55, '刘青云2', 'e10adc3949ba59abbe56e057f20f883e',
 INSERT INTO `user` VALUES (56, '刘青云3', 'e10adc3949ba59abbe56e057f20f883e', 0, '18143275149', 'vvvv@456.com', '2022-08-15 16:48:50', '9771b1e3eadfad366ec5daefcd37b3f9.png', 'GFDDDTGHGHGHGHGHGH', 1, '2022-08-15 16:48:50', '127.0.0.1');
 INSERT INTO `user` VALUES (57, '小鬼', 'e10adc3949ba59abbe56e057f20f883e', 0, '15152122361', 'vvvvs@qwsq.com', '2022-08-15 16:49:02', 'ecb8a0162adad52b748b5de62567a8a7.png', 'RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR', 1, '2022-08-15 16:49:02', '127.0.0.1');
 INSERT INTO `user` VALUES (58, '小鬼1', 'e10adc3949ba59abbe56e057f20f883e', 0, '18147295149', 'vvvddvs@qwsq.com', '2022-08-15 16:49:04', '489608837435e386d53d419a913340a7.png', 'YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY', 1, '2022-08-15 16:49:04', '127.0.0.1');
-INSERT INTO `user` VALUES (59, '小鬼2', 'e10adc3949ba59abbe56e057f20f883e', 0, '18147275140', 'vvvvv@8956.com', '2022-08-15 16:49:07', '97279875d9f836600d152497994c1b39.png', 'IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII', 3, '2022-08-15 16:49:07', '127.0.0.1');
+INSERT INTO `user` VALUES (59, '小鬼2', 'e10adc3949ba59abbe56e057f20f883e', 0, '18147275140', 'changchanghan@qq.com', '2022-08-16 14:49:05', '97279875d9f836600d152497994c1b39.png', 'IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII', 3, '2022-08-16 14:49:05', '127.0.0.1');
+INSERT INTO `user` VALUES (60, '张家辉', '123456', 0, '15825759654', 'hcc0x96923@163.com', '2022-08-17 14:10:10', 'c097e192155384a3db04c15e356db62c.png', '', 1, '2022-08-17 14:10:10', '');
 
 SET FOREIGN_KEY_CHECKS = 1;
