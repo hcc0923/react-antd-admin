@@ -105,9 +105,6 @@ const Header = (props) => {
   useEffect(() => {
     handleResizeEvent();
   }, [])
-  useEffect(() => {
-    console.log(mobile);
-  }, [mobile])
   return (
     <>
       {fixedHeader ? <Layout.Header /> : null}
