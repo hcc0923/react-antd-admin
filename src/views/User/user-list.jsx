@@ -15,6 +15,7 @@ import {
   Upload,
   message,
 } from "antd";
+import { useIntl } from "react-intl";
 import {
   PlusOutlined,
   EditOutlined,
@@ -30,18 +31,28 @@ import {
   deleteUser,
   multipleDelete,
 } from "@/api/user";
-import { formatMessage, EmailRegexp, PhoneRegexp } from "@/utils";
+import { EmailRegexp, PhoneRegexp } from "@/utils";
 import { SERVER_ADDRESS } from "@/utils/config";
+
 const genderOptions = [
-  { label: "不限", value: -1 },
-  { label: "男", value: 0 },
-  { label: "女", value: 1 },
+  { label: "user_list.options_gender_all", value: -1 },
+  { label: "user_list.options_gender_male", value: 0 },
+  { label: "user_list.options_gender_female", value: 1 },
 ];
 const roleOptions = [
-  { label: "不限", value: 0 },
-  { label: "用户", value: 1 },
-  { label: "管理员", value: 2 },
-  { label: "超级管理员", value: 3 },
+  { label: "user_list.options_role_all", value: 0 },
+  { label: "user_list.options_role_user", value: 1 },
+  { label: "user_list.options_role_admin", value: 2 },
+  { label: "user_list.options_role_root", value: 3 },
+];
+const genderRadios = [
+  { label: "user_list.radios_gender_male", value: 0 },
+  { label: "user_list.radios_gender_female", value: 1 },
+];
+const roleRadios = [
+  { label: "user_list.radios_role_user", value: 1 },
+  { label: "user_list.radios_role_admin", value: 2 },
+  { label: "user_list.radios_role_root", value: 3 },
 ];
 const UserList = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -66,6 +77,10 @@ const UserList = () => {
   });
   const [modalType, setModalType] = useState();
   const searchRef = useRef();
+  const intl = useIntl();
+  const formatMessage = (id) => {
+    return intl.formatMessage({ id });
+  };
   const { loading: loadingGetUser, runAsync: runGetUser } = useRequest(
     (params) => getUser(params),
     { manual: true, throttleWait: 1000 }
@@ -131,47 +146,47 @@ const UserList = () => {
     if (modalType === "add") {
       runAddUser(params)
         .then(() => {
-          message.success("添加成功");
+          message.success(formatMessage("message.add.success"));
           handleGetUserList();
           setModalVisible(false);
         })
         .catch((error) => {
-          message.error("添加失败");
+          message.error(formatMessage("message.add.error"));
           console.log(error);
         });
     } else {
       params.id = modalForm.id;
       runEditUser(params)
         .then(() => {
-          message.success("编辑成功");
+          message.success(formatMessage("message.edit.success"));
           handleGetUserList();
           setModalVisible(false);
         })
         .catch((error) => {
-          message.error("编辑失败");
+          message.error(formatMessage("message.edit.error"));
           console.log(error);
         });
     }
   };
   const handleSingleDeleteUser = (record) => {
     Modal.confirm({
-      title: "删除用户",
+      title: formatMessage("user_list.delete_confirm_title"),
       icon: <ExclamationCircleOutlined />,
       content: (
         <span>
-          确认删除用户<span className="text-light-red">{record.username}</span>
-          吗？
+          {formatMessage("user_list.delete_confirm_content")}
+          <span className="text-light-red">{record.username}</span>？
         </span>
       ),
       onOk: () => {
         const params = { id: record.id };
         runDeleteUser(params)
           .then(() => {
-            message.success("删除成功");
+            message.success(formatMessage("message.delete.success"));
             handleGetUserList();
           })
           .catch((error) => {
-            message.error("删除失败");
+            message.success(formatMessage("message.delete.error"));
             console.log(error);
           });
       },
@@ -179,21 +194,23 @@ const UserList = () => {
   };
   const handleMultipleDelete = () => {
     if (!selectedRowKeys.length) {
-      return message.error("请先选择要删除的用户！");
+      return message.error(formatMessage("user_list.multiple_confirm_check"));
     }
     Modal.confirm({
-      title: "批量删除",
+      title: formatMessage("user_list.multiple_confirm_title"),
       icon: <ExclamationCircleOutlined />,
-      content: <span>确认删除这些用户吗？</span>,
+      content: (
+        <span>{formatMessage("user_list.multiple_confirm_content")}</span>
+      ),
       onOk: () => {
         const params = { ids: selectedRowKeys };
         runMultipleDelete(params)
           .then(() => {
-            message.success("删除成功");
+            message.success(formatMessage("message.delete.success"));
             handleGetUserList();
           })
           .catch((error) => {
-            message.error("删除失败");
+            message.error(formatMessage("message.delete.error"));
             console.log(error);
           });
       },
@@ -201,11 +218,11 @@ const UserList = () => {
   };
   const handleBeforeUpload = (file) => {
     if (file.type !== "image/jpeg" && file.type !== "image/png") {
-      message.error("只能上传JPG/PNG文件!");
+      message.error(formatMessage("user_list.before_upload_type"));
       return false;
     }
     if (file.size / 1024 / 1024 > 2) {
-      message.error("图片大小不能超过2MB!");
+      message.error(formatMessage("user_list.before_upload_size"));
       return false;
     }
     return true;
@@ -237,39 +254,55 @@ const UserList = () => {
       sorter: (a, b) => a.id - b.id,
     },
     {
-      title: "姓名",
+      title: formatMessage("user_list.columns_username_title"),
       dataIndex: "username",
       key: "username",
       align: "center",
     },
     {
-      title: "性别",
+      title: formatMessage("user_list.columns_gender"),
       dataIndex: "gender",
       key: "gender",
       align: "center",
       render: (text) => {
         return text === 0 ? (
-          <span style={{ color: "#001529" }}>男</span>
+          <span style={{ color: "#001529" }}>
+            {formatMessage("user_list.columns_gender_male")}
+          </span>
         ) : (
-          <span style={{ color: "#3DB389" }}>女</span>
+          <span style={{ color: "#3DB389" }}>
+            {formatMessage("user_list.columns_gender_female")}
+          </span>
         );
       },
       defaultSortOrder: "ascend",
       sorter: (a, b) => a.gender - b.gender,
     },
     {
-      title: "角色",
+      title: formatMessage("user_list.columns_role"),
       dataIndex: "role",
       key: "role",
       align: "center",
       render: (text) => {
         switch (text) {
           case 1:
-            return <span style={{ color: "#000000" }}>用户</span>;
+            return (
+              <span style={{ color: "#000000" }}>
+                {formatMessage("user_list.columns_role_user")}
+              </span>
+            );
           case 2:
-            return <span style={{ color: "#FFB800" }}>管理员</span>;
+            return (
+              <span style={{ color: "#FFB800" }}>
+                {formatMessage("user_list.columns_role_admin")}
+              </span>
+            );
           case 3:
-            return <span style={{ color: "#3DB327" }}>超级管理员</span>;
+            return (
+              <span style={{ color: "#3DB327" }}>
+                {formatMessage("user_list.columns_role_root")}
+              </span>
+            );
           default:
             break;
         }
@@ -278,19 +311,19 @@ const UserList = () => {
       sorter: (a, b) => a.role - b.role,
     },
     {
-      title: "手机号码",
+      title: formatMessage("user_list.columns_phone"),
       dataIndex: "phone",
       key: "phone",
       align: "center",
     },
     {
-      title: "邮箱",
+      title: formatMessage("user_list.columns_email"),
       dataIndex: "email",
       key: "email",
       align: "center",
     },
     {
-      title: "时间",
+      title: formatMessage("user_list.columns_time"),
       dataIndex: "time",
       key: "time",
       align: "center",
@@ -299,7 +332,7 @@ const UserList = () => {
       },
     },
     {
-      title: "头像",
+      title: formatMessage("user_list.columns_avatar"),
       dataIndex: "avatar",
       key: "avatar",
       align: "center",
@@ -309,14 +342,14 @@ const UserList = () => {
         return (
           <img
             src={SERVER_ADDRESS + "/" + record.avatar}
-            alt="获取头像失败"
+            alt={formatMessage("user_list.columns_avatar_alt")}
             className="w-20 h-20"
           />
         );
       },
     },
     {
-      title: "操作",
+      title: formatMessage("user_list.columns_action"),
       key: "action",
       align: "center",
       render: (text, record, index) => {
@@ -327,11 +360,11 @@ const UserList = () => {
               onClick={() => onOpenAddEditForm("edit", record)}
             >
               <EditOutlined />
-              编辑
+              {formatMessage("user_list.columns_action_edit")}
             </Button>
             <Button type="link" onClick={() => handleSingleDeleteUser(record)}>
               <DeleteOutlined />
-              删除
+              {formatMessage("user_list.columns_action_delete")}
             </Button>
           </Fragment>
         );
@@ -366,49 +399,71 @@ const UserList = () => {
                 label={formatMessage("user_list.input_username")}
               >
                 <Input
-                  placeholder={formatMessage("user_list.username_placeholder")}
+                  placeholder={formatMessage("user_list.placeholder_username")}
                 />
               </Form.Item>
             </Col>
             <Col span={3}>
-              <Form.Item name="gender" label={formatMessage("user_list.input_gender")}>
-                <Select initialvalues={formatMessage("user_list.initial_gender")} placeholder={formatMessage("user_list.initial_gender")}>
+              <Form.Item
+                name="gender"
+                label={formatMessage("user_list.input_gender")}
+              >
+                <Select
+                  initialvalues={formatMessage("user_list.initial_gender")}
+                  placeholder={formatMessage("user_list.initial_gender")}
+                >
                   {genderOptions.map((option) => (
                     <Select.Option key={option.value} value={option.value}>
-                      {option.label}
+                      {formatMessage(option.label)}
                     </Select.Option>
                   ))}
                 </Select>
               </Form.Item>
             </Col>
             <Col span={3}>
-              <Form.Item name="role" label={formatMessage("user_list.input_role")}>
-                <Select initialvalues={formatMessage("user_list.initial_role")} placeholder={formatMessage("user_list.initial_role")}>
+              <Form.Item
+                name="role"
+                label={formatMessage("user_list.input_role")}
+              >
+                <Select
+                  initialvalues={formatMessage("user_list.initial_role")}
+                  placeholder={formatMessage("user_list.initial_role")}
+                >
                   {roleOptions.map((option) => (
                     <Select.Option key={option.value} value={option.value}>
-                      {option.label}
+                      {formatMessage(option.label)}
                     </Select.Option>
                   ))}
                 </Select>
               </Form.Item>
             </Col>
             <Col span={5}>
-              <Form.Item name="phone" label="手机号码">
-                <Input placeholder="请输入手机号码" />
+              <Form.Item
+                name="phone"
+                label={formatMessage("user_list.input_phone")}
+              >
+                <Input
+                  placeholder={formatMessage("user_list.placeholder_phone")}
+                />
               </Form.Item>
             </Col>
             <Col span={5}>
-              <Form.Item name="email" label="邮箱">
-                <Input placeholder="请输入邮箱" />
+              <Form.Item
+                name="email"
+                label={formatMessage("user_list.input_email")}
+              >
+                <Input
+                  placeholder={formatMessage("user_list.placeholder_email")}
+                />
               </Form.Item>
             </Col>
             <Col span={5}>
               <Space>
                 <Button type="primary" htmlType="submit">
-                  查询
+                  {formatMessage("user_list.button_search")}
                 </Button>
                 <Button onClick={() => searchRef.current.resetFields()}>
-                  重置
+                  {formatMessage("user_list.button_reset")}
                 </Button>
               </Space>
             </Col>
@@ -417,11 +472,11 @@ const UserList = () => {
         <Space className="mb-4">
           <Button type="primary" onClick={() => onOpenAddEditForm("add")}>
             <PlusOutlined />
-            添加
+            {formatMessage("user_list.button_add")}
           </Button>
           <Button type="primary" onClick={handleMultipleDelete}>
             <DeleteOutlined />
-            批量删除
+            {formatMessage("user_list.button_multiple_delete")}
           </Button>
         </Space>
         <Table
@@ -434,7 +489,11 @@ const UserList = () => {
           rowKey={(record) => `${record.id}`}
         />
         <Modal
-          title={modalType === "add" ? "创建用户" : "编辑用户"}
+          title={
+            modalType === "add"
+              ? formatMessage("user_list.modal_add_user")
+              : formatMessage("user_list.modal_edit_user")
+          }
           visible={modalVisible}
           footer={null}
           destroyOnClose={true}
@@ -448,31 +507,48 @@ const UserList = () => {
             onFinish={onSaveAddEditForm}
           >
             <Form.Item
-              label="用户名"
+              label={formatMessage("user_list.modal_username")}
               name="username"
               rules={[
                 {
                   required: true,
-                  message: "请输入用户名",
+                  message: formatMessage("user_list.modal_rules_username"),
                 },
               ]}
             >
-              <Input placeholder="请输入用户名" />
+              <Input
+                placeholder={formatMessage("user_list.modal_rules_username")}
+              />
             </Form.Item>
-            <Form.Item label="性别" name="gender">
-              <Radio.Group>
-                <Radio value={0}>男</Radio>
-                <Radio value={1}>女</Radio>
+            <Form.Item
+              label={formatMessage("user_list.modal_input_gender")}
+              name="gender"
+            >
+              <Radio.Group initialvalues={genderRadios[0].value}>
+                {genderRadios.map((option) => (
+                  <Radio key={option.value} value={option.value}>
+                    {formatMessage(option.label)}
+                  </Radio>
+                ))}
               </Radio.Group>
             </Form.Item>
-            <Form.Item label="角色" name="role">
-              <Radio.Group>
-                <Radio value={1}>用户</Radio>
-                <Radio value={2}>管理员</Radio>
-                <Radio value={3}>超级管理员</Radio>
+            <Form.Item
+              label={formatMessage("user_list.modal_input_role")}
+              name="role"
+            >
+              <Radio.Group initialvalues={roleRadios[0].value}>
+                {roleRadios.map((option) => (
+                  <Radio key={option.value} value={option.value}>
+                    {formatMessage(option.label)}
+                  </Radio>
+                ))}
               </Radio.Group>
             </Form.Item>
-            <Form.Item label="头像" name="avatar" valuePropName="avatar">
+            <Form.Item
+              label={formatMessage("user_list.modal_input_avatar")}
+              name="avatar"
+              valuePropName="avatar"
+            >
               <Upload
                 name="avatar"
                 listType="picture-card"
@@ -484,7 +560,7 @@ const UserList = () => {
                 {avatarUrl ? (
                   <img
                     src={SERVER_ADDRESS + "/" + avatarUrl}
-                    alt="获取头像失败"
+                    alt={formatMessage("user_list.modal_img_alt")}
                     className="w-full h-full"
                   />
                 ) : (
@@ -493,36 +569,40 @@ const UserList = () => {
               </Upload>
             </Form.Item>
             <Form.Item
-              label="手机号码"
+              label={formatMessage("user_list.modal_label_phone")}
               name="phone"
               rules={[
                 {
                   pattern: PhoneRegexp,
-                  message: "手机号码格式不正确",
+                  message: formatMessage("user_list.modal_rules_phone"),
                 },
               ]}
             >
-              <Input placeholder="请输入手机号码" />
+              <Input
+                placeholder={formatMessage("user_list.modal_input_phone")}
+              />
             </Form.Item>
             <Form.Item
-              label="邮箱"
+              label={formatMessage("user_list.modal_label_email")}
               name="email"
               rules={[
                 {
                   pattern: EmailRegexp,
-                  message: "邮箱格式不正确",
+                  message: formatMessage("user_list.modal_rules_email"),
                 },
               ]}
             >
-              <Input placeholder="请输入邮箱" />
+              <Input
+                placeholder={formatMessage("user_list.modal_input_email")}
+              />
             </Form.Item>
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
               <Space>
                 <Button type="primary" htmlType="submit">
-                  确定
+                  {formatMessage("user_list.modal_input_submit")}
                 </Button>
                 <Button type="button" onClick={() => setModalVisible(false)}>
-                  取消
+                  {formatMessage("user_list.modal_button_cancel")}
                 </Button>
               </Space>
             </Form.Item>

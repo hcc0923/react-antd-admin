@@ -1,5 +1,3 @@
-import { useIntl } from "react-intl";
-
 export const EmailRegexp = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
 
 export const PhoneRegexp =
@@ -53,9 +51,4 @@ export const formatGMTTime = (time) => {
     result += seconds;
   }
   return result;
-};
-
-export const formatMessage = (id) => {
-  const intl = useIntl();
-  return intl.formatMessage({ id });
 };
