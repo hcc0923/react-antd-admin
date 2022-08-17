@@ -5,7 +5,6 @@
     "message.delete.error": "删除失败",
     "message.edit.success": "编辑成功",
     "message.edit.error": "编辑失败",
-
     "user_list.title": "用户列表",
     "user_list.input_username": "姓名",
     "user_list.placeholder_username": "请输入姓名",
@@ -30,56 +29,32 @@
     "user_list.button_multiple_delete": "批量删除",
     "user_list.modal_add_user": "添加用户",
     "user_list.modal_edit_user": "编辑用户",
-
     "user_list.modal_username": "用户名",
     "user_list.modal_rules_username": "请输入用户名",
-
     "user_list.modal_input_gender": "性别",
     "user_list.radios_gender_male": "男",
     "user_list.radios_gender_female": "女",
-
     "user_list.modal_input_role": "角色",
-
-
     "user_list.radios_role_user": "用户",
     "user_list.radios_role_admin": "管理员",
     "user_list.radios_role_root": "超级管理员",
-
     "user_list.modal_input_avatar": "头像",
     "user_list.modal_img_alt": "获取头像失败",
     "user_list.modal_label_phone": "手机号",
-    
     "user_list.modal_rules_phone": "手机号码格式不正确",
     "user_list.modal_input_phone": "请输入手机号",
-
-
     "user_list.modal_label_email": "邮箱",
     "user_list.modal_rules_email": "邮箱格式不正确",
     "user_list.modal_input_email": "请输入邮箱",
-
-
     "user_list.modal_input_submit": "确定",
     "user_list.modal_button_cancel": "取消",
-
-
-
     "user_list.delete_confirm_title": "删除用户",
     "user_list.delete_confirm_content": "确认删除用户",
-
-    
-
     "user_list.multiple_confirm_check": "请先选择要删除的用户！",
     "user_list.multiple_confirm_title": "批量删除",
     "user_list.multiple_confirm_content": "确认删除这些用户吗？",
-
-
     "user_list.before_upload_type": "只能上传JPG/PNG文件！",
     "user_list.before_upload_size": "图片大小不能超过2MB！",
-
-
-
-
-
     "user_list.columns_username_title": "用户名",
     "user_list.columns_gender": "性别",
     "user_list.columns_gender_male": "男",
@@ -88,24 +63,13 @@
     "user_list.columns_role_user": "用户",
     "user_list.columns_role_admin": "管理员",
     "user_list.columns_role_root": "超级管理员",
-
-
-
     "user_list.columns_phone": "手机号",
     "user_list.columns_email": "邮箱",
-
-
     "user_list.columns_time": "时间",
     "user_list.columns_avatar": "头像",
     "user_list.columns_avatar_alt": "获取头像失败",
     "user_list.columns_action": "操作",
-
-
     "user_list.columns_action_edit": "编辑",
     "user_list.columns_action_delete": "删除"
-
-
-
-
 
 }
