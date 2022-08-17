@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import {
   Layout,
@@ -27,6 +27,8 @@ const Header = (props) => {
   const { userInfo } = user;
   const { collapsed, fixedHeader } = settings;
   const [drawerVisible, setDrawerVisible] = useState(false);
+  const isMb = document.body.clientWidth <= 992;
+  const [mobile, setMobile] = useState(isMb);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -93,7 +95,19 @@ const Header = (props) => {
     }
     return styles;
   };
-
+  const handleResizeEvent = () => {
+    const addResizeEvent = () => {
+      const isMb = document.body.clientWidth <= 992;
+      setMobile(isMb);
+    }
+    window.addEventListener("resize", addResizeEvent);
+  }
+  useEffect(() => {
+    handleResizeEvent();
+  }, [])
+  useEffect(() => {
+    console.log(mobile);
+  }, [mobile])
   return (
     <>
       {fixedHeader ? <Layout.Header /> : null}
@@ -110,8 +124,8 @@ const Header = (props) => {
       >
         <div className="flex justify-between w-full">
           <div className="flex justify-start items-center">
-            <Hamburger />
-            <BreadCrumb />
+            { mobile ? null : <Hamburger />}
+            { mobile ? null : <BreadCrumb />}
           </div>
           <div className={"h-16 flex justify-end items-center mr-12"}>
             <div className="h-full flex justify-between items-center text-2xl">
