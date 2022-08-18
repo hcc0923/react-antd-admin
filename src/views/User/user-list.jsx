@@ -62,6 +62,7 @@ const UserList = () => {
   const [searchForm, setSearchForm] = useState({
     username: "",
     gender: -1,
+    role: 0,
     phone: "",
     email: "",
   });
@@ -71,6 +72,7 @@ const UserList = () => {
   const [modalForm, setModalForm] = useState({
     username: "",
     gender: 0,
+    role: 1,
     phone: "",
     email: "",
     avatar: "",
@@ -131,6 +133,7 @@ const UserList = () => {
       setModalForm({
         username: "",
         gender: 0,
+        role: 1,
         phone: "",
         email: "",
         avatar: "",

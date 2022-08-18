@@ -21,7 +21,7 @@ import {
   DeleteOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
-import { useSetState, useRequest } from "ahooks";
+import { useRequest } from "ahooks";
 import { getTask, addTask, editTask, deleteTask } from "@/api/task";
 
 const taskLevelOptions = [
@@ -31,9 +31,9 @@ const taskLevelOptions = [
   { label: "home.options_task_level_urgent", value: 3 },
 ];
 const taskLevelRadios = [
-  { label: "home.radios_task_level_common", value: 1 },
-  { label: "home.radios_task_level_important", value: 2 },
-  { label: "home.radios_task_level_urgent", value: 3 },
+  { label: "home.radios_task_level_common", value: "1" },
+  { label: "home.radios_task_level_important", value: "2" },
+  { label: "home.radios_task_level_urgent", value: "3" },
 ];
 const TaskList = () => {
   const [taskTableData, setTaskTableData] = useState([]);
@@ -46,7 +46,7 @@ const TaskList = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalForm, setModalForm] = useState({
     taskname: "",
-    tasklevel: "0",
+    tasklevel: 0,
   });
   const [modalType, setModalType] = useState();
   const searchRef = useRef();
@@ -92,7 +92,6 @@ const TaskList = () => {
     if (record) {
       setModalForm(record);
     } else {
-      console.log(record, modalForm);
       setModalForm({
         taskname: "",
         tasklevel: "1",
