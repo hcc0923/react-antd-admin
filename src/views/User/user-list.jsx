@@ -524,7 +524,7 @@ const UserList = () => {
               label={formatMessage("user_list.modal_input_gender")}
               name="gender"
             >
-              <Radio.Group initialvalues={genderRadios[0].value}>
+              <Radio.Group>
                 {genderRadios.map((option) => (
                   <Radio key={option.value} value={option.value}>
                     {formatMessage(option.label)}
@@ -536,7 +536,7 @@ const UserList = () => {
               label={formatMessage("user_list.modal_input_role")}
               name="role"
             >
-              <Radio.Group initialvalues={roleRadios[0].value}>
+              <Radio.Group>
                 {roleRadios.map((option) => (
                   <Radio key={option.value} value={option.value}>
                     {formatMessage(option.label)}

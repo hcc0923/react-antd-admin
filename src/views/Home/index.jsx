@@ -14,20 +14,26 @@ import {
   Radio,
   message,
 } from "antd";
+import { useIntl } from "react-intl";
 import {
   PlusOutlined,
   EditOutlined,
   DeleteOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
-import { useRequest } from "ahooks";
+import { useSetState, useRequest } from "ahooks";
 import { getTask, addTask, editTask, deleteTask } from "@/api/task";
 
-const Options = [
-  { label: "不限", value: "0" },
-  { label: "一般", value: "1" },
-  { label: "重要", value: "2" },
-  { label: "紧急", value: "3" },
+const taskLevelOptions = [
+  { label: "home.options_task_level_all", value: -1 },
+  { label: "home.options_task_level_common", value: 1 },
+  { label: "home.options_task_level_important", value: 2 },
+  { label: "home.options_task_level_urgent", value: 3 },
+];
+const taskLevelRadios = [
+  { label: "home.radios_task_level_common", value: 1 },
+  { label: "home.radios_task_level_important", value: 2 },
+  { label: "home.radios_task_level_urgent", value: 3 },
 ];
 const TaskList = () => {
   const [taskTableData, setTaskTableData] = useState([]);
@@ -44,6 +50,10 @@ const TaskList = () => {
   });
   const [modalType, setModalType] = useState();
   const searchRef = useRef();
+  const intl = useIntl();
+  const formatMessage = (id) => {
+    return intl.formatMessage({ id });
+  };
   const { loading: loadingGetTask, runAsync: runGetTask } = useRequest(
     (params) => getTask(params),
     { manual: true, throttleWait: 1000 }
@@ -82,6 +92,7 @@ const TaskList = () => {
     if (record) {
       setModalForm(record);
     } else {
+      console.log(record, modalForm);
       setModalForm({
         taskname: "",
         tasklevel: "1",
@@ -94,47 +105,47 @@ const TaskList = () => {
     if (modalType === "add") {
       runAddTask(values)
         .then(() => {
-          message.success("添加成功");
+          message.success(formatMessage("message.add.success"));
           handleGetTaskList();
           setModalVisible(false);
         })
         .catch((error) => {
-          message.error("添加失败");
+          message.error(formatMessage("message.add.error"));
           console.log(error);
         });
     } else {
       values.id = modalForm.id;
       runEditTask(values)
         .then(() => {
-          message.success("编辑成功");
+          message.success(formatMessage("message.edit.success"));
           handleGetTaskList();
           setModalVisible(false);
         })
         .catch((error) => {
-          message.error("编辑失败");
+          message.error(formatMessage("message.edit.error"));
           console.log(error);
         });
     }
   };
   const handleDeleteTask = (record) => {
     Modal.confirm({
-      title: "删除任务",
+      title: formatMessage("home.delete_confirm_title"),
       icon: <ExclamationCircleOutlined />,
       content: (
         <span>
-          确认删除任务<span className="text-light-red">{record.taskname}</span>
-          吗？
+          {formatMessage("home.delete_confirm_content")}
+          <span className="text-light-red">{record.taskname}</span>？
         </span>
       ),
       onOk: () => {
         const params = { id: record.id };
         runDeleteTask(params)
           .then(() => {
-            message.success("删除成功");
+            message.success(formatMessage("message.delete.success"));
             handleGetTaskList();
           })
           .catch((error) => {
-            message.error("删除失败");
+            message.success(formatMessage("message.delete.error"));
             console.log(error);
           });
       },
@@ -150,24 +161,36 @@ const TaskList = () => {
       sorter: (a, b) => a.id - b.id,
     },
     {
-      title: "任务名",
+      title: formatMessage("home.columns.taskname"),
       dataIndex: "taskname",
       key: "taskname",
       align: "center",
     },
     {
-      title: "优先级",
+      title: formatMessage("home.columns.tasklevel"),
       dataIndex: "tasklevel",
       key: "tasklevel",
       align: "center",
       render: (text) => {
         switch (text) {
           case "1":
-            return <span style={{ color: "#000000" }}>一般</span>;
+            return (
+              <span style={{ color: "#000000" }}>
+                {formatMessage("home.columns.common")}
+              </span>
+            );
           case "2":
-            return <span style={{ color: "#FFB800" }}>重要</span>;
+            return (
+              <span style={{ color: "#FFB800" }}>
+                {formatMessage("home.columns.important")}
+              </span>
+            );
           case "3":
-            return <span style={{ color: "#3DB327" }}>紧急</span>;
+            return (
+              <span style={{ color: "#3DB327" }}>
+                {formatMessage("home.columns.urgent")}
+              </span>
+            );
           default:
             break;
         }
@@ -176,7 +199,7 @@ const TaskList = () => {
       sorter: (a, b) => a.tasklevel - b.tasklevel,
     },
     {
-      title: "操作",
+      title: formatMessage("home.columns.action"),
       key: "action",
       align: "center",
       render: (text, record, index) => {
@@ -187,11 +210,11 @@ const TaskList = () => {
               onClick={() => onOpenAddEditForm("edit", record)}
             >
               <EditOutlined />
-              编辑
+              {formatMessage("home.columns.edit")}
             </Button>
             <Button type="link" onClick={() => handleDeleteTask(record)}>
               <DeleteOutlined />
-              删除
+              {formatMessage("home.columns.delete")}
             </Button>
           </Fragment>
         );
@@ -208,7 +231,7 @@ const TaskList = () => {
         loadingGetTask || loadingAddTask || loadingEditTask || loadingDeleteTask
       }
     >
-      <Card title="任务列表">
+      <Card title={formatMessage("home.title")}>
         <Form
           name="search"
           ref={searchRef}
@@ -217,16 +240,27 @@ const TaskList = () => {
         >
           <Row gutter={24}>
             <Col span={5}>
-              <Form.Item name="taskname" label="任务名">
-                <Input placeholder="请输入任务名" />
+              <Form.Item
+                name="taskname"
+                label={formatMessage("home.input_taskname")}
+              >
+                <Input
+                  placeholder={formatMessage("home.placeholder_taskname")}
+                />
               </Form.Item>
             </Col>
             <Col span={5}>
-              <Form.Item name="tasklevel" label="优先级">
-                <Select initialvalue="不限">
-                  {Options.map((option) => (
+              <Form.Item
+                name="tasklevel"
+                label={formatMessage("home.input_tasklevel")}
+              >
+                <Select
+                  initialvalue={formatMessage("home.initial_tasklevel")}
+                  placeholder={formatMessage("home.initial_tasklevel")}
+                >
+                  {taskLevelOptions.map((option) => (
                     <Select.Option key={option.value} value={option.value}>
-                      {option.label}
+                      {formatMessage(option.label)}
                     </Select.Option>
                   ))}
                 </Select>
@@ -235,10 +269,10 @@ const TaskList = () => {
             <Col span={4}>
               <Space>
                 <Button type="primary" htmlType="submit">
-                  查询
+                  {formatMessage("home.button_search")}
                 </Button>
                 <Button onClick={() => searchRef.current.resetFields()}>
-                  重置
+                  {formatMessage("home.button_reset")}
                 </Button>
               </Space>
             </Col>
@@ -247,7 +281,7 @@ const TaskList = () => {
         <Space className="mb-4">
           <Button type="primary" onClick={() => onOpenAddEditForm("add")}>
             <PlusOutlined />
-            添加
+            {formatMessage("home.button_add")}
           </Button>
         </Space>
         <Table
@@ -259,7 +293,11 @@ const TaskList = () => {
           rowKey={(record) => `${record.id}`}
         />
         <Modal
-          title={modalType === "add" ? "创建任务" : "编辑任务"}
+          title={
+            modalType === "add"
+              ? formatMessage("home.modal_add_task")
+              : formatMessage("home.modal_edit_task")
+          }
           visible={modalVisible}
           footer={null}
           destroyOnClose={true}
@@ -273,31 +311,36 @@ const TaskList = () => {
             onFinish={onSaveAddEditForm}
           >
             <Form.Item
-              label="任务名"
+              label={formatMessage("home.modal_taskname")}
               name="taskname"
               rules={[
                 {
                   required: true,
-                  message: "请输入任务名",
+                  message: formatMessage("home.modal_rules_taskname"),
                 },
               ]}
             >
-              <Input placeholder="请输入任务名" />
+              <Input placeholder={formatMessage("home.modal_rules_taskname")} />
             </Form.Item>
-            <Form.Item label="优先级" name="tasklevel">
+            <Form.Item
+              label={formatMessage("home.modal_input_tasklevel")}
+              name="tasklevel"
+            >
               <Radio.Group>
-                <Radio value={"1"}>一般</Radio>
-                <Radio value={"2"}>重要</Radio>
-                <Radio value={"3"}>紧急</Radio>
+                {taskLevelRadios.map((option) => (
+                  <Radio key={option.value} value={option.value}>
+                    {formatMessage(option.label)}
+                  </Radio>
+                ))}
               </Radio.Group>
             </Form.Item>
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
               <Space>
                 <Button type="primary" htmlType="submit">
-                  确定
+                  {formatMessage("home.modal_input_submit")}
                 </Button>
                 <Button type="button" onClick={() => setModalVisible(false)}>
-                  取消
+                  {formatMessage("home.modal_button_cancel")}
                 </Button>
               </Space>
             </Form.Item>

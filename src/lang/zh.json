@@ -5,7 +5,7 @@
     "message.delete.error": "删除失败",
     "message.edit.success": "编辑成功",
     "message.edit.error": "编辑失败",
-    
+
     "user_list.title": "用户列表",
     "user_list.input_username": "姓名",
     "user_list.placeholder_username": "请输入姓名",
@@ -71,6 +71,41 @@
     "user_list.columns_avatar_alt": "获取头像失败",
     "user_list.columns_action": "操作",
     "user_list.columns_action_edit": "编辑",
-    "user_list.columns_action_delete": "删除"
+    "user_list.columns_action_delete": "删除",
+
+    "home.title": "首页",
+    "home.input_taskname": "任务名",
+    "home.placeholder_taskname": "请输入任务名",
+    "home.input_tasklevel": "优先级",
+    "home.initial_tasklevel": "不限",
+    "home.placeholder_tasklevel": "请选择优先级",
+    "home.options_task_level_all": "不限",
+    "home.options_task_level_common": "一般",
+    "home.options_task_level_important": "重要",
+    "home.options_task_level_urgent": "紧急",
+    "home.button_search": "查询",
+    "home.button_reset": "重置",
+    "home.button_add": "添加",
+    "home.modal_add_task": "添加任务",
+    "home.modal_edit_task": "编辑任务",
+    "home.modal_taskname": "任务名",
+    "home.modal_rules_taskname": "请输入任务名！",
+    "home.modal_input_tasklevel": "优先级",
+    "home.radios_task_level_common": "一般",
+    "home.radios_task_level_important": "重要",
+    "home.radios_task_level_urgent": "紧急",
+    "home.modal_input_submit": "确定",
+    "home.modal_button_cancel": "取消",
+    "home.delete_confirm_title": "删除任务",
+    "home.delete_confirm_content": "确认删除任务",
+    "home.columns.taskname": "任务名",
+    "home.columns.tasklevel": "优先级",
+    "home.columns.common": "一般",
+    "home.columns.important": "重要",
+    "home.columns.urgent": "紧急",
+    "home.columns.action": "操作",
+    "home.columns.edit": "编辑",
+    "home.columns.delete": "删除"
+
 
 }
