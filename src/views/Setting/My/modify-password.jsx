@@ -1,13 +1,19 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useIntl } from "react-intl";
 import { Card, Form, Input, Button, Space, Spin, message } from "antd";
 import CryptoJS from "crypto-js";
 import { useRequest } from "ahooks";
 import { checkPassword, updatePassword } from "@/api/user";
 
-const ModifyPassword = (props) => {
-  const { history } = props;
+const ModifyPassword = () => {
+  const navigate = useNavigate();
   const [isFirst, setIsFirst] = useState(true);
   const [verifyPassword, setVerifyPassword] = useState(false);
+  const intl = useIntl();
+  const formatMessage = (id) => {
+    return intl.formatMessage({ id });
+  };
   const { loading: loadingCheckPassword, runAsync: runCheckPassword } =
     useRequest((params) => checkPassword(params), {
       manual: true,
@@ -23,7 +29,7 @@ const ModifyPassword = (props) => {
     setIsFirst(false);
     const value = event.target.value;
     if (value === "") {
-      return message.error("当前密码不能为空");
+      return message.error(formatMessage("modify_password.verify_password"));
     }
 
     const params = { password: CryptoJS.MD5(value).toString() };
@@ -40,9 +46,9 @@ const ModifyPassword = (props) => {
 
     runUpdatePassword(params)
       .then(() => {
-        message.success("修改成功，请重新登录");
+        message.success(formatMessage("modify_password.success_update"));
         localStorage.clear();
-        history.push("/login");
+        navigate("/login");
       })
       .catch((error) => {
         console.log(error);
@@ -51,7 +57,7 @@ const ModifyPassword = (props) => {
 
   return (
     <Spin spinning={loadingCheckPassword || loadingUpdatePassword}>
-      <Card title="修改密码">
+      <Card title={formatMessage("modify_password.title")}>
         <Form
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 12 }}
@@ -60,7 +66,7 @@ const ModifyPassword = (props) => {
           onFinish={handleSubmitForm}
         >
           <Form.Item
-            label="当前密码"
+            label={formatMessage("modify_password.label_password")}
             name="password"
             hasFeedback
             validateStatus={isFirst ? "" : verifyPassword ? "success" : "error"}
@@ -71,17 +77,17 @@ const ModifyPassword = (props) => {
               },
               {
                 required: true,
-                message: "请输入你的密码!",
+                message: formatMessage("modify_password.rules_password"),
               },
             ]}
           >
             <Input.Password onBlur={handleVerifyPassword} />
           </Form.Item>
           <span style={{ marginLeft: "17%", color: "#999" }}>
-            密码长度在不少于六位
+            {formatMessage("modify_password.password_desciption")}
           </span>
           <Form.Item
-            label="新密码"
+            label={formatMessage("modify_password.label_new_password")}
             name="newPassword"
             hasFeedback
             rules={[
@@ -91,14 +97,14 @@ const ModifyPassword = (props) => {
               },
               {
                 required: true,
-                message: "请输入你的新密码!",
+                message: formatMessage("modify_password.rules_new_password"),
               },
             ]}
           >
             <Input.Password />
           </Form.Item>
           <Form.Item
-            label="确认新密码"
+            label={formatMessage("modify_password.label_repeat_new_password")}
             name="repeatNewPassword"
             dependencies={["newPassword"]}
             hasFeedback
@@ -109,14 +115,20 @@ const ModifyPassword = (props) => {
               },
               {
                 required: true,
-                message: "请再次输入密码!",
+                message: formatMessage(
+                  "modify_password.rules_repeat_new_password"
+                ),
               },
               ({ getFieldValue }) => ({
                 validator(rule, value) {
                   if (!value || getFieldValue("newPassword") === value) {
                     return Promise.resolve();
                   }
-                  return Promise.reject("两次输入密码不一致!");
+                  return Promise.reject(
+                    formatMessage(
+                      "modify_password.rules_validator_repeat_new_password"
+                    )
+                  );
                 },
               }),
             ]}
@@ -126,7 +138,7 @@ const ModifyPassword = (props) => {
           <Form.Item wrapperCol={{ offset: 4, span: 20 }}>
             <Space size={20}>
               <Button type="primary" htmlType="submit">
-                保存
+                {formatMessage("modify_password.save")}
               </Button>
             </Space>
           </Form.Item>

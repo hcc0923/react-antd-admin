@@ -11,6 +11,7 @@ import {
   Upload,
   message,
 } from "antd";
+import { useIntl } from "react-intl";
 import { useRequest } from "ahooks";
 import Uploading from "@/components/Uploading";
 import { getUserDetail, updateUser } from "@/api/user";
@@ -18,6 +19,15 @@ import { setUserInfo } from "@/store/actions/user";
 import { EmailRegexp, PhoneRegexp } from "@/utils";
 import { SERVER_ADDRESS } from "@/utils/config";
 
+const genderRadios = [
+  { label: "basic_info.options_gender_male", value: 0 },
+  { label: "basic_info.options_gender_female", value: 1 },
+];
+const roleRadios = [
+  { label: "basic_info.options_role_user", value: 1 },
+  { label: "basic_info.options_role_admin", value: 2 },
+  { label: "basic_info.options_role_root", value: 3 },
+];
 const BasicInfo = (props) => {
   const { user, setUserInfo } = props;
   const { userInfo } = user;
@@ -34,6 +44,10 @@ const BasicInfo = (props) => {
     email: "",
     remark: "",
   };
+  const intl = useIntl();
+  const formatMessage = (id) => {
+    return intl.formatMessage({ id });
+  };
   const { loading: loadingGetUserDetail, runAsync: runGetUserDetail } =
     useRequest((params) => getUserDetail(params), {
       manual: true,
@@ -46,11 +60,11 @@ const BasicInfo = (props) => {
 
   const handleBeforeUpload = (file) => {
     if (file.type !== "image/jpeg" && file.type !== "image/png") {
-      message.error("只能上传JPG/PNG文件!");
+      message.error(formatMessage("basic_info.before_upload_type"));
       return false;
     }
     if (file.size / 1024 / 1024 > 2) {
-      message.error("图片大小不能超过2MB!");
+      message.error(formatMessage("basic_info.before_upload_size"));
       return false;
     }
     return true;
@@ -81,10 +95,10 @@ const BasicInfo = (props) => {
           username: params["username"],
           avatar: params["avatar"],
         });
-        message.success("保存成功");
+        message.success(formatMessage("message.edit.success"));
       })
       .catch((error) => {
-        message.error("保存失败");
+        message.error(formatMessage("message.edit.error"));
         console.log(error);
       });
   };
@@ -113,7 +127,7 @@ const BasicInfo = (props) => {
 
   return (
     <Spin spinning={loadingGetUserDetail || loadingUpdateUser}>
-      <Card title="基本资料">
+      <Card title={formatMessage("basic_info.title")}>
         <Form
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 12 }}
@@ -123,28 +137,43 @@ const BasicInfo = (props) => {
           onFinish={handleSubmitForm}
         >
           <span style={{ marginLeft: "17%", color: "#999" }} className="ml-1/6">
-            不可修改。用户的唯一标识。
+            {formatMessage("basic_info.id_desciption")}
           </span>
           <Form.Item label="ID" name="id">
             <Input readOnly />
           </Form.Item>
-          <Form.Item label="用户名" name="username">
+          <Form.Item
+            label={formatMessage("basic_info.label_username")}
+            name="username"
+          >
             <Input />
           </Form.Item>
-          <Form.Item label="性别" name="gender">
+          <Form.Item
+            label={formatMessage("basic_info.label_gender")}
+            name="gender"
+          >
             <Radio.Group>
-              <Radio value={0}>男</Radio>
-              <Radio value={1}>女</Radio>
+              {genderRadios.map((options) => (
+                <Radio key={options.value} value={options.value}>
+                  {formatMessage(options.label)}
+                </Radio>
+              ))}
             </Radio.Group>
           </Form.Item>
-          <Form.Item label="角色" name="role">
+          <Form.Item label={formatMessage("basic_info.label_role")} name="role">
             <Radio.Group>
-              <Radio value={1}>用户</Radio>
-              <Radio value={2}>管理员</Radio>
-              <Radio value={3}>超级管理员</Radio>
+              {roleRadios.map((options) => (
+                <Radio key={options.value} value={options.value}>
+                  {formatMessage(options.label)}
+                </Radio>
+              ))}
             </Radio.Group>
           </Form.Item>
-          <Form.Item label="头像" name="avatar" valuePropName="avatar">
+          <Form.Item
+            label={formatMessage("basic_info.label_avatar")}
+            name="avatar"
+            valuePropName="avatar"
+          >
             <Upload
               name="avatar"
               listType="picture-card"
@@ -156,7 +185,7 @@ const BasicInfo = (props) => {
               {avatarUrl ? (
                 <img
                   src={SERVER_ADDRESS + "/" + avatarUrl}
-                  alt="获取头像失败"
+                  alt={formatMessage("basic_info.avatar_alt")}
                   className="w-full h-full"
                 />
               ) : (
@@ -165,39 +194,45 @@ const BasicInfo = (props) => {
             </Upload>
           </Form.Item>
           <Form.Item
-            label="手机"
+            label={formatMessage("basic_info.label_phone")}
             name="phone"
             rules={[
               {
                 pattern: PhoneRegexp,
-                message: "手机格式不正确",
+                message: formatMessage("basic_info.rules_phone"),
               },
             ]}
           >
             <Input />
           </Form.Item>
           <Form.Item
-            label="邮箱"
+            label={formatMessage("basic_info.label_email")}
             name="email"
             rules={[
               {
                 pattern: EmailRegexp,
-                message: "邮箱格式不正确",
+                message: formatMessage("basic_info.rules_email"),
               },
             ]}
           >
             <Input />
           </Form.Item>
-          <Form.Item label="备注" name="remark">
-            <Input.TextArea rows={4} placeholder="请输入内容" />
+          <Form.Item
+            label={formatMessage("basic_info.label_remark")}
+            name="remark"
+          >
+            <Input.TextArea
+              rows={4}
+              placeholder={formatMessage("basic_info.placeholder_remark")}
+            />
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
             <Space size={20}>
               <Button type="primary" htmlType="submit">
-                保存
+                {formatMessage("basic_info.save")}
               </Button>
               <Button htmlType="button" onClick={handleResetForm}>
-                重新填写
+                {formatMessage("basic_info.reset")}
               </Button>
             </Space>
           </Form.Item>
