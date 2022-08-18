@@ -74,7 +74,7 @@ const ModifyPassword = () => {
               {
                 min: 6,
                 max: 12,
-                message: formatMessage("modify_password.rules_length_password")
+                message: formatMessage("modify_password.rules_length_password"),
               },
               {
                 required: true,
@@ -95,7 +95,9 @@ const ModifyPassword = () => {
               {
                 min: 6,
                 max: 12,
-                message: formatMessage("modify_password.rules_length_new_password"),
+                message: formatMessage(
+                  "modify_password.rules_length_new_password"
+                ),
               },
               {
                 required: true,
@@ -114,7 +116,9 @@ const ModifyPassword = () => {
               {
                 min: 6,
                 max: 12,
-                message: formatMessage("modify_password.rules_length_repeat_new_password"),
+                message: formatMessage(
+                  "modify_password.rules_length_repeat_new_password"
+                ),
               },
               {
                 required: true,

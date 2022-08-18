@@ -399,7 +399,7 @@ const UserList = () => {
             <Col span={3}>
               <Form.Item
                 name="username"
-                label={formatMessage("user_list.input_username")}
+                label={formatMessage("user_list.label_username")}
               >
                 <Input
                   placeholder={formatMessage("user_list.placeholder_username")}
@@ -409,7 +409,7 @@ const UserList = () => {
             <Col span={3}>
               <Form.Item
                 name="gender"
-                label={formatMessage("user_list.input_gender")}
+                label={formatMessage("user_list.label_gender")}
               >
                 <Select
                   initialvalues={formatMessage("user_list.initial_gender")}
@@ -426,7 +426,7 @@ const UserList = () => {
             <Col span={3}>
               <Form.Item
                 name="role"
-                label={formatMessage("user_list.input_role")}
+                label={formatMessage("user_list.label_role")}
               >
                 <Select
                   initialvalues={formatMessage("user_list.initial_role")}
@@ -443,7 +443,7 @@ const UserList = () => {
             <Col span={5}>
               <Form.Item
                 name="phone"
-                label={formatMessage("user_list.input_phone")}
+                label={formatMessage("user_list.label_phone")}
               >
                 <Input
                   placeholder={formatMessage("user_list.placeholder_phone")}
@@ -453,7 +453,7 @@ const UserList = () => {
             <Col span={5}>
               <Form.Item
                 name="email"
-                label={formatMessage("user_list.input_email")}
+                label={formatMessage("user_list.label_email")}
               >
                 <Input
                   placeholder={formatMessage("user_list.placeholder_email")}
