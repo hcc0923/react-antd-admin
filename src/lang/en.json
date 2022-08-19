@@ -144,5 +144,22 @@
     "modify_password.rules_validator_repeat_new_password": "The passwords entered twice do not match!",
     "modify_password.save": "Save",
     "modify_password.verify_password": "The current password cannot be empty! !",
-    "modify_password.success_update": "The modification is successful, please log in again"
+    "modify_password.success_update": "The modification is successful, please log in again",
+    "icon.title": "Common icons",
+    "icon.success_copy": "Copied to clipboard!",
+    "chart.line_title": "Line chart",
+    "chart.line_yAxis_name": "Quantity",
+    "chart.bar_title": "Histogram",
+    "chart.bar_series_name1": "Evaporation",
+    "chart.bar_series_name2": "Precipitation",
+    "chart.pie_title": "Pie chart",
+    "chart.pie_series_name": "Expenses",
+    "chart.keyboard_title": "keyboard map",
+    "chart.series_name_down": "Down",
+    "chart.keyboard_name_shadow": "Shadow",
+    "chart.keyboard_name_up": "Up",
+    "chart.mix_title": "Hybrid chart",
+    "chart.mix_series_male": "Male",
+    "chart.mix_series_female": "Female",
+    "chart.mix_series_average": "Average"
 }

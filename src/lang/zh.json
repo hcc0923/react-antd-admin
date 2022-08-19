@@ -145,7 +145,22 @@
   "modify_password.save": "保存",
   "modify_password.verify_password": "当前密码不能为空！",
   "modify_password.success_update": "修改成功，请重新登录",
-
   "icon.title": "常用图标",
-  "icon.success_copy": "已复制到剪切板！"
+  "icon.success_copy": "已复制到剪切板！",
+  "chart.line_title": "折线图",
+  "chart.line_yAxis_name": "数量",
+  "chart.bar_title": "柱状图",
+  "chart.bar_series_name1": "蒸发量",
+  "chart.bar_series_name2": "降水量",
+  "chart.pie_title": "饼图",
+  "chart.pie_series_name": "费用支出",
+  "chart.keyboard_title": "键盘图",
+  "chart.series_name_down": "下",
+  "chart.keyboard_name_shadow": "阴影",
+  "chart.keyboard_name_up": "上",
+  "chart.mix_title": "混合图表",
+  "chart.mix_series_male": "男",
+  "chart.mix_series_female": "女",
+  "chart.mix_series_average": "平均"
+
 }
