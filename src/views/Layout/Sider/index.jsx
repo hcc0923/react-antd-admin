@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
+import { useIntl } from "react-intl";
 import DocumentTitle from "react-document-title";
 import { Layout, Menu } from "antd";
 import Logo from "@/components/Logo";
@@ -19,7 +20,10 @@ const Sider = (props) => {
   const [menuPermission, setMenuPermission] = useState([]);
   const [openKeys, setOpenKeys] = useState([]);
   const [documentTitle, setDocumentTitle] = useState("");
-
+  const intl = useIntl();
+  const formatMessage = (id) => {
+    return intl.formatMessage({ id });
+  };
   const onCollapse = (collapsed) => {
     setCollapse(collapsed);
   };
@@ -34,6 +38,7 @@ const Sider = (props) => {
     const menuData = [];
     menuList.forEach((item) => {
       if (handleAuthMenuItem(item)) {
+        item.label = formatMessage(item.label);
         menuData.push(item);
         if (item.children) {
           const children = handleMenuPermission(item.children);

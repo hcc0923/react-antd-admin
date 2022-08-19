@@ -1,12 +1,21 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
+import { connect } from "react-redux";
+import { useIntl } from "react-intl";
 import { Breadcrumb } from "antd";
 import menuList from "@/router/menuList";
 
-const BreadCrumb = () => {
+const BreadCrumb = (props) => {
+  const { settings } = props;
+  const settingsIntl = settings.intl;
   const location = useLocation();
   let { pathname } = location;
+  const intl = useIntl();
+  const formatMessage = (id) => {
+    return intl.formatMessage({ id });
+  };
   if (pathname === "/") pathname = "/home";
+  const homeLabel = settingsIntl === "zh" ? "首页" : "Home";
   const handleBreadCrumb = (menuList, pathname) => {
     const temporaryPath = [];
     try {
@@ -35,22 +44,24 @@ const BreadCrumb = () => {
     }
   };
   let pathData = handleBreadCrumb(menuList, pathname);
-  if (pathData[0].label !== "首页") {
-    pathData = [{ label: "首页", key: "/home" }].concat(pathData);
+  if (pathData[0].label !== homeLabel) {
+    pathData = [{ label: homeLabel, key: "/home" }].concat(pathData);
   }
   return (
     <Breadcrumb className="h-full flex items-center ml-4 text-sm">
       {pathData.map((item) =>
-        item.label === "首页" ? (
+        item.label === homeLabel ? (
           <Breadcrumb.Item key={item.key}>
             <a href={`#${item.key}`}>{item.label}</a>
           </Breadcrumb.Item>
         ) : (
-          <Breadcrumb.Item key={item.key}>{item.label}</Breadcrumb.Item>
+          <Breadcrumb.Item key={item.key}>{formatMessage(item.label)}</Breadcrumb.Item>
         )
       )}
     </Breadcrumb>
   );
 };
 
-export default BreadCrumb;
+const mapStateToProps = (state) => state;
+
+export default connect(mapStateToProps)(BreadCrumb);

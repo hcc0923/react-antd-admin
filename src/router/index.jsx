@@ -13,7 +13,6 @@ function Router(props) {
   const handleFilterComponent = (route) => {
     return route.roles.includes(formatRole(userInfo.role));
   };
-
   return (
     <HashRouter>
       <Routes>

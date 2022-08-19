@@ -1,16 +1,20 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
+import { useIntl } from "react-intl";
 import { Tag, Tooltip, Space, Button } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { closeTag, closeOtherTag, closeAllTag } from "@/store/actions/tag";
 
 const TagView = (props) => {
+  const { tag, closeTag, closeOtherTag, closeAllTag } = props;
   const location = useLocation();
   const navigate = useNavigate();
   const { pathname } = location;
-  const { tag, closeTag, closeOtherTag, closeAllTag } = props;
-
+  const intl = useIntl();
+  const formatMessage = (id) => {
+    return intl.formatMessage({ id });
+  };
   const onCloseTag = (item) => {
     const tagLength = tag.length;
     if (pathname === item.key && item.key === tag[tagLength - 1].key) {
@@ -31,7 +35,6 @@ const TagView = (props) => {
   const onCloseAllTag = () => {
     closeAllTag();
   };
-
   return (
     <div className="w-full pl-4 py-2" style={{ backgroundColor: "#fafafa" }}>
       {tag.map((item) => (

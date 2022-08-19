@@ -12,19 +12,19 @@ import {
 
 const menuList = [
   {
-    label: "首页",
+    label: "menulist.home",
     key: "/home",
     icon: <DashboardOutlined />,
     roles: ["root", "admin", "user"],
   },
   {
-    label: "用户管理",
+    label: "menulist.user_menu",
     key: "/user-menu",
     icon: <UserOutlined />,
     roles: ["root", "admin"],
     children: [
       {
-        label: "用户列表",
+        label: "menulist.user_list",
         key: "/user-menu/user-list",
         icon: <UserOutlined />,
         roles: ["root", "admin"],
@@ -32,23 +32,23 @@ const menuList = [
     ],
   },
   {
-    label: "设置管理",
+    label: "menulist.setting_menu",
     key: "/setting-menu",
     icon: <SettingOutlined />,
     roles: ["root", "admin", "user"],
     children: [
       {
-        label: "用户设置",
+        label: "menulist.user_setting",
         key: "/setting-menu/user-setting",
         roles: ["root", "admin", "user"],
         children: [
           {
-            label: "基本资料",
+            label: "menulist.basic_info",
             key: "/setting-menu/user-setting/basic-info",
             roles: ["root", "admin", "user"],
           },
           {
-            label: "修改密码",
+            label: "menulist.modify_password",
             key: "/setting-menu/user-setting/modify-password",
             roles: ["root", "admin", "user"],
           },
@@ -57,111 +57,111 @@ const menuList = [
     ],
   },
   {
-    label: "图标",
+    label: "menulist.icon",
     key: "/icon",
     icon: <CopyOutlined />,
     roles: ["root", "admin", "user"],
   },
   {
-    label: "图表",
+    label: "menulist.chart",
     key: "/chart",
     icon: <AreaChartOutlined />,
     roles: ["root", "admin", "user"],
     children: [
       {
-        label: "折线图",
+        label: "menulist.chart.line",
         key: "/chart/line",
         roles: ["root", "admin", "user"],
       },
       {
-        label: "柱状图",
+        label: "menulist.chart.bar",
         key: "/chart/bar",
         roles: ["root", "admin", "user"],
       },
       {
-        label: "饼状图",
+        label: "menulist.chart.pie",
         key: "/chart/pie",
         roles: ["root", "admin", "user"],
       },
       {
-        label: "键盘图",
+        label: "menulist.chart.key_board",
         key: "/chart/key-board",
         roles: ["root", "admin", "user"],
       },
       {
-        label: "混合图表",
+        label: "menulist.chart.mix",
         key: "/chart/mix",
         roles: ["root", "admin", "user"],
       },
       {
-        label: "全国地图",
+        label: "menulist.chart.china",
         key: "/chart/china",
         roles: ["root", "admin"],
       },
     ],
   },
   {
-    label: "组件",
+    label: "menulist.module",
     key: "/module",
     icon: <AppstoreOutlined />,
     roles: ["root", "admin", "user"],
     children: [
       {
-        label: "Excel",
+        label: "menulist.module.excel",
         key: "/module/excel",
         roles: ["root", "admin", "user"],
       },
       {
-        label: "Zip",
+        label: "menulist.module.zip",
         key: "/module/zip",
         roles: ["root", "admin", "user"],
       },
       {
-        label: "文件管理",
+        label: "menulist.module.file_admin",
         key: "/module/file-admin",
         roles: ["root", "admin", "user"],
       },
       {
-        label: "富文本",
+        label: "menulist.module.rich_text",
         key: "/module/rich-text",
         roles: ["root", "admin", "user"],
       },
       {
-        label: "MarkDown",
+        label: "menulist.module.mark_down",
         key: "/module/mark-down",
         roles: ["root", "admin", "user"],
       },
       {
-        label: "打字效果",
+        label: "menulist.module.type_effect",
         key: "/module/type-effect",
         roles: ["root", "admin", "user"],
       },
     ],
   },
   {
-    label: "权限测试",
+    label: "menulist.authority",
     key: "/authority",
     icon: <EyeInvisibleOutlined />,
     roles: ["root", "admin", "user"],
   },
   {
-    label: "错误页面",
+    label: "menulist.error",
     key: "/error",
     icon: <StopOutlined />,
     roles: ["root", "admin", "user"],
     children: [
       {
-        label: "权限不足",
+        label: "menulist.error.no_authority",
         key: "/error/no-authority",
         roles: ["root", "admin", "user"],
       },
       {
-        label: "页面丢失",
+        label: "menulist.error.not_found",
         key: "/error/not-found",
         roles: ["root", "admin", "user"],
       },
       {
-        label: "服务器错误",
+        label: "menulist.error.server_error",
         key: "/error/server-error",
         roles: ["root", "admin", "user"],
       },
