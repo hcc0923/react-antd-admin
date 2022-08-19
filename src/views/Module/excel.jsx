@@ -1,28 +1,31 @@
 import React, { useState, useEffect } from "react";
+import { useIntl } from "react-intl";
 import { Spin, Card, Input, Upload, Table, Button } from "antd";
 import * as XLSX from "xlsx";
-
-const data = [
-  { id: "1", name: "张三", gender: "男", age: 23, work: "程序员" },
-  { id: "2", name: "李四", gender: "女", age: 21, work: "程序员" },
-  { id: "3", name: "王五", gender: "女", age: 21, work: "程序员" },
-  { id: "4", name: "马六", gender: "男", age: 21, work: "程序员" },
-  { id: "5", name: "赵七", gender: "女", age: 21, work: "程序员" },
-];
-const dataMap = {
-  id: "ID",
-  name: "姓名",
-  gender: "性别",
-  age: "年龄",
-  work: "工作",
-};
 
 const Excel = () => {
   const [spinning, setSpinning] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [fileList, setFileList] = useState([]);
   const [fileName, setFileName] = useState("file");
-
+  const intl = useIntl();
+  const formatMessage = (id) => {
+    return intl.formatMessage({ id });
+  };
+  const data = [
+    { id: "1", name: "张三", gender: "男", age: 23, work: "程序员" },
+    { id: "2", name: "李四", gender: "女", age: 21, work: "程序员" },
+    { id: "3", name: "王五", gender: "女", age: 21, work: "程序员" },
+    { id: "4", name: "马六", gender: "男", age: 21, work: "程序员" },
+    { id: "5", name: "赵七", gender: "女", age: 21, work: "程序员" },
+  ];
+  const dataMap = {
+    id: "ID",
+    name: formatMessage("module.excel.name"),
+    gender: formatMessage("module.excel.gender"),
+    age: formatMessage("module.excel.age"),
+    work: formatMessage("module.excel.work"),
+  };
   const columns = [
     {
       align: "center",
@@ -32,25 +35,25 @@ const Excel = () => {
     },
     {
       align: "center",
-      title: "姓名",
+      title: formatMessage("module.excel.name"),
       key: "name",
       dataIndex: "name",
     },
     {
       align: "center",
-      title: "性别",
+      title: formatMessage("module.excel.gender"),
       key: "gender",
       dataIndex: "gender",
     },
     {
       align: "center",
-      title: "年龄",
+      title: formatMessage("module.excel.age"),
       key: "age",
       dataIndex: "age",
     },
     {
       align: "center",
-      title: "工作",
+      title: formatMessage("module.excel.work"),
       key: "work",
       dataIndex: "work",
     },
@@ -174,15 +177,15 @@ const Excel = () => {
 
   return (
     <Spin spinning={spinning}>
-      <Card title="Excel导入导出">
+      <Card title={formatMessage("module.excel.title")}>
         <div className="mb-4">
           <Input
             className="w-1/4 mb-2 mr-4"
-            placeholder="请输入文件名(默认file)"
+            placeholder={formatMessage("module.excel.placeholder")}
             onChange={(event) => setFileName(event.target.value)}
           />
           <Button className="mr-4" type="primary" onClick={handleExportAll}>
-            Excel导出
+            {formatMessage("module.excel.button_export")}
           </Button>
           <Upload
             accept=".xlsx"
@@ -191,7 +194,9 @@ const Excel = () => {
             beforeUpload={handleBeforeUploadFile}
             onRemove={handleRemoveFile}
           >
-            <Button type="primary">Excel导入</Button>
+            <Button type="primary">
+              {formatMessage("module.excel.button_import")}
+            </Button>
           </Upload>
         </div>
 

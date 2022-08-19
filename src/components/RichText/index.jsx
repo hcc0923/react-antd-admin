@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from "react";
+import { useIntl } from "react-intl";
 import { Row, Col, Card } from "antd";
 import { EditorState } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
@@ -10,15 +11,16 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 const RichText = () => {
   const [editorContent, setEditorContent] = useState(null);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-
+  const intl = useIntl();
+  const formatMessage = (id) => {
+    return intl.formatMessage({ id });
+  };
   const onEditorStateChange = (editorState) => {
     setEditorState(editorState);
   };
-
   const onContentStateChange = (editorContent) => {
     setEditorContent(editorContent);
   };
-
   const imageUploadCallBack = (file) => {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
@@ -53,7 +55,7 @@ const RichText = () => {
     <Fragment>
       <Row>
         <Col span={24}>
-          <Card title="富文本编辑器" bordered>
+          <Card title={formatMessage("module.richtext.title")} bordered>
             <Editor
               editorState={editorState}
               onEditorStateChange={onEditorStateChange}
@@ -65,7 +67,7 @@ const RichText = () => {
                 image: { uploadCallback: (file) => imageUploadCallBack(file) },
               }}
               onContentStateChange={onContentStateChange}
-              placeholder="请输入正文"
+              placeholder={formatMessage("module.richtext.placeholder")}
               spellCheck
             />
           </Card>
@@ -73,12 +75,20 @@ const RichText = () => {
       </Row>
       <Row gutter={12} className="mt-4">
         <Col span={12}>
-          <Card title="同步转换HTML" hoverable="true" bordered={false}>
+          <Card
+            title={formatMessage("module.richtext.html")}
+            hoverable="true"
+            bordered={false}
+          >
             <pre>{draftToHtml(editorContent)}</pre>
           </Card>
         </Col>
         <Col span={12}>
-          <Card title="同步转换Markdown" hoverable="true" bordered={false}>
+          <Card
+            title={formatMessage("module.richtext.markdown")}
+            hoverable="true"
+            bordered={false}
+          >
             <pre style={{ whiteSpace: "pre-wrap" }}>
               {draftToMarkdown(editorContent)}
             </pre>

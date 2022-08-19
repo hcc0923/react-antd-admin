@@ -1,43 +1,46 @@
 import React, { useState, useEffect } from "react";
+import { useIntl } from "react-intl";
 import { Spin, Card, Table, Input, Button } from "antd";
 import { saveAs } from "file-saver";
 import JSZip from "jszip";
-
-const data = [
-  { id: "1", name: "张三", gender: "男", age: 23, work: "程序员" },
-  { id: "2", name: "李四", gender: "女", age: 21, work: "程序员" },
-  { id: "3", name: "王五", gender: "女", age: 21, work: "程序员" },
-  { id: "4", name: "马六", gender: "男", age: 21, work: "程序员" },
-  { id: "5", name: "赵七", gender: "女", age: 21, work: "程序员" },
-];
 
 const Zip = () => {
   const [spinning, setSpinning] = useState(false);
   const [fileName, setFileName] = useState("file");
   const [tableData, setTableData] = useState([]);
-
+  const intl = useIntl();
+  const formatMessage = (id) => {
+    return intl.formatMessage({ id });
+  };
+  const data = [
+    { id: "1", name: "张三", gender: "男", age: 23, work: "程序员" },
+    { id: "2", name: "李四", gender: "女", age: 21, work: "程序员" },
+    { id: "3", name: "王五", gender: "女", age: 21, work: "程序员" },
+    { id: "4", name: "马六", gender: "男", age: 21, work: "程序员" },
+    { id: "5", name: "赵七", gender: "女", age: 21, work: "程序员" },
+  ];
   const columns = [
     {
       align: "center",
-      title: "姓名",
+      title: formatMessage("module.zip.name"),
       key: "name",
       dataIndex: "name",
     },
     {
       align: "center",
-      title: "性别",
+      title: formatMessage("module.zip.gender"),
       key: "gender",
       dataIndex: "gender",
     },
     {
       align: "center",
-      title: "年龄",
+      title: formatMessage("module.zip.age"),
       key: "age",
       dataIndex: "age",
     },
     {
       align: "center",
-      title: "工作",
+      title: formatMessage("module.zip.work"),
       key: "work",
       dataIndex: "work",
     },
@@ -78,14 +81,14 @@ const Zip = () => {
 
   return (
     <Spin spinning={spinning}>
-      <Card title="导出zip">
+      <Card title={formatMessage("module.zip.title")}>
         <Input
           className="w-1/4 mr-4"
-          placeholder="请输入文件名(默认file)"
+          placeholder={formatMessage("module.zip.placeholder")}
           onChange={(event) => setFileName(event.target.value)}
         />
         <Button type="primary" onClick={handleExportZip}>
-          导出Zip
+          {formatMessage("module.zip.button_export")}
         </Button>
         <Table
           className="mt-4"

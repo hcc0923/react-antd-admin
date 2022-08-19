@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { useIntl } from "react-intl";
 import { Card, Select, Image, Empty } from "antd";
 import { setUserInfo } from "@/store/actions/user";
 import logo from "@/assets/logo.svg";
@@ -9,11 +10,18 @@ const Authority = (props) => {
   const { user, setUserInfo } = props;
   const { userInfo } = user;
   const roleMap = { 1: "用户", 2: "管理员", 3: "超级管理员" };
-
+  const intl = useIntl();
+  const formatMessage = (id) => {
+    return intl.formatMessage({ id });
+  };
   const onSelectChange = (value) => {
     setUserInfo({ ...userInfo, role: value });
   };
-
+  const roleOptions = [
+    { label: "authority.options_role_user", value: 1 },
+    { label: "authority.options_role_admin", value: 2 },
+    { label: "authority.options_role_root", value: 3 },
+  ];
   return (
     <Card title="权限切换">
       <div className="flex flex-col items-center">
@@ -27,9 +35,11 @@ const Authority = (props) => {
             defaultValue={userInfo.role}
             onChange={onSelectChange}
           >
-            <Select.Option value={1}>用户</Select.Option>
-            <Select.Option value={2}>管理员</Select.Option>
-            <Select.Option value={3}>超级管理员</Select.Option>
+            {roleOptions.map((option) => (
+              <Select.Option key={option.value} value={option.value}>
+                {formatMessage(option.label)}
+              </Select.Option>
+            ))}
           </Select>
         </div>
       </div>

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useIntl } from "react-intl";
 import { Spin, Card, Tabs, List, Upload, Space, Button, message } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
 import { useRequest } from "ahooks";
@@ -18,6 +19,10 @@ const FileAdmin = () => {
   const [uploadFileList, setUploadFileList] = useState([]);
   const [fileList, setFileList] = useState([]);
   const [myUploadList, setMyUploadList] = useState([]);
+  const intl = useIntl();
+  const formatMessage = (id) => {
+    return intl.formatMessage({ id });
+  };
   const { loading: loadingMultipleFile, runAsync: runUploadMultipleFile } =
     useRequest((params) => uploadMultipleFile(params), {
       manual: true,
@@ -59,11 +64,11 @@ const FileAdmin = () => {
     runUploadMultipleFile(formData)
       .then(() => {
         setUploadFileList([]);
-        message.success("上传成功");
+        message.success(formatMessage("module.fileadmin.upload_success"));
       })
       .catch((error) => {
         console.log(error);
-        message.success("上传失败");
+        message.error(formatMessage("module.fileadmin.upload_error"));
       })
       .finally(() => {
         setUploading(false);
@@ -136,18 +141,18 @@ const FileAdmin = () => {
       runDeleteAllFile(params)
         .then(() => {
           handleGetMyUploadFileList();
-          message.success("删除成功");
+          message.success(formatMessage("message.delete.success"));
         })
         .catch((error) => {
           console.log(error);
-          message.error("删除失败");
+          message.error(formatMessage("message.delete.error"));
         });
     } else {
       const params = { id: data.id, name: data.name };
       runDeleteSingleFile(params)
         .then(() => {
           handleGetMyUploadFileList();
-          message.success("删除成功");
+          message.error(formatMessage("message.delete.error"));
         })
         .catch((error) => {
           console.log(error);
@@ -155,6 +160,9 @@ const FileAdmin = () => {
     }
   };
 
+  useEffect(() => {
+    console.log(uploading);
+  }, []);
   return (
     <Spin
       spinning={
@@ -166,9 +174,12 @@ const FileAdmin = () => {
         spinning
       }
     >
-      <Card title="文件管理">
+      <Card title={formatMessage("module.fileadmin.title")}>
         <Tabs defaultActiveKey="upload" onChange={handleTabChange}>
-          <Tabs.TabPane tab="上传文件" key="upload">
+          <Tabs.TabPane
+            tab={formatMessage("module.fileadmin.upload_tab")}
+            key="upload"
+          >
             <Upload.Dragger
               maxCount={10}
               multiple={true}
@@ -181,7 +192,9 @@ const FileAdmin = () => {
               <p className="ant-upload-drag-icon">
                 <InboxOutlined />
               </p>
-              <p className="ant-upload-text">支持拖拽上传和点击上传</p>
+              <p className="ant-upload-text">
+                {formatMessage("module.fileadmin.upload_text")}
+              </p>
             </Upload.Dragger>
             <Button
               type="primary"
@@ -190,10 +203,15 @@ const FileAdmin = () => {
               loading={uploading}
               className="mt-4"
             >
-              {uploading ? "上传中..." : "上传"}
+              {uploading
+                ? formatMessage("module.fileadmin.upload_uploading")
+                : formatMessage("module.fileadmin.upload_upload")}
             </Button>
           </Tabs.TabPane>
-          <Tabs.TabPane tab="文件列表" key="filelist">
+          <Tabs.TabPane
+            tab={formatMessage("module.fileadmin.filelist_tab")}
+            key="filelist"
+          >
             <List
               size="large"
               bordered
@@ -205,7 +223,9 @@ const FileAdmin = () => {
                     type="primary"
                     onClick={() => handleDownloadFile("filelist")}
                   >
-                    下载全部
+                    {formatMessage(
+                      "module.fileadmin.filelist_button_download_all"
+                    )}
                   </Button>
                 )
               }
@@ -226,14 +246,19 @@ const FileAdmin = () => {
                       type="default"
                       onClick={() => handleDownloadFile(item)}
                     >
-                      下载
+                      {formatMessage(
+                        "module.fileadmin.filelist_button_download"
+                      )}
                     </Button>
                   </Space>
                 </List.Item>
               )}
             ></List>
           </Tabs.TabPane>
-          <Tabs.TabPane tab="我的上传" key="myupload">
+          <Tabs.TabPane
+            tab={formatMessage("module.fileadmin.myupload_tab")}
+            key="myupload"
+          >
             <List
               size="large"
               bordered
@@ -247,13 +272,17 @@ const FileAdmin = () => {
                       type="primary"
                       onClick={() => handleDownloadFile("myupload")}
                     >
-                      下载全部
+                      {formatMessage(
+                        "module.fileadmin.myupload_button_download_all"
+                      )}
                     </Button>
                     <Button
                       type="danger"
                       onClick={() => handleDeleteFile("uploadlist")}
                     >
-                      删除全部
+                      {formatMessage(
+                        "module.fileadmin.myupload_button_delete_all"
+                      )}
                     </Button>
                   </div>
                 )
@@ -275,13 +304,17 @@ const FileAdmin = () => {
                       type="default"
                       onClick={() => handleDownloadFile(item)}
                     >
-                      下载
+                      {formatMessage(
+                        "module.fileadmin.myupload_button_download_file"
+                      )}
                     </Button>
                     <Button
                       type="danger"
                       onClick={() => handleDeleteFile(item)}
                     >
-                      删除
+                      {formatMessage(
+                        "module.fileadmin.myupload_button_delete_file"
+                      )}
                     </Button>
                   </Space>
                 </List.Item>

@@ -83,6 +83,133 @@ const UserList = () => {
   const formatMessage = (id) => {
     return intl.formatMessage({ id });
   };
+  const columns = [
+    {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+      align: "center",
+      defaultSortOrder: "ascend",
+      sorter: (a, b) => a.id - b.id,
+    },
+    {
+      title: formatMessage("user_list.columns_username_title"),
+      dataIndex: "username",
+      key: "username",
+      align: "center",
+    },
+    {
+      title: formatMessage("user_list.columns_gender"),
+      dataIndex: "gender",
+      key: "gender",
+      align: "center",
+      render: (text) => {
+        return text === 0 ? (
+          <span style={{ color: "#001529" }}>
+            {formatMessage("user_list.columns_gender_male")}
+          </span>
+        ) : (
+          <span style={{ color: "#3DB389" }}>
+            {formatMessage("user_list.columns_gender_female")}
+          </span>
+        );
+      },
+      defaultSortOrder: "ascend",
+      sorter: (a, b) => a.gender - b.gender,
+    },
+    {
+      title: formatMessage("user_list.columns_role"),
+      dataIndex: "role",
+      key: "role",
+      align: "center",
+      render: (text) => {
+        switch (text) {
+          case 1:
+            return (
+              <span style={{ color: "#000000" }}>
+                {formatMessage("user_list.columns_role_user")}
+              </span>
+            );
+          case 2:
+            return (
+              <span style={{ color: "#FFB800" }}>
+                {formatMessage("user_list.columns_role_admin")}
+              </span>
+            );
+          case 3:
+            return (
+              <span style={{ color: "#3DB327" }}>
+                {formatMessage("user_list.columns_role_root")}
+              </span>
+            );
+          default:
+            break;
+        }
+      },
+      defaultSortOrder: "ascend",
+      sorter: (a, b) => a.role - b.role,
+    },
+    {
+      title: formatMessage("user_list.columns_phone"),
+      dataIndex: "phone",
+      key: "phone",
+      align: "center",
+    },
+    {
+      title: formatMessage("user_list.columns_email"),
+      dataIndex: "email",
+      key: "email",
+      align: "center",
+    },
+    {
+      title: formatMessage("user_list.columns_time"),
+      dataIndex: "time",
+      key: "time",
+      align: "center",
+      render: (text) => {
+        return text.substring(0, 10) + " " + text.substring(11, 19);
+      },
+    },
+    {
+      title: formatMessage("user_list.columns_avatar"),
+      dataIndex: "avatar",
+      key: "avatar",
+      align: "center",
+      width: "100px",
+      height: "100px",
+      render: (text, record, index) => {
+        return (
+          <img
+            src={SERVER_ADDRESS + "/" + record.avatar}
+            alt={formatMessage("user_list.columns_avatar_alt")}
+            className="w-20 h-20"
+          />
+        );
+      },
+    },
+    {
+      title: formatMessage("user_list.columns_action"),
+      key: "action",
+      align: "center",
+      render: (text, record, index) => {
+        return (
+          <Fragment>
+            <Button
+              type="link"
+              onClick={() => onOpenAddEditForm("edit", record)}
+            >
+              <EditOutlined />
+              {formatMessage("user_list.columns_action_edit")}
+            </Button>
+            <Button type="link" onClick={() => handleSingleDeleteUser(record)}>
+              <DeleteOutlined />
+              {formatMessage("user_list.columns_action_delete")}
+            </Button>
+          </Fragment>
+        );
+      },
+    },
+  ];
   const { loading: loadingGetUser, runAsync: runGetUser } = useRequest(
     (params) => getUser(params),
     { manual: true, throttleWait: 1000 }
@@ -247,133 +374,6 @@ const UserList = () => {
         break;
     }
   };
-  const columns = [
-    {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-      align: "center",
-      defaultSortOrder: "ascend",
-      sorter: (a, b) => a.id - b.id,
-    },
-    {
-      title: formatMessage("user_list.columns_username_title"),
-      dataIndex: "username",
-      key: "username",
-      align: "center",
-    },
-    {
-      title: formatMessage("user_list.columns_gender"),
-      dataIndex: "gender",
-      key: "gender",
-      align: "center",
-      render: (text) => {
-        return text === 0 ? (
-          <span style={{ color: "#001529" }}>
-            {formatMessage("user_list.columns_gender_male")}
-          </span>
-        ) : (
-          <span style={{ color: "#3DB389" }}>
-            {formatMessage("user_list.columns_gender_female")}
-          </span>
-        );
-      },
-      defaultSortOrder: "ascend",
-      sorter: (a, b) => a.gender - b.gender,
-    },
-    {
-      title: formatMessage("user_list.columns_role"),
-      dataIndex: "role",
-      key: "role",
-      align: "center",
-      render: (text) => {
-        switch (text) {
-          case 1:
-            return (
-              <span style={{ color: "#000000" }}>
-                {formatMessage("user_list.columns_role_user")}
-              </span>
-            );
-          case 2:
-            return (
-              <span style={{ color: "#FFB800" }}>
-                {formatMessage("user_list.columns_role_admin")}
-              </span>
-            );
-          case 3:
-            return (
-              <span style={{ color: "#3DB327" }}>
-                {formatMessage("user_list.columns_role_root")}
-              </span>
-            );
-          default:
-            break;
-        }
-      },
-      defaultSortOrder: "ascend",
-      sorter: (a, b) => a.role - b.role,
-    },
-    {
-      title: formatMessage("user_list.columns_phone"),
-      dataIndex: "phone",
-      key: "phone",
-      align: "center",
-    },
-    {
-      title: formatMessage("user_list.columns_email"),
-      dataIndex: "email",
-      key: "email",
-      align: "center",
-    },
-    {
-      title: formatMessage("user_list.columns_time"),
-      dataIndex: "time",
-      key: "time",
-      align: "center",
-      render: (text) => {
-        return text.substring(0, 10) + " " + text.substring(11, 19);
-      },
-    },
-    {
-      title: formatMessage("user_list.columns_avatar"),
-      dataIndex: "avatar",
-      key: "avatar",
-      align: "center",
-      width: "100px",
-      height: "100px",
-      render: (text, record, index) => {
-        return (
-          <img
-            src={SERVER_ADDRESS + "/" + record.avatar}
-            alt={formatMessage("user_list.columns_avatar_alt")}
-            className="w-20 h-20"
-          />
-        );
-      },
-    },
-    {
-      title: formatMessage("user_list.columns_action"),
-      key: "action",
-      align: "center",
-      render: (text, record, index) => {
-        return (
-          <Fragment>
-            <Button
-              type="link"
-              onClick={() => onOpenAddEditForm("edit", record)}
-            >
-              <EditOutlined />
-              {formatMessage("user_list.columns_action_edit")}
-            </Button>
-            <Button type="link" onClick={() => handleSingleDeleteUser(record)}>
-              <DeleteOutlined />
-              {formatMessage("user_list.columns_action_delete")}
-            </Button>
-          </Fragment>
-        );
-      },
-    },
-  ];
   useEffect(() => {
     handleGetUserList();
   }, [searchForm, pagination]);
