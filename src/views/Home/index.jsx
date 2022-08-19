@@ -241,7 +241,7 @@ const TaskList = () => {
             <Col span={5}>
               <Form.Item
                 name="taskname"
-                label={formatMessage("home.input_taskname")}
+                label={formatMessage("home.label_taskname")}
               >
                 <Input
                   placeholder={formatMessage("home.placeholder_taskname")}
@@ -251,7 +251,7 @@ const TaskList = () => {
             <Col span={5}>
               <Form.Item
                 name="tasklevel"
-                label={formatMessage("home.input_tasklevel")}
+                label={formatMessage("home.label_tasklevel")}
               >
                 <Select
                   initialvalue={formatMessage("home.initial_tasklevel")}
@@ -322,7 +322,7 @@ const TaskList = () => {
               <Input placeholder={formatMessage("home.modal_rules_taskname")} />
             </Form.Item>
             <Form.Item
-              label={formatMessage("home.modal_input_tasklevel")}
+              label={formatMessage("home.modal_label_tasklevel")}
               name="tasklevel"
             >
               <Radio.Group>
@@ -336,7 +336,7 @@ const TaskList = () => {
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
               <Space>
                 <Button type="primary" htmlType="submit">
-                  {formatMessage("home.modal_input_submit")}
+                  {formatMessage("home.modal_button_submit")}
                 </Button>
                 <Button type="button" onClick={() => setModalVisible(false)}>
                   {formatMessage("home.modal_button_cancel")}

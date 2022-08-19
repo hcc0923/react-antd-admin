@@ -1,4 +1,5 @@
 import React from "react";
+import { useIntl } from "react-intl";
 import { Card, message } from "antd";
 import {
   StepBackwardOutlined,
@@ -104,13 +105,17 @@ const icons = [
 ];
 
 const Icon = () => {
+  const intl = useIntl();
+  const formatMessage = (id) => {
+    return intl.formatMessage({ id });
+  };
   const handleCopyToClipboard = (item) => {
     copy(`<${item.key} />`);
-    message.success(`<${item.key} />已复制到剪切板！`, 1);
+    message.success(`<${item.key} />${formatMessage("icon.success_copy")}`, 1);
   };
 
   return (
-    <Card title="常用图标">
+    <Card title={formatMessage("icon.title")}>
       <ul className="flex flex-wrap overflow-hidden mx-0 my-3">
         {icons.map((item, index) => (
           <li
