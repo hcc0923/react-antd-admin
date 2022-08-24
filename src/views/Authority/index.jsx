@@ -9,7 +9,11 @@ import vite from "@/assets/vite.svg";
 const Authority = (props) => {
   const { user, setUserInfo } = props;
   const { userInfo } = user;
-  const roleMap = { 1: "用户", 2: "管理员", 3: "超级管理员" };
+  const roleMap = {
+    1: "authority.options_role_user",
+    2: "authority.options_role_admin",
+    3: "authority.options_role_root",
+  };
   const intl = useIntl();
   const formatMessage = (id) => {
     return intl.formatMessage({ id });
@@ -23,11 +27,13 @@ const Authority = (props) => {
     { label: "authority.options_role_root", value: 3 },
   ];
   return (
-    <Card title="权限切换">
+    <Card title={formatMessage("authority.title")}>
       <div className="flex flex-col items-center">
         <div>
-          你当前的权限是：
-          <span className="text-sm font-bold">{roleMap[userInfo.role]}</span>
+          {formatMessage("authority.current_authority")}&nbsp;&nbsp;
+          <span className="text-sm font-bold">
+            {formatMessage(roleMap[userInfo.role])}
+          </span>
         </div>
         <div className="mt-8">
           <Select

@@ -229,8 +229,8 @@
   "module.richtext.markdown": "同步转换Markdown",
   "module.typewriter.title": "打字效果",
 
-  "authority.title": "你当前的权限是：",
-  "authority.userInfo_role": "权限切换",
+  "authority.title": "权限切换",
+  "authority.current_authority": "你当前的权限是：",
   "authority.options_role_user": "用户",
   "authority.options_role_admin": "管理员",
   "authority.options_role_root": "超级管理员",

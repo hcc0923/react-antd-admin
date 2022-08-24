@@ -228,9 +228,9 @@
     "module.richtext.html": "Convert HTML synchronously",
     "module.richtext.markdown": "Convert Markdown synchronously",
     "module.typewriter.title": "Typing Effect",
-  
-    "authority.title": "Your current permissions are:",
-    "authority.userInfo_role": "Permission switching",
+    
+    "authority.title": "Permission Switching",
+    "authority.current_authority": "Your current permissions are:",
     "authority.options_role_user": "User",
     "authority.options_role_admin": "Admin",
     "authority.options_role_root": "Root",
