@@ -4,7 +4,7 @@ import {
   CLOSE_OTHER_TAG,
   CLOSE_ALL_TAG,
 } from "../constants/index";
-const tagState = [{ label: "首页", key: "/home" }];
+const tagState = [{ label: "menulist.home", key: "/home" }];
 
 const tag = (state = tagState, action) => {
   switch (action.type) {

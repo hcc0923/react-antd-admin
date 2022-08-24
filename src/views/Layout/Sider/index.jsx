@@ -61,23 +61,27 @@ const Sider = (props) => {
       }
     });
   };
-  const handleMenuSelect = (data) => {
-    const { key, domEvent } = data;
-    setDocumentTitle(domEvent.target.innerText);
-    addTag({ label: domEvent.target.innerText, key });
-    navigate(key);
-  };
-  const handleDocumentTitle = (menuList, pathname) => {
-    menuList.forEach((item) => {
-      if (item.key === pathname) {
-        const formatLable = formatMessage(item.label.props.id);
-        setDocumentTitle(formatLable);
+  const handleFindMenuItemByKey = (menuList, key) => {
+    return menuList.find((item) => {
+      if (item.key === key) {
+        return item;
       } else {
         if (item.children) {
-          handleDocumentTitle(item.children, pathname);
+          return handleFindMenuItemByKey(item.children, key);
         }
       }
     });
+  };
+  const handleDocumentTitle = (menuItem) => {
+    const lableId = menuItem.label.props.id;
+    setDocumentTitle(formatMessage(lableId));
+  };
+  const handleSelectMenu = (data) => {
+    const { key } = data;
+    const menuItem = handleFindMenuItemByKey(menuList, key);
+    handleDocumentTitle(menuItem);
+    addTag({ label: lableId, key });
+    navigate(key);
   };
   useEffect(() => {
     const menuData = handleMenuPermission(menuList);
@@ -86,7 +90,8 @@ const Sider = (props) => {
   useEffect(() => {
     handleOpenKeys(menuList);
     setOpenKeys(openKeysData);
-    handleDocumentTitle(menuList, pathname);
+    const menuItem = handleFindMenuItemByKey(menuList, pathname);
+    handleDocumentTitle(menuItem);
   }, [pathname]);
   return (
     <DocumentTitle title={documentTitle}>
@@ -107,7 +112,7 @@ const Sider = (props) => {
             openKeys={openKeys}
             selectedKeys={[pathname]}
             onOpenChange={setOpenKeys}
-            onSelect={handleMenuSelect}
+            onSelect={handleSelectMenu}
           />
         </div>
       </Layout.Sider>

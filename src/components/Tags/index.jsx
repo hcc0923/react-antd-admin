@@ -15,6 +15,9 @@ const TagView = (props) => {
   const formatMessage = (id) => {
     return intl.formatMessage({ id });
   };
+  const onClickTag = (item) => {
+    navigate(item.key);
+  };
   const onCloseTag = (item) => {
     const tagLength = tag.length;
     if (pathname === item.key && item.key === tag[tagLength - 1].key) {
@@ -25,9 +28,6 @@ const TagView = (props) => {
       navigate(tag[tagIndex + 1].key);
     }
     closeTag(item);
-  };
-  const onClickTag = (item) => {
-    navigate(item.key);
   };
   const onCloseOtherTag = (item) => {
     closeOtherTag(item);
@@ -56,7 +56,9 @@ const TagView = (props) => {
             }
           >
             <span onClick={() => onClickTag(item)} className="cursor-pointer">
-              {item.label}
+              {item.label === "menulist.home"
+                ? formatMessage(item.label)
+                : item.label}
             </span>
           </Tooltip>
         </Tag>
