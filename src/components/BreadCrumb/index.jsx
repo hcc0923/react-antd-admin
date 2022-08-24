@@ -44,7 +44,8 @@ const BreadCrumb = (props) => {
     }
   };
   let pathData = handleBreadCrumb(menuList, pathname);
-  if (pathData[0].label !== homeLabel) {
+  const formatLable = formatMessage(pathData[0].label.props.id);
+  if (formatLable !== homeLabel) {
     pathData = [{ label: homeLabel, key: "/home" }].concat(pathData);
   }
   return (
@@ -55,7 +56,7 @@ const BreadCrumb = (props) => {
             <a href={`#${item.key}`}>{item.label}</a>
           </Breadcrumb.Item>
         ) : (
-          <Breadcrumb.Item key={item.key}>{formatMessage(item.label)}</Breadcrumb.Item>
+          <Breadcrumb.Item key={item.key}>{item.label}</Breadcrumb.Item>
         )
       )}
     </Breadcrumb>

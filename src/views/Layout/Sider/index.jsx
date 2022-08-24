@@ -38,7 +38,6 @@ const Sider = (props) => {
     const menuData = [];
     menuList.forEach((item) => {
       if (handleAuthMenuItem(item)) {
-        item.label = formatMessage(item.label);
         menuData.push(item);
         if (item.children) {
           const children = handleMenuPermission(item.children);
@@ -71,7 +70,8 @@ const Sider = (props) => {
   const handleDocumentTitle = (menuList, pathname) => {
     menuList.forEach((item) => {
       if (item.key === pathname) {
-        setDocumentTitle(item.label);
+        const formatLable = formatMessage(item.label.props.id);
+        setDocumentTitle(formatLable);
       } else {
         if (item.children) {
           handleDocumentTitle(item.children, pathname);
@@ -88,7 +88,6 @@ const Sider = (props) => {
     setOpenKeys(openKeysData);
     handleDocumentTitle(menuList, pathname);
   }, [pathname]);
-
   return (
     <DocumentTitle title={documentTitle}>
       <Layout.Sider

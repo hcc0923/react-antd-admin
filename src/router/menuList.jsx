@@ -1,4 +1,5 @@
 import React from "react";
+import { FormattedMessage  } from 'react-intl';
 import {
   DashboardOutlined,
   UserOutlined,
@@ -12,19 +13,19 @@ import {
 
 const menuList = [
   {
-    label: "menulist.home",
+    label: <FormattedMessage id="menulist.home" />,
     key: "/home",
     icon: <DashboardOutlined />,
     roles: ["root", "admin", "user"],
   },
   {
-    label: "menulist.user_menu",
+    label: <FormattedMessage id="menulist.user_menu" />,
     key: "/user-menu",
     icon: <UserOutlined />,
     roles: ["root", "admin"],
     children: [
       {
-        label: "menulist.user_list",
+        label: <FormattedMessage id="menulist.user_list" />,
         key: "/user-menu/user-list",
         icon: <UserOutlined />,
         roles: ["root", "admin"],
@@ -32,23 +33,23 @@ const menuList = [
     ],
   },
   {
-    label: "menulist.setting_menu",
+    label: <FormattedMessage id="menulist.setting_menu" />,
     key: "/setting-menu",
     icon: <SettingOutlined />,
     roles: ["root", "admin", "user"],
     children: [
       {
-        label: "menulist.user_setting",
+        label: <FormattedMessage id="menulist.user_setting" />,
         key: "/setting-menu/user-setting",
         roles: ["root", "admin", "user"],
         children: [
           {
-            label: "menulist.basic_info",
+            label: <FormattedMessage id="menulist.basic_info" />,
             key: "/setting-menu/user-setting/basic-info",
             roles: ["root", "admin", "user"],
           },
           {
-            label: "menulist.modify_password",
+            label: <FormattedMessage id="menulist.modify_password" />,
             key: "/setting-menu/user-setting/modify-password",
             roles: ["root", "admin", "user"],
           },
@@ -57,111 +58,111 @@ const menuList = [
     ],
   },
   {
-    label: "menulist.icon",
+    label: <FormattedMessage id="menulist.icon" />,
     key: "/icon",
     icon: <CopyOutlined />,
     roles: ["root", "admin", "user"],
   },
   {
-    label: "menulist.chart",
+    label: <FormattedMessage id="menulist.chart" />,
     key: "/chart",
     icon: <AreaChartOutlined />,
     roles: ["root", "admin", "user"],
     children: [
       {
-        label: "menulist.chart.line",
+        label: <FormattedMessage id="menulist.chart.line" />,
         key: "/chart/line",
         roles: ["root", "admin", "user"],
       },
       {
-        label: "menulist.chart.bar",
+        label: <FormattedMessage id="menulist.chart.bar" />,
         key: "/chart/bar",
         roles: ["root", "admin", "user"],
       },
       {
-        label: "menulist.chart.pie",
+        label: <FormattedMessage id="menulist.chart.pie" />,
         key: "/chart/pie",
         roles: ["root", "admin", "user"],
       },
       {
-        label: "menulist.chart.key_board",
+        label: <FormattedMessage id="menulist.chart.key_board" />,
         key: "/chart/key-board",
         roles: ["root", "admin", "user"],
       },
       {
-        label: "menulist.chart.mix",
+        label: <FormattedMessage id="menulist.chart.mix" />,
         key: "/chart/mix",
         roles: ["root", "admin", "user"],
       },
       {
-        label: "menulist.chart.china",
+        label: <FormattedMessage id="menulist.chart.china" />,
         key: "/chart/china",
         roles: ["root", "admin"],
       },
     ],
   },
   {
-    label: "menulist.module",
+    label: <FormattedMessage id="menulist.module" />,
     key: "/module",
     icon: <AppstoreOutlined />,
     roles: ["root", "admin", "user"],
     children: [
       {
-        label: "menulist.module.excel",
+        label: <FormattedMessage id="menulist.module.excel" />,
         key: "/module/excel",
         roles: ["root", "admin", "user"],
       },
       {
-        label: "menulist.module.zip",
+        label: <FormattedMessage id="menulist.module.zip" />,
         key: "/module/zip",
         roles: ["root", "admin", "user"],
       },
       {
-        label: "menulist.module.file_admin",
+        label: <FormattedMessage id="menulist.module.file_admin" />,
         key: "/module/file-admin",
         roles: ["root", "admin", "user"],
       },
       {
-        label: "menulist.module.rich_text",
+        label: <FormattedMessage id="menulist.module.rich_text" />,
         key: "/module/rich-text",
         roles: ["root", "admin", "user"],
       },
       {
-        label: "menulist.module.mark_down",
+        label: <FormattedMessage id="menulist.module.mark_down" />,
         key: "/module/mark-down",
         roles: ["root", "admin", "user"],
       },
       {
-        label: "menulist.module.type_effect",
+        label: <FormattedMessage id="menulist.module.type_effect" />,
         key: "/module/type-effect",
         roles: ["root", "admin", "user"],
       },
     ],
   },
   {
-    label: "menulist.authority",
+    label: <FormattedMessage id="menulist.authority" />,
     key: "/authority",
     icon: <EyeInvisibleOutlined />,
     roles: ["root", "admin", "user"],
   },
   {
-    label: "menulist.error",
+    label: <FormattedMessage id="menulist.error" />,
     key: "/error",
     icon: <StopOutlined />,
     roles: ["root", "admin", "user"],
     children: [
       {
-        label: "menulist.error.no_authority",
+        label: <FormattedMessage id="menulist.error.no_authority" />,
         key: "/error/no-authority",
         roles: ["root", "admin", "user"],
       },
       {
-        label: "menulist.error.not_found",
+        label: <FormattedMessage id="menulist.error.not_found" />,
         key: "/error/not-found",
         roles: ["root", "admin", "user"],
       },
       {
-        label: "menulist.error.server_error",
+        label: <FormattedMessage id="menulist.error.server_error" />,
         key: "/error/server-error",
         roles: ["root", "admin", "user"],
       },
