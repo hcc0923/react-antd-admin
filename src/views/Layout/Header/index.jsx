@@ -15,6 +15,7 @@ import {
   SettingOutlined,
   TranslationOutlined,
 } from "@ant-design/icons";
+import { useIntl } from "react-intl";
 import FullScreen from "@/components/FullScreen";
 import DrawerSettings from "@/components/DrawerSettings";
 import Hamburger from "@/components/Hamburger";
@@ -29,10 +30,13 @@ const Header = (props) => {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const isMb = document.body.clientWidth <= 992;
   const [mobile, setMobile] = useState(isMb);
-
+  const intl = useIntl();
+  const formatMessage = (id) => {
+    return intl.formatMessage({ id });
+  };
   const handleLogout = () => {
     localStorage.clear();
-    message.success("退出成功，请重新登录");
+    message.success(formatMessage("header.logout_success"));
   };
   const intlMenu = (
     <Menu
@@ -54,12 +58,12 @@ const Header = (props) => {
       items={[
         {
           key: "1",
-          label: <a href="#/setting-menu/user-setting/basic-info">基本资料</a>,
+          label: <a href="#/setting-menu/user-setting/basic-info">{formatMessage("header.system_menu.basic_info")}</a>,
         },
         {
           key: "2",
           label: (
-            <a href="#/setting-menu/user-setting/modify-password">修改密码</a>
+            <a href="#/setting-menu/user-setting/modify-password">{formatMessage("header.system_menu.modify_password")}</a>
           ),
         },
         {
@@ -69,7 +73,7 @@ const Header = (props) => {
           key: "3",
           label: (
             <a href="/" onClick={() => handleLogout()}>
-              退出
+              {formatMessage("header.system_menu.logout")}
             </a>
           ),
         },
@@ -136,7 +140,7 @@ const Header = (props) => {
                 </a>
               </Dropdown>
 
-              <Tooltip placement="bottom" title={"系统设置"}>
+              <Tooltip placement="bottom" title={formatMessage("header.system_settings")}>
                 <SettingOutlined
                   className="mx-4 cursor-default"
                   onClick={() => setDrawerVisible(true)}

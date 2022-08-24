@@ -50,8 +50,8 @@ const TagView = (props) => {
             placement="bottom"
             title={
               <Space>
-                <Button onClick={() => onCloseOtherTag(item)}>删除其他</Button>
-                <Button onClick={onCloseAllTag}>删除所有</Button>
+                <Button onClick={() => onCloseOtherTag(item)}>{formatMessage("tags.delete_other")}</Button>
+                <Button onClick={onCloseAllTag}>{formatMessage("tags.delete_all")}</Button>
               </Space>
             }
           >

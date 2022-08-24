@@ -233,6 +233,24 @@
   "authority.userInfo_role": "权限切换",
   "authority.options_role_user": "用户",
   "authority.options_role_admin": "管理员",
-  "authority.options_role_root": "超级管理员"
+  "authority.options_role_root": "超级管理员",
+
+  "drawsettings.title": "系统设置",
+  "drawsettings.fixed_header": "固定 Header",
+  "drawsettings.show_logo": "侧边栏 Logo",
+  "drawsettings.show_tag": "标签页",
+  "drawsettings.open": "打开",
+  "drawsettings.close": "关闭",
+
+  "tags.delete_other": "删除其他",
+  "tags.delete_all": "删除所有",
+
+  "header.system_menu.basic_info": "删除所有",
+  "header.system_menu.modify_password": "修改密码",
+  "header.system_menu.logout": "退出",
+  "header.system_settings": "系统设置",
+  "header.logout_success": "退出成功，请重新登录",
+
+  "fullscreen.title": "全屏"
 
 }

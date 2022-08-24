@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Tooltip } from "antd";
 import { FullscreenOutlined } from "@ant-design/icons";
+import { useIntl } from "react-intl";
 
 const FullScreen = () => {
   const [fullScreen, setFullScreen] = useState(false);
-
+  const intl = useIntl();
+  const formatMessage = (id) => {
+    return intl.formatMessage({ id });
+  };
   const handleRequestFullScreen = () => {
     const docEl = document.documentElement;
 
@@ -59,7 +63,7 @@ const FullScreen = () => {
   });
 
   return (
-    <Tooltip placement="bottom" title={"全屏"}>
+    <Tooltip placement="bottom" title={formatMessage("fullscreen.title")}>
       <FullscreenOutlined onClick={handleFullScrren} />
     </Tooltip>
   );

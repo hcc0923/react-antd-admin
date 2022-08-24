@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Drawer, Switch, Space, Button, Divider } from "antd";
+import { useIntl } from "react-intl";
 import {
   setFixedHeader,
   setShowLogo,
@@ -16,9 +17,13 @@ const DrawerSettings = (props) => {
     setShowLogo,
     setShowTag,
   } = props;
+  const intl = useIntl();
+  const formatMessage = (id) => {
+    return intl.formatMessage({ id });
+  };
   return (
     <Drawer
-      title="系统设置"
+      title={formatMessage("drawsettings.title")}
       closeIcon={<></>}
       placement="right"
       visible={drawerVisible}
@@ -32,10 +37,10 @@ const DrawerSettings = (props) => {
       }
     >
       <div className="flex justify-between items-center">
-        <span>固定 Header</span>
+        <span>{formatMessage("drawsettings.fixed_header")}</span>
         <Switch
-          checkedChildren="打开"
-          unCheckedChildren="关闭"
+          checkedChildren={formatMessage("drawsettings.open")}
+          unCheckedChildren={formatMessage("drawsettings.close")}
           defaultChecked={settings.fixedHeader}
           onChange={(checked) => setFixedHeader(checked)}
         />
@@ -43,10 +48,10 @@ const DrawerSettings = (props) => {
       <Divider dashed />
 
       <div className="flex justify-between items-center">
-        <span>侧边栏 Logo</span>
+        <span>{formatMessage("drawsettings.show_logo")}</span>
         <Switch
-          checkedChildren="打开"
-          unCheckedChildren="关闭"
+          checkedChildren={formatMessage("drawsettings.open")}
+          unCheckedChildren={formatMessage("drawsettings.close")}
           defaultChecked={settings.showLogo}
           onChange={(checked) => setShowLogo(checked)}
         />
@@ -54,10 +59,10 @@ const DrawerSettings = (props) => {
       <Divider dashed />
 
       <div className="flex justify-between items-center">
-        <span>标签页</span>
+        <span>{formatMessage("drawsettings.show_tag")}</span>
         <Switch
-          checkedChildren="打开"
-          unCheckedChildren="关闭"
+          checkedChildren={formatMessage("drawsettings.open")}
+          unCheckedChildren={formatMessage("drawsettings.close")}
           defaultChecked={settings.showTag}
           onChange={(checked) => setShowTag(checked)}
         />

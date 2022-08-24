@@ -233,6 +233,23 @@
     "authority.userInfo_role": "Permission switching",
     "authority.options_role_user": "User",
     "authority.options_role_admin": "Admin",
-    "authority.options_role_root": "Root"
+    "authority.options_role_root": "Root",
 
+    "drawsettings.title": "System settings",
+    "drawsettings.fixed_header": "Fixed Header",
+    "drawsettings.show_logo": "Sidebar Logo",
+    "drawsettings.show_tag": "Tags",
+    "drawsettings.open": "Open",
+    "drawsettings.close": "Close",
+
+    "tags.delete_other": "Delete other",
+    "tags.delete_all": "Delete all",
+
+    "header.system_menu.basic_info": "Basic Info",
+    "header.system_menu.modify_password": "Update Password",
+    "header.system_menu.logout": "Logout",
+    "header.system_settings": "System Settings",
+    "header.logout_success": "Successfully logged out, please log in again",
+  
+    "fullscreen.title": "Full Screen"
 }
