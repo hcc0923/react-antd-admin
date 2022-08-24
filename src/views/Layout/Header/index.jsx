@@ -58,12 +58,18 @@ const Header = (props) => {
       items={[
         {
           key: "1",
-          label: <a href="#/setting-menu/user-setting/basic-info">{formatMessage("header.system_menu.basic_info")}</a>,
+          label: (
+            <a href="#/setting-menu/user-setting/basic-info">
+              {formatMessage("header.system_menu.basic_info")}
+            </a>
+          ),
         },
         {
           key: "2",
           label: (
-            <a href="#/setting-menu/user-setting/modify-password">{formatMessage("header.system_menu.modify_password")}</a>
+            <a href="#/setting-menu/user-setting/modify-password">
+              {formatMessage("header.system_menu.modify_password")}
+            </a>
           ),
         },
         {
@@ -140,7 +146,10 @@ const Header = (props) => {
                 </a>
               </Dropdown>
 
-              <Tooltip placement="bottom" title={formatMessage("header.system_settings")}>
+              <Tooltip
+                placement="bottom"
+                title={formatMessage("header.system_settings")}
+              >
                 <SettingOutlined
                   className="mx-4 cursor-default"
                   onClick={() => setDrawerVisible(true)}

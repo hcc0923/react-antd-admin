@@ -164,13 +164,13 @@ const Login = (props) => {
                 忘记密码
               </Link>
               <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
-                  <Button
-                    type="primary"
-                    disabled={loading ? true : false}
-                    htmlType="submit"
-                  >
-                    {loading ? <LoadingOutlined className="mr-1" /> : null}登录
-                  </Button>
+                <Button
+                  type="primary"
+                  disabled={loading ? true : false}
+                  htmlType="submit"
+                >
+                  {loading ? <LoadingOutlined className="mr-1" /> : null}登录
+                </Button>
               </Form.Item>
             </Form>
           </div>
