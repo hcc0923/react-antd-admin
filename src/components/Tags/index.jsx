@@ -56,9 +56,7 @@ const TagView = (props) => {
             }
           >
             <span onClick={() => onClickTag(item)} className="cursor-pointer">
-              {item.label === "menulist.home"
-                ? formatMessage(item.label)
-                : item.label}
+              {formatMessage(item.label)}
             </span>
           </Tooltip>
         </Tag>

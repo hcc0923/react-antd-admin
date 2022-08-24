@@ -72,15 +72,16 @@ const Sider = (props) => {
       }
     });
   };
-  const handleDocumentTitle = (menuItem) => {
+  const handleDocumentTitle = (menuList, pathKey) => {
+    const menuItem = handleFindMenuItemByKey(menuList, pathKey);
     const lableId = menuItem.label.props.id;
     setDocumentTitle(formatMessage(lableId));
   };
   const handleSelectMenu = (data) => {
     const { key } = data;
     const menuItem = handleFindMenuItemByKey(menuList, key);
-    handleDocumentTitle(menuItem);
-    addTag({ label: lableId, key });
+    handleDocumentTitle(menuList, key);
+    addTag({ label: menuItem.label.props.id, key });
     navigate(key);
   };
   useEffect(() => {
@@ -90,8 +91,7 @@ const Sider = (props) => {
   useEffect(() => {
     handleOpenKeys(menuList);
     setOpenKeys(openKeysData);
-    const menuItem = handleFindMenuItemByKey(menuList, pathname);
-    handleDocumentTitle(menuItem);
+    handleDocumentTitle(menuList, pathname);
   }, [pathname]);
   return (
     <DocumentTitle title={documentTitle}>
