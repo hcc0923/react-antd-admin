@@ -34,26 +34,44 @@ import {
 import { EmailRegexp, PhoneRegexp } from "@/utils";
 import { SERVER_ADDRESS } from "@/utils/config";
 
-const genderOptions = [
-  { label: "user_list.options_gender_all", value: -1 },
-  { label: "user_list.options_gender_male", value: 0 },
-  { label: "user_list.options_gender_female", value: 1 },
-];
-const roleOptions = [
-  { label: "user_list.options_role_all", value: 0 },
-  { label: "user_list.options_role_user", value: 1 },
-  { label: "user_list.options_role_admin", value: 2 },
-  { label: "user_list.options_role_root", value: 3 },
-];
-const genderRadios = [
-  { label: "user_list.radios_gender_male", value: 0 },
-  { label: "user_list.radios_gender_female", value: 1 },
-];
-const roleRadios = [
-  { label: "user_list.radios_role_user", value: 1 },
-  { label: "user_list.radios_role_admin", value: 2 },
-  { label: "user_list.radios_role_root", value: 3 },
-];
+type UserDataType = {
+  id: number;
+  username: string;
+  gender: number;
+  role: number;
+  phone: string;
+  email: string;
+  avatar: string;
+  time: string;
+};
+type GetUserType = {
+  email: string;
+  gender: number;
+  pageNum: number;
+  pageSize: number;
+  phone: string;
+  role: number;
+  username: string;
+};
+type AddEditUserType = {
+  id: number | undefined;
+  avatar: string;
+  email: string;
+  gender: number;
+  phone: string;
+  role: number;
+  username: string;
+};
+type DeleteUserType = {
+  id: number | undefined;
+};
+type MultipleDeleteUserType = {
+  ids: Array<number>;
+};
+type FileType = {
+  type: string;
+  size: number;
+};
 const UserList = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [uploading, setUploading] = useState(false);
@@ -70,6 +88,7 @@ const UserList = () => {
   const [total, setTotal] = useState({ total: 0 });
   const [modalVisible, setModalVisible] = useState(false);
   const [modalForm, setModalForm] = useState({
+    id: undefined,
     username: "",
     gender: 0,
     role: 1,
@@ -77,20 +96,20 @@ const UserList = () => {
     email: "",
     avatar: "",
   });
-  const [modalType, setModalType] = useState();
-  const searchRef = useRef();
+  const [modalType, setModalType] = useState("");
+  const searchRef = useRef<any>();
   const intl = useIntl();
-  const formatMessage = (id) => {
+  const formatMessage = (id: string): string => {
     return intl.formatMessage({ id });
   };
-  const columns = [
+  const columns: Array<object> = [
     {
       title: "ID",
       dataIndex: "id",
       key: "id",
       align: "center",
       defaultSortOrder: "ascend",
-      sorter: (a, b) => a.id - b.id,
+      sorter: (a: UserDataType, b: UserDataType) => a.id - b.id,
     },
     {
       title: formatMessage("user_list.columns_username_title"),
@@ -103,7 +122,7 @@ const UserList = () => {
       dataIndex: "gender",
       key: "gender",
       align: "center",
-      render: (text) => {
+      render: (text: number) => {
         return text === 0 ? (
           <span style={{ color: "#001529" }}>
             {formatMessage("user_list.columns_gender_male")}
@@ -115,14 +134,14 @@ const UserList = () => {
         );
       },
       defaultSortOrder: "ascend",
-      sorter: (a, b) => a.gender - b.gender,
+      sorter: (a: UserDataType, b: UserDataType) => a.gender - b.gender,
     },
     {
       title: formatMessage("user_list.columns_role"),
       dataIndex: "role",
       key: "role",
       align: "center",
-      render: (text) => {
+      render: (text: number) => {
         switch (text) {
           case 1:
             return (
@@ -147,7 +166,7 @@ const UserList = () => {
         }
       },
       defaultSortOrder: "ascend",
-      sorter: (a, b) => a.role - b.role,
+      sorter: (a: UserDataType, b: UserDataType) => a.role - b.role,
     },
     {
       title: formatMessage("user_list.columns_phone"),
@@ -166,7 +185,7 @@ const UserList = () => {
       dataIndex: "time",
       key: "time",
       align: "center",
-      render: (text) => {
+      render: (text: string) => {
         return text.substring(0, 10) + " " + text.substring(11, 19);
       },
     },
@@ -177,7 +196,7 @@ const UserList = () => {
       align: "center",
       width: "100px",
       height: "100px",
-      render: (text, record, index) => {
+      render: (text: string, record: UserDataType) => {
         return (
           <img
             src={SERVER_ADDRESS + "/" + record.avatar}
@@ -191,7 +210,7 @@ const UserList = () => {
       title: formatMessage("user_list.columns_action"),
       key: "action",
       align: "center",
-      render: (text, record, index) => {
+      render: (text: string, record: UserDataType) => {
         return (
           <Fragment>
             <Button
@@ -210,34 +229,52 @@ const UserList = () => {
       },
     },
   ];
+  const genderOptions = [
+    { label: "user_list.options_gender_all", value: -1 },
+    { label: "user_list.options_gender_male", value: 0 },
+    { label: "user_list.options_gender_female", value: 1 },
+  ];
+  const roleOptions = [
+    { label: "user_list.options_role_all", value: 0 },
+    { label: "user_list.options_role_user", value: 1 },
+    { label: "user_list.options_role_admin", value: 2 },
+    { label: "user_list.options_role_root", value: 3 },
+  ];
+  const genderRadios = [
+    { label: "user_list.radios_gender_male", value: 0 },
+    { label: "user_list.radios_gender_female", value: 1 },
+  ];
+  const roleRadios = [
+    { label: "user_list.radios_role_user", value: 1 },
+    { label: "user_list.radios_role_admin", value: 2 },
+    { label: "user_list.radios_role_root", value: 3 },
+  ];
   const { loading: loadingGetUser, runAsync: runGetUser } = useRequest(
-    (params) => getUser(params),
+    (params: GetUserType) => getUser(params),
     { manual: true, throttleWait: 1000 }
   );
   const { loading: loadingaAddUser, runAsync: runAddUser } = useRequest(
-    (params) => addUser(params),
+    (params: AddEditUserType) => addUser(params),
     { manual: true, throttleWait: 1000 }
   );
   const { loading: loadingEditUser, runAsync: runEditUser } = useRequest(
-    (params) => editUser(params),
+    (params: AddEditUserType) => editUser(params),
     { manual: true, throttleWait: 1000 }
   );
   const { loading: loadingDeleteUser, runAsync: runDeleteUser } = useRequest(
-    (params) => deleteUser(params),
+    (params: DeleteUserType) => deleteUser(params),
     { manual: true, throttleWait: 1000 }
   );
   const { loading: loadingMultipleDelete, runAsync: runMultipleDelete } =
-    useRequest((params) => multipleDelete(params), {
+    useRequest((params: MultipleDeleteUserType) => multipleDelete(params), {
       manual: true,
       throttleWait: 1000,
     });
 
   const handleGetUserList = () => {
     const params = { ...searchForm, ...pagination };
-    if (params["total"]) delete params["total"];
-
     runGetUser(params)
-      .then((response) => {
+      .then((response: any) => {
         const { result, total } = response;
 
         setUserTableData(result);
@@ -247,17 +284,18 @@ const UserList = () => {
         console.log(error);
       });
   };
-  const handlePageChange = (values) => {
+  const handlePageChange = (values: any) => {
     const { current, pageSize } = values;
     setPagination({ pageNum: current, pageSize });
   };
-  const onOpenAddEditForm = (modalType, record) => {
+  const onOpenAddEditForm = (modalType: string, record?: any) => {
     if (record) {
       setModalForm(record);
       setAvatarUrl(record.avatar);
     } else {
       setAvatarUrl("");
       setModalForm({
+        id: undefined,
         username: "",
         gender: 0,
         role: 1,
@@ -269,7 +307,7 @@ const UserList = () => {
     setModalType(modalType);
     setModalVisible(true);
   };
-  const onSaveAddEditForm = (params) => {
+  const onSaveAddEditForm = (params: any) => {
     if (Object.prototype.toString.call(params.avatar) === "[object Object]") {
       params.avatar = params.avatar.file.response.file.path;
     }
@@ -286,6 +324,8 @@ const UserList = () => {
         });
     } else {
       params.id = modalForm.id;
+      console.log(params);
+
       runEditUser(params)
         .then(() => {
           message.success(formatMessage("message.edit.success"));
@@ -298,7 +338,7 @@ const UserList = () => {
         });
     }
   };
-  const handleSingleDeleteUser = (record) => {
+  const handleSingleDeleteUser = (record: UserDataType) => {
     Modal.confirm({
       title: formatMessage("user_list.delete_confirm_title"),
       icon: <ExclamationCircleOutlined />,
@@ -346,7 +386,7 @@ const UserList = () => {
       },
     });
   };
-  const handleBeforeUpload = (file) => {
+  const handleBeforeUpload = (file: FileType) => {
     if (file.type !== "image/jpeg" && file.type !== "image/png") {
       message.error(formatMessage("user_list.before_upload_type"));
       return false;
@@ -357,7 +397,7 @@ const UserList = () => {
     }
     return true;
   };
-  const handleAvatarChange = (avatar) => {
+  const handleAvatarChange = (avatar: any) => {
     setUploading(true);
     const { file } = avatar;
     const { status } = file;
@@ -411,10 +451,7 @@ const UserList = () => {
                 name="gender"
                 label={formatMessage("user_list.label_gender")}
               >
-                <Select
-                  initialvalues={formatMessage("user_list.initial_gender")}
-                  placeholder={formatMessage("user_list.initial_gender")}
-                >
+                <Select placeholder={formatMessage("user_list.initial_gender")}>
                   {genderOptions.map((option) => (
                     <Select.Option key={option.value} value={option.value}>
                       {formatMessage(option.label)}
@@ -428,10 +465,7 @@ const UserList = () => {
                 name="role"
                 label={formatMessage("user_list.label_role")}
               >
-                <Select
-                  initialvalues={formatMessage("user_list.initial_role")}
-                  placeholder={formatMessage("user_list.initial_role")}
-                >
+                <Select placeholder={formatMessage("user_list.initial_role")}>
                   {roleOptions.map((option) => (
                     <Select.Option key={option.value} value={option.value}>
                       {formatMessage(option.label)}
@@ -484,12 +518,12 @@ const UserList = () => {
         </Space>
         <Table
           bordered={true}
-          rowSelection={{ selectedRowKeys, onChange: setSelectedRowKeys }}
+          rowSelection={{ selectedRowKeys, onChange: (values: any) => setSelectedRowKeys(values) }}
           columns={columns}
           dataSource={userTableData}
           pagination={{ ...pagination, ...total }}
           onChange={handlePageChange}
-          rowKey={(record) => `${record.id}`}
+          rowKey={(record: any) => `${record.id}`}
         />
         <Modal
           title={
@@ -604,7 +638,7 @@ const UserList = () => {
                 <Button type="primary" htmlType="submit">
                   {formatMessage("user_list.modal_input_submit")}
                 </Button>
-                <Button type="button" onClick={() => setModalVisible(false)}>
+                <Button type="default" onClick={() => setModalVisible(false)}>
                   {formatMessage("user_list.modal_button_cancel")}
                 </Button>
               </Space>

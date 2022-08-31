@@ -30,11 +30,7 @@ type GetTaskType = {
   tasklevel: number;
   taskname: string;
 };
-type PageChangeType = {
-  current: number;
-  pageSize: number;
-};
-type FormRecordType = {
+type TaskDataType = {
   id: number | undefined;
   tasklevel: string;
   taskname: string;
@@ -52,6 +48,7 @@ const TaskList = () => {
   const [total, setTotal] = useState({ total: 0 });
   const [modalVisible, setModalVisible] = useState(false);
   const [modalForm, setModalForm] = useState({
+    id: undefined,
     taskname: "",
     tasklevel: "0",
   });
@@ -61,112 +58,6 @@ const TaskList = () => {
   const formatMessage = (id: string): string => {
     return intl.formatMessage({ id });
   };
-  const { loading: loadingGetTask, runAsync: runGetTask } = useRequest(
-    (params: GetTaskType) => getTask(params),
-    { manual: true, throttleWait: 1000 }
-  );
-  const { loading: loadingAddTask, runAsync: runAddTask } = useRequest(
-    (params: FormRecordType) => addTask(params),
-    { manual: true, throttleWait: 1000 }
-  );
-  const { loading: loadingEditTask, runAsync: runEditTask } = useRequest(
-    (params: FormRecordType) => editTask(params),
-    { manual: true, throttleWait: 1000 }
-  );
-  const { loading: loadingDeleteTask, runAsync: runDeleteTask } = useRequest(
-    (params: DeleteTaskType) => deleteTask(params),
-    { manual: true, throttleWait: 1000 }
-  );
-  const taskLevelOptions = [
-    { label: "home.options_task_level_all", value: -1 },
-    { label: "home.options_task_level_common", value: 1 },
-    { label: "home.options_task_level_important", value: 2 },
-    { label: "home.options_task_level_urgent", value: 3 },
-  ];
-  const taskLevelRadios = [
-    { label: "home.radios_task_level_common", value: "1" },
-    { label: "home.radios_task_level_important", value: "2" },
-    { label: "home.radios_task_level_urgent", value: "3" },
-  ];
-
-  const handleGetTaskList = () => {
-    const params = { ...searchForm, ...pagination };
-    runGetTask(params)
-      .then((response: any) => {
-        const { result, total } = response;
-        setTaskTableData(result);
-        setTotal({ total });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  const handlePageChange = (values: PageChangeType) => {
-    const { current, pageSize } = values;
-    setPagination({ pageNum: current, pageSize });
-  };
-  const onOpenAddEditForm = (modalType: string, record?: FormRecordType) => {
-    if (record) {
-      setModalForm(record);
-    } else {
-      setModalForm({
-        taskname: "",
-        tasklevel: "1",
-      });
-    }
-    setModalType(modalType);
-    setModalVisible(true);
-  };
-  const onSaveAddEditForm = (values: FormRecordType) => {
-    if (modalType === "add") {
-      runAddTask(values)
-        .then(() => {
-          message.success(formatMessage("message.add.success"));
-          handleGetTaskList();
-          setModalVisible(false);
-        })
-        .catch((error) => {
-          message.error(formatMessage("message.add.error"));
-          console.log(error);
-        });
-    } else {
-      values.id = modalForm.id;
-      runEditTask(values)
-        .then(() => {
-          message.success(formatMessage("message.edit.success"));
-          handleGetTaskList();
-          setModalVisible(false);
-        })
-        .catch((error) => {
-          message.error(formatMessage("message.edit.error"));
-          console.log(error);
-        });
-    }
-  };
-  const handleDeleteTask = (record: FormRecordType) => {
-    Modal.confirm({
-      title: formatMessage("home.delete_confirm_title"),
-      icon: <ExclamationCircleOutlined />,
-      content: (
-        <span>
-          {formatMessage("home.delete_confirm_content")}
-          <span className="text-light-red">{record.taskname}</span>？
-        </span>
-      ),
-      onOk: () => {
-        const params = { id: record.id };
-        runDeleteTask(params)
-          .then(() => {
-            message.success(formatMessage("message.delete.success"));
-            handleGetTaskList();
-          })
-          .catch((error) => {
-            message.success(formatMessage("message.delete.error"));
-            console.log(error);
-          });
-      },
-    });
-  };
   const columns: Array<object> = [
     {
       title: "ID",
@@ -174,7 +65,7 @@ const TaskList = () => {
       key: "id",
       align: "center",
       defaultSortOrder: "ascend",
-      sorter: (a: FormRecordType, b: FormRecordType) =>
+      sorter: (a: TaskDataType, b: TaskDataType) =>
         Number(a.id) - Number(b.id),
     },
     {
@@ -213,7 +104,7 @@ const TaskList = () => {
         }
       },
       defaultSortOrder: "ascend",
-      sorter: (a: FormRecordType, b: FormRecordType) =>
+      sorter: (a: TaskDataType, b: TaskDataType) =>
         Number(a.tasklevel) - Number(b.tasklevel),
     },
     {
@@ -221,7 +112,7 @@ const TaskList = () => {
       dataIndex: "action",
       key: "action",
       align: "center",
-      render: (text: string, record: FormRecordType) => {
+      render: (text: string, record: TaskDataType) => {
         return (
           <Fragment>
             <Button
@@ -240,6 +131,113 @@ const TaskList = () => {
       },
     },
   ];
+  const taskLevelOptions = [
+    { label: "home.options_task_level_all", value: -1 },
+    { label: "home.options_task_level_common", value: 1 },
+    { label: "home.options_task_level_important", value: 2 },
+    { label: "home.options_task_level_urgent", value: 3 },
+  ];
+  const taskLevelRadios = [
+    { label: "home.radios_task_level_common", value: "1" },
+    { label: "home.radios_task_level_important", value: "2" },
+    { label: "home.radios_task_level_urgent", value: "3" },
+  ];
+  const { loading: loadingGetTask, runAsync: runGetTask } = useRequest(
+    (params: GetTaskType) => getTask(params),
+    { manual: true, throttleWait: 1000 }
+  );
+  const { loading: loadingAddTask, runAsync: runAddTask } = useRequest(
+    (params: TaskDataType) => addTask(params),
+    { manual: true, throttleWait: 1000 }
+  );
+  const { loading: loadingEditTask, runAsync: runEditTask } = useRequest(
+    (params: TaskDataType) => editTask(params),
+    { manual: true, throttleWait: 1000 }
+  );
+  const { loading: loadingDeleteTask, runAsync: runDeleteTask } = useRequest(
+    (params: DeleteTaskType) => deleteTask(params),
+    { manual: true, throttleWait: 1000 }
+  );
+
+  const handleGetTaskList = () => {
+    const params = { ...searchForm, ...pagination };
+    runGetTask(params)
+      .then((response: any) => {
+        const { result, total } = response;
+        setTaskTableData(result);
+        setTotal({ total });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const handlePageChange = (values: any) => {
+    const { current, pageSize } = values;
+    setPagination({ pageNum: current, pageSize });
+  };
+  const onOpenAddEditForm = (modalType: string, record?: any) => {
+    if (record) {
+      setModalForm(record);
+    } else {
+      setModalForm({
+        id: undefined,
+        taskname: "",
+        tasklevel: "1",
+      });
+    }
+    setModalType(modalType);
+    setModalVisible(true);
+  };
+  const onSaveAddEditForm = (values: TaskDataType) => {
+    if (modalType === "add") {
+      runAddTask(values)
+        .then(() => {
+          message.success(formatMessage("message.add.success"));
+          handleGetTaskList();
+          setModalVisible(false);
+        })
+        .catch((error) => {
+          message.error(formatMessage("message.add.error"));
+          console.log(error);
+        });
+    } else {
+      values.id = modalForm.id;
+      runEditTask(values)
+        .then(() => {
+          message.success(formatMessage("message.edit.success"));
+          handleGetTaskList();
+          setModalVisible(false);
+        })
+        .catch((error) => {
+          message.error(formatMessage("message.edit.error"));
+          console.log(error);
+        });
+    }
+  };
+  const handleDeleteTask = (record: TaskDataType) => {
+    Modal.confirm({
+      title: formatMessage("home.delete_confirm_title"),
+      icon: <ExclamationCircleOutlined />,
+      content: (
+        <span>
+          {formatMessage("home.delete_confirm_content")}
+          <span className="text-light-red">{record.taskname}</span>？
+        </span>
+      ),
+      onOk: () => {
+        const params = { id: record.id };
+        runDeleteTask(params)
+          .then(() => {
+            message.success(formatMessage("message.delete.success"));
+            handleGetTaskList();
+          })
+          .catch((error) => {
+            message.success(formatMessage("message.delete.error"));
+            console.log(error);
+          });
+      },
+    });
+  };
   useEffect(() => {
     handleGetTaskList();
   }, [searchForm, pagination]);
@@ -273,10 +271,7 @@ const TaskList = () => {
                 name="tasklevel"
                 label={formatMessage("home.label_tasklevel")}
               >
-                <Select
-                  initialvalue={formatMessage("home.initial_tasklevel")}
-                  placeholder={formatMessage("home.initial_tasklevel")}
-                >
+                <Select placeholder={formatMessage("home.initial_tasklevel")}>
                   {taskLevelOptions.map((option) => (
                     <Select.Option key={option.value} value={option.value}>
                       {formatMessage(option.label)}
@@ -308,7 +303,7 @@ const TaskList = () => {
           columns={columns}
           dataSource={taskTableData}
           pagination={{ ...pagination, ...total }}
-          onChange={() => handlePageChange}
+          onChange={handlePageChange}
           rowKey={(record: any) => `${record.id}`}
         />
         <Modal
