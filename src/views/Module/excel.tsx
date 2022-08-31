@@ -9,24 +9,24 @@ const Excel = () => {
   const [fileList, setFileList] = useState([]);
   const [fileName, setFileName] = useState("file");
   const intl = useIntl();
-  const formatMessage = (id) => {
+  const formatMessage = (id: string): string => {
     return intl.formatMessage({ id });
   };
-  const data = [
+  const data: any = [
     { id: "1", name: "张三", gender: "男", age: 23, work: "程序员" },
     { id: "2", name: "李四", gender: "女", age: 21, work: "程序员" },
     { id: "3", name: "王五", gender: "女", age: 21, work: "程序员" },
     { id: "4", name: "马六", gender: "男", age: 21, work: "程序员" },
     { id: "5", name: "赵七", gender: "女", age: 21, work: "程序员" },
   ];
-  const dataMap = {
+  const dataMap: any = {
     id: "ID",
     name: formatMessage("module.excel.name"),
     gender: formatMessage("module.excel.gender"),
     age: formatMessage("module.excel.age"),
     work: formatMessage("module.excel.work"),
   };
-  const columns = [
+  const columns: any = [
     {
       align: "center",
       title: "ID",
@@ -58,24 +58,26 @@ const Excel = () => {
       dataIndex: "work",
     },
   ];
-  const sheetToBlob = (sheet, sheetName) => {
+  const sheetToBlob = (sheet: object, sheetName?: string) => {
+    console.log(sheet, sheetName);
+
     sheetName = sheetName || "sheet1";
-    const workBook = {
+    const workBook: any = {
       SheetNames: [sheetName],
       Sheets: {},
     };
     workBook.Sheets[sheetName] = sheet;
-    const options = {
+    const options: object = {
       bookType: "xlsx",
       bookSST: false,
       type: "binary",
     };
     const XLSXBook = XLSX.write(workBook, options);
-    function stringToArrayBuffer(string) {
-      const buffer = new ArrayBuffer(string.length);
+    function stringToArrayBuffer(str: string) {
+      const buffer = new ArrayBuffer(str.length);
       const unit8Array = new Uint8Array(buffer);
-      for (let index = 0; index !== string.length; ++index) {
-        unit8Array[index] = string.charCodeAt(index) & 0xff;
+      for (let index = 0; index !== str.length; ++index) {
+        unit8Array[index] = str.charCodeAt(index) & 0xff;
       }
       return buffer;
     }
@@ -84,7 +86,7 @@ const Excel = () => {
     });
     return blob;
   };
-  const openDownloadDialog = (blob, saveName) => {
+  const openDownloadDialog = (blob: any, saveName: string) => {
     const url = URL.createObjectURL(blob);
 
     const aLink = document.createElement("a");
@@ -97,8 +99,8 @@ const Excel = () => {
   const handleExportAll = () => {
     setSpinning(true);
 
-    const newData = data.map((item) => {
-      return Object.keys(item).reduce((newItem, key) => {
+    const newData = data.map((item: any) => {
+      return Object.keys(item).reduce((newItem: any, key: string) => {
         const newKey = dataMap[key];
         newItem[newKey] = item[key];
         return newItem;
@@ -109,30 +111,30 @@ const Excel = () => {
     openDownloadDialog(sheetToBlob(sheet, undefined), `${fileName}.xlsx`);
     setSpinning(false);
   };
-  const formatTitleAndFileld = (a, b) => {
-    const rowMap = {};
-    columns.forEach((item) => (rowMap[item[a]] = item[b]));
+  const formatTitleAndFileld = (a: any, b: any) => {
+    const rowMap: any = {};
+    columns.forEach((item: any) => (rowMap[item[a]] = item[b]));
     return rowMap;
   };
-  const handleImportJSON = (array, file) => {
+  const handleImportJSON = (array: any, file: object) => {
     const header = array[0];
     const rowMap = formatTitleAndFileld("title", "dataIndex");
-    const firstRow = header.map((item) => rowMap[item]);
+    const firstRow = header.map((item: any) => rowMap[item]);
 
     const newArray = [...array];
 
     newArray.splice(0, 1);
 
     const JSON = newArray.map((items) => {
-      const newItem = {};
-      items.forEach((item, index) => {
+      const newItem: any = {};
+      items.forEach((item: any, index: number) => {
         const newKey = firstRow[index] || index;
         newItem[newKey] = item;
       });
       return newItem;
     });
 
-    const formatData = JSON.map((item) => {
+    const formatData: any = JSON.map((item) => {
       const { id, name, gender, age, work } = item;
       return {
         id,
@@ -146,10 +148,10 @@ const Excel = () => {
     setFileList([file]);
     return formatData;
   };
-  const handleBeforeUploadFile = (file) => {
+  const handleBeforeUploadFile = (file: any) => {
     setSpinning(true);
     const fileReader = new FileReader();
-    fileReader.addEventListener("load", (event) => {
+    fileReader.addEventListener("load", (event: any) => {
       const list = event.target.result;
 
       // try parse list
@@ -205,7 +207,7 @@ const Excel = () => {
           columns={columns}
           dataSource={tableData}
           pagination={false}
-          rowKey={(record) => `${record.id}`}
+          rowKey={(record: any) => `${record.id}`}
         />
       </Card>
     </Spin>

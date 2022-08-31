@@ -6,26 +6,37 @@ import CryptoJS from "crypto-js";
 import { useRequest } from "ahooks";
 import { checkPassword, updatePassword } from "@/api/user";
 
+type CheckPasswordType = {
+  password: string;
+};
+type CheckNewPasswordType = {
+  newPassword: string;
+};
+type DataPasswordType = {
+  password: string;
+  newPassword: string;
+  repeatNewPassword: string;
+};
 const ModifyPassword = () => {
   const navigate = useNavigate();
   const [isFirst, setIsFirst] = useState(true);
   const [verifyPassword, setVerifyPassword] = useState(false);
   const intl = useIntl();
-  const formatMessage = (id) => {
+  const formatMessage = (id: string): string => {
     return intl.formatMessage({ id });
   };
   const { loading: loadingCheckPassword, runAsync: runCheckPassword } =
-    useRequest((params) => checkPassword(params), {
+    useRequest((params: CheckPasswordType) => checkPassword(params), {
       manual: true,
       throttleWait: 1000,
     });
   const { loading: loadingUpdatePassword, runAsync: runUpdatePassword } =
-    useRequest((params) => updatePassword(params), {
+    useRequest((params: CheckNewPasswordType) => updatePassword(params), {
       manual: true,
       throttleWait: 1000,
     });
 
-  const handleVerifyPassword = (event) => {
+  const handleVerifyPassword = (event: any) => {
     setIsFirst(false);
     const value = event.target.value;
     if (value === "") {
@@ -41,7 +52,7 @@ const ModifyPassword = () => {
         console.log(error);
       });
   };
-  const handleSubmitForm = (values) => {
+  const handleSubmitForm = (values: DataPasswordType) => {
     const params = { newPassword: CryptoJS.MD5(values.newPassword).toString() };
 
     runUpdatePassword(params)
