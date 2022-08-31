@@ -6,24 +6,24 @@ import { createStyleImportPlugin, AntdResolve } from "vite-plugin-style-import";
 
 export default defineConfig((mode: ConfigEnv): UserConfig => {
   const configEnv = loadEnv(mode.mode, "./");
-  
+
   return {
     resolve: {
-			alias: {
-				"@": resolve(__dirname, "./src")
-			}
-		},
+      alias: {
+        "@": resolve(__dirname, "./src"),
+      },
+    },
     css: {
-			preprocessorOptions: {
-				less: {
-					javascriptEnabled: true,
-				}
-			}
-		},
+      preprocessorOptions: {
+        less: {
+          javascriptEnabled: true,
+        },
+      },
+    },
     server: {
       host: configEnv.VITE_HOST,
-      port:  Number(configEnv.VITE_PORT),
-      https: false
+      port: Number(configEnv.VITE_PORT),
+      https: false,
     },
     plugins: [
       reactRefresh(),
@@ -37,8 +37,9 @@ export default defineConfig((mode: ConfigEnv): UserConfig => {
       }),
     ],
     esbuild: {
-			pure: configEnv.VITE_HOST === "production" ? ["console.log", "debugger"] : []
-		},
+      pure:
+        configEnv.VITE_HOST === "production" ? ["console.log", "debugger"] : [],
+    },
     build: {
       outDir: configEnv.VITE_OUTPUT_DIR,
       minify: "esbuild",
@@ -50,5 +51,5 @@ export default defineConfig((mode: ConfigEnv): UserConfig => {
         },
       },
     },
-  }
+  };
 });
