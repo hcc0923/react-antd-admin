@@ -24,17 +24,24 @@ import {
 import { useRequest } from "ahooks";
 import { getTask, addTask, editTask, deleteTask } from "@/api/task";
 
-const taskLevelOptions = [
-  { label: "home.options_task_level_all", value: -1 },
-  { label: "home.options_task_level_common", value: 1 },
-  { label: "home.options_task_level_important", value: 2 },
-  { label: "home.options_task_level_urgent", value: 3 },
-];
-const taskLevelRadios = [
-  { label: "home.radios_task_level_common", value: "1" },
-  { label: "home.radios_task_level_important", value: "2" },
-  { label: "home.radios_task_level_urgent", value: "3" },
-];
+type GetTaskType = {
+  pageNum: number;
+  pageSize: number;
+  tasklevel: number;
+  taskname: string;
+};
+type PageChangeType = {
+  current: number;
+  pageSize: number;
+};
+type FormRecordType = {
+  id: number | undefined;
+  tasklevel: string;
+  taskname: string;
+};
+type DeleteTaskType = {
+  id: number | undefined;
+};
 const TaskList = () => {
   const [taskTableData, setTaskTableData] = useState([]);
   const [searchForm, setSearchForm] = useState({
@@ -46,37 +53,47 @@ const TaskList = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalForm, setModalForm] = useState({
     taskname: "",
-    tasklevel: 0,
+    tasklevel: "0",
   });
-  const [modalType, setModalType] = useState();
-  const searchRef = useRef();
+  const [modalType, setModalType] = useState("");
+  const searchRef = useRef<any>();
   const intl = useIntl();
-  const formatMessage = (id) => {
+  const formatMessage = (id: string): string => {
     return intl.formatMessage({ id });
   };
   const { loading: loadingGetTask, runAsync: runGetTask } = useRequest(
-    (params) => getTask(params),
+    (params: GetTaskType) => getTask(params),
     { manual: true, throttleWait: 1000 }
   );
   const { loading: loadingAddTask, runAsync: runAddTask } = useRequest(
-    (params) => addTask(params),
+    (params: FormRecordType) => addTask(params),
     { manual: true, throttleWait: 1000 }
   );
   const { loading: loadingEditTask, runAsync: runEditTask } = useRequest(
-    (params) => editTask(params),
+    (params: FormRecordType) => editTask(params),
     { manual: true, throttleWait: 1000 }
   );
   const { loading: loadingDeleteTask, runAsync: runDeleteTask } = useRequest(
-    (params) => deleteTask(params),
+    (params: DeleteTaskType) => deleteTask(params),
     { manual: true, throttleWait: 1000 }
   );
+  const taskLevelOptions = [
+    { label: "home.options_task_level_all", value: -1 },
+    { label: "home.options_task_level_common", value: 1 },
+    { label: "home.options_task_level_important", value: 2 },
+    { label: "home.options_task_level_urgent", value: 3 },
+  ];
+  const taskLevelRadios = [
+    { label: "home.radios_task_level_common", value: "1" },
+    { label: "home.radios_task_level_important", value: "2" },
+    { label: "home.radios_task_level_urgent", value: "3" },
+  ];
 
   const handleGetTaskList = () => {
     const params = { ...searchForm, ...pagination };
     runGetTask(params)
-      .then((response) => {
+      .then((response: any) => {
         const { result, total } = response;
-
         setTaskTableData(result);
         setTotal({ total });
       })
@@ -84,11 +101,11 @@ const TaskList = () => {
         console.log(error);
       });
   };
-  const handlePageChange = (values) => {
+  const handlePageChange = (values: PageChangeType) => {
     const { current, pageSize } = values;
     setPagination({ pageNum: current, pageSize });
   };
-  const onOpenAddEditForm = (modalType, record) => {
+  const onOpenAddEditForm = (modalType: string, record?: FormRecordType) => {
     if (record) {
       setModalForm(record);
     } else {
@@ -100,7 +117,7 @@ const TaskList = () => {
     setModalType(modalType);
     setModalVisible(true);
   };
-  const onSaveAddEditForm = (values) => {
+  const onSaveAddEditForm = (values: FormRecordType) => {
     if (modalType === "add") {
       runAddTask(values)
         .then(() => {
@@ -126,7 +143,7 @@ const TaskList = () => {
         });
     }
   };
-  const handleDeleteTask = (record) => {
+  const handleDeleteTask = (record: FormRecordType) => {
     Modal.confirm({
       title: formatMessage("home.delete_confirm_title"),
       icon: <ExclamationCircleOutlined />,
@@ -150,14 +167,15 @@ const TaskList = () => {
       },
     });
   };
-  const columns = [
+  const columns: Array<object> = [
     {
       title: "ID",
       dataIndex: "id",
       key: "id",
       align: "center",
       defaultSortOrder: "ascend",
-      sorter: (a, b) => a.id - b.id,
+      sorter: (a: FormRecordType, b: FormRecordType) =>
+        Number(a.id) - Number(b.id),
     },
     {
       title: formatMessage("home.columns.taskname"),
@@ -170,7 +188,7 @@ const TaskList = () => {
       dataIndex: "tasklevel",
       key: "tasklevel",
       align: "center",
-      render: (text) => {
+      render: (text: string): any => {
         switch (text) {
           case "1":
             return (
@@ -195,13 +213,15 @@ const TaskList = () => {
         }
       },
       defaultSortOrder: "ascend",
-      sorter: (a, b) => a.tasklevel - b.tasklevel,
+      sorter: (a: FormRecordType, b: FormRecordType) =>
+        Number(a.tasklevel) - Number(b.tasklevel),
     },
     {
       title: formatMessage("home.columns.action"),
+      dataIndex: "action",
       key: "action",
       align: "center",
-      render: (text, record, index) => {
+      render: (text: string, record: FormRecordType) => {
         return (
           <Fragment>
             <Button
@@ -288,8 +308,8 @@ const TaskList = () => {
           columns={columns}
           dataSource={taskTableData}
           pagination={{ ...pagination, ...total }}
-          onChange={handlePageChange}
-          rowKey={(record) => `${record.id}`}
+          onChange={() => handlePageChange}
+          rowKey={(record: any) => `${record.id}`}
         />
         <Modal
           title={
@@ -338,7 +358,7 @@ const TaskList = () => {
                 <Button type="primary" htmlType="submit">
                   {formatMessage("home.modal_button_submit")}
                 </Button>
-                <Button type="button" onClick={() => setModalVisible(false)}>
+                <Button type="default" onClick={() => setModalVisible(false)}>
                   {formatMessage("home.modal_button_cancel")}
                 </Button>
               </Space>
