@@ -20,7 +20,7 @@ const FileAdmin = () => {
   const [fileList, setFileList] = useState([]);
   const [myUploadList, setMyUploadList] = useState([]);
   const intl = useIntl();
-  const formatMessage = (id) => {
+  const formatMessage = (id: string): string => {
     return intl.formatMessage({ id });
   };
   const { loading: loadingMultipleFile, runAsync: runUploadMultipleFile } =
@@ -43,11 +43,13 @@ const FileAdmin = () => {
       throttleWait: 1000,
     });
 
-  const handleBeforeUploadFile = (fileList) => {
+  const handleBeforeUploadFile = (fileList: never) => {
+    console.log(fileList);
+    
     setUploadFileList([...uploadFileList, ...fileList]);
     return false;
   };
-  const handleRemoveFile = (file) => {
+  const handleRemoveFile = (file: never) => {
     const index = uploadFileList.indexOf(file);
     const newUploadFileList = uploadFileList.slice();
     newUploadFileList.splice(index, 1);
@@ -159,10 +161,6 @@ const FileAdmin = () => {
         });
     }
   };
-
-  useEffect(() => {
-    console.log(uploading);
-  }, []);
   return (
     <Spin
       spinning={

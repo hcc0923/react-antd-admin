@@ -116,7 +116,7 @@ const Excel = () => {
     columns.forEach((item: any) => (rowMap[item[a]] = item[b]));
     return rowMap;
   };
-  const handleImportJSON = (array: any, file: object) => {
+  const handleImportJSON = (array: any, file: any) => {
     const header = array[0];
     const rowMap = formatTitleAndFileld("title", "dataIndex");
     const firstRow = header.map((item: any) => rowMap[item]);
