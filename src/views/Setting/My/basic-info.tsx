@@ -19,21 +19,26 @@ import { setUserInfo } from "@/store/actions/user";
 import { EmailRegexp, PhoneRegexp } from "@/utils";
 import { SERVER_ADDRESS } from "@/utils/config";
 
-const genderRadios = [
-  { label: "basic_info.options_gender_male", value: 0 },
-  { label: "basic_info.options_gender_female", value: 1 },
-];
-const roleRadios = [
-  { label: "basic_info.options_role_user", value: 1 },
-  { label: "basic_info.options_role_admin", value: 2 },
-  { label: "basic_info.options_role_root", value: 3 },
-];
-const BasicInfo = (props) => {
+type UserDataType = {
+  avatar: string;
+  email: string;
+  gender: number;
+  id: number;
+  phone: string;
+  remark: string;
+  role: number;
+  username: string;
+};
+type FileType = {
+  type: string;
+  size: number;
+};
+const BasicInfo = (props: any) => {
   const { user, setUserInfo } = props;
   const { userInfo } = user;
   const [uploading, setUploading] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState("");
-  const formRef = useRef();
+  const formRef = useRef<any>();
   const initialForm = {
     id: 0,
     username: "",
@@ -45,20 +50,29 @@ const BasicInfo = (props) => {
     remark: "",
   };
   const intl = useIntl();
-  const formatMessage = (id) => {
+  const formatMessage = (id: string): string => {
     return intl.formatMessage({ id });
   };
+  const genderRadios = [
+    { label: "basic_info.options_gender_male", value: 0 },
+    { label: "basic_info.options_gender_female", value: 1 },
+  ];
+  const roleRadios = [
+    { label: "basic_info.options_role_user", value: 1 },
+    { label: "basic_info.options_role_admin", value: 2 },
+    { label: "basic_info.options_role_root", value: 3 },
+  ];
   const { loading: loadingGetUserDetail, runAsync: runGetUserDetail } =
-    useRequest((params) => getUserDetail(params), {
+    useRequest((params: object) => getUserDetail(params), {
       manual: true,
       throttleWait: 1000,
     });
   const { loading: loadingUpdateUser, runAsync: runUpdateUser } = useRequest(
-    (params) => updateUser(params),
+    (params: object) => updateUser(params),
     { manual: true, throttleWait: 1000 }
   );
 
-  const handleBeforeUpload = (file) => {
+  const handleBeforeUpload = (file: FileType) => {
     if (file.type !== "image/jpeg" && file.type !== "image/png") {
       message.error(formatMessage("basic_info.before_upload_type"));
       return false;
@@ -69,7 +83,7 @@ const BasicInfo = (props) => {
     }
     return true;
   };
-  const handleAvatarChange = (avatar) => {
+  const handleAvatarChange = (avatar: any) => {
     setUploading(true);
     const { file } = avatar;
     const { status } = file;
@@ -86,7 +100,7 @@ const BasicInfo = (props) => {
         break;
     }
   };
-  const handleSubmitForm = (params) => {
+  const handleSubmitForm = (params: UserDataType) => {
     params["avatar"] = avatarUrl;
     runUpdateUser(params)
       .then(() => {
@@ -110,7 +124,7 @@ const BasicInfo = (props) => {
   };
   const handleGetUserDetail = () => {
     runGetUserDetail(userInfo.id)
-      .then((response) => {
+      .then((response: any) => {
         const { result } = response;
         const data = result[0];
 
@@ -242,9 +256,9 @@ const BasicInfo = (props) => {
   );
 };
 
-const mapStateToProps = (state) => state;
-const mapDispatchToProps = (dispatch) => ({
-  setUserInfo: (data) => {
+const mapStateToProps = (state: object) => state;
+const mapDispatchToProps = (dispatch: any) => ({
+  setUserInfo: (data: object) => {
     dispatch(setUserInfo(data));
   },
 });
