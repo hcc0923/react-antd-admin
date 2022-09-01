@@ -6,19 +6,19 @@ import { setUserInfo } from "@/store/actions/user";
 import logo from "@/assets/logo.svg";
 import vite from "@/assets/vite.svg";
 
-const Authority = (props) => {
+const Authority = (props: any) => {
   const { user, setUserInfo } = props;
   const { userInfo } = user;
-  const roleMap = {
+  const roleMap: any = {
     1: "authority.options_role_user",
     2: "authority.options_role_admin",
     3: "authority.options_role_root",
   };
   const intl = useIntl();
-  const formatMessage = (id) => {
+  const formatMessage = (id: string): string => {
     return intl.formatMessage({ id });
   };
-  const onSelectChange = (value) => {
+  const onSelectChange = (value: number) => {
     setUserInfo({ ...userInfo, role: value });
   };
   const roleOptions = [
@@ -65,9 +65,9 @@ const Authority = (props) => {
   );
 };
 
-const mapStateToProps = (state) => state;
-const mapDispatchToProps = (dispatch) => ({
-  setUserInfo: (data) => {
+const mapStateToProps = (state: object) => state;
+const mapDispatchToProps = (dispatch: any) => ({
+  setUserInfo: (data: object) => {
     dispatch(setUserInfo(data));
   },
 });

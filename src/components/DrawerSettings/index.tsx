@@ -8,7 +8,7 @@ import {
   setShowTag,
 } from "@/store/actions/settings";
 
-const DrawerSettings = (props) => {
+const DrawerSettings = (props: any) => {
   const {
     drawerVisible,
     setDrawerVisible,
@@ -18,7 +18,7 @@ const DrawerSettings = (props) => {
     setShowTag,
   } = props;
   const intl = useIntl();
-  const formatMessage = (id) => {
+  const formatMessage = (id: string): string => {
     return intl.formatMessage({ id });
   };
   return (
@@ -71,15 +71,15 @@ const DrawerSettings = (props) => {
   );
 };
 
-const mapStateToProps = (state) => state;
-const mapDispatchToProps = (dispatch) => ({
-  setFixedHeader: (data) => {
+const mapStateToProps = (state: object) => state;
+const mapDispatchToProps = (dispatch: any) => ({
+  setFixedHeader: (data: object) => {
     dispatch(setFixedHeader(data));
   },
-  setShowLogo: (data) => {
+  setShowLogo: (data: object) => {
     dispatch(setShowLogo(data));
   },
-  setShowTag: (data) => {
+  setShowTag: (data: object) => {
     dispatch(setShowTag(data));
   },
 });

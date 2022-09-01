@@ -11,7 +11,7 @@ import {
   EyeInvisibleOutlined,
 } from "@ant-design/icons";
 
-const menuList = [
+const menuList: Array<object> = [
   {
     label: <FormattedMessage id="menulist.home" />,
     key: "/home",

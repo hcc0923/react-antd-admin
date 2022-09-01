@@ -19,13 +19,14 @@ const request = Axios.create({
 });
 
 request.interceptors.request.use(
-  (config) => {
+  (config: any) => {
     NProgress.start();
     const { url } = config;
     // is white list
     if (!WHITE_API.includes(url)) {
       // no white list auth
-      const user = JSON.parse(localStorage.getItem("user"));
+      const localUser: any = localStorage.getItem("user");
+      const user = JSON.parse(localUser);
       if (user.token) {
         config.headers.authorization = `Bearer ${user.token}`;
       }

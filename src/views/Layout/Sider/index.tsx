@@ -10,33 +10,34 @@ import { setCollapse } from "@/store/actions/settings";
 import { addTag } from "@/store/actions/tag";
 import { formatRole } from "@/utils";
 
-const Sider = (props) => {
+type ArrayObjectType = Array<object>;
+const Sider = (props: any) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, settings, setCollapse, addTag } = props;
   const { pathname } = location;
   const { userInfo } = user;
   const { collapsed } = settings;
-  const [menuPermission, setMenuPermission] = useState([]);
-  const [openKeys, setOpenKeys] = useState([]);
+  const [menuPermission, setMenuPermission] = useState<any>([]);
+  const [openKeys, setOpenKeys] = useState<any>([]);
   const [documentTitle, setDocumentTitle] = useState("");
   const intl = useIntl();
-  const formatMessage = (id) => {
+  const formatMessage = (id: string): string => {
     return intl.formatMessage({ id });
   };
-  const onCollapse = (collapsed) => {
+  const onCollapse = (collapsed: boolean) => {
     setCollapse(collapsed);
   };
-  const handleAuthMenuItem = (item) => {
+  const handleAuthMenuItem = (item: any) => {
     const { roles } = item;
     if (!roles || roles.includes(formatRole(userInfo.role))) {
       return true;
     }
     return false;
   };
-  const handleMenuPermission = (menuList) => {
-    const menuData = [];
-    menuList.forEach((item) => {
+  const handleMenuPermission = (menuList: ArrayObjectType) => {
+    const menuData: ArrayObjectType = [];
+    menuList.forEach((item: any) => {
       if (handleAuthMenuItem(item)) {
         menuData.push(item);
         if (item.children) {
@@ -47,12 +48,12 @@ const Sider = (props) => {
     });
     return menuData;
   };
-  const openKeysData = [];
-  const handleOpenKeys = (menuList) => {
-    menuList.forEach((item) => {
+  const openKeysData: ArrayObjectType = [];
+  const handleOpenKeys = (menuList: ArrayObjectType) => {
+    menuList.forEach((item: any) => {
       if (item.children) {
         const cItem = item.children.find(
-          (child) => pathname.indexOf(child.key) === 0
+          (child: any) => pathname.indexOf(child.key) === 0
         );
         if (cItem) {
           openKeysData.push(item.key);
@@ -61,8 +62,11 @@ const Sider = (props) => {
       }
     });
   };
-  const handleFindMenuItemByKey = (menuList, key) => {
-    return menuList.find((item) => {
+  const handleFindMenuItemByKey = (
+    menuList: ArrayObjectType,
+    key: string
+  ): any => {
+    return menuList.find((item: any) => {
       if (item.key === key) {
         return item;
       } else {
@@ -72,12 +76,12 @@ const Sider = (props) => {
       }
     });
   };
-  const handleDocumentTitle = (menuList, pathKey) => {
+  const handleDocumentTitle = (menuList: ArrayObjectType, pathKey: string) => {
     const menuItem = handleFindMenuItemByKey(menuList, pathKey);
     const lableId = menuItem.label.props.id;
     setDocumentTitle(formatMessage(lableId));
   };
-  const handleSelectMenu = (data) => {
+  const handleSelectMenu = (data: any) => {
     const { key } = data;
     const menuItem = handleFindMenuItemByKey(menuList, key);
     handleDocumentTitle(menuList, key);
@@ -120,12 +124,12 @@ const Sider = (props) => {
   );
 };
 
-const mapStateToProps = (state) => state;
-const mapDispatchToProps = (dispatch) => ({
-  setCollapse: (data) => {
+const mapStateToProps = (state: object) => state;
+const mapDispatchToProps = (dispatch: any) => ({
+  setCollapse: (data: object) => {
     dispatch(setCollapse(data));
   },
-  addTag: (data) => {
+  addTag: (data: object) => {
     dispatch(addTag(data));
   },
 });

@@ -5,7 +5,7 @@ import ReactECharts from "echarts-for-react";
 
 const Line = () => {
   const intl = useIntl();
-  const formatMessage = (id) => {
+  const formatMessage = (id: string): string =>{
     return intl.formatMessage({ id });
   };
   const chartOptions = {

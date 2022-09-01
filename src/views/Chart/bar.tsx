@@ -3,11 +3,11 @@ import { connect } from "react-redux";
 import { useIntl } from "react-intl";
 import ReactECharts from "echarts-for-react";
 
-const Bar = (props) => {
+const Bar = (props: any) => {
   const { settings } = props;
   const settingsIntl = settings.intl;
   const intl = useIntl();
-  const formatMessage = (id) => {
+  const formatMessage = (id: string): string => {
     return intl.formatMessage({ id });
   };
   const chartOptionsData = {
@@ -189,6 +189,6 @@ const Bar = (props) => {
   );
 };
 
-const mapStateToProps = (state) => state;
+const mapStateToProps = (state: object) => state;
 
 export default connect(mapStateToProps)(Bar);

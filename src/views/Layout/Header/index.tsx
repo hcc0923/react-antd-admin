@@ -23,15 +23,15 @@ import BreadCrumb from "@/components/BreadCrumb";
 import { setIntl } from "@/store/actions/settings";
 import { SERVER_ADDRESS } from "@/utils/config";
 
-const Header = (props) => {
+const Header = (props: any) => {
   const { user, settings, setIntl } = props;
   const { userInfo } = user;
   const { collapsed, fixedHeader } = settings;
-  const [drawerVisible, setDrawerVisible] = useState(false);
+  const [drawerVisible, setDrawerVisible] = useState<any>(false);
   const isMb = document.body.clientWidth <= 992;
   const [mobile, setMobile] = useState(isMb);
   const intl = useIntl();
-  const formatMessage = (id) => {
+  const formatMessage = (id: string): string=> {
     return intl.formatMessage({ id });
   };
   const handleLogout = () => {
@@ -177,9 +177,9 @@ const Header = (props) => {
   );
 };
 
-const mapStateToProps = (state) => state;
-const mapDispatchToProps = (dispatch) => ({
-  setIntl: (data) => {
+const mapStateToProps = (state: object) => state;
+const mapDispatchToProps = (dispatch: any) => ({
+  setIntl: (data: object) => {
     dispatch(setIntl(data));
   },
 });

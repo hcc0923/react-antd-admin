@@ -4,7 +4,7 @@ import cityMap from "./citymap";
 import CHINA_JSON from "./map/china.json";
 
 //34个省、市、自治区的名字拼音映射数组
-const provinces = {
+const provinces: any = {
   //23个省
   台湾: "taiwan",
   河北: "hebei",
@@ -48,11 +48,11 @@ const provinces = {
 const special = ["北京", "天津", "上海", "重庆", "香港", "澳门"];
 
 const China = () => {
-  let chart;
+  let chart: any;
   const [mapData, setMapData] = useState([]);
 
   // init basic config
-  const option = {
+  const option: any = {
     backgroundColor: "#000",
     title: {
       text: "全国地图",
@@ -95,9 +95,10 @@ const China = () => {
     animationDurationUpdate: 1000,
   };
   const handleInitChart = () => {
-    chart = Echarts.init(document.getElementById("chartMap"));
+    const chartDOM: any = document.getElementById("chartMap");
+    chart = Echarts.init(chartDOM);
   };
-  const handleRenderMap = (map, data) => {
+  const handleRenderMap = (map: any, data: any) => {
     option.title.subtext = map;
     option.series = [
       {
@@ -140,7 +141,7 @@ const China = () => {
     chart.setOption(option);
   };
   const handleDrawChinaMap = () => {
-    const areaData = [];
+    const areaData: any = [];
     const features = CHINA_JSON.features;
 
     features.forEach((feature) => {
@@ -152,7 +153,7 @@ const China = () => {
     handleRenderMap("china", areaData);
   };
   const handleClickMapEvent = () => {
-    chart.on("click", (params) => {
+    chart.on("click", (params: any) => {
       const { name, seriesName } = params;
       if (name in provinces) {
         //如果点击的是34个省、市、自治区，绘制选中地区的二级地图
@@ -160,10 +161,10 @@ const China = () => {
         moduleData.then((result) => {
           Echarts.registerMap(name, result.default);
 
-          const areaData = [];
+          const areaData: Array<object> = [];
           const features = result.default.features;
 
-          features.forEach((feature) => {
+          features.forEach((feature: any) => {
             areaData.push({ name: feature.properties.name });
           });
 
@@ -180,10 +181,10 @@ const China = () => {
           moduleData.then((result) => {
             Echarts.registerMap(name, result.default);
 
-            const areaData = [];
+            const areaData: Array<object> = [];
             const features = result.default.features;
 
-            features.forEach((feature) => {
+            features.forEach((feature: any) => {
               areaData.push({ name: feature.properties.name });
             });
 

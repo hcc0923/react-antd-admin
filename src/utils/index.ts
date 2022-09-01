@@ -3,7 +3,7 @@ export const EmailRegexp = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
 export const PhoneRegexp =
   /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
 
-export const formatRole = (role) => {
+export const formatRole = (role: number): string | undefined => {
   switch (role) {
     case 1:
       return "user";
@@ -16,7 +16,7 @@ export const formatRole = (role) => {
   }
 };
 
-export const formatGMTTime = (time) => {
+export const formatGMTTime = (time: string): string => {
   const date = new Date(time);
   const year = date.getFullYear();
   const month = date.getMonth() + 1;

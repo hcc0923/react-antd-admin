@@ -10,8 +10,11 @@ import { EMAIL_KEY } from "@/utils/config";
 const Forget = () => {
   const navigate = useNavigate();
   const [formType, setFormType] = useState("validate");
-  const [validateForm, setValidateForm] = useState({ email: "", code: "" });
-  const [resetForm, setResetForm] = useState({
+  const [validateForm, setValidateForm] = useState<any>({
+    email: "",
+    code: "",
+  });
+  const [resetForm, setResetForm] = useState<any>({
     password: "",
     repeatPassword: "",
   });
@@ -19,32 +22,36 @@ const Forget = () => {
   const [disabled, setDisabled] = useState(false);
   const [authCode, setAuthCode] = useState(0);
   const { loading: loadingFindEmail, runAsync: runFindEmail } = useRequest(
-    (params) => findEmail(params),
+    (params: object) => findEmail(params),
     { manual: true, throttleWait: 1000 }
   );
   const { loading: loadingSendEmail, runAsync: runSendEmail } = useRequest(
-    (params) => sendEmail(params),
+    (params: object) => sendEmail(params),
     { manual: true, throttleWait: 1000 }
   );
   const { loading: loadingResetPassword, runAsync: runResetPassword } =
-    useRequest((params) => resetPassword(params), {
+    useRequest((params: object) => resetPassword(params), {
       manual: true,
       throttleWait: 1000,
     });
 
-  const handleInputChange = (event, formType, name) => {
+  const handleInputChange = (
+    event: any,
+    formType: string,
+    labelName: string
+  ) => {
     if (formType === "validate") {
-      validateForm[name] = event.target.value;
+      validateForm[labelName] = event.target.value;
       setValidateForm(validateForm);
     } else {
-      resetForm[name] = event.target.value;
+      resetForm[labelName] = event.target.value;
       setResetForm(resetForm);
     }
   };
-  const handleValidateEmail = (event) => {
+  const handleValidateEmail = (event: any) => {
     const params = { email: event.target.value };
     runFindEmail(params)
-      .then((response) => {
+      .then((response: any) => {
         const { result } = response;
         if (result.length === 0) {
           return message.error("邮箱还未注册，请先注册");
@@ -61,15 +68,15 @@ const Forget = () => {
     const params = { email: validateForm.email };
 
     runSendEmail(params)
-      .then((response) => {
+      .then((response: any) => {
         const authCode = CryptoJS.AES.decrypt(
           response.emailAuthCode,
           EMAIL_KEY
         ).toString(CryptoJS.enc.Utf8);
-        setAuthCode(authCode);
+        setAuthCode(Number(authCode));
 
         let second = 59;
-        let timer = null;
+        let timer: any = null;
         message.success("验证码已发送到邮箱，请注意查收");
 
         setDisabled(true);
@@ -147,7 +154,7 @@ const Forget = () => {
                     message: "邮箱格式不正确!",
                   },
                 ]}
-                onChange={(event) =>
+                onChange={(event: any) =>
                   handleInputChange(event, "validate", "email")
                 }
                 onBlur={handleValidateEmail}
@@ -164,7 +171,7 @@ const Forget = () => {
                     message: "验证码不能为空!",
                   },
                 ]}
-                onChange={(event) =>
+                onChange={(event: any) =>
                   handleInputChange(event, "validate", "code")
                 }
               >
@@ -218,7 +225,7 @@ const Forget = () => {
                     message: "密码长度不能少于六位!",
                   },
                 ]}
-                onChange={(event) =>
+                onChange={(event: any) =>
                   handleInputChange(event, "reset", "password")
                 }
               >
@@ -240,7 +247,7 @@ const Forget = () => {
                         : Promise.reject("两次输入的密码不一致!"),
                   },
                 ]}
-                onChange={(event) =>
+                onChange={(event: any) =>
                   handleInputChange(event, "reset", "repeatPassword")
                 }
               >

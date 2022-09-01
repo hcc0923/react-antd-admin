@@ -106,10 +106,10 @@ const icons = [
 
 const Icon = () => {
   const intl = useIntl();
-  const formatMessage = (id) => {
+  const formatMessage = (id: string): string => {
     return intl.formatMessage({ id });
   };
-  const handleCopyToClipboard = (item) => {
+  const handleCopyToClipboard = (item: any) => {
     copy(`<${item.key} />`);
     message.success(`<${item.key} />${formatMessage("icon.success_copy")}`, 1);
   };

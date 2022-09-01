@@ -3,11 +3,11 @@ import { connect } from "react-redux";
 import { useIntl } from "react-intl";
 import ReactECharts from "echarts-for-react";
 
-const Mix = (props) => {
+const Mix = (props: any) => {
   const { settings } = props;
   const settingsIntl = settings.intl;
   const intl = useIntl();
-  const formatMessage = (id) => {
+  const formatMessage = (id: string): string => {
     return intl.formatMessage({ id });
   };
   const chartOptionsData = {
@@ -181,7 +181,7 @@ const Mix = (props) => {
                 color: "#fff",
               },
               position: "insideTop",
-              formatter(p) {
+              formatter(p: any) {
                 return p.value > 0 ? p.value : "";
               },
             },
@@ -203,7 +203,7 @@ const Mix = (props) => {
             label: {
               show: true,
               position: "top",
-              formatter(p) {
+              formatter(p: any) {
                 return p.value > 0 ? p.value : "";
               },
             },
@@ -224,7 +224,7 @@ const Mix = (props) => {
             label: {
               show: true,
               position: "top",
-              formatter(p) {
+              formatter(p: any) {
                 return p.value > 0 ? p.value : "";
               },
             },
@@ -245,6 +245,6 @@ const Mix = (props) => {
   );
 };
 
-const mapStateToProps = (state) => state;
+const mapStateToProps = (state: object) => state;
 
 export default connect(mapStateToProps)(Mix);

@@ -3,25 +3,29 @@ import { connect } from "react-redux";
 import { useIntl } from "react-intl";
 import ReactECharts from "echarts-for-react";
 
-const xAxisData = [];
-const data = [];
-const data2 = [];
+type DataType = Array<object | number>;
+const xAxisData: DataType = [];
+const data: DataType = [];
+const data2: DataType = [];
 for (let i = 0; i < 50; i++) {
   xAxisData.push(i);
   data.push((Math.sin(i / 5) * (i / 5 - 10) + i / 6) * 5);
   data2.push((Math.sin(i / 5) * (i / 5 + 10) + i / 6) * 3);
 }
 
-const KeyBoard = (props) => {
+const KeyBoard = (props: any) => {
   const { settings } = props;
   const settingsIntl = settings.intl;
   const intl = useIntl();
-  const formatMessage = (id) => {
+  const formatMessage = (id: string): string => {
     return intl.formatMessage({ id });
   };
   const chartOptionsData = {
-    legend_data: settingsIntl === "zh" ? ["蒸发量", "降水量"] : ["Evaporation", "Precipitation"]
-  }
+    legend_data:
+      settingsIntl === "zh"
+        ? ["蒸发量", "降水量"]
+        : ["Evaporation", "Precipitation"],
+  };
   const chartOptions = {
     backgroundColor: "#08263a",
     // 标题
@@ -79,7 +83,14 @@ const KeyBoard = (props) => {
       max: 50,
       dimension: 0,
       inRange: {
-        color: ["#4a657a", "#308e92", "#b1cfa5", "#f5d69f", "#f5898b", "#ef5055"],
+        color: [
+          "#4a657a",
+          "#308e92",
+          "#b1cfa5",
+          "#f5d69f",
+          "#f5898b",
+          "#ef5055",
+        ],
       },
     },
     // y 轴
@@ -156,10 +167,10 @@ const KeyBoard = (props) => {
     ],
     animationEasing: "elasticOut",
     animationEasingUpdate: "elasticOut",
-    animationDelay(idx) {
+    animationDelay(idx: number): number {
       return idx * 20;
     },
-    animationDelayUpdate(idx) {
+    animationDelayUpdate(idx: number): number {
       return idx * 20;
     },
   };
@@ -171,6 +182,6 @@ const KeyBoard = (props) => {
   );
 };
 
-const mapStateToProps = (state) => state;
+const mapStateToProps = (state: object) => state;
 
 export default connect(mapStateToProps)(KeyBoard);

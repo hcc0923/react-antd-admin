@@ -8,7 +8,7 @@ import Header from "./Header";
 import Tags from "@/components/Tags";
 const { Content } = Layout;
 
-const LayoutPage = (props) => {
+const LayoutPage = (props: any) => {
   const location = useLocation();
   const { pathname } = location;
   const { settings } = props;
@@ -50,6 +50,6 @@ const LayoutPage = (props) => {
   );
 };
 
-const mapStateToProps = (state) => state;
+const mapStateToProps = (state: object) => state;
 
 export default connect(mapStateToProps)(LayoutPage);
