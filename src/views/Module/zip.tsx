@@ -4,22 +4,23 @@ import { Spin, Card, Table, Input, Button } from "antd";
 import { saveAs } from "file-saver";
 import JSZip from "jszip";
 
+type DataType = Array<object>;
 const Zip = () => {
   const [spinning, setSpinning] = useState(false);
   const [fileName, setFileName] = useState("file");
-  const [tableData, setTableData] = useState([]);
+  const [tableData, setTableData] = useState<DataType>([]);
   const intl = useIntl();
-  const formatMessage = (id) => {
+  const formatMessage = (id: string): string => {
     return intl.formatMessage({ id });
   };
-  const data = [
+  const data: DataType = [
     { id: "1", name: "张三", gender: "男", age: 23, work: "程序员" },
     { id: "2", name: "李四", gender: "女", age: 21, work: "程序员" },
     { id: "3", name: "王五", gender: "女", age: 21, work: "程序员" },
     { id: "4", name: "马六", gender: "男", age: 21, work: "程序员" },
     { id: "5", name: "赵七", gender: "女", age: 21, work: "程序员" },
   ];
-  const columns = [
+  const columns: DataType = [
     {
       align: "center",
       title: formatMessage("module.zip.name"),
@@ -50,7 +51,7 @@ const Zip = () => {
     const zip = new JSZip();
 
     let contentString = "";
-    tableData.forEach((item) => {
+    tableData.forEach((item: any) => {
       contentString +=
         item["name"] +
         " " +
@@ -96,7 +97,7 @@ const Zip = () => {
           columns={columns}
           dataSource={tableData}
           pagination={false}
-          rowKey={(record) => `${record.id}`}
+          rowKey={(record: any) => `${record.id}`}
         />
       </Card>
     </Spin>

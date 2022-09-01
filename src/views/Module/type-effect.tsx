@@ -5,7 +5,7 @@ import TypeWriter from "@/components/TypeWriter";
 
 const TypeEffect = () => {
   const intl = useIntl();
-  const formatMessage = (id) => {
+  const formatMessage = (id: string): string => {
     return intl.formatMessage({ id });
   };
   const content = `

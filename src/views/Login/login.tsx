@@ -9,32 +9,38 @@ import { userLogin, userRegister, findEmail } from "@/api/login";
 import { setToken, setUserInfo } from "@/store/actions/user";
 import { EmailRegexp, formatGMTTime } from "@/utils";
 
-const Login = (props) => {
+const Login = (props: any) => {
   const { setToken, setUserInfo } = props;
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [overlay, setOverlay] = useState({ isLogin: true, step: 100 });
-  const [loginForm, setLoginForm] = useState({ email: "", password: "" });
-  const [registerForm, setRegisterForm] = useState({ email: "", password: "" });
+  const [loginForm, setLoginForm] = useState<any>({ email: "", password: "" });
+  const [registerForm, setRegisterForm] = useState<any>({
+    email: "",
+    password: "",
+  });
   const { loading: loadingUserLogin, runAsync: runUserLogin } = useRequest(
-    (params) => userLogin(params),
+    (params: object) => userLogin(params),
     { manual: true, throttleWait: 1000 }
   );
   const { loading: loadingUserRegister, runAsync: runUserRegister } =
-    useRequest((params) => userRegister(params), {
+    useRequest((params: object) => userRegister(params), {
       manual: true,
       throttleWait: 1000,
     });
-
   const { loading: loadingFindEmail, runAsync: runFindEmail } = useRequest(
-    (params) => findEmail(params),
+    (params: object) => findEmail(params),
     { manual: true, throttleWait: 1000 }
   );
 
-  const handleToggleOverlay = (step) => {
+  const handleToggleOverlay = (step: number) => {
     setOverlay({ isLogin: !overlay.isLogin, step });
   };
-  const handleInputChange = (event, formType, labelName) => {
+  const handleInputChange = (
+    event: any,
+    formType: string,
+    labelName: string
+  ) => {
     if (formType === "login") {
       loginForm[labelName] = event.target.value;
       setLoginForm(loginForm);
@@ -43,12 +49,12 @@ const Login = (props) => {
       setRegisterForm(registerForm);
     }
   };
-  const handleLogin = (values, isRegistered) => {
+  const handleLogin = (values: object, isRegistered?: any) => {
     const params = JSON.parse(JSON.stringify(values));
     params["password"] = CryptoJS.MD5(params["password"]).toString();
 
     runUserLogin(params)
-      .then((response) => {
+      .then((response: any) => {
         const { token, userInfo } = response;
         const { last_login_time, last_login_ip } = userInfo;
         message.info(
@@ -69,10 +75,10 @@ const Login = (props) => {
         message.error("登陆失败");
       });
   };
-  const handleAuthRegistered = (event) => {
+  const handleAuthRegistered = (event: any) => {
     const params = { email: event.target.value };
     runFindEmail(params)
-      .then((response) => {
+      .then((response: any) => {
         const { result } = response;
         if (result.length !== 0) {
           return message.error("该邮箱已注册，请登录");
@@ -136,7 +142,9 @@ const Login = (props) => {
                     message: "邮箱格式不正确!",
                   },
                 ]}
-                onChange={(event) => handleInputChange(event, "login", "email")}
+                onChange={(event: any) =>
+                  handleInputChange(event, "login", "email")
+                }
               >
                 <Input autoComplete="off" />
               </Form.Item>
@@ -154,7 +162,7 @@ const Login = (props) => {
                     message: "密码长度不能少于六位!",
                   },
                 ]}
-                onChange={(event) =>
+                onChange={(event: any) =>
                   handleInputChange(event, "login", "password")
                 }
               >
@@ -200,7 +208,7 @@ const Login = (props) => {
                     message: "邮箱格式不正确!",
                   },
                 ]}
-                onChange={(event) =>
+                onChange={(event: any) =>
                   handleInputChange(event, "register", "email")
                 }
                 onBlur={handleAuthRegistered}
@@ -221,7 +229,7 @@ const Login = (props) => {
                     message: "密码长度不能小于六位!",
                   },
                 ]}
-                onChange={(event) =>
+                onChange={(event: any) =>
                   handleInputChange(event, "register", "password")
                 }
               >
@@ -283,12 +291,12 @@ const Login = (props) => {
   );
 };
 
-const mapStateToProps = (state) => state;
-const mapDispatchToProps = (dispatch) => ({
-  setToken: (data) => {
+const mapStateToProps = (state: object) => state;
+const mapDispatchToProps = (dispatch: any) => ({
+  setToken: (data: object) => {
     dispatch(setToken(data));
   },
-  setUserInfo: (data) => {
+  setUserInfo: (data: object) => {
     dispatch(setUserInfo(data));
   },
 });
