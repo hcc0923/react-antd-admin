@@ -7,10 +7,10 @@ import Layout from "@/views/Layout";
 import routeList from "@/router/routeList";
 import { formatRole } from "@/utils";
 
-function Router(props) {
+function Router(props: any) {
   const { user } = props;
   const { userInfo } = user;
-  const handleFilterComponent = (route) => {
+  const handleFilterComponent = (route: any) => {
     return route.roles.includes(formatRole(userInfo.role));
   };
   return (
@@ -41,6 +41,6 @@ function Router(props) {
   );
 }
 
-const mapStateToProps = (state) => state;
+const mapStateToProps = (state: object) => state;
 
 export default connect(mapStateToProps)(Router);

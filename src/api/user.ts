@@ -1,6 +1,6 @@
 import request from "@/utils/request";
 
-export const getUser = (data) => {
+export const getUser = (data: object) => {
   return request({
     url: "/user/getUser",
     method: "post",
@@ -8,7 +8,7 @@ export const getUser = (data) => {
   });
 };
 
-export const addUser = (data) => {
+export const addUser = (data: object) => {
   return request({
     url: "/user/addUser",
     method: "post",
@@ -16,7 +16,7 @@ export const addUser = (data) => {
   });
 };
 
-export const editUser = (data) => {
+export const editUser = (data: object) => {
   return request({
     url: "/user/editUser",
     method: "put",
@@ -24,7 +24,7 @@ export const editUser = (data) => {
   });
 };
 
-export const deleteUser = (data) => {
+export const deleteUser = (data: object) => {
   return request({
     url: "/user/deleteUser",
     method: "delete",
@@ -32,7 +32,7 @@ export const deleteUser = (data) => {
   });
 };
 
-export const multipleDelete = (data) => {
+export const multipleDelete = (data: object) => {
   return request({
     url: "/user/multipleDelete",
     method: "delete",
@@ -40,14 +40,14 @@ export const multipleDelete = (data) => {
   });
 };
 
-export const getUserDetail = (data) => {
+export const getUserDetail = (data: object) => {
   return request({
     url: `/user/getUserDetail/${data}`,
     method: "get",
   });
 };
 
-export const updateUser = (data) => {
+export const updateUser = (data: object) => {
   return request({
     url: "/user/updateUser",
     method: "put",
@@ -55,7 +55,7 @@ export const updateUser = (data) => {
   });
 };
 
-export const uploadAvatar = (data) => {
+export const uploadAvatar = (data: object) => {
   return request({
     url: "/user/uploadAvatar",
     method: "put",
@@ -63,7 +63,7 @@ export const uploadAvatar = (data) => {
   });
 };
 
-export const getRole = (data) => {
+export const getRole = (data: object) => {
   return request({
     url: "/user/getRole",
     method: "post",
@@ -71,7 +71,7 @@ export const getRole = (data) => {
   });
 };
 
-export const editRole = (data) => {
+export const editRole = (data: object) => {
   return request({
     url: "/user/editRole",
     method: "put",
@@ -79,7 +79,7 @@ export const editRole = (data) => {
   });
 };
 
-export const checkPassword = (data) => {
+export const checkPassword = (data: object) => {
   return request({
     url: "/user/checkPassword",
     method: "post",
@@ -87,7 +87,7 @@ export const checkPassword = (data) => {
   });
 };
 
-export const updatePassword = (data) => {
+export const updatePassword = (data: object) => {
   return request({
     url: "/user/updatePassword",
     method: "put",

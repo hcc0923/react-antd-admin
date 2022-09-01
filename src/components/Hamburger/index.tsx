@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { setCollapse } from "@/store/actions/settings";
 
-const Hamburger = (props) => {
+const Hamburger = (props: any) => {
   const { settings, setCollapse } = props;
   const { collapsed } = settings;
   return (
@@ -16,9 +16,9 @@ const Hamburger = (props) => {
   );
 };
 
-const mapStateToProps = (state) => state;
-const mapDispatchToProps = (dispatch) => ({
-  setCollapse: (data) => {
+const mapStateToProps = (state: object) => state;
+const mapDispatchToProps = (dispatch: any) => ({
+  setCollapse: (data: boolean) => {
     dispatch(setCollapse(data));
   },
 });

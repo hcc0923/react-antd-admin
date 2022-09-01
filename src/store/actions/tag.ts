@@ -5,22 +5,21 @@ import {
   CLOSE_ALL_TAG,
 } from "../constants/index";
 
-export const addTag = (data) => ({
+export const addTag = (data: object) => ({
   type: ADD_TAG,
   data,
 });
 
-export const closeTag = (data) => ({
+export const closeTag = (data: object) => ({
   type: CLOSE_TAG,
   data,
 });
 
-export const closeOtherTag = (data) => ({
+export const closeOtherTag = (data: object) => ({
   type: CLOSE_OTHER_TAG,
   data,
 });
 
-export const closeAllTag = (data) => ({
+export const closeAllTag = () => ({
   type: CLOSE_ALL_TAG,
-  data,
 });

@@ -179,7 +179,7 @@ const Header = (props: any) => {
 
 const mapStateToProps = (state: object) => state;
 const mapDispatchToProps = (dispatch: any) => ({
-  setIntl: (data: object) => {
+  setIntl: (data: string) => {
     dispatch(setIntl(data));
   },
 });

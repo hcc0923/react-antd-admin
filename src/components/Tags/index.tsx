@@ -6,30 +6,32 @@ import { Tag, Tooltip, Space, Button } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { closeTag, closeOtherTag, closeAllTag } from "@/store/actions/tag";
 
-const TagView = (props) => {
+const TagView = (props: any) => {
   const { tag, closeTag, closeOtherTag, closeAllTag } = props;
   const location = useLocation();
   const navigate = useNavigate();
   const { pathname } = location;
   const intl = useIntl();
-  const formatMessage = (id) => {
+  const formatMessage = (id: string): string => {
     return intl.formatMessage({ id });
   };
-  const onClickTag = (item) => {
+  const onClickTag = (item: any) => {
     navigate(item.key);
   };
-  const onCloseTag = (item) => {
+  const onCloseTag = (item: any) => {
     const tagLength = tag.length;
     if (pathname === item.key && item.key === tag[tagLength - 1].key) {
       navigate(tag[tagLength - 2].key);
     }
     if (pathname === item.key && item.key !== tag[tagLength - 1].key) {
-      const tagIndex = tag.findIndex((tagItem) => tagItem.key === item.key);
+      const tagIndex = tag.findIndex(
+        (tagItem: any) => tagItem.key === item.key
+      );
       navigate(tag[tagIndex + 1].key);
     }
     closeTag(item);
   };
-  const onCloseOtherTag = (item) => {
+  const onCloseOtherTag = (item: any) => {
     closeOtherTag(item);
   };
   const onCloseAllTag = () => {
@@ -37,7 +39,7 @@ const TagView = (props) => {
   };
   return (
     <div className="w-full pl-4 py-2" style={{ backgroundColor: "#fafafa" }}>
-      {tag.map((item) => (
+      {tag.map((item: any) => (
         <Tag
           key={item.key}
           closable={item.key !== "/home"}
@@ -69,16 +71,16 @@ const TagView = (props) => {
   );
 };
 
-const mapStateToProps = (state) => state;
-const mapDispatchToProps = (dispatch) => ({
-  closeTag: (data) => {
+const mapStateToProps = (state: object) => state;
+const mapDispatchToProps = (dispatch: any) => ({
+  closeTag: (data: object) => {
     dispatch(closeTag(data));
   },
-  closeOtherTag: (data) => {
+  closeOtherTag: (data: object) => {
     dispatch(closeOtherTag(data));
   },
-  closeAllTag: (data) => {
-    dispatch(closeAllTag(data));
+  closeAllTag: () => {
+    dispatch(closeAllTag());
   },
 });
 

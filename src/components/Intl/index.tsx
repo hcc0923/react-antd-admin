@@ -7,11 +7,11 @@ import zhCN from "antd/es/locale/zh_CN";
 import en from "@/lang/en.json";
 import zh from "@/lang/zh.json";
 
-const Intl = function (props) {
+const Intl = function (props: any) {
   const { settings } = props;
   const localLang = settings["intl"];
-  const i18nData = { en, zh };
-  const languageMap = {
+  const i18nData: any = { en, zh };
+  const languageMap: any = {
     en: enUS,
     zh: zhCN,
   };
@@ -29,6 +29,6 @@ const Intl = function (props) {
   );
 };
 
-const mapStateToProps = (state) => state;
+const mapStateToProps = (state: object) => state;
 
 export default connect(mapStateToProps)(Intl);

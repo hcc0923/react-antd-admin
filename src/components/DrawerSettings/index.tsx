@@ -73,13 +73,13 @@ const DrawerSettings = (props: any) => {
 
 const mapStateToProps = (state: object) => state;
 const mapDispatchToProps = (dispatch: any) => ({
-  setFixedHeader: (data: object) => {
+  setFixedHeader: (data: boolean) => {
     dispatch(setFixedHeader(data));
   },
-  setShowLogo: (data: object) => {
+  setShowLogo: (data: boolean) => {
     dispatch(setShowLogo(data));
   },
-  setShowTag: (data: object) => {
+  setShowTag: (data: boolean) => {
     dispatch(setShowTag(data));
   },
 });

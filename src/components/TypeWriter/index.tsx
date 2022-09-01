@@ -1,17 +1,14 @@
 import React from "react";
 import TypeWriterEffect from "typewriter-effect";
 
-const TypeWriter = (props) => {
+const TypeWriter = (props: any) => {
   const { content } = props;
-  return (
-    <TypeWriterEffect
-      options={{
-        strings: content,
-        pauseFor: 100,
-        autoStart: true,
-      }}
-    />
-  );
+  const options: any = {
+    strings: content,
+    pauseFor: 100,
+    autoStart: true,
+  };
+  return <TypeWriterEffect options={options} />;
 };
 
 export default TypeWriter;

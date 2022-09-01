@@ -11,10 +11,9 @@ const initState = {
     last_login_ip: "",
   },
 };
-const userState = localStorage.getItem("user")
-  ? JSON.parse(localStorage.getItem("user"))
-  : initState;
-const user = (state = userState, action) => {
+const userData: any = localStorage.getItem("user");
+const userState = userData ? JSON.parse(userData) : initState;
+const user = (state = userState, action: any) => {
   switch (action.type) {
     case SET_TOKEN:
       const userToken = {

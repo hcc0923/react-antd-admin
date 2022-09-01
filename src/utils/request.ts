@@ -25,8 +25,8 @@ request.interceptors.request.use(
     // is white list
     if (!WHITE_API.includes(url)) {
       // no white list auth
-      const localUser: any = localStorage.getItem("user");
-      const user = JSON.parse(localUser);
+      const userData: any = localStorage.getItem("user");
+      const user = JSON.parse(userData);
       if (user.token) {
         config.headers.authorization = `Bearer ${user.token}`;
       }

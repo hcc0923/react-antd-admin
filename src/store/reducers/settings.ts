@@ -13,10 +13,9 @@ const initSettings = {
   showLogo: true,
   showTag: true,
 };
-const settingsState = localStorage.getItem("settings")
-  ? JSON.parse(localStorage.getItem("settings"))
-  : initSettings;
-export const settings = (state = settingsState, action) => {
+const settingsData = localStorage.getItem("settings");
+const settingsState = settingsData ? JSON.parse(settingsData) : initSettings;
+export const settings = (state = settingsState, action: any) => {
   switch (action.type) {
     case SET_COLLAPSE:
       const settingsCollapsed = {

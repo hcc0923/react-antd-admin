@@ -293,7 +293,7 @@ const Login = (props: any) => {
 
 const mapStateToProps = (state: object) => state;
 const mapDispatchToProps = (dispatch: any) => ({
-  setToken: (data: object) => {
+  setToken: (data: string) => {
     dispatch(setToken(data));
   },
   setUserInfo: (data: object) => {

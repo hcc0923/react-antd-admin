@@ -1,6 +1,6 @@
 import request from "@/utils/request";
 
-export const addTask = (data) => {
+export const addTask = (data: object) => {
   return request({
     url: "/task/addTask",
     method: "post",
@@ -8,7 +8,7 @@ export const addTask = (data) => {
   });
 };
 
-export const deleteTask = (data) => {
+export const deleteTask = (data: object) => {
   return request({
     url: "/task/deleteTask",
     method: "delete",
@@ -16,7 +16,7 @@ export const deleteTask = (data) => {
   });
 };
 
-export const editTask = (data) => {
+export const editTask = (data: object) => {
   return request({
     url: "/task/editTask",
     method: "put",
@@ -24,7 +24,7 @@ export const editTask = (data) => {
   });
 };
 
-export const getTask = (data) => {
+export const getTask = (data: object) => {
   return request({
     url: "/task/getTask",
     method: "post",

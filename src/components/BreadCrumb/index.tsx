@@ -5,21 +5,22 @@ import { useIntl } from "react-intl";
 import { Breadcrumb } from "antd";
 import menuList from "@/router/menuList";
 
-const BreadCrumb = (props) => {
+type ArrayObjectType = Array<object>;
+const BreadCrumb = (props: any) => {
   const { settings } = props;
   const settingsIntl = settings.intl;
   const location = useLocation();
   let { pathname } = location;
   const intl = useIntl();
-  const formatMessage = (id) => {
+  const formatMessage = (id: string): string => {
     return intl.formatMessage({ id });
   };
   if (pathname === "/") pathname = "/home";
   const homeLabel = settingsIntl === "zh" ? "首页" : "Home";
-  const handleBreadCrumb = (menuList, pathname) => {
-    const temporaryPath = [];
+  const handleBreadCrumb = (menuList: ArrayObjectType, pathname: string) => {
+    const temporaryPath: ArrayObjectType = [];
     try {
-      function getNodePath(node) {
+      function getNodePath(node: any) {
         temporaryPath.push(node);
         // 找到目标节点直接返回
         if (node.key === pathname) {
@@ -43,14 +44,14 @@ const BreadCrumb = (props) => {
       return temporaryPath;
     }
   };
-  let pathData = handleBreadCrumb(menuList, pathname);
+  let pathData: any = handleBreadCrumb(menuList, pathname);
   const formatLable = formatMessage(pathData[0].label.props.id);
   if (formatLable !== homeLabel) {
     pathData = [{ label: homeLabel, key: "/home" }].concat(pathData);
   }
   return (
     <Breadcrumb className="h-full flex items-center ml-4 text-sm">
-      {pathData.map((item) =>
+      {pathData.map((item: any) =>
         item.label === homeLabel ? (
           <Breadcrumb.Item key={item.key}>
             <a href={`#${item.key}`}>{item.label}</a>
@@ -63,6 +64,6 @@ const BreadCrumb = (props) => {
   );
 };
 
-const mapStateToProps = (state) => state;
+const mapStateToProps = (state: object) => state;
 
 export default connect(mapStateToProps)(BreadCrumb);

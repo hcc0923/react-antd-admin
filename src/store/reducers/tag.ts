@@ -6,7 +6,7 @@ import {
 } from "../constants/index";
 const tagState = [{ label: "menulist.home", key: "/home" }];
 
-const tag = (state = tagState, action) => {
+const tag = (state = tagState, action: any) => {
   switch (action.type) {
     case ADD_TAG:
       const exist = tagState.find((item) => item.key === action.data.key);

@@ -126,7 +126,7 @@ const Sider = (props: any) => {
 
 const mapStateToProps = (state: object) => state;
 const mapDispatchToProps = (dispatch: any) => ({
-  setCollapse: (data: object) => {
+  setCollapse: (data: boolean) => {
     dispatch(setCollapse(data));
   },
   addTag: (data: object) => {

@@ -3,25 +3,19 @@ import { useIntl } from "react-intl";
 import { Row, Col, Card } from "antd";
 import { EditorState } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
-import draftToHtml from "draftjs-to-html";
-import draftToMarkdown from "draftjs-to-markdown";
 import { SERVER_ADDRESS } from "@/utils/config";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 const RichText = () => {
-  const [editorContent, setEditorContent] = useState(null);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const intl = useIntl();
-  const formatMessage = (id) => {
+  const formatMessage = (id: string): string => {
     return intl.formatMessage({ id });
   };
-  const onEditorStateChange = (editorState) => {
+  const onEditorStateChange = (editorState: any) => {
     setEditorState(editorState);
   };
-  const onContentStateChange = (editorContent) => {
-    setEditorContent(editorContent);
-  };
-  const imageUploadCallBack = (file) => {
+  const imageUploadCallBack = (file: any) => {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.open("POST", `${SERVER_ADDRESS}/file/uploadAvatar`);
@@ -64,34 +58,13 @@ const RichText = () => {
                 inline: { inDropdown: false },
                 list: { inDropdown: true },
                 textAlign: { inDropdown: true },
-                image: { uploadCallback: (file) => imageUploadCallBack(file) },
+                image: {
+                  uploadCallback: (file: any) => imageUploadCallBack(file),
+                },
               }}
-              onContentStateChange={onContentStateChange}
               placeholder={formatMessage("module.richtext.placeholder")}
               spellCheck
             />
-          </Card>
-        </Col>
-      </Row>
-      <Row gutter={12} className="mt-4">
-        <Col span={12}>
-          <Card
-            title={formatMessage("module.richtext.html")}
-            hoverable="true"
-            bordered={false}
-          >
-            <pre>{draftToHtml(editorContent)}</pre>
-          </Card>
-        </Col>
-        <Col span={12}>
-          <Card
-            title={formatMessage("module.richtext.markdown")}
-            hoverable="true"
-            bordered={false}
-          >
-            <pre style={{ whiteSpace: "pre-wrap" }}>
-              {draftToMarkdown(editorContent)}
-            </pre>
           </Card>
         </Col>
       </Row>
