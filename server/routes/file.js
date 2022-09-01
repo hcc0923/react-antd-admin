@@ -114,7 +114,7 @@ router.delete("/deleteAllFile", (request, response) => {
   });
 });
 
-router.get("/getAllFileList", (request, response) => {
+router.get("/getAllFileList", (_, response) => {
   const sqlString = `SELECT id,
          originalname,
          name,

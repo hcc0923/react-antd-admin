@@ -32,18 +32,16 @@ export const deleteAllFile = (data) => {
   });
 };
 
-export const getAllFileList = (data) => {
+export const getAllFileList = () => {
   return request({
     url: "/file/getAllFileList",
     method: "get",
-    data: { data },
   });
 };
 
-export const getMyUploadList = (data) => {
+export const getMyUploadList = () => {
   return request({
     url: "/file/getMyUploadList",
-    method: "get",
-    data: { data },
+    method: "get"
   });
 };

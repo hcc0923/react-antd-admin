@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useIntl } from "react-intl";
 import { Spin, Card, Tabs, List, Upload, Space, Button, message } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
@@ -13,6 +13,19 @@ import {
   deleteAllFile,
 } from "@/api/file";
 
+type FileType = {
+  id: number;
+  name: string;
+  original: string;
+  time: string;
+};
+type DeleteFileType = {
+  id: number;
+  name: string;
+};
+type MultipleDeleteFileType = {
+  deleteParams: Array<DeleteFileType>;
+};
 const FileAdmin = () => {
   const [spinning, setSpinning] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -24,7 +37,7 @@ const FileAdmin = () => {
     return intl.formatMessage({ id });
   };
   const { loading: loadingMultipleFile, runAsync: runUploadMultipleFile } =
-    useRequest((params) => uploadMultipleFile(params), {
+    useRequest((params: object) => uploadMultipleFile(params), {
       manual: true,
       throttleWait: 1000,
     });
@@ -33,24 +46,25 @@ const FileAdmin = () => {
   const { loading: loadingGetMyUploadList, runAsync: runGetMyUploadList } =
     useRequest(getMyUploadList, { manual: true, throttleWait: 1000 });
   const { loading: loadingDeleteSingleFile, runAsync: runDeleteSingleFile } =
-    useRequest((params) => deleteSingleFile(params), {
+    useRequest((params: DeleteFileType) => deleteSingleFile(params), {
       manual: true,
       throttleWait: 1000,
     });
   const { loading: loadingDeleteAllFile, runAsync: runDeleteAllFile } =
-    useRequest((params) => deleteAllFile(params), {
+    useRequest((params: MultipleDeleteFileType) => deleteAllFile(params), {
       manual: true,
       throttleWait: 1000,
     });
 
-  const handleBeforeUploadFile = (fileList: never) => {
-    console.log(fileList);
-    
-    setUploadFileList([...uploadFileList, ...fileList]);
+  const handleBeforeUploadFile = (fileList: Array<object>) => {
+    const uploadFileListData: any = [...uploadFileList, ...fileList];
+    setUploadFileList(uploadFileListData);
     return false;
   };
-  const handleRemoveFile = (file: never) => {
-    const index = uploadFileList.indexOf(file);
+  const handleRemoveFile = (file: any) => {
+    const index = uploadFileList.findIndex(
+      (item: any) => item.uid === file.uid
+    );
     const newUploadFileList = uploadFileList.slice();
     newUploadFileList.splice(index, 1);
     setUploadFileList(newUploadFileList);
@@ -78,7 +92,7 @@ const FileAdmin = () => {
   };
   const handleGetAllFileList = () => {
     runGetAllFileList()
-      .then((response) => {
+      .then((response: any) => {
         const { result } = response;
         setFileList(result);
       })
@@ -88,7 +102,7 @@ const FileAdmin = () => {
   };
   const handleGetMyUploadFileList = () => {
     runGetMyUploadList()
-      .then((response) => {
+      .then((response: any) => {
         const { result } = response;
         setMyUploadList(result);
       })
@@ -96,7 +110,7 @@ const FileAdmin = () => {
         console.log(error);
       });
   };
-  const handleTabChange = (key) => {
+  const handleTabChange = (key: string) => {
     switch (key) {
       case "filelist":
         handleGetAllFileList();
@@ -108,32 +122,28 @@ const FileAdmin = () => {
         break;
     }
   };
-  const handleDownloadFile = (type) => {
+  const handleDownloadFile = (type: string | FileType) => {
     setSpinning(true);
-    switch (type) {
-      case "filelist":
-        fileList.forEach((file) => {
-          const name = file.name;
-          window.open(`${SERVER_ADDRESS}/${name}`);
-        });
-        setSpinning(false);
-        break;
-      case "myupload":
-        myUploadList.forEach((file) => {
-          const name = file.name;
-          window.open(`${SERVER_ADDRESS}/${name}`);
-        });
-        setSpinning(false);
-        break;
-      default:
-        window.open(`${SERVER_ADDRESS}/${type.name}`);
-        setSpinning(false);
-        break;
+    if (type === "filelist") {
+      fileList.forEach((file: FileType) => {
+        const name = file.name;
+        window.open(`${SERVER_ADDRESS}/${name}`);
+      });
+      setSpinning(false);
+    } else if (type === "myupload") {
+      myUploadList.forEach((file: FileType) => {
+        const name = file.name;
+        window.open(`${SERVER_ADDRESS}/${name}`);
+      });
+      setSpinning(false);
+    } else if (typeof type === "object") {
+      window.open(`${SERVER_ADDRESS}/${type.name}`);
+      setSpinning(false);
     }
   };
-  const handleDeleteFile = (data) => {
+  const handleDeleteFile = (data: string | FileType) => {
     if (data === "uploadlist") {
-      const deleteParams = myUploadList.map((file) => {
+      const deleteParams = myUploadList.map((file: FileType) => {
         return {
           id: file.id,
           name: file.name,
@@ -149,15 +159,16 @@ const FileAdmin = () => {
           console.log(error);
           message.error(formatMessage("message.delete.error"));
         });
-    } else {
+    } else if (typeof data === "object") {
       const params = { id: data.id, name: data.name };
       runDeleteSingleFile(params)
         .then(() => {
           handleGetMyUploadFileList();
-          message.error(formatMessage("message.delete.error"));
+          message.success(formatMessage("message.delete.success"));
         })
         .catch((error) => {
           console.log(error);
+          message.error(formatMessage("message.delete.error"));
         });
     }
   };
@@ -228,7 +239,7 @@ const FileAdmin = () => {
                 )
               }
               dataSource={fileList}
-              renderItem={(item) => (
+              renderItem={(item: any) => (
                 <List.Item key={item.id} className="flex justify-between">
                   <span
                     className="flex-1 overflow-hidden whitespace-nowrap text-ellipsis cursor-pointer text-green-700"
@@ -275,7 +286,8 @@ const FileAdmin = () => {
                       )}
                     </Button>
                     <Button
-                      type="danger"
+                      type="primary"
+                      danger={true}
                       onClick={() => handleDeleteFile("uploadlist")}
                     >
                       {formatMessage(
@@ -286,7 +298,7 @@ const FileAdmin = () => {
                 )
               }
               dataSource={myUploadList}
-              renderItem={(item) => (
+              renderItem={(item: any) => (
                 <List.Item key={item.id} className="flex justify-between">
                   <span
                     className="flex-1 overflow-hidden whitespace-nowrap text-ellipsis cursor-pointer text-green-700"
@@ -307,7 +319,8 @@ const FileAdmin = () => {
                       )}
                     </Button>
                     <Button
-                      type="danger"
+                      type="primary"
+                      danger={true}
                       onClick={() => handleDeleteFile(item)}
                     >
                       {formatMessage(
