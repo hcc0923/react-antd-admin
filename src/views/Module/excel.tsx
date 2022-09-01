@@ -3,16 +3,17 @@ import { useIntl } from "react-intl";
 import { Spin, Card, Input, Upload, Table, Button } from "antd";
 import * as XLSX from "xlsx";
 
+type DataType = Array<object>;
 const Excel = () => {
   const [spinning, setSpinning] = useState(false);
-  const [tableData, setTableData] = useState([]);
+  const [tableData, setTableData] = useState<DataType>([]);
   const [fileList, setFileList] = useState([]);
   const [fileName, setFileName] = useState("file");
   const intl = useIntl();
   const formatMessage = (id: string): string => {
     return intl.formatMessage({ id });
   };
-  const data: any = [
+  const data: Array<object> = [
     { id: "1", name: "张三", gender: "男", age: 23, work: "程序员" },
     { id: "2", name: "李四", gender: "女", age: 21, work: "程序员" },
     { id: "3", name: "王五", gender: "女", age: 21, work: "程序员" },
@@ -26,7 +27,7 @@ const Excel = () => {
     age: formatMessage("module.excel.age"),
     work: formatMessage("module.excel.work"),
   };
-  const columns: any = [
+  const columns: DataType = [
     {
       align: "center",
       title: "ID",
@@ -145,7 +146,8 @@ const Excel = () => {
       };
     });
     setTableData(formatData);
-    setFileList([file]);
+    const fileArray: any = [file];
+    setFileList(fileArray);
     return formatData;
   };
   const handleBeforeUploadFile = (file: any) => {
