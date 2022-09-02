@@ -234,6 +234,7 @@
   "module.typewriter.title": "打字效果",
   "module.qrcode.title": "生成二维码",
   "module.qrcode.placeholder": "输入URL",
+  "module.qrcode.check_input": "URL不能为空",
   "module.qrcode.generate": "生成二维码",
   "module.qrcode.generate_error": "生成二维码失败",
 

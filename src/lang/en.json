@@ -233,6 +233,7 @@
     "module.typewriter.title": "Typing Effect",
     "module.qrcode.title": "QRCode",
     "module.qrcode.placeholder": "Input URL",
+    "module.qrcode.check_input": "URL cannot be empty",
     "module.qrcode.generate": "Generate QRCode",
     "module.qrcode.generate_error": "Faile To Generate QRCode",
     

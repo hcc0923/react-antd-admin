@@ -1,18 +1,21 @@
 import React, { useState } from "react";
 import { useIntl } from "react-intl";
-import { Space, Input, Button } from "antd";
+import { Space, Input, Button, message } from "antd";
 import QRCode from "qrcode";
 import SpinCard from "@/components/SpinCard";
 
 const QrCode = () => {
   const [spinning, setSpinning] = useState(false);
-  const [url, setUrl] = useState("https://juejin.cn/");
+  const [url, setUrl] = useState("");
   const [qr, setQr] = useState("");
   const intl = useIntl();
   const formatMessage = (id: string): string => {
     return intl.formatMessage({ id });
   };
   const generateQRCode = () => {
+    if (url === "") {
+      return message.warning(formatMessage("module.qrcode.check_input"));
+    }
     setSpinning(true);
     QRCode.toDataURL(url, { scale: 8, margin: 0 })
       .then((data) => {
