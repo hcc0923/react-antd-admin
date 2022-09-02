@@ -92,6 +92,11 @@ const routeList = [
     component: React.lazy(() => import("@/views/Module/type-effect")),
   },
   {
+    path: "/module/qrcode",
+    roles: ["root", "admin", "user"],
+    component: React.lazy(() => import("@/views/Module/qrcode")),
+  },
+  {
     path: "/authority",
     roles: ["root", "admin", "user"],
     component: React.lazy(() => import("@/views/Authority/index")),

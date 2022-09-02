@@ -142,6 +142,11 @@ const menuList: Array<object> = [
         key: "/module/type-effect",
         roles: ["root", "admin", "user"],
       },
+      {
+        label: <FormattedMessage id="menulist.module.qrcode" />,
+        key: "/module/qrcode",
+        roles: ["root", "admin", "user"],
+      },
     ],
   },
   {

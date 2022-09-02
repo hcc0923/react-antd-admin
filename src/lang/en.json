@@ -28,6 +28,7 @@
     "menulist.module.rich_text": "RichText Editor",
     "menulist.module.mark_down": "MarkDown Editor",
     "menulist.module.type_effect": "Typing Effect",
+    "menulist.module.qrcode": "QRCode",
     "menulist.authority": "Permission Switching",
     "menulist.error": "Error",
     "menulist.error.no_authority": "No Authority",
@@ -230,6 +231,10 @@
     "module.richtext.html": "Convert HTML synchronously",
     "module.richtext.markdown": "Convert Markdown synchronously",
     "module.typewriter.title": "Typing Effect",
+    "module.qrcode.title": "QRCode",
+    "module.qrcode.placeholder": "Input URL",
+    "module.qrcode.generate": "Generate QRCode",
+    "module.qrcode.generate_error": "Faile To Generate QRCode",
     
     "authority.title": "Permission Switching",
     "authority.current_authority": "Your current permissions are:",
