@@ -1,13 +1,10 @@
 import React from "react";
-import { connect } from "react-redux";
 import { useIntl } from "react-intl";
 import * as Echarts from "echarts";
 import ReactECharts from "echarts-for-react";
 import "echarts-liquidfill";
 
-const Water = (props: any) => {
-  const { settings } = props;
-  const settingsIntl = settings.intl;
+const Water = () => {
   const intl = useIntl();
   const formatMessage = (id: string): string => {
     return intl.formatMessage({ id });
@@ -307,6 +304,4 @@ const Water = (props: any) => {
   );
 };
 
-const mapStateToProps = (state: object) => state;
-
-export default connect(mapStateToProps)(Water);
+export default Water;
