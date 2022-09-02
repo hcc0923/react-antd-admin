@@ -1,67 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Tooltip } from "antd";
 import { FullscreenOutlined } from "@ant-design/icons";
 import { useIntl } from "react-intl";
+import screenfull from "screenfull";
 
 const FullScreen = () => {
-  const [fullScreen, setFullScreen] = useState(false);
   const intl = useIntl();
-  const formatMessage = (id) => {
+  const formatMessage = (id: string): string => {
     return intl.formatMessage({ id });
   };
-  const handleRequestFullScreen = () => {
-    const docEl = document.documentElement;
-
-    const platforms = [
-      "requestFullscreen",
-      "mozRequestFullScreen",
-      "webkitRequestFullScreen",
-    ];
-    for (let index = 0; index < platforms.length; index++) {
-      if (docEl[platforms[index]]) {
-        docEl[platforms[index]]();
-        break;
-      }
-    }
-  };
-  const handleExitFullscreen = () => {
-    const platforms = [
-      "exitFullscreen",
-      "mozCancelFullScreen",
-      "webkitCancelFullScreen",
-    ];
-
-    for (let index = 0; index < platforms.length; index++) {
-      if (document[platforms[index]]) {
-        document[platforms[index]]();
-        break;
-      }
-    }
-  };
   const handleFullScrren = () => {
-    fullScreen ? handleExitFullscreen() : handleRequestFullScreen();
+    screenfull.toggle();
   };
-  const handleWatchFullScreen = () => {
-    const platforms = [
-      { event: "fullscreenchange", method: "fullscreenElement" },
-      { event: "mozfullscreenchange", method: "mozFullScreen" },
-      { event: "webkitfullscreenchange", method: "webkitIsFullScreen" },
-    ];
-
-    platforms.forEach((platform) => {
-      document.addEventListener(
-        platform.event,
-        () => {
-          setFullScreen(`${document[platform.method]}`);
-        },
-        false
-      );
-    });
-  };
-  useEffect(() => {
-    handleWatchFullScreen();
-  });
-
   return (
     <Tooltip placement="bottom" title={formatMessage("fullscreen.title")}>
       <FullscreenOutlined onClick={handleFullScrren} />
