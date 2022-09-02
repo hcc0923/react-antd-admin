@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useIntl } from "react-intl";
-import { Spin, Card, Tabs, List, Upload, Space, Button, message } from "antd";
+import { Tabs, List, Upload, Space, Button, message } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
 import { useRequest } from "ahooks";
 import { formatGMTTime } from "@/utils";
 import { SERVER_ADDRESS } from "@/utils/config";
+import SpinCard from "@/components/SpinCard";
 import {
   uploadMultipleFile,
   getAllFileList,
@@ -173,7 +174,7 @@ const FileAdmin = () => {
     }
   };
   return (
-    <Spin
+    <SpinCard
       spinning={
         loadingMultipleFile ||
         loadingGetAllFileList ||
@@ -182,159 +183,156 @@ const FileAdmin = () => {
         loadingDeleteAllFile ||
         spinning
       }
+      title={formatMessage("module.fileadmin.title")}
     >
-      <Card title={formatMessage("module.fileadmin.title")}>
-        <Tabs defaultActiveKey="upload" onChange={handleTabChange}>
-          <Tabs.TabPane
-            tab={formatMessage("module.fileadmin.upload_tab")}
-            key="upload"
+      <Tabs defaultActiveKey="upload" onChange={handleTabChange}>
+        <Tabs.TabPane
+          tab={formatMessage("module.fileadmin.upload_tab")}
+          key="upload"
+        >
+          <Upload.Dragger
+            maxCount={10}
+            multiple={true}
+            fileList={uploadFileList}
+            beforeUpload={(_, fileList) => handleBeforeUploadFile(fileList)}
+            onRemove={handleRemoveFile}
+            name="files"
+            className="w-1/4"
           >
-            <Upload.Dragger
-              maxCount={10}
-              multiple={true}
-              fileList={uploadFileList}
-              beforeUpload={(_, fileList) => handleBeforeUploadFile(fileList)}
-              onRemove={handleRemoveFile}
-              name="files"
-              className="w-1/4"
-            >
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p className="ant-upload-text">
-                {formatMessage("module.fileadmin.upload_text")}
-              </p>
-            </Upload.Dragger>
-            <Button
-              type="primary"
-              onClick={handleUploadFileList}
-              disabled={uploadFileList.length === 0}
-              loading={uploading}
-              className="mt-4"
-            >
-              {uploading
-                ? formatMessage("module.fileadmin.upload_uploading")
-                : formatMessage("module.fileadmin.upload_upload")}
-            </Button>
-          </Tabs.TabPane>
-          <Tabs.TabPane
-            tab={formatMessage("module.fileadmin.filelist_tab")}
-            key="filelist"
+            <p className="ant-upload-drag-icon">
+              <InboxOutlined />
+            </p>
+            <p className="ant-upload-text">
+              {formatMessage("module.fileadmin.upload_text")}
+            </p>
+          </Upload.Dragger>
+          <Button
+            type="primary"
+            onClick={handleUploadFileList}
+            disabled={uploadFileList.length === 0}
+            loading={uploading}
+            className="mt-4"
           >
-            <List
-              size="large"
-              bordered
-              footer={
-                fileList.length === 0 ? (
-                  ""
-                ) : (
+            {uploading
+              ? formatMessage("module.fileadmin.upload_uploading")
+              : formatMessage("module.fileadmin.upload_upload")}
+          </Button>
+        </Tabs.TabPane>
+        <Tabs.TabPane
+          tab={formatMessage("module.fileadmin.filelist_tab")}
+          key="filelist"
+        >
+          <List
+            size="large"
+            bordered
+            footer={
+              fileList.length === 0 ? (
+                ""
+              ) : (
+                <Button
+                  type="primary"
+                  onClick={() => handleDownloadFile("filelist")}
+                >
+                  {formatMessage(
+                    "module.fileadmin.filelist_button_download_all"
+                  )}
+                </Button>
+              )
+            }
+            dataSource={fileList}
+            renderItem={(item: any) => (
+              <List.Item key={item.id} className="flex justify-between">
+                <span
+                  className="flex-1 overflow-hidden whitespace-nowrap text-ellipsis cursor-pointer text-green-700"
+                  onClick={() => handleDownloadFile(item)}
+                >
+                  {item.originalname}
+                </span>
+                <span className="w-1/4 text-center">
+                  {formatGMTTime(item.time)}
+                </span>
+                <Space>
                   <Button
+                    type="default"
+                    onClick={() => handleDownloadFile(item)}
+                  >
+                    {formatMessage("module.fileadmin.filelist_button_download")}
+                  </Button>
+                </Space>
+              </List.Item>
+            )}
+          ></List>
+        </Tabs.TabPane>
+        <Tabs.TabPane
+          tab={formatMessage("module.fileadmin.myupload_tab")}
+          key="myupload"
+        >
+          <List
+            size="large"
+            bordered
+            footer={
+              myUploadList.length === 0 ? (
+                ""
+              ) : (
+                <div>
+                  <Button
+                    className="mr-2"
                     type="primary"
-                    onClick={() => handleDownloadFile("filelist")}
+                    onClick={() => handleDownloadFile("myupload")}
                   >
                     {formatMessage(
-                      "module.fileadmin.filelist_button_download_all"
+                      "module.fileadmin.myupload_button_download_all"
                     )}
                   </Button>
-                )
-              }
-              dataSource={fileList}
-              renderItem={(item: any) => (
-                <List.Item key={item.id} className="flex justify-between">
-                  <span
-                    className="flex-1 overflow-hidden whitespace-nowrap text-ellipsis cursor-pointer text-green-700"
+                  <Button
+                    type="primary"
+                    danger={true}
+                    onClick={() => handleDeleteFile("uploadlist")}
+                  >
+                    {formatMessage(
+                      "module.fileadmin.myupload_button_delete_all"
+                    )}
+                  </Button>
+                </div>
+              )
+            }
+            dataSource={myUploadList}
+            renderItem={(item: any) => (
+              <List.Item key={item.id} className="flex justify-between">
+                <span
+                  className="flex-1 overflow-hidden whitespace-nowrap text-ellipsis cursor-pointer text-green-700"
+                  onClick={() => handleDownloadFile(item)}
+                >
+                  {item.originalname}
+                </span>
+                <span className="w-1/4 text-center">
+                  {formatGMTTime(item.time)}
+                </span>
+                <Space>
+                  <Button
+                    type="default"
                     onClick={() => handleDownloadFile(item)}
                   >
-                    {item.originalname}
-                  </span>
-                  <span className="w-1/4 text-center">
-                    {formatGMTTime(item.time)}
-                  </span>
-                  <Space>
-                    <Button
-                      type="default"
-                      onClick={() => handleDownloadFile(item)}
-                    >
-                      {formatMessage(
-                        "module.fileadmin.filelist_button_download"
-                      )}
-                    </Button>
-                  </Space>
-                </List.Item>
-              )}
-            ></List>
-          </Tabs.TabPane>
-          <Tabs.TabPane
-            tab={formatMessage("module.fileadmin.myupload_tab")}
-            key="myupload"
-          >
-            <List
-              size="large"
-              bordered
-              footer={
-                myUploadList.length === 0 ? (
-                  ""
-                ) : (
-                  <div>
-                    <Button
-                      className="mr-2"
-                      type="primary"
-                      onClick={() => handleDownloadFile("myupload")}
-                    >
-                      {formatMessage(
-                        "module.fileadmin.myupload_button_download_all"
-                      )}
-                    </Button>
-                    <Button
-                      type="primary"
-                      danger={true}
-                      onClick={() => handleDeleteFile("uploadlist")}
-                    >
-                      {formatMessage(
-                        "module.fileadmin.myupload_button_delete_all"
-                      )}
-                    </Button>
-                  </div>
-                )
-              }
-              dataSource={myUploadList}
-              renderItem={(item: any) => (
-                <List.Item key={item.id} className="flex justify-between">
-                  <span
-                    className="flex-1 overflow-hidden whitespace-nowrap text-ellipsis cursor-pointer text-green-700"
-                    onClick={() => handleDownloadFile(item)}
+                    {formatMessage(
+                      "module.fileadmin.myupload_button_download_file"
+                    )}
+                  </Button>
+                  <Button
+                    type="primary"
+                    danger={true}
+                    onClick={() => handleDeleteFile(item)}
                   >
-                    {item.originalname}
-                  </span>
-                  <span className="w-1/4 text-center">
-                    {formatGMTTime(item.time)}
-                  </span>
-                  <Space>
-                    <Button
-                      type="default"
-                      onClick={() => handleDownloadFile(item)}
-                    >
-                      {formatMessage(
-                        "module.fileadmin.myupload_button_download_file"
-                      )}
-                    </Button>
-                    <Button
-                      type="primary"
-                      danger={true}
-                      onClick={() => handleDeleteFile(item)}
-                    >
-                      {formatMessage(
-                        "module.fileadmin.myupload_button_delete_file"
-                      )}
-                    </Button>
-                  </Space>
-                </List.Item>
-              )}
-            ></List>
-          </Tabs.TabPane>
-        </Tabs>
-      </Card>
-    </Spin>
+                    {formatMessage(
+                      "module.fileadmin.myupload_button_delete_file"
+                    )}
+                  </Button>
+                </Space>
+              </List.Item>
+            )}
+          ></List>
+        </Tabs.TabPane>
+      </Tabs>
+    </SpinCard>
   );
 };
 

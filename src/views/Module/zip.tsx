@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useIntl } from "react-intl";
-import { Spin, Card, Table, Input, Button } from "antd";
+import { Table, Input, Button } from "antd";
 import { saveAs } from "file-saver";
 import JSZip from "jszip";
+import SpinCard from "@/components/SpinCard";
 
 type DataType = Array<object>;
 const Zip = () => {
@@ -81,26 +82,24 @@ const Zip = () => {
   }, []);
 
   return (
-    <Spin spinning={spinning}>
-      <Card title={formatMessage("module.zip.title")}>
-        <Input
-          className="w-1/4 mr-4"
-          placeholder={formatMessage("module.zip.placeholder")}
-          onChange={(event) => setFileName(event.target.value)}
-        />
-        <Button type="primary" onClick={handleExportZip}>
-          {formatMessage("module.zip.button_export")}
-        </Button>
-        <Table
-          className="mt-4"
-          bordered={true}
-          columns={columns}
-          dataSource={tableData}
-          pagination={false}
-          rowKey={(record: any) => `${record.id}`}
-        />
-      </Card>
-    </Spin>
+    <SpinCard spinning={spinning} title={formatMessage("module.zip.title")}>
+      <Input
+        className="w-1/4 mr-4"
+        placeholder={formatMessage("module.zip.placeholder")}
+        onChange={(event) => setFileName(event.target.value)}
+      />
+      <Button type="primary" onClick={handleExportZip}>
+        {formatMessage("module.zip.button_export")}
+      </Button>
+      <Table
+        className="mt-4"
+        bordered={true}
+        columns={columns}
+        dataSource={tableData}
+        pagination={false}
+        rowKey={(record: any) => `${record.id}`}
+      />
+    </SpinCard>
   );
 };
 

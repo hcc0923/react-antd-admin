@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef, Fragment } from "react";
 import {
-  Spin,
-  Card,
   Form,
   Input,
   Row,
@@ -24,6 +22,7 @@ import {
 } from "@ant-design/icons";
 import { useRequest } from "ahooks";
 import Uploading from "@/components/Uploading";
+import SpinCard from "@/components/SpinCard";
 import {
   getUser,
   addUser,
@@ -419,7 +418,7 @@ const UserList = () => {
   }, [searchForm, pagination]);
 
   return (
-    <Spin
+    <SpinCard
       spinning={
         loadingGetUser ||
         loadingaAddUser ||
@@ -427,226 +426,224 @@ const UserList = () => {
         loadingDeleteUser ||
         loadingMultipleDelete
       }
+      title={formatMessage("user_list.title")}
     >
-      <Card title={formatMessage("user_list.title")}>
-        <Form
-          name="search"
-          ref={searchRef}
-          className="ant-advanced-search-form"
-          onFinish={setSearchForm}
-        >
-          <Row gutter={24}>
-            <Col span={3}>
-              <Form.Item
-                name="username"
-                label={formatMessage("user_list.label_username")}
-              >
-                <Input
-                  placeholder={formatMessage("user_list.placeholder_username")}
-                />
-              </Form.Item>
-            </Col>
-            <Col span={3}>
-              <Form.Item
-                name="gender"
-                label={formatMessage("user_list.label_gender")}
-              >
-                <Select placeholder={formatMessage("user_list.initial_gender")}>
-                  {genderOptions.map((option) => (
-                    <Select.Option key={option.value} value={option.value}>
-                      {formatMessage(option.label)}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col span={3}>
-              <Form.Item
-                name="role"
-                label={formatMessage("user_list.label_role")}
-              >
-                <Select placeholder={formatMessage("user_list.initial_role")}>
-                  {roleOptions.map((option) => (
-                    <Select.Option key={option.value} value={option.value}>
-                      {formatMessage(option.label)}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col span={5}>
-              <Form.Item
-                name="phone"
-                label={formatMessage("user_list.label_phone")}
-              >
-                <Input
-                  placeholder={formatMessage("user_list.placeholder_phone")}
-                />
-              </Form.Item>
-            </Col>
-            <Col span={5}>
-              <Form.Item
-                name="email"
-                label={formatMessage("user_list.label_email")}
-              >
-                <Input
-                  placeholder={formatMessage("user_list.placeholder_email")}
-                />
-              </Form.Item>
-            </Col>
-            <Col span={5}>
-              <Space>
-                <Button type="primary" htmlType="submit">
-                  {formatMessage("user_list.button_search")}
-                </Button>
-                <Button onClick={() => searchRef.current.resetFields()}>
-                  {formatMessage("user_list.button_reset")}
-                </Button>
-              </Space>
-            </Col>
-          </Row>
-        </Form>
-        <Space className="mb-4">
-          <Button type="primary" onClick={() => onOpenAddEditForm("add")}>
-            <PlusOutlined />
-            {formatMessage("user_list.button_add")}
-          </Button>
-          <Button type="primary" onClick={handleMultipleDelete}>
-            <DeleteOutlined />
-            {formatMessage("user_list.button_multiple_delete")}
-          </Button>
-        </Space>
-        <Table
-          bordered={true}
-          rowSelection={{ selectedRowKeys, onChange: (values: any) => setSelectedRowKeys(values) }}
-          columns={columns}
-          dataSource={userTableData}
-          pagination={{ ...pagination, ...total }}
-          onChange={handlePageChange}
-          rowKey={(record: any) => `${record.id}`}
-        />
-        <Modal
-          title={
-            modalType === "add"
-              ? formatMessage("user_list.modal_add_user")
-              : formatMessage("user_list.modal_edit_user")
-          }
-          visible={modalVisible}
-          footer={null}
-          destroyOnClose={true}
-          onCancel={() => setModalVisible(false)}
-        >
-          <Form
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 16 }}
-            name="add-edit"
-            initialValues={modalForm}
-            onFinish={onSaveAddEditForm}
-          >
+      <Form
+        name="search"
+        ref={searchRef}
+        className="ant-advanced-search-form"
+        onFinish={setSearchForm}
+      >
+        <Row gutter={24}>
+          <Col span={3}>
             <Form.Item
-              label={formatMessage("user_list.modal_username")}
               name="username"
-              rules={[
-                {
-                  required: true,
-                  message: formatMessage("user_list.modal_rules_username"),
-                },
-              ]}
+              label={formatMessage("user_list.label_username")}
             >
               <Input
-                placeholder={formatMessage("user_list.modal_rules_username")}
+                placeholder={formatMessage("user_list.placeholder_username")}
               />
             </Form.Item>
+          </Col>
+          <Col span={3}>
             <Form.Item
-              label={formatMessage("user_list.modal_input_gender")}
               name="gender"
+              label={formatMessage("user_list.label_gender")}
             >
-              <Radio.Group>
-                {genderRadios.map((option) => (
-                  <Radio key={option.value} value={option.value}>
+              <Select placeholder={formatMessage("user_list.initial_gender")}>
+                {genderOptions.map((option) => (
+                  <Select.Option key={option.value} value={option.value}>
                     {formatMessage(option.label)}
-                  </Radio>
+                  </Select.Option>
                 ))}
-              </Radio.Group>
+              </Select>
             </Form.Item>
+          </Col>
+          <Col span={3}>
             <Form.Item
-              label={formatMessage("user_list.modal_input_role")}
               name="role"
+              label={formatMessage("user_list.label_role")}
             >
-              <Radio.Group>
-                {roleRadios.map((option) => (
-                  <Radio key={option.value} value={option.value}>
+              <Select placeholder={formatMessage("user_list.initial_role")}>
+                {roleOptions.map((option) => (
+                  <Select.Option key={option.value} value={option.value}>
                     {formatMessage(option.label)}
-                  </Radio>
+                  </Select.Option>
                 ))}
-              </Radio.Group>
+              </Select>
             </Form.Item>
+          </Col>
+          <Col span={5}>
             <Form.Item
-              label={formatMessage("user_list.modal_input_avatar")}
-              name="avatar"
-              valuePropName="avatar"
-            >
-              <Upload
-                name="avatar"
-                listType="picture-card"
-                showUploadList={false}
-                action={SERVER_ADDRESS + "/file/uploadAvatar"}
-                beforeUpload={handleBeforeUpload}
-                onChange={handleAvatarChange}
-              >
-                {avatarUrl ? (
-                  <img
-                    src={SERVER_ADDRESS + "/" + avatarUrl}
-                    alt={formatMessage("user_list.modal_img_alt")}
-                    className="w-full h-full"
-                  />
-                ) : (
-                  <Uploading uploading={uploading} />
-                )}
-              </Upload>
-            </Form.Item>
-            <Form.Item
-              label={formatMessage("user_list.modal_label_phone")}
               name="phone"
-              rules={[
-                {
-                  pattern: PhoneRegexp,
-                  message: formatMessage("user_list.modal_rules_phone"),
-                },
-              ]}
+              label={formatMessage("user_list.label_phone")}
             >
               <Input
-                placeholder={formatMessage("user_list.modal_input_phone")}
+                placeholder={formatMessage("user_list.placeholder_phone")}
               />
             </Form.Item>
+          </Col>
+          <Col span={5}>
             <Form.Item
-              label={formatMessage("user_list.modal_label_email")}
               name="email"
-              rules={[
-                {
-                  pattern: EmailRegexp,
-                  message: formatMessage("user_list.modal_rules_email"),
-                },
-              ]}
+              label={formatMessage("user_list.label_email")}
             >
               <Input
-                placeholder={formatMessage("user_list.modal_input_email")}
+                placeholder={formatMessage("user_list.placeholder_email")}
               />
             </Form.Item>
-            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-              <Space>
-                <Button type="primary" htmlType="submit">
-                  {formatMessage("user_list.modal_input_submit")}
-                </Button>
-                <Button type="default" onClick={() => setModalVisible(false)}>
-                  {formatMessage("user_list.modal_button_cancel")}
-                </Button>
-              </Space>
-            </Form.Item>
-          </Form>
-        </Modal>
-      </Card>
-    </Spin>
+          </Col>
+          <Col span={5}>
+            <Space>
+              <Button type="primary" htmlType="submit">
+                {formatMessage("user_list.button_search")}
+              </Button>
+              <Button onClick={() => searchRef.current.resetFields()}>
+                {formatMessage("user_list.button_reset")}
+              </Button>
+            </Space>
+          </Col>
+        </Row>
+      </Form>
+      <Space className="mb-4">
+        <Button type="primary" onClick={() => onOpenAddEditForm("add")}>
+          <PlusOutlined />
+          {formatMessage("user_list.button_add")}
+        </Button>
+        <Button type="primary" onClick={handleMultipleDelete}>
+          <DeleteOutlined />
+          {formatMessage("user_list.button_multiple_delete")}
+        </Button>
+      </Space>
+      <Table
+        bordered={true}
+        rowSelection={{
+          selectedRowKeys,
+          onChange: (values: any) => setSelectedRowKeys(values),
+        }}
+        columns={columns}
+        dataSource={userTableData}
+        pagination={{ ...pagination, ...total }}
+        onChange={handlePageChange}
+        rowKey={(record: any) => `${record.id}`}
+      />
+      <Modal
+        title={
+          modalType === "add"
+            ? formatMessage("user_list.modal_add_user")
+            : formatMessage("user_list.modal_edit_user")
+        }
+        visible={modalVisible}
+        footer={null}
+        destroyOnClose={true}
+        onCancel={() => setModalVisible(false)}
+      >
+        <Form
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
+          name="add-edit"
+          initialValues={modalForm}
+          onFinish={onSaveAddEditForm}
+        >
+          <Form.Item
+            label={formatMessage("user_list.modal_username")}
+            name="username"
+            rules={[
+              {
+                required: true,
+                message: formatMessage("user_list.modal_rules_username"),
+              },
+            ]}
+          >
+            <Input
+              placeholder={formatMessage("user_list.modal_rules_username")}
+            />
+          </Form.Item>
+          <Form.Item
+            label={formatMessage("user_list.modal_input_gender")}
+            name="gender"
+          >
+            <Radio.Group>
+              {genderRadios.map((option) => (
+                <Radio key={option.value} value={option.value}>
+                  {formatMessage(option.label)}
+                </Radio>
+              ))}
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item
+            label={formatMessage("user_list.modal_input_role")}
+            name="role"
+          >
+            <Radio.Group>
+              {roleRadios.map((option) => (
+                <Radio key={option.value} value={option.value}>
+                  {formatMessage(option.label)}
+                </Radio>
+              ))}
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item
+            label={formatMessage("user_list.modal_input_avatar")}
+            name="avatar"
+            valuePropName="avatar"
+          >
+            <Upload
+              name="avatar"
+              listType="picture-card"
+              showUploadList={false}
+              action={SERVER_ADDRESS + "/file/uploadAvatar"}
+              beforeUpload={handleBeforeUpload}
+              onChange={handleAvatarChange}
+            >
+              {avatarUrl ? (
+                <img
+                  src={SERVER_ADDRESS + "/" + avatarUrl}
+                  alt={formatMessage("user_list.modal_img_alt")}
+                  className="w-full h-full"
+                />
+              ) : (
+                <Uploading uploading={uploading} />
+              )}
+            </Upload>
+          </Form.Item>
+          <Form.Item
+            label={formatMessage("user_list.modal_label_phone")}
+            name="phone"
+            rules={[
+              {
+                pattern: PhoneRegexp,
+                message: formatMessage("user_list.modal_rules_phone"),
+              },
+            ]}
+          >
+            <Input placeholder={formatMessage("user_list.modal_input_phone")} />
+          </Form.Item>
+          <Form.Item
+            label={formatMessage("user_list.modal_label_email")}
+            name="email"
+            rules={[
+              {
+                pattern: EmailRegexp,
+                message: formatMessage("user_list.modal_rules_email"),
+              },
+            ]}
+          >
+            <Input placeholder={formatMessage("user_list.modal_input_email")} />
+          </Form.Item>
+          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+            <Space>
+              <Button type="primary" htmlType="submit">
+                {formatMessage("user_list.modal_input_submit")}
+              </Button>
+              <Button type="default" onClick={() => setModalVisible(false)}>
+                {formatMessage("user_list.modal_button_cancel")}
+              </Button>
+            </Space>
+          </Form.Item>
+        </Form>
+      </Modal>
+    </SpinCard>
   );
 };
 
