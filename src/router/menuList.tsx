@@ -147,6 +147,11 @@ const menuList: Array<object> = [
         key: "/module/qrcode",
         roles: ["root", "admin", "user"],
       },
+      {
+        label: <FormattedMessage id="menulist.module.player" />,
+        key: "/module/player",
+        roles: ["root", "admin", "user"],
+      },
     ],
   },
   {

@@ -29,6 +29,7 @@
     "menulist.module.mark_down": "MarkDown Editor",
     "menulist.module.type_effect": "Typing Effect",
     "menulist.module.qrcode": "QRCode",
+    "menulist.module.player": "Player",
     "menulist.authority": "Permission Switching",
     "menulist.error": "Error",
     "menulist.error.no_authority": "No Authority",
