@@ -20,6 +20,7 @@
   "menulist.chart.pie": "饼状图",
   "menulist.chart.key_board": "键盘图",
   "menulist.chart.mix": "混合图表",
+  "menulist.chart.water": "水型图",
   "menulist.chart.china": "中国地图",
   "menulist.module": "组件",
   "menulist.module.excel": "Excel",
@@ -192,6 +193,8 @@
   "chart.mix_series_male": "男",
   "chart.mix_series_female": "女",
   "chart.mix_series_average": "平均",
+  "chart.water_evaporation": "蒸发量",
+  "chart.water_precipitation": "降水量",
 
   "module.excel.title": "Excel导入导出",
   "module.excel.placeholder": "请输入文件名(默认file)",

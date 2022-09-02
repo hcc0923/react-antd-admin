@@ -95,6 +95,11 @@ const menuList: Array<object> = [
         roles: ["root", "admin", "user"],
       },
       {
+        label: <FormattedMessage id="menulist.chart.water" />,
+        key: "/chart/water",
+        roles: ["root", "admin", "user"],
+      },
+      {
         label: <FormattedMessage id="menulist.chart.china" />,
         key: "/chart/china",
         roles: ["root", "admin"],

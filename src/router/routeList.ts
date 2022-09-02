@@ -52,6 +52,11 @@ const routeList = [
     component: React.lazy(() => import("@/views/Chart/mix")),
   },
   {
+    path: "/chart/water",
+    roles: ["root", "admin", "user"],
+    component: React.lazy(() => import("@/views/Chart/water")),
+  },
+  {
     path: "/chart/china",
     roles: ["root", "admin"],
     component: React.lazy(() => import("@/views/Chart/china")),

@@ -5,7 +5,6 @@
     "message.delete.error": "Failed to delete",
     "message.edit.success": "Edited successfully",
     "message.edit.error": "Edit failed",
-    
     "menulist.home": "Home",
     "menulist.user_menu": "User Menu",
     "menulist.user_list": "User List",
@@ -20,6 +19,7 @@
     "menulist.chart.pie": "Pie Chart",
     "menulist.chart.key_board": "Keyboard Chart",
     "menulist.chart.mix": "Mix Chart",
+    "menulist.chart.water": "Water Chart",
     "menulist.chart.china": "China Chart",
     "menulist.module": "Module",
     "menulist.module.excel": "Excel",
@@ -192,6 +192,8 @@
     "chart.mix_series_male": "Male",
     "chart.mix_series_female": "Female",
     "chart.mix_series_average": "Average",
+    "chart.water_evaporation": "Evaporation",
+    "chart.water_precipitation": "Precipitation",
 
     "module.excel.title": "Excel import and export",
     "module.excel.placeholder": "Please enter a file name (default file)",
