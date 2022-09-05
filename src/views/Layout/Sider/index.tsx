@@ -62,30 +62,31 @@ const Sider = (props: any) => {
       }
     });
   };
+  let menuItemByKey: any = null;
   const handleFindMenuItemByKey = (
     menuList: ArrayObjectType,
     key: string
   ): any => {
-    return menuList.find((item: any) => {
+    menuList.forEach((item: any) => {
       if (item.key === key) {
-        return item;
+        menuItemByKey = item;
       } else {
         if (item.children) {
-          return handleFindMenuItemByKey(item.children, key);
+          handleFindMenuItemByKey(item.children, key);
         }
       }
     });
   };
   const handleDocumentTitle = (menuList: ArrayObjectType, pathKey: string) => {
-    const menuItem = handleFindMenuItemByKey(menuList, pathKey);
-    const lableId = menuItem.label.props.id;
+    handleFindMenuItemByKey(menuList, pathKey);
+    const lableId = menuItemByKey.label.props.id;
     setDocumentTitle(formatMessage(lableId));
   };
   const handleSelectMenu = (data: any) => {
     const { key } = data;
-    const menuItem = handleFindMenuItemByKey(menuList, key);
+    handleFindMenuItemByKey(menuList, key);
     handleDocumentTitle(menuList, key);
-    addTag({ label: menuItem.label.props.id, key });
+    addTag({ label: menuItemByKey.label.props.id, key });
     navigate(key);
   };
   useEffect(() => {
