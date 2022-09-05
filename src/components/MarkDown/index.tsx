@@ -7,7 +7,7 @@ const MarkDown = () => {
     <Editor
       initialValue="hello react editor world!"
       previewStyle="vertical"
-      height="40rem"
+      height="35rem"
       initialEditType="markdown"
       useCommandShortcut={true}
     />
