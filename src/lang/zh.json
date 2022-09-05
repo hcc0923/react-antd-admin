@@ -31,6 +31,7 @@
   "menulist.module.type_effect": "打字效果",
   "menulist.module.qrcode": "生成二维码",
   "menulist.module.player": "播放器",
+  "menulist.module.pdf_preview": "Pdf预览",
   "menulist.authority": "权限切换",
   "menulist.error": "错误",
   "menulist.error.no_authority": "没有权限",
@@ -262,5 +263,4 @@
   "header.logout_success": "退出成功，请重新登录",
 
   "fullscreen.title": "全屏"
-
 }

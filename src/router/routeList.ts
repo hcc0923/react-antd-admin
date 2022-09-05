@@ -102,6 +102,11 @@ const routeList = [
     component: React.lazy(() => import("@/views/Module/player")),
   },
   {
+    path: "/module/pdf-preview",
+    roles: ["root", "admin", "user"],
+    component: React.lazy(() => import("@/views/Module/pdf-preview")),
+  },
+  {
     path: "/authority",
     roles: ["root", "admin", "user"],
     component: React.lazy(() => import("@/views/Authority/index")),

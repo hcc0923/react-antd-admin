@@ -62,6 +62,7 @@ const RichText = () => {
                   uploadCallback: (file: any) => imageUploadCallBack(file),
                 },
               }}
+              wrapperStyle={{ height: "40rem" }}
               placeholder={formatMessage("module.richtext.placeholder")}
               spellCheck
             />

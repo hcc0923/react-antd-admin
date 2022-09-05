@@ -152,6 +152,11 @@ const menuList: Array<object> = [
         key: "/module/player",
         roles: ["root", "admin", "user"],
       },
+      {
+        label: <FormattedMessage id="menulist.module.pdf_preview" />,
+        key: "/module/pdf-preview",
+        roles: ["root", "admin", "user"],
+      },
     ],
   },
   {
