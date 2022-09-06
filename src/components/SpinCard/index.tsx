@@ -5,7 +5,7 @@ const SpinCard = (props: any) => {
   const { spinning, title } = props;
   return (
     <Spin spinning={spinning}>
-      <Card title={title} style={{ height: "calc(100vh - 100px - 2rem)", overflow: "hidden" }}>
+      <Card title={title} style={{ height: "calc(100vh - 100px - 2rem)" }}>
         {props.children}
       </Card>
     </Spin>
