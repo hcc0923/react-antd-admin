@@ -3,16 +3,9 @@ const router = express.Router();
 const executeMysql = require("../utils/database");
 
 router.post("/getUser", (request, response) => {
-  const sqlString = `SELECT id
-    FROM user`;
-
-  executeMysql(sqlString)
-    .then((result) => {
-      const { length: total } = result;
-      const { body } = request;
-
-      const { pageNum: queryPageNum, pageSize: queryPageSize } = body;
-      let sqlString = `SELECT id,
+  const { body } = request;
+  const { pageNum: queryPageNum, pageSize: queryPageSize } = body;
+  let sqlString = `SELECT id,
                     username,
                     gender,
                     role,
@@ -23,38 +16,40 @@ router.post("/getUser", (request, response) => {
             FROM user
             WHERE 1 = 1`;
 
-      Object.keys(body).forEach((key) => {
-        switch (key) {
-          case "username":
-            if (body["username"] !== "") {
-              sqlString += ` AND username = '${body[key]}'`;
-            }
-            break;
-          case "gender":
-            if (body["gender"] !== -1) {
-              sqlString += ` AND gender = ${body[key]}`;
-            }
-            break;
-          case "role":
-            if (body["role"] !== 0) {
-              sqlString += ` AND role = ${body[key]}`;
-            }
-            break;
-          case "phone":
-            if (body["phone"] !== "") {
-              sqlString += ` AND phone = '${body[key]}'`;
-            }
-            break;
-          case "email":
-            if (body["email"] !== "") {
-              sqlString += ` AND email = '${body[key]}'`;
-            }
-            break;
-          default:
-            break;
+  Object.keys(body).forEach((key) => {
+    switch (key) {
+      case "username":
+        if (body["username"] !== "") {
+          sqlString += ` AND username = '${body[key]}'`;
         }
-      });
-
+        break;
+      case "gender":
+        if (body["gender"] !== -1) {
+          sqlString += ` AND gender = ${body[key]}`;
+        }
+        break;
+      case "role":
+        if (body["role"] !== 0) {
+          sqlString += ` AND role = ${body[key]}`;
+        }
+        break;
+      case "phone":
+        if (body["phone"] !== "") {
+          sqlString += ` AND phone = '${body[key]}'`;
+        }
+        break;
+      case "email":
+        if (body["email"] !== "") {
+          sqlString += ` AND email = '${body[key]}'`;
+        }
+        break;
+      default:
+        break;
+    }
+  });
+  executeMysql(sqlString)
+    .then((result) => {
+      const { length: total } = result;
       if (queryPageNum && queryPageSize) {
         const pageNum = Number(queryPageNum);
         const pageSize = Number(queryPageSize);
@@ -237,7 +232,8 @@ router.put("/uploadAvatar", (request, response) => {
 });
 
 router.put("/updateUser", (request, response) => {
-  const { id, username, gender, role, phone, email, avatar, remark } = request.body;
+  const { id, username, gender, role, phone, email, avatar, remark } =
+    request.body;
   const sqlString = `UPDATE user SET username='${username}', gender=${gender}, role=${role}, phone='${phone}', email='${email}', avatar='${avatar}', remark='${remark}'
     WHERE id=${id}`;
 
