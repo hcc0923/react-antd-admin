@@ -191,7 +191,7 @@ const FileAdmin = () => {
           key="upload"
         >
           <Upload.Dragger
-            maxCount={10}
+            maxCount={5}
             multiple={true}
             fileList={uploadFileList}
             beforeUpload={(_, fileList) => handleBeforeUploadFile(fileList)}
@@ -240,6 +240,7 @@ const FileAdmin = () => {
               )
             }
             dataSource={fileList}
+            pagination={{ pageSize: 8 }}
             renderItem={(item: any) => (
               <List.Item key={item.id} className="flex justify-between">
                 <span
@@ -297,6 +298,7 @@ const FileAdmin = () => {
               )
             }
             dataSource={myUploadList}
+            pagination={{ pageSize: 8 }}
             renderItem={(item: any) => (
               <List.Item key={item.id} className="flex justify-between">
                 <span

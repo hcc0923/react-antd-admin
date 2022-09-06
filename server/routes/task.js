@@ -90,41 +90,38 @@ router.put("/editTask", (request, response) => {
 });
 
 router.post("/getTask", (request, response) => {
-  const sqlString = `SELECT id
-    FROM task`;
-
-  executeMysql(sqlString)
-    .then((result) => {
-      const { length: total } = result;
-      const { body } = request;
-      const { pageNum: queryPageNum, pageSize: queryPageSize } = body;
-      let sqlString = `SELECT id,
+  const { body } = request;
+  const { pageNum: queryPageNum, pageSize: queryPageSize } = body;
+  let sqlString = `SELECT id,
                 taskname,
                 tasklevel
             FROM task
             WHERE 1 = 1`;
-      Object.keys(body).forEach((key) => {
-        switch (key) {
-          case "id":
-            if (body["id"] !== 0) {
-              sqlString += ` AND id =  ${Number(body[key])}`;
-            }
-            break;
-          case "taskname":
-            if (body["taskname"] !== "") {
-              sqlString += ` AND taskname = '${body[key]}'`;
-            }
-            break;
-          case "tasklevel":
-            if (body["tasklevel"] !== 0) {
-              sqlString += ` AND tasklevel = ${Number(body[key])}`;
-            }
-            break;
-          default:
-            break;
+  Object.keys(body).forEach((key) => {
+    switch (key) {
+      case "id":
+        if (body["id"] !== 0) {
+          sqlString += ` AND id =  ${Number(body[key])}`;
         }
-      });
+        break;
+      case "taskname":
+        if (body["taskname"] !== "") {
+          sqlString += ` AND taskname = '${body[key]}'`;
+        }
+        break;
+      case "tasklevel":
+        if (body["tasklevel"] !== 0) {
+          sqlString += ` AND tasklevel = ${Number(body[key])}`;
+        }
+        break;
+      default:
+        break;
+    }
+  });
 
+  executeMysql(sqlString)
+    .then((result) => {
+      const { length: total } = result;
       if (queryPageNum && queryPageSize) {
         const pageNum = Number(queryPageNum);
         const pageSize = Number(queryPageSize);
