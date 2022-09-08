@@ -258,7 +258,7 @@
   "tags.delete_other": "删除其他",
   "tags.delete_all": "删除所有",
 
-  "header.system_menu.basic_info": "删除所有",
+  "header.system_menu.basic_info": "基本信息",
   "header.system_menu.modify_password": "修改密码",
   "header.system_menu.logout": "退出",
   "header.system_settings": "系统设置",
