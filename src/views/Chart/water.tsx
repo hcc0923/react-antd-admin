@@ -4,7 +4,7 @@ import * as Echarts from "echarts";
 import ReactECharts from "echarts-for-react";
 import "echarts-liquidfill";
 
-const Water = () => {
+const Water: React.FC = () => {
   const intl = useIntl();
   const formatMessage = (id: string): string => {
     return intl.formatMessage({ id });

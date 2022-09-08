@@ -3,7 +3,7 @@ import { useIntl } from "react-intl";
 import { Card } from "antd";
 import TypeWriter from "@/components/TypeWriter";
 
-const TypeEffect = () => {
+const TypeEffect: React.FC = () => {
   const intl = useIntl();
   const formatMessage = (id: string): string => {
     return intl.formatMessage({ id });

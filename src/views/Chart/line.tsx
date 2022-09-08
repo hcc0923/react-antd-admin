@@ -3,7 +3,7 @@ import { useIntl } from "react-intl";
 import * as Echarts from "echarts";
 import ReactECharts from "echarts-for-react";
 
-const Line = () => {
+const Line: React.FC = () => {
   const intl = useIntl();
   const formatMessage = (id: string): string =>{
     return intl.formatMessage({ id });

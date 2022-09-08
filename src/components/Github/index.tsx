@@ -1,7 +1,7 @@
 import React from "react";
 import "./index.less";
 
-const Github = () => {
+const Github: React.FC = () => {
   return (
     <a
       href="https://github.com/hcc960923/react-antd-admin"

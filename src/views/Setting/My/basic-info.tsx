@@ -1,10 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
-import { Form, Input, Button, Space, Radio, Upload, message } from "antd";
+import {
+  Spin,
+  Card,
+  Form,
+  Input,
+  Button,
+  Space,
+  Radio,
+  Upload,
+  message,
+} from "antd";
 import { useIntl } from "react-intl";
 import { useRequest } from "ahooks";
 import Uploading from "@/components/Uploading";
-import SpinCard from "@/components/SpinCard";
 import { getUserDetail, updateUser } from "@/api/user";
 import { setUserInfo } from "@/store/actions/user";
 import { EmailRegexp, PhoneRegexp } from "@/utils";
@@ -24,7 +33,7 @@ type FileType = {
   type: string;
   size: number;
 };
-const BasicInfo = (props: any) => {
+const BasicInfo: React.FC = (props: any) => {
   const { user, setUserInfo } = props;
   const { userInfo } = user;
   const [uploading, setUploading] = useState(false);
@@ -131,120 +140,119 @@ const BasicInfo = (props: any) => {
   }, []);
 
   return (
-    <SpinCard
-      spinning={loadingGetUserDetail || loadingUpdateUser}
-      title={formatMessage("basic_info.title")}
-    >
-      <Form
-        labelCol={{ span: 4 }}
-        wrapperCol={{ span: 12 }}
-        name="basicinfo"
-        ref={formRef}
-        initialValues={initialForm}
-        onFinish={handleSubmitForm}
-      >
-        <span style={{ marginLeft: "17%", color: "#999" }} className="ml-1/6">
-          {formatMessage("basic_info.id_desciption")}
-        </span>
-        <Form.Item label="ID" name="id">
-          <Input readOnly />
-        </Form.Item>
-        <Form.Item
-          label={formatMessage("basic_info.label_username")}
-          name="username"
+    <Spin spinning={loadingGetUserDetail || loadingUpdateUser}>
+      <Card title={formatMessage("basic_info.title")}>
+        <Form
+          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 12 }}
+          name="basicinfo"
+          ref={formRef}
+          initialValues={initialForm}
+          onFinish={handleSubmitForm}
         >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label={formatMessage("basic_info.label_gender")}
-          name="gender"
-        >
-          <Radio.Group>
-            {genderRadios.map((options) => (
-              <Radio key={options.value} value={options.value}>
-                {formatMessage(options.label)}
-              </Radio>
-            ))}
-          </Radio.Group>
-        </Form.Item>
-        <Form.Item label={formatMessage("basic_info.label_role")} name="role">
-          <Radio.Group>
-            {roleRadios.map((options) => (
-              <Radio key={options.value} value={options.value}>
-                {formatMessage(options.label)}
-              </Radio>
-            ))}
-          </Radio.Group>
-        </Form.Item>
-        <Form.Item
-          label={formatMessage("basic_info.label_avatar")}
-          name="avatar"
-          valuePropName="avatar"
-        >
-          <Upload
-            name="avatar"
-            listType="picture-card"
-            showUploadList={false}
-            action={SERVER_ADDRESS + "/file/uploadAvatar"}
-            beforeUpload={handleBeforeUpload}
-            onChange={handleAvatarChange}
+          <span style={{ marginLeft: "17%", color: "#999" }} className="ml-1/6">
+            {formatMessage("basic_info.id_desciption")}
+          </span>
+          <Form.Item label="ID" name="id">
+            <Input readOnly />
+          </Form.Item>
+          <Form.Item
+            label={formatMessage("basic_info.label_username")}
+            name="username"
           >
-            {avatarUrl ? (
-              <img
-                src={SERVER_ADDRESS + "/" + avatarUrl}
-                alt={formatMessage("basic_info.avatar_alt")}
-                className="w-full h-full"
-              />
-            ) : (
-              <Uploading uploading={uploading} />
-            )}
-          </Upload>
-        </Form.Item>
-        <Form.Item
-          label={formatMessage("basic_info.label_phone")}
-          name="phone"
-          rules={[
-            {
-              pattern: PhoneRegexp,
-              message: formatMessage("basic_info.rules_phone"),
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label={formatMessage("basic_info.label_email")}
-          name="email"
-          rules={[
-            {
-              pattern: EmailRegexp,
-              message: formatMessage("basic_info.rules_email"),
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label={formatMessage("basic_info.label_remark")}
-          name="remark"
-        >
-          <Input.TextArea
-            rows={4}
-            placeholder={formatMessage("basic_info.placeholder_remark")}
-          />
-        </Form.Item>
-        <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
-          <Space size={20}>
-            <Button type="primary" htmlType="submit">
-              {formatMessage("basic_info.save")}
-            </Button>
-            <Button htmlType="button" onClick={handleResetForm}>
-              {formatMessage("basic_info.reset")}
-            </Button>
-          </Space>
-        </Form.Item>
-      </Form>
-    </SpinCard>
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label={formatMessage("basic_info.label_gender")}
+            name="gender"
+          >
+            <Radio.Group>
+              {genderRadios.map((options) => (
+                <Radio key={options.value} value={options.value}>
+                  {formatMessage(options.label)}
+                </Radio>
+              ))}
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item label={formatMessage("basic_info.label_role")} name="role">
+            <Radio.Group>
+              {roleRadios.map((options) => (
+                <Radio key={options.value} value={options.value}>
+                  {formatMessage(options.label)}
+                </Radio>
+              ))}
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item
+            label={formatMessage("basic_info.label_avatar")}
+            name="avatar"
+            valuePropName="avatar"
+          >
+            <Upload
+              name="avatar"
+              listType="picture-card"
+              showUploadList={false}
+              action={SERVER_ADDRESS + "/file/uploadAvatar"}
+              beforeUpload={handleBeforeUpload}
+              onChange={handleAvatarChange}
+            >
+              {avatarUrl ? (
+                <img
+                  src={SERVER_ADDRESS + "/" + avatarUrl}
+                  alt={formatMessage("basic_info.avatar_alt")}
+                  className="w-full h-full"
+                />
+              ) : (
+                <Uploading uploading={uploading} />
+              )}
+            </Upload>
+          </Form.Item>
+          <Form.Item
+            label={formatMessage("basic_info.label_phone")}
+            name="phone"
+            rules={[
+              {
+                pattern: PhoneRegexp,
+                message: formatMessage("basic_info.rules_phone"),
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label={formatMessage("basic_info.label_email")}
+            name="email"
+            rules={[
+              {
+                pattern: EmailRegexp,
+                message: formatMessage("basic_info.rules_email"),
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label={formatMessage("basic_info.label_remark")}
+            name="remark"
+          >
+            <Input.TextArea
+              rows={4}
+              placeholder={formatMessage("basic_info.placeholder_remark")}
+            />
+          </Form.Item>
+          <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
+            <Space size={20}>
+              <Button type="primary" htmlType="submit">
+                {formatMessage("basic_info.save")}
+              </Button>
+              <Button htmlType="button" onClick={handleResetForm}>
+                {formatMessage("basic_info.reset")}
+              </Button>
+            </Space>
+          </Form.Item>
+        </Form>
+      </Card>
+    </Spin>
   );
 };
 

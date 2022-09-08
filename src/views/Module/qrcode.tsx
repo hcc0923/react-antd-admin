@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { useIntl } from "react-intl";
-import { Space, Input, Button, message } from "antd";
+import { Spin, Card, Space, Input, Button, message } from "antd";
 import QRCode from "qrcode";
-import SpinCard from "@/components/SpinCard";
 
-const QrCode = () => {
+const QrCode: React.FC = () => {
   const [spinning, setSpinning] = useState(false);
   const [url, setUrl] = useState("");
   const [qr, setQr] = useState("");
@@ -30,28 +29,30 @@ const QrCode = () => {
       });
   };
   return (
-    <SpinCard spinning={spinning} title={formatMessage("module.qrcode.title")}>
-      <Space>
-        <Input
-          className="w-64"
-          placeholder={formatMessage("module.qrcode.placeholder")}
-          onChange={(event) => setUrl(event.target.value)}
-        />
-        <Button type="primary" onClick={generateQRCode}>
-          {formatMessage("module.qrcode.generate")}
-        </Button>
-      </Space>
-      <div className="mt-8">
-        {qr && (
-          <Space>
-            <img src={qr} width="200" />
-            <Button type="link" href={qr} download="qrcode.png">
-              Download
-            </Button>
-          </Space>
-        )}
-      </div>
-    </SpinCard>
+    <Spin spinning={spinning}>
+      <Card title={formatMessage("module.qrcode.title")}>
+        <Space>
+          <Input
+            className="w-64"
+            placeholder={formatMessage("module.qrcode.placeholder")}
+            onChange={(event) => setUrl(event.target.value)}
+          />
+          <Button type="primary" onClick={generateQRCode}>
+            {formatMessage("module.qrcode.generate")}
+          </Button>
+        </Space>
+        <div className="mt-8">
+          {qr && (
+            <Space>
+              <img src={qr} width="200" />
+              <Button type="link" href={qr} download="qrcode.png">
+                Download
+              </Button>
+            </Space>
+          )}
+        </div>
+      </Card>
+    </Spin>
   );
 };
 

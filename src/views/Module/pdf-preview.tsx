@@ -1,7 +1,7 @@
 import React from "react";
 import { SERVER_ADDRESS } from "@/utils/config";
 
-const PdfPreview = () => {
+const PdfPreview: React.FC = () => {
   const iFrameHeight = document.body.scrollHeight;
   return (
     <iframe

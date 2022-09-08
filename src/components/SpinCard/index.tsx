@@ -1,7 +1,7 @@
 import React from "react";
 import { Spin, Card } from "antd";
 
-const SpinCard = (props: any) => {
+const SpinCard: React.FC = (props: any) => {
   const { spinning, title } = props;
   return (
     <Spin spinning={spinning}>

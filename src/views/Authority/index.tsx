@@ -6,7 +6,7 @@ import { setUserInfo } from "@/store/actions/user";
 import logo from "@/assets/logo.svg";
 import vite from "@/assets/vite.svg";
 
-const Authority = (props: any) => {
+const Authority: React.FC = (props: any) => {
   const { user, setUserInfo } = props;
   const { userInfo } = user;
   const roleMap: any = {

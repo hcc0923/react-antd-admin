@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { useIntl } from "react-intl";
 import ReactECharts from "echarts-for-react";
 
-const Bar = (props: any) => {
+const Bar: React.FC = (props: any) => {
   const { settings } = props;
   const settingsIntl = settings.intl;
   const intl = useIntl();

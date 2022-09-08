@@ -7,7 +7,7 @@ import { findEmail, sendEmail, resetPassword } from "@/api/login";
 import { EmailRegexp } from "@/utils";
 import { EMAIL_KEY } from "@/utils/config";
 
-const Forget = () => {
+const Forget: React.FC = () => {
   const navigate = useNavigate();
   const [formType, setFormType] = useState("validate");
   const [validateForm, setValidateForm] = useState<any>({

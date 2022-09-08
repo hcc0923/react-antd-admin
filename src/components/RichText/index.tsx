@@ -6,7 +6,7 @@ import { Editor } from "react-draft-wysiwyg";
 import { SERVER_ADDRESS } from "@/utils/config";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
-const RichText = () => {
+const RichText: React.FC = () => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const intl = useIntl();
   const formatMessage = (id: string): string => {

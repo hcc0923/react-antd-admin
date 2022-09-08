@@ -9,7 +9,7 @@ import { userLogin, userRegister, findEmail } from "@/api/login";
 import { setToken, setUserInfo } from "@/store/actions/user";
 import { EmailRegexp, formatGMTTime } from "@/utils";
 
-const Login = (props: any) => {
+const Login: React.FC = (props: any) => {
   const { setToken, setUserInfo } = props;
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -41,6 +41,7 @@ const Login = (props: any) => {
     formType: string,
     labelName: string
   ) => {
+    event.preventDefault();
     if (formType === "login") {
       loginForm[labelName] = event.target.value;
       setLoginForm(loginForm);
@@ -49,7 +50,9 @@ const Login = (props: any) => {
       setRegisterForm(registerForm);
     }
   };
-  const handleLogin = (values: object, isRegistered?: any) => {
+  const handleLogin = (values: object) => {
+    console.log(values);
+    
     const params = JSON.parse(JSON.stringify(values));
     params["password"] = CryptoJS.MD5(params["password"]).toString();
 
@@ -57,18 +60,19 @@ const Login = (props: any) => {
       .then((response: any) => {
         const { token, userInfo } = response;
         const { last_login_time, last_login_ip } = userInfo;
+        setToken(token);
+        setUserInfo(userInfo);
+        localStorage.setItem("user", JSON.stringify({ token, userInfo }));
+       
+        navigate("/home");
+
+        message.success("登陆成功");
         message.info(
           `上次登录时间：${formatGMTTime(
             last_login_time
           )} 上次登录IP：${last_login_ip}`,
           13
         );
-        setToken(token);
-        setUserInfo(userInfo);
-        localStorage.setItem("user", JSON.stringify({ token, userInfo }));
-        if (isRegistered) message.destroy("loading");
-        navigate("/home");
-        message.success("登陆成功");
       })
       .catch((error) => {
         console.log(error);
@@ -99,17 +103,19 @@ const Login = (props: any) => {
           key: "loading",
         });
         setLoginForm(registerForm);
-        handleLogin(registerForm, true);
+        handleLogin(registerForm);
       })
       .catch((error) => {
         console.log(error);
         message.error("注册失败");
+      })
+      .finally(() => {
+        message.destroy("loading");
       });
   };
   useEffect(() => {
     setLoading(loadingUserLogin || loadingUserRegister);
   }, [loadingUserLogin, loadingUserRegister]);
-
   return (
     <Spin
       spinning={loadingUserLogin || loadingUserRegister || loadingFindEmail}

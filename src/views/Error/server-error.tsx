@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Result } from "antd";
 
-const ServerError = () => {
+const ServerError: React.FC = () => {
   const navigate = useNavigate();
   return (
     <Result

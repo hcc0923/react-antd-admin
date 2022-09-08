@@ -8,7 +8,7 @@ import Header from "./Header";
 import Tags from "@/components/Tags";
 const { Content } = Layout;
 
-const LayoutPage = (props: any) => {
+const LayoutPage: React.FC = (props: any) => {
   const location = useLocation();
   const { pathname } = location;
   const { settings } = props;

@@ -11,7 +11,7 @@ import { addTag } from "@/store/actions/tag";
 import { formatRole } from "@/utils";
 
 type ArrayObjectType = Array<object>;
-const Sider = (props: any) => {
+const Sider: React.FC = (props: any) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, settings, setCollapse, addTag } = props;

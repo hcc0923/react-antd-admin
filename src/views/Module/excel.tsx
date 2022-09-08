@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useIntl } from "react-intl";
-import { Input, Upload, Table, Button } from "antd";
+import { Spin, Card, Input, Upload, Table, Button } from "antd";
 import * as XLSX from "xlsx";
-import SpinCard from "@/components/SpinCard";
 
 type DataType = Array<object>;
-const Excel = () => {
+const Excel: React.FC = () => {
   const [spinning, setSpinning] = useState(false);
   const [tableData, setTableData] = useState<DataType>([]);
   const [fileList, setFileList] = useState([]);
@@ -181,37 +180,38 @@ const Excel = () => {
   }, []);
 
   return (
-    <SpinCard spinning={spinning} title={formatMessage("module.excel.title")}>
-      <div className="mb-4">
-        <Input
-          className="w-1/4 mb-2 mr-4"
-          placeholder={formatMessage("module.excel.placeholder")}
-          onChange={(event) => setFileName(event.target.value)}
-        />
-        <Button className="mr-4" type="primary" onClick={handleExportAll}>
-          {formatMessage("module.excel.button_export")}
-        </Button>
-        <Upload
-          accept=".xlsx"
-          fileList={fileList}
-          showUploadList={true}
-          beforeUpload={handleBeforeUploadFile}
-          onRemove={handleRemoveFile}
-        >
-          <Button type="primary">
-            {formatMessage("module.excel.button_import")}
+    <Spin spinning={spinning}>
+      <Card title={formatMessage("module.excel.title")}>
+        <div className="mb-4">
+          <Input
+            className="w-1/4 mb-2 mr-4"
+            placeholder={formatMessage("module.excel.placeholder")}
+            onChange={(event) => setFileName(event.target.value)}
+          />
+          <Button className="mr-4" type="primary" onClick={handleExportAll}>
+            {formatMessage("module.excel.button_export")}
           </Button>
-        </Upload>
-      </div>
-
-      <Table
-        bordered={true}
-        columns={columns}
-        dataSource={tableData}
-        pagination={false}
-        rowKey={(record: any) => `${record.id}`}
-      />
-    </SpinCard>
+          <Upload
+            accept=".xlsx"
+            fileList={fileList}
+            showUploadList={true}
+            beforeUpload={handleBeforeUploadFile}
+            onRemove={handleRemoveFile}
+          >
+            <Button type="primary">
+              {formatMessage("module.excel.button_import")}
+            </Button>
+          </Upload>
+        </div>
+        <Table
+          bordered={true}
+          columns={columns}
+          dataSource={tableData}
+          pagination={false}
+          rowKey={(record: any) => `${record.id}`}
+        />
+      </Card>
+    </Spin>
   );
 };
 

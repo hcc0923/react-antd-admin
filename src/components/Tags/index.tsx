@@ -6,7 +6,7 @@ import { Tag, Tooltip, Space, Button } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { closeTag, closeOtherTag, closeAllTag } from "@/store/actions/tag";
 
-const TagView = (props: any) => {
+const TagView: React.FC = (props: any) => {
   const { tag, closeTag, closeOtherTag, closeAllTag } = props;
   const location = useLocation();
   const navigate = useNavigate();

@@ -4,7 +4,7 @@ import { FullscreenOutlined } from "@ant-design/icons";
 import { useIntl } from "react-intl";
 import screenfull from "screenfull";
 
-const FullScreen = () => {
+const FullScreen: React.FC = () => {
   const intl = useIntl();
   const formatMessage = (id: string): string => {
     return intl.formatMessage({ id });

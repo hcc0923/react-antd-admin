@@ -6,7 +6,7 @@ import { Breadcrumb } from "antd";
 import menuList from "@/router/menuList";
 
 type ArrayObjectType = Array<object>;
-const BreadCrumb = (props: any) => {
+const BreadCrumb: React.FC = (props: any) => {
   const { settings } = props;
   const settingsIntl = settings.intl;
   const location = useLocation();

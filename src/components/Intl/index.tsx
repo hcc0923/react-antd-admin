@@ -7,7 +7,7 @@ import zhCN from "antd/es/locale/zh_CN";
 import en from "@/lang/en.json";
 import zh from "@/lang/zh.json";
 
-const Intl = function (props: any) {
+const Intl: React.FC = (props: any) => {
   const { settings } = props;
   const localLang = settings["intl"];
   const i18nData: any = { en, zh };

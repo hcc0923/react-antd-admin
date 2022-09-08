@@ -47,7 +47,7 @@ const provinces: any = {
 //直辖市和特别行政区-只有二级地图，没有三级地图
 const special = ["北京", "天津", "上海", "重庆", "香港", "澳门"];
 
-const China = () => {
+const China: React.FC = () => {
   let chart: any;
   const [mapData, setMapData] = useState([]);
 

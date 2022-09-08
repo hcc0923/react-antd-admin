@@ -1,7 +1,7 @@
 import React from "react";
 import RichText from "@/components/RichText";
 
-const RichTextPage = () => {
+const RichTextPage: React.FC = () => {
   return <RichText />;
 };
 

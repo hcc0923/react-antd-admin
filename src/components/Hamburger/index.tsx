@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { setCollapse } from "@/store/actions/settings";
 
-const Hamburger = (props: any) => {
+const Hamburger: React.FC = (props: any) => {
   const { settings, setCollapse } = props;
   const { collapsed } = settings;
   return (

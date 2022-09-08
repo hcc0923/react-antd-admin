@@ -23,7 +23,7 @@ import BreadCrumb from "@/components/BreadCrumb";
 import { setIntl } from "@/store/actions/settings";
 import { SERVER_ADDRESS } from "@/utils/config";
 
-const Header = (props: any) => {
+const Header: React.FC = (props: any) => {
   const { user, settings, setIntl } = props;
   const { userInfo } = user;
   const { collapsed, fixedHeader } = settings;

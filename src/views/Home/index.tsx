@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef, Fragment } from "react";
 import {
+  Spin,
+  Card,
   Form,
   Input,
   Row,
@@ -20,7 +22,6 @@ import {
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import { useRequest } from "ahooks";
-import SpinCard from "@/components/SpinCard";
 import { getTask, addTask, editTask, deleteTask } from "@/api/task";
 
 type GetTaskType = {
@@ -241,122 +242,125 @@ const TaskList = () => {
   }, [searchForm, pagination]);
 
   return (
-    <SpinCard
+    <Spin
       spinning={
         loadingGetTask || loadingAddTask || loadingEditTask || loadingDeleteTask
       }
-      title={formatMessage("home.title")}
     >
-      <Form
-        name="search"
-        ref={searchRef}
-        className="ant-advanced-search-form"
-        onFinish={setSearchForm}
-      >
-        <Row gutter={24}>
-          <Col span={5}>
-            <Form.Item
-              name="taskname"
-              label={formatMessage("home.label_taskname")}
-            >
-              <Input placeholder={formatMessage("home.placeholder_taskname")} />
-            </Form.Item>
-          </Col>
-          <Col span={5}>
-            <Form.Item
-              name="tasklevel"
-              label={formatMessage("home.label_tasklevel")}
-            >
-              <Select placeholder={formatMessage("home.initial_tasklevel")}>
-                {taskLevelOptions.map((option) => (
-                  <Select.Option key={option.value} value={option.value}>
-                    {formatMessage(option.label)}
-                  </Select.Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </Col>
-          <Col span={4}>
-            <Space>
-              <Button type="primary" htmlType="submit">
-                {formatMessage("home.button_search")}
-              </Button>
-              <Button onClick={() => searchRef.current.resetFields()}>
-                {formatMessage("home.button_reset")}
-              </Button>
-            </Space>
-          </Col>
-        </Row>
-      </Form>
-      <Space className="mb-4">
-        <Button type="primary" onClick={() => onOpenAddEditForm("add")}>
-          <PlusOutlined />
-          {formatMessage("home.button_add")}
-        </Button>
-      </Space>
-      <Table
-        bordered={true}
-        columns={columns}
-        dataSource={taskTableData}
-        pagination={{ ...pagination, ...total }}
-        onChange={handlePageChange}
-        rowKey={(record: any) => `${record.id}`}
-      />
-      <Modal
-        title={
-          modalType === "add"
-            ? formatMessage("home.modal_add_task")
-            : formatMessage("home.modal_edit_task")
-        }
-        visible={modalVisible}
-        footer={null}
-        destroyOnClose={true}
-        onCancel={() => setModalVisible(false)}
-      >
+      <Card title={formatMessage("home.title")}>
         <Form
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
-          name="add-edit"
-          initialValues={modalForm}
-          onFinish={onSaveAddEditForm}
+          name="search"
+          ref={searchRef}
+          className="ant-advanced-search-form"
+          onFinish={setSearchForm}
         >
-          <Form.Item
-            label={formatMessage("home.modal_taskname")}
-            name="taskname"
-            rules={[
-              {
-                required: true,
-                message: formatMessage("home.modal_rules_taskname"),
-              },
-            ]}
-          >
-            <Input placeholder={formatMessage("home.modal_rules_taskname")} />
-          </Form.Item>
-          <Form.Item
-            label={formatMessage("home.modal_label_tasklevel")}
-            name="tasklevel"
-          >
-            <Radio.Group>
-              {taskLevelRadios.map((option) => (
-                <Radio key={option.value} value={option.value}>
-                  {formatMessage(option.label)}
-                </Radio>
-              ))}
-            </Radio.Group>
-          </Form.Item>
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Space>
-              <Button type="primary" htmlType="submit">
-                {formatMessage("home.modal_button_submit")}
-              </Button>
-              <Button type="default" onClick={() => setModalVisible(false)}>
-                {formatMessage("home.modal_button_cancel")}
-              </Button>
-            </Space>
-          </Form.Item>
+          <Row gutter={24}>
+            <Col span={5}>
+              <Form.Item
+                name="taskname"
+                label={formatMessage("home.label_taskname")}
+              >
+                <Input
+                  placeholder={formatMessage("home.placeholder_taskname")}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={5}>
+              <Form.Item
+                name="tasklevel"
+                label={formatMessage("home.label_tasklevel")}
+              >
+                <Select placeholder={formatMessage("home.initial_tasklevel")}>
+                  {taskLevelOptions.map((option) => (
+                    <Select.Option key={option.value} value={option.value}>
+                      {formatMessage(option.label)}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col span={4}>
+              <Space>
+                <Button type="primary" htmlType="submit">
+                  {formatMessage("home.button_search")}
+                </Button>
+                <Button onClick={() => searchRef.current.resetFields()}>
+                  {formatMessage("home.button_reset")}
+                </Button>
+              </Space>
+            </Col>
+          </Row>
         </Form>
-      </Modal>
-    </SpinCard>
+        <Space className="mb-4">
+          <Button type="primary" onClick={() => onOpenAddEditForm("add")}>
+            <PlusOutlined />
+            {formatMessage("home.button_add")}
+          </Button>
+        </Space>
+        <Table
+          bordered={true}
+          columns={columns}
+          dataSource={taskTableData}
+          pagination={{ ...pagination, ...total }}
+          onChange={handlePageChange}
+          rowKey={(record: any) => `${record.id}`}
+        />
+        <Modal
+          title={
+            modalType === "add"
+              ? formatMessage("home.modal_add_task")
+              : formatMessage("home.modal_edit_task")
+          }
+          visible={modalVisible}
+          footer={null}
+          destroyOnClose={true}
+          onCancel={() => setModalVisible(false)}
+        >
+          <Form
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
+            name="add-edit"
+            initialValues={modalForm}
+            onFinish={onSaveAddEditForm}
+          >
+            <Form.Item
+              label={formatMessage("home.modal_taskname")}
+              name="taskname"
+              rules={[
+                {
+                  required: true,
+                  message: formatMessage("home.modal_rules_taskname"),
+                },
+              ]}
+            >
+              <Input placeholder={formatMessage("home.modal_rules_taskname")} />
+            </Form.Item>
+            <Form.Item
+              label={formatMessage("home.modal_label_tasklevel")}
+              name="tasklevel"
+            >
+              <Radio.Group>
+                {taskLevelRadios.map((option) => (
+                  <Radio key={option.value} value={option.value}>
+                    {formatMessage(option.label)}
+                  </Radio>
+                ))}
+              </Radio.Group>
+            </Form.Item>
+            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+              <Space>
+                <Button type="primary" htmlType="submit">
+                  {formatMessage("home.modal_button_submit")}
+                </Button>
+                <Button type="default" onClick={() => setModalVisible(false)}>
+                  {formatMessage("home.modal_button_cancel")}
+                </Button>
+              </Space>
+            </Form.Item>
+          </Form>
+        </Modal>
+      </Card>
+    </Spin>
   );
 };
 

@@ -6,7 +6,7 @@ import store from "@/store/store.js";
 import Router from "@/router/index";
 import "./main.less";
 
-const App = () => {
+const App: React.FC = () => {
   if (!window.global) window.global = globalThis;
   return (
     <Provider store={store}>

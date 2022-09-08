@@ -13,7 +13,7 @@ for (let i = 0; i < 50; i++) {
   data2.push((Math.sin(i / 5) * (i / 5 + 10) + i / 6) * 3);
 }
 
-const KeyBoard = (props: any) => {
+const KeyBoard: React.FC = (props: any) => {
   const { settings } = props;
   const settingsIntl = settings.intl;
   const intl = useIntl();

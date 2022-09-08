@@ -104,7 +104,7 @@ const icons = [
   { key: "AppstoreAddOutlined", value: <AppstoreAddOutlined /> },
 ];
 
-const Icon = () => {
+const Icon: React.FC = () => {
   const intl = useIntl();
   const formatMessage = (id: string): string => {
     return intl.formatMessage({ id });
