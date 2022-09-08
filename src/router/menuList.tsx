@@ -58,6 +58,18 @@ const menuList: Array<object> = [
     ],
   },
   {
+    label: <FormattedMessage id="menulist.file_admin" />,
+    key: "/file-admin",
+    icon: <CopyOutlined />,
+    roles: ["root", "admin", "user"],
+  },
+  {
+    label: <FormattedMessage id="menulist.authority" />,
+    key: "/authority",
+    icon: <EyeInvisibleOutlined />,
+    roles: ["root", "admin", "user"],
+  },
+  {
     label: <FormattedMessage id="menulist.icon" />,
     key: "/icon",
     icon: <CopyOutlined />,
@@ -90,13 +102,13 @@ const menuList: Array<object> = [
         roles: ["root", "admin", "user"],
       },
       {
-        label: <FormattedMessage id="menulist.chart.mix" />,
-        key: "/chart/mix",
+        label: <FormattedMessage id="menulist.chart.water" />,
+        key: "/chart/water",
         roles: ["root", "admin", "user"],
       },
       {
-        label: <FormattedMessage id="menulist.chart.water" />,
-        key: "/chart/water",
+        label: <FormattedMessage id="menulist.chart.mix" />,
+        key: "/chart/mix",
         roles: ["root", "admin", "user"],
       },
       {
@@ -120,11 +132,6 @@ const menuList: Array<object> = [
       {
         label: <FormattedMessage id="menulist.module.zip" />,
         key: "/module/zip",
-        roles: ["root", "admin", "user"],
-      },
-      {
-        label: <FormattedMessage id="menulist.module.file_admin" />,
-        key: "/module/file-admin",
         roles: ["root", "admin", "user"],
       },
       {
@@ -158,12 +165,6 @@ const menuList: Array<object> = [
         roles: ["root", "admin", "user"],
       },
     ],
-  },
-  {
-    label: <FormattedMessage id="menulist.authority" />,
-    key: "/authority",
-    icon: <EyeInvisibleOutlined />,
-    roles: ["root", "admin", "user"],
   },
   {
     label: <FormattedMessage id="menulist.error" />,

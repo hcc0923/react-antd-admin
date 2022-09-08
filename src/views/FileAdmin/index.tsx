@@ -81,11 +81,11 @@ const FileAdmin = () => {
     runUploadMultipleFile(formData)
       .then(() => {
         setUploadFileList([]);
-        message.success(formatMessage("module.fileadmin.upload_success"));
+        message.success(formatMessage("file_admin.upload_success"));
       })
       .catch((error) => {
         console.log(error);
-        message.error(formatMessage("module.fileadmin.upload_error"));
+        message.error(formatMessage("file_admin.upload_error"));
       })
       .finally(() => {
         setUploading(false);
@@ -183,11 +183,11 @@ const FileAdmin = () => {
         loadingDeleteAllFile ||
         spinning
       }
-      title={formatMessage("module.fileadmin.title")}
+      title={formatMessage("file_admin.title")}
     >
       <Tabs defaultActiveKey="upload" onChange={handleTabChange}>
         <Tabs.TabPane
-          tab={formatMessage("module.fileadmin.upload_tab")}
+          tab={formatMessage("file_admin.upload_tab")}
           key="upload"
         >
           <Upload.Dragger
@@ -203,7 +203,7 @@ const FileAdmin = () => {
               <InboxOutlined />
             </p>
             <p className="ant-upload-text">
-              {formatMessage("module.fileadmin.upload_text")}
+              {formatMessage("file_admin.upload_text")}
             </p>
           </Upload.Dragger>
           <Button
@@ -214,12 +214,12 @@ const FileAdmin = () => {
             className="mt-4"
           >
             {uploading
-              ? formatMessage("module.fileadmin.upload_uploading")
-              : formatMessage("module.fileadmin.upload_upload")}
+              ? formatMessage("file_admin.upload_uploading")
+              : formatMessage("file_admin.upload_upload")}
           </Button>
         </Tabs.TabPane>
         <Tabs.TabPane
-          tab={formatMessage("module.fileadmin.filelist_tab")}
+          tab={formatMessage("file_admin.filelist_tab")}
           key="filelist"
         >
           <List
@@ -234,7 +234,7 @@ const FileAdmin = () => {
                   onClick={() => handleDownloadFile("filelist")}
                 >
                   {formatMessage(
-                    "module.fileadmin.filelist_button_download_all"
+                    "file_admin.filelist_button_download_all"
                   )}
                 </Button>
               )
@@ -257,7 +257,7 @@ const FileAdmin = () => {
                     type="default"
                     onClick={() => handleDownloadFile(item)}
                   >
-                    {formatMessage("module.fileadmin.filelist_button_download")}
+                    {formatMessage("file_admin.filelist_button_download")}
                   </Button>
                 </Space>
               </List.Item>
@@ -265,7 +265,7 @@ const FileAdmin = () => {
           ></List>
         </Tabs.TabPane>
         <Tabs.TabPane
-          tab={formatMessage("module.fileadmin.myupload_tab")}
+          tab={formatMessage("file_admin.myupload_tab")}
           key="myupload"
         >
           <List
@@ -282,7 +282,7 @@ const FileAdmin = () => {
                     onClick={() => handleDownloadFile("myupload")}
                   >
                     {formatMessage(
-                      "module.fileadmin.myupload_button_download_all"
+                      "file_admin.myupload_button_download_all"
                     )}
                   </Button>
                   <Button
@@ -291,7 +291,7 @@ const FileAdmin = () => {
                     onClick={() => handleDeleteFile("uploadlist")}
                   >
                     {formatMessage(
-                      "module.fileadmin.myupload_button_delete_all"
+                      "file_admin.myupload_button_delete_all"
                     )}
                   </Button>
                 </div>
@@ -316,7 +316,7 @@ const FileAdmin = () => {
                     onClick={() => handleDownloadFile(item)}
                   >
                     {formatMessage(
-                      "module.fileadmin.myupload_button_download_file"
+                      "file_admin.myupload_button_download_file"
                     )}
                   </Button>
                   <Button
@@ -325,7 +325,7 @@ const FileAdmin = () => {
                     onClick={() => handleDeleteFile(item)}
                   >
                     {formatMessage(
-                      "module.fileadmin.myupload_button_delete_file"
+                      "file_admin.myupload_button_delete_file"
                     )}
                   </Button>
                 </Space>

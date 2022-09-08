@@ -22,6 +22,16 @@ const routeList = [
     component: React.lazy(() => import("@/views/Setting/My/modify-password")),
   },
   {
+    path: "/file-admin",
+    roles: ["root", "admin", "user"],
+    component: React.lazy(() => import("@/views/FileAdmin/index")),
+  },
+  {
+    path: "/authority",
+    roles: ["root", "admin", "user"],
+    component: React.lazy(() => import("@/views/Authority/index")),
+  },
+  {
     path: "/icon",
     roles: ["root", "admin", "user"],
     component: React.lazy(() => import("@/views/Icon/index")),
@@ -72,11 +82,6 @@ const routeList = [
     component: React.lazy(() => import("@/views/Module/zip")),
   },
   {
-    path: "/module/file-admin",
-    roles: ["root", "admin", "user"],
-    component: React.lazy(() => import("@/views/Module/file-admin")),
-  },
-  {
     path: "/module/rich-text",
     roles: ["root", "admin", "user"],
     component: React.lazy(() => import("@/views/Module/rich-text")),
@@ -105,11 +110,6 @@ const routeList = [
     path: "/module/pdf-preview",
     roles: ["root", "admin", "user"],
     component: React.lazy(() => import("@/views/Module/pdf-preview")),
-  },
-  {
-    path: "/authority",
-    roles: ["root", "admin", "user"],
-    component: React.lazy(() => import("@/views/Authority/index")),
   },
   {
     path: "/error/no-authority",
