@@ -2,12 +2,14 @@ import React from "react";
 import { FormattedMessage } from "react-intl";
 import {
   DashboardOutlined,
+  CompassOutlined,
   UserOutlined,
   CopyOutlined,
   SettingOutlined,
   StopOutlined,
   AreaChartOutlined,
   AppstoreOutlined,
+  FileOutlined,
   EyeInvisibleOutlined,
 } from "@ant-design/icons";
 
@@ -21,7 +23,7 @@ const menuList: Array<object> = [
   {
     label: <FormattedMessage id="menulist.guide" />,
     key: "/guide",
-    icon: <DashboardOutlined />,
+    icon: <CompassOutlined />,
     roles: ["root", "admin", "user"],
   },
   {
@@ -66,7 +68,7 @@ const menuList: Array<object> = [
   {
     label: <FormattedMessage id="menulist.file_admin" />,
     key: "/file-admin",
-    icon: <CopyOutlined />,
+    icon: <FileOutlined />,
     roles: ["root", "admin", "user"],
   },
   {

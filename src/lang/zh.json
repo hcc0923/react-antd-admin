@@ -73,6 +73,13 @@
   "home.columns.edit": "编辑",
   "home.columns.delete": "删除",
 
+  "guide.intro": "react-antd-admin是一个中后台的管理系统，使用最新的Package。",
+  "guide.hamburger_intro": "控制侧边栏折叠展开",
+  "guide.breadcrumb_intro": "面包屑显示当前页面的路径",
+  "guide.fullscreen_intro": "全屏切换",
+  "guide.intl_intro": "国际化语言切换",
+  "guide.settings_intro": "一些简单的系统设置",
+
   "user_list.title": "用户列表",
   "user_list.label_username": "姓名",
   "user_list.placeholder_username": "请输入姓名",

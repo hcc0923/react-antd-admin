@@ -5,7 +5,7 @@
   "message.delete.error": "Failed to delete",
   "message.edit.success": "Edited successfully",
   "message.edit.error": "Edit failed",
-  
+
   "menulist.home": "Home",
   "menulist.guide": "Guide",
   "menulist.user_menu": "User Menu",
@@ -14,6 +14,7 @@
   "menulist.user_setting": "User Setting",
   "menulist.basic_info": "Basic Info",
   "menulist.modify_password": "Modify Password",
+  "menulist.file_admin": "File Admin",
   "menulist.icon": "Icon",
   "menulist.chart": "Chart",
   "menulist.chart.line": "Line Chart",
@@ -26,7 +27,6 @@
   "menulist.module": "Module",
   "menulist.module.excel": "Excel",
   "menulist.module.zip": "Zip",
-  "menulist.module.file_admin": "File Admin",
   "menulist.module.rich_text": "RichText Editor",
   "menulist.module.mark_down": "MarkDown Editor",
   "menulist.module.type_effect": "Typing Effect",
@@ -72,6 +72,13 @@
   "home.columns.action": "Action",
   "home.columns.edit": "Edit",
   "home.columns.delete": "Delete",
+
+  "guide.intro": "react-antd-admin is a middle and background management system, using the latest Package.",
+  "guide.hamburger_intro": "Control the sidebar to collapse and expand",
+  "guide.breadcrumb_intro": "Breadcrumbs show the path of the current page",
+  "guide.fullscreen_intro": "full screen toggle",
+  "guide.intl_intro": "Internationalized language switch",
+  "guide.settings_intro": "some simple system settings",
 
   "user_list.title": "User list",
   "user_list.label_username": "Name",
