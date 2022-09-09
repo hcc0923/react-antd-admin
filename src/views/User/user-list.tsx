@@ -532,7 +532,7 @@ const UserList: React.FC = () => {
               ? formatMessage("user_list.modal_add_user")
               : formatMessage("user_list.modal_edit_user")
           }
-          visible={modalVisible}
+          open={modalVisible}
           footer={null}
           destroyOnClose={true}
           onCancel={() => setModalVisible(false)}
