@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import { Spin, Form, Input, Button, message } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
@@ -12,6 +12,7 @@ import { EmailRegexp, formatGMTTime } from "@/utils";
 const Login: React.FC = (props: any) => {
   const { setToken, setUserInfo } = props;
   const navigate = useNavigate();
+  const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [overlay, setOverlay] = useState({ isLogin: true, step: 100 });
   const [loginForm, setLoginForm] = useState<any>({ email: "", password: "" });
@@ -51,28 +52,21 @@ const Login: React.FC = (props: any) => {
     }
   };
   const handleLogin = (values: object) => {
-    console.log(values);
-    
     const params = JSON.parse(JSON.stringify(values));
     params["password"] = CryptoJS.MD5(params["password"]).toString();
 
     runUserLogin(params)
       .then((response: any) => {
         const { token, userInfo } = response;
-        const { last_login_time, last_login_ip } = userInfo;
+
         setToken(token);
         setUserInfo(userInfo);
         localStorage.setItem("user", JSON.stringify({ token, userInfo }));
-       
-        navigate("/home");
 
-        message.success("登陆成功");
-        message.info(
-          `上次登录时间：${formatGMTTime(
-            last_login_time
-          )} 上次登录IP：${last_login_ip}`,
-          13
-        );
+        // navigate("/home");
+
+        window.location.replace("http://localhost:3000/#/login?isLogin");
+        window.location.reload();
       })
       .catch((error) => {
         console.log(error);
@@ -116,6 +110,24 @@ const Login: React.FC = (props: any) => {
   useEffect(() => {
     setLoading(loadingUserLogin || loadingUserRegister);
   }, [loadingUserLogin, loadingUserRegister]);
+
+  useEffect(() => {
+    const dataJSON: any = localStorage.getItem("user");
+    const data = dataJSON ? JSON.parse(dataJSON) : null;
+    if (location.search.slice(1) === "isLogin" && !!data?.token) {
+      const { last_login_time, last_login_ip } = props?.user?.userInfo;
+
+      navigate("/home");
+
+      message.success("登陆成功");
+      message.info(
+        `上次登录时间：${formatGMTTime(
+          last_login_time
+        )} 上次登录IP：${last_login_ip}`,
+        13
+      );
+    }
+  }, []);
   return (
     <Spin
       spinning={loadingUserLogin || loadingUserRegister || loadingFindEmail}

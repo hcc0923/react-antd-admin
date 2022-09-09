@@ -38,7 +38,7 @@ type TaskDataType = {
 type DeleteTaskType = {
   id: number | undefined;
 };
-const TaskList = () => {
+const TaskList: React.FC = () => {
   const [taskTableData, setTaskTableData] = useState([]);
   const [searchForm, setSearchForm] = useState({
     taskname: "",
