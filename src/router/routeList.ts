@@ -7,6 +7,11 @@ const routeList = [
     component: React.lazy(() => import("@/views/Home/index")),
   },
   {
+    path: "/guide",
+    roles: ["root", "admin", "user"],
+    component: React.lazy(() => import("@/views/Guide/index")),
+  },
+  {
     path: "/user-menu/user-list",
     roles: ["root", "admin"],
     component: React.lazy(() => import("@/views/User/user-list")),

@@ -8,6 +8,7 @@ const Hamburger: React.FC = (props: any) => {
   const { collapsed } = settings;
   return (
     <div
+      id="hamburger"
       className="h-full flex items-center cursor-pointer text-2xl -ml-8"
       onClick={() => setCollapse(!collapsed)}
     >

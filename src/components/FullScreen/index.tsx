@@ -13,9 +13,11 @@ const FullScreen: React.FC = () => {
     screenfull.toggle();
   };
   return (
-    <Tooltip placement="bottom" title={formatMessage("fullscreen.title")}>
-      <FullscreenOutlined onClick={handleFullScrren} />
-    </Tooltip>
+    <div id="fullscreen">
+      <Tooltip placement="bottom" title={formatMessage("fullscreen.title")}>
+        <FullscreenOutlined onClick={handleFullScrren} />
+      </Tooltip>
+    </div>
   );
 };
 

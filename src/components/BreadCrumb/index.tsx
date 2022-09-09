@@ -50,17 +50,19 @@ const BreadCrumb: React.FC = (props: any) => {
     pathData = [{ label: homeLabel, key: "/home" }].concat(pathData);
   }
   return (
-    <Breadcrumb className="h-full flex items-center ml-4 text-sm">
-      {pathData.map((item: any) =>
-        item.label === homeLabel ? (
-          <Breadcrumb.Item key={item.key}>
-            <a href={`#${item.key}`}>{item.label}</a>
-          </Breadcrumb.Item>
-        ) : (
-          <Breadcrumb.Item key={item.key}>{item.label}</Breadcrumb.Item>
-        )
-      )}
-    </Breadcrumb>
+    <div id="breadcrumb" className="ml-2">
+      <Breadcrumb className="h-full flex items-center ml-4 text-sm">
+        {pathData.map((item: any) =>
+          item.label === homeLabel ? (
+            <Breadcrumb.Item key={item.key}>
+              <a href={`#${item.key}`}>{item.label}</a>
+            </Breadcrumb.Item>
+          ) : (
+            <Breadcrumb.Item key={item.key}>{item.label}</Breadcrumb.Item>
+          )
+        )}
+      </Breadcrumb>
+    </div>
   );
 };
 

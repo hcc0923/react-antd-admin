@@ -31,7 +31,7 @@ const Header: React.FC = (props: any) => {
   const isMb = document.body.clientWidth <= 992;
   const [mobile, setMobile] = useState(isMb);
   const intl = useIntl();
-  const formatMessage = (id: string): string=> {
+  const formatMessage = (id: string): string => {
     return intl.formatMessage({ id });
   };
   const handleLogout = () => {
@@ -138,23 +138,27 @@ const Header: React.FC = (props: any) => {
             <div className="h-full flex justify-between items-center text-2xl">
               <FullScreen />
 
-              <Dropdown overlay={intlMenu} placement="bottom" arrow>
-                <a onClick={(e) => e.preventDefault()}>
-                  <Space>
-                    <TranslationOutlined className="ml-4" />
-                  </Space>
-                </a>
-              </Dropdown>
+              <div id="intl">
+                <Dropdown overlay={intlMenu} placement="bottom" arrow>
+                  <a onClick={(e) => e.preventDefault()}>
+                    <Space>
+                      <TranslationOutlined className="ml-4" />
+                    </Space>
+                  </a>
+                </Dropdown>
+              </div>
 
-              <Tooltip
-                placement="bottom"
-                title={formatMessage("header.system_settings")}
-              >
-                <SettingOutlined
-                  className="mx-4 cursor-default"
-                  onClick={() => setDrawerVisible(true)}
-                />
-              </Tooltip>
+              <div id="settings">
+                <Tooltip
+                  placement="bottom"
+                  title={formatMessage("header.system_settings")}
+                >
+                  <SettingOutlined
+                    className="mx-4 cursor-default"
+                    onClick={() => setDrawerVisible(true)}
+                  />
+                </Tooltip>
+              </div>
             </div>
             <div className="h-full flex justify-between items-center">
               <Avatar src={`${SERVER_ADDRESS}/${userInfo.avatar}`} />

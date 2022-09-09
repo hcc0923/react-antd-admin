@@ -19,6 +19,12 @@ const menuList: Array<object> = [
     roles: ["root", "admin", "user"],
   },
   {
+    label: <FormattedMessage id="menulist.guide" />,
+    key: "/guide",
+    icon: <DashboardOutlined />,
+    roles: ["root", "admin", "user"],
+  },
+  {
     label: <FormattedMessage id="menulist.user_menu" />,
     key: "/user-menu",
     icon: <UserOutlined />,

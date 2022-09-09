@@ -5,7 +5,9 @@
   "message.delete.error": "Failed to delete",
   "message.edit.success": "Edited successfully",
   "message.edit.error": "Edit failed",
+  
   "menulist.home": "Home",
+  "menulist.guide": "Guide",
   "menulist.user_menu": "User Menu",
   "menulist.user_list": "User List",
   "menulist.setting_menu": "Setting Menu",
