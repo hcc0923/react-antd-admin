@@ -8,7 +8,7 @@ import {
   setShowTag,
 } from "@/store/actions/settings";
 
-const DrawerSettings: React.FC = (props: any) => {
+const DrawerSettings = (props: any) => {
   const {
     drawerVisible,
     setDrawerVisible,
