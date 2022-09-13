@@ -311,7 +311,7 @@ const TaskList: React.FC = () => {
               ? formatMessage("home.modal_add_task")
               : formatMessage("home.modal_edit_task")
           }
-          open={modalVisible}
+          visible={modalVisible}
           footer={null}
           destroyOnClose={true}
           onCancel={() => setModalVisible(false)}

@@ -20,7 +20,7 @@ function Router(props: any) {
         <Route path="/forget" element={<Forget />} />
         {user.token ? (
           <Route path="/" element={<Layout />}>
-            {/* <Route index element={<Navigate to="/home" />} /> */}
+            <Route index element={<Navigate to="/home" />} />
             {routeList.map((route) => {
               return (
                 handleFilterComponent(route) && (
