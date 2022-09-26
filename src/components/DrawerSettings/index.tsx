@@ -26,7 +26,7 @@ const DrawerSettings = (props: any) => {
       title={formatMessage("drawsettings.title")}
       closeIcon={<></>}
       placement="right"
-      open={drawerVisible}
+      visible={drawerVisible}
       headerStyle={{ boxShadow: "0px 0px 3px rgba(0, 0, 0, 0.25)" }}
       extra={
         <Space>
